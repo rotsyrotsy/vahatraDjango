@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, get_list_or_404
-from activities.models import Typevisite
+from activities.models import Typesubactivity
 from publications.models import  Publication,Typepublication,Publicationdetail,Publicationauthor
 from django.core import serializers
 from django.http import JsonResponse, HttpResponseBadRequest
@@ -10,7 +10,7 @@ import json
 from association.models import Person,Image
 # Create your views here.
 
-type_visit = Typevisite.objects.all
+type_visit = Typesubactivity.objects.all
 type_pub = Typepublication.objects.all
 context = {
         "type_visit" : type_visit,
@@ -18,7 +18,7 @@ context = {
         }
 
 def index(request, typepublication_id=1):
-    publications = Publication.objects.filter(Q(idtype=typepublication_id), Q(year__lte = date.today().year)|Q(year__isnull=True))
+    publications = Publication.objects.filter(Q(idtype=typepublication_id), Q(date__lte = date.today())|Q(date__isnull=True))
     type = get_object_or_404(Typepublication, pk=typepublication_id)
     context["publications"]=publications
     context["pub_type"]=type
@@ -42,7 +42,7 @@ def detail(request):
             pubidauthors = Publicationauthor.objects.filter(idpublication=pub_id)
             pubauthors = []
             for idauthor in pubidauthors:
-                pubauthors.append(Person.objects.get(pk=idauthor.idauthor_id))
+                pubauthors.append(Person.objects.get(pk=idauthor.idperson_id))
 
             publication_serialize =  serializers.serialize('json', [ publication])
             pubdetails_serialize =  serializers.serialize('json', pubdetails)

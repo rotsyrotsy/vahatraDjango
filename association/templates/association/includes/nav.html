@@ -1,26 +1,26 @@
 {% load i18n %}
 <ul>
     <li class="menu-item"><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
-    <li class="menu-item-has-children"><a href="{% url 'activities:index' %}" title="">{% trans "Activities" %}</a>
+    <li class="menu-item-has-children"><a href="{#% url 'activities:index' %#}" title="">{#% trans "Activities" %#}</a>
         <ul>
-            {% for visit in type_visit %}
-            <li><a href="{% url 'activities:index' visit.id %}" title="">{{ visit.type|title }}</a></li>
-            {% endfor %}
+            {#% for visit in type_visit %#}
+            <li><a href="{#% url 'activities:index' visit.id %#}" title="">{{ visit.type|title }}</a></li>
+            {#% endfor %#}
            
-            <li><a href="{% url 'activities:support' %}" title="">Pedagogic and scientific support</a></li>
-            <li><a href="{% url 'activities:conference' %}" title="">Conference</a></li>
-            <li><a href="{% url 'activities:research' %}" title="">Research</a></li>
-            <li><a href="{% url 'activities:collection' %}" title="">Collect room</a></li>
+            <li><a href="{#% url 'activities:support' %#}" title="">Pedagogic and scientific support</a></li>
+            <li><a href="{#% url 'activities:conference' %#}" title="">Conference</a></li>
+            <li><a href="{#% url 'activities:research' %#}" title="">Research</a></li>
+            <li><a href="{#% url 'activities:collection' %#}" title="">Collect room</a></li>
             <li><a href="#" title="">Database & Atlas</a></li>
         </ul>
     </li>
     
-    <li class="menu-item"><a href="{% url 'projects:index' %}" title="">{% trans "Projects and grants" %}</a></li>
+    <li class="menu-item"><a href="{#% url 'projects:index' %#}" title="">{#% trans "Projects and grants" %#}</a></li>
 
     <li class="menu-item-has-children"><a href="#" title="">Publications</a>
         <ul>
             {% for publication_type in type_pub %}
-                <li><a href="{% url 'publications:index' publication_type.id %}" title="">{{ publication_type.type|title }}</a></li>
+                <li><a href="{#% url 'publications:index' publication_type.id %#}" title="">{{ publication_type.type|title }}</a></li>
             {% endfor %}
         </ul>
     </li>

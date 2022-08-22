@@ -262,13 +262,13 @@
             <div class="team-wrap text-center remove-ext5">
                 <div class="row">
 
-                    {% for type in type_member_list %}
+                    {% for item in type_member_list %}
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box">
                             <img src="{% static 'images/resources/team-img1-1.jpg' %} " alt="team-img1-1.jpg">
                             <div class="team-info">
-                                <h4><a href="{% url 'association:member' type.id %}" >{{ type.name|title }}</a></h4>
-                                <p>{{ type.description|truncatewords:10 }}</p>
+                                <h4><a href="{% url 'association:member' item.id %}" >{{ item.type|title }}</a></h4>
+                                <p>{{ item.description|truncatewords:10 }}</p>
                                 <div class="team-scl">
                                     <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
                                     <a href="#" title="Pinterest" target="_blank"><i class="fa fa-pinterest-p"></i></a>
@@ -302,36 +302,19 @@
                         </div>
                         <div class="evnt-wrap remove-ext5">
                             <div class="row mrg20">
-                                {% for visit in upcoming_visits %}
+                                {% for activity in upcoming_events %}
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb">
-                                            <a onclick="openmodal('visit',{{visit.id}})" title=""><img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg"></a>
+                                            <a onclick="openmodal({{activity.id}}, '{{activity.idtypeactivity.type}}')" title=""><img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg"></a>
                                         </div>
                                         <div class="evnt-info">
-                                            <h4><a onclick="openmodal('visit',{{visit.id}})" title="">{{visit.idtypevisite.type | title}} : {{visit.idlieu.nom}}</a></h4>
+                                            <h4><a onclick="openmodal({{activity.id}}, '{{activity.idtypeactivity.type}}')" title="">{{activity.title | title}}</a></h4>
                                             <ul class="pst-mta">
-                                                <li class="thm-clr">{{visit.date}}</li>
-                                                <li>{{visit.dateFin}}</li>
+                                                <li class="thm-clr">{{activity.date}}</li>
+                                                <li>{{activity.idtypeactivity.type}}</li>
                                             </ul>
-                                            <p>{{visit.description|truncatewords:10}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                {% for research in upcoming_researches %}
-                                <div class="col-md-6 col-sm-6 col-lg-6">
-                                    <div class="evnt-box">
-                                        <div class="evnt-thmb">
-                                            <a onclick="openmodal('research',{{research.id}})" title=""><img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg"></a>
-                                        </div>
-                                        <div class="evnt-info">
-                                            <h4><a onclick="openmodal('research',{{research.id}})" title="">{{research.name| title}}</a></h4>
-                                            <ul class="pst-mta">
-                                                <li class="thm-clr">{{research.date | date:"Y"}}</li>
-                                                <li><i class="fa fa-user-o thm-clr"></i>{{research.auteurs | title}}</li>
-                                            </ul>
-                                            <p>{{research.endemic}}</p>
+                                            <p>{{activity.description|truncatewords:10}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -345,31 +328,14 @@
                                         <div class="evnt-info">
                                             <h4><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{dict.publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{dict.publication.title| title}}</a></h4>
                                             <ul class="pst-mta">
-                                                <li class="thm-clr">{{dict.publication.year}}</li>
+                                                <li class="thm-clr">{{dict.publication.date | date:"Y"}}</li>
                                                 <li><i class="fa fa-user-o thm-clr"></i>
                                                     {% for pubauthor in dict.authors %}
-                                                    {{pubauthor.idauthor.name}} {{pubauthor.idauthor.username}}, 
+                                                    {{pubauthor.idperson.name}} {{pubauthor.idperson.username}}, 
                                                     {% endfor %}
                                                 </li>
                                             </ul>
                                             <p>{{dict.publication.description|truncatewords:10 }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                {% for conference in upcoming_conferences %}
-                                <div class="col-md-6 col-sm-6 col-lg-6">
-                                    <div class="evnt-box">
-                                        <div class="evnt-thmb">
-                                            <a onclick="openmodal('conference',{{conference.id}})" title=""><img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg"></a>
-                                        </div>
-                                        <div class="evnt-info">
-                                            <h4><a onclick="openmodal('conference',{{conference.id}})" title="">{{conference.title| title}}</a></h4>
-                                            <ul class="pst-mta">
-                                                <li class="thm-clr">{{conference.date | date:"Y"}}</li>
-                                                <li><i class="fa fa-user-o thm-clr"></i>{{conference.idperson.username | title}} {{conference.idperson.name | title}}</li>
-                                            </ul>
-                                            <p>{{ conference.description | truncatewords:10 }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -415,30 +381,14 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-                                {% for item in new_researches %}
+                                {% for item in new_events %}
                                 <div class="rcnt-bx">
-                                    <a onclick="openmodal('research',{{item.id}})" title=""><img src="{% static 'images/researches/' %}{{item.image}}" width="68"  alt="rcnt-img1.jpg"></a>
+                                    <a onclick="openmodal({{item.id}},'{{item.idtypeactivity.type}}' )" title=""><img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg"></a>
                                     <div class="rcnt-inf">
-                                        <h6><a onclick="openmodal('research',{{item.id}})" title="">{{item.name}}</a></h6>
+                                        <small>{{item.idtypeactivity.type}}</small><br>
+                                        <h6><a onclick="openmodal({{item.id}},'{{item.idtypeactivity.type}}' )" title="">{{item.title }} </a></h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                {% for item in new_conferences %}
-                                <div class="rcnt-bx">
-                                    <a onclick="openmodal('conference',{{item.id}})" title=""><img src="{% static 'images/conferences/' %}{{item.image}}" width="68"  alt="rcnt-img1.jpg"></a>
-                                    <div class="rcnt-inf">
-                                        <h6><a onclick="openmodal('conference',{{item.id}})" title="">{{item.title}}</a></h6>
-                                        <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"M"}}, {{item.date|date:"Y"}}</span>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                                {% for item in new_visits %}
-                                <div class="rcnt-bx">
-                                    <a onclick="openmodal('visit',{{item.id}})" title=""><img src="{% static 'images/visits/' %}{{item.image}}" width="68"  alt="rcnt-img1.jpg"></a>
-                                    <div class="rcnt-inf">
-                                        <h6><a onclick="openmodal('visit',{{item.id}})" title="">{{item.idtypevisite.type }} : {{item.idlieu.name}}</a></h6>
-                                        <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
+                                        
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -527,66 +477,25 @@
   {% block js %}
   <script type="text/javascript"> 
   
-    function openmodal(type, id) {
+    function openmodal( id, typeactivity) {
         $('#content').empty();
         var model = $('.contact-form-model-wrap');
-        if (type == "visit"){
             $.ajax({
-                url : "{% url 'activities:ajaxVisitDetail' %}",
+                url : "{% url 'activities:ajaxActivityDetail' %}",
                 dataType: 'JSON',
                 type:"GET",
-                data:{visit_id:id},
+                data:{id:id},
                 success:function(data){
-                    var visit = JSON.parse(data["visit"])[0];
-                    var lieu = JSON.parse(data["lieu"])[0];
-                    var images = data["images"];
-                    $('#titrePub').text("Visit To "+lieu['fields']['nom']);
-                    
-                    static = '{% static "images/"%}';
-                
-                    var img = '<div  class="row"><div class="col-md-12 col-sm-12 col-lg-12">\
-                                <img src="'+static+'/resources/blog-detail-img.jpg" alt="">\
-                            </div></div>';
-                    $('#content').append(img);
-
-                    let d1 = new Date(visit['fields']['date']);
-                    d1 =  d1.toLocaleString('default', { month: 'long' })+", "+d1.getFullYear();
-
-                    
-                    let d2 = new Date(visit['fields']['datefin']);
-                    d2 =  d2.toLocaleString('default', { month: 'long' })+", "+d2.getFullYear();
-
-                    subtitles = "<ul class=\"pst-mta\"><li class=\"thm-clr\">";
-                    subtitles += d1;
-                    if (visit['fields']['datefin'] != null){
-                        subtitles +=" to "+d2+"";
+                    var activity = JSON.parse(data["activity"])[0];
+                    var lieu = null;
+                    if (data['lieu']){
+                        lieu = JSON.parse(data["lieu"])[0];
                     }
-                    subtitles +="</li></ul>";
-
-                    $('#content').append(subtitles);
-
-                    paragraph = "<p>"+visit['fields']['description']+"</p>";
-                    $('#content').append(paragraph);
-
-
-                    model.addClass('active');
-                },  
-                error:function(data){
-                    console.log('error')
-                    console.log(data)
-                }
-            });
-        }
-        if (type == "research"){
-            $.ajax({
-                url : "{% url 'activities:ajaxResearchDetail' %}",
-                dataType: 'JSON',
-                type:"GET",
-                data:{research_id:id},
-                success:function(data){
-                    var research = JSON.parse(data["research"])[0];
-
-                    $('#titrePub').text(research['fields']['name']);
+                    var images = data["images"];
+                    $('#titrePub').text(activity['fields']['title']);
+                    if (lieu !==null){
+                        $('#titrePub').text(activity['fields']['title']+" : "+lieu['fields']['name']);
+                    }
                     
                     static = '{% static "images/"%}';
                 
@@ -595,66 +504,29 @@
                             </div></div>';
                     $('#content').append(img);
 
-                    let d1 = new Date(research['fields']['date']);
+                    let d1 = new Date(activity['fields']['date']);
                     d1 =  d1.toLocaleString('default', { month: 'long' })+", "+d1.getFullYear();
 
-                    subtitles = "<ul class=\"pst-mta\"><li class=\"thm-clr\">";
-                    subtitles += d1;
-                    subtitles +="</li></ul>";
+                    subtitles = "<ul class=\"pst-mta\"><li class=\"thm-clr\">"+d1+"</li>";
+                    subtitles +="</ul>";
 
                     $('#content').append(subtitles);
-                    authors = "<p><i class=\"fa fa-user-o thm-clr\"></i><strong>";
-                    const uppercase = research['fields']['auteurs'].replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
-                    authors += uppercase;
-                    authors += "</strong><p>";
-                    $('#content').append(authors);
-
-                    paragraph = "<p>"+research['fields']['description']+"</p>";
-                    $('#content').append(paragraph);
-
-
-                    model.addClass('active');
-                },  
-                error:function(data){
-                    console.log('error')
-                    console.log(data)
-                }
-            });
-        }   
-        if (type == "conference"){
-            $.ajax({
-                url : "{% url 'activities:ajaxConferenceDetail' %}",
-                dataType: 'JSON',
-                type:"GET",
-                data:{conference_id:id},
-                success:function(data){
-                    var conference = JSON.parse(data["conference"])[0];
-                    var author = JSON.parse(data["author"])[0];
-
-                    $('#titrePub').text(conference['fields']['title']);
                     
-                    static = '{% static "images/"%}';
-                
-                    var img = '<div  class="row"><div class="col-md-12 col-sm-12 col-lg-12">\
-                                <img src="'+static+'/resources/blog-detail-img.jpg" alt="">\
-                            </div></div>';
-                    $('#content').append(img);
+                    try{
+                        var authors = JSON.parse(data["authors"]);
+                        listauthors = "<p><i class=\"fa fa-user-o thm-clr\"></i><strong>";
+                        for (let i=0; i<authors.length; i++){
+                            const name = authors[i]['fields']['name'].replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+                            const username = authors[i]['fields']['username'].replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+                            listauthors += name+" "+username+", ";
+                        }
+                        listauthors += "</strong><p>";
+                        $('#content').append(listauthors);
+                    }catch(e) {
+       
+                    }
 
-                    let d1 = new Date(conference['fields']['date']);
-                    d1 =  d1.toLocaleString('default', { month: 'long' })+", "+d1.getFullYear();
-
-                    subtitles = "<ul class=\"pst-mta\"><li class=\"thm-clr\">";
-                    subtitles += d1;
-                    subtitles +="</li></ul>";
-
-                    $('#content').append(subtitles);
-
-                    authors = "<p><i class=\"fa fa-user-o thm-clr\"></i>  <strong>";
-                    authors += author['fields']['username']+" "+author['fields']['name'];
-                    authors += "</strong><p>";
-                    $('#content').append(authors);
-
-                    paragraph = "<p>"+conference['fields']['description']+"</p>";
+                    paragraph = "<p>"+activity['fields']['description']+"</p>";
                     $('#content').append(paragraph);
 
 
@@ -665,7 +537,6 @@
                     console.log(data)
                 }
             });
-        }   
         return false;
     };
     $('.model-close').on('click', function () {

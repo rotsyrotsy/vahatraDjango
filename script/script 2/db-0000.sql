@@ -196,6 +196,10 @@ ALTER TABLE publicationAuthor
     ADD CONSTRAINT fk_publicationAuthor_author FOREIGN KEY (idPerson) REFERENCES person(id) ;
 
 
+ALTER TABLE publication 
+    ADD CONSTRAINT fk_publication_imageback FOREIGN KEY (idimageback) REFERENCES image(id) ;
+ALTER TABLE publication 
+    ADD CONSTRAINT fk_publication_imagefront FOREIGN KEY (idimagefront) REFERENCES image(id) ;
 
 ALTER TABLE fieldSchool 
     ADD CONSTRAINT fk_fieldSchool_inst FOREIGN KEY (idinst) REFERENCES institution(id) ;

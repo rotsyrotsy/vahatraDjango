@@ -4,14 +4,14 @@ from association.models import  Memberviewposts, Messageofyear, Typemember, Memb
 from django.core.mail import send_mail
 from django.db.models.functions import  Substr
 from django.db.models import IntegerField, F,Q
-from activities.models import Typevisite, Visite,Recherche,Seminaire
+from activities.models import Activity, Typesubactivity
 from publications.models import Typepublication,Publication,Publicationauthor
 from datetime import date,timedelta
 
 
 
-# Create your views here.
-type_visit = Typevisite.objects.all
+# # Create your views here.
+type_visit = Typesubactivity.objects.all()
 type_pub = Typepublication.objects.all
 context = {
         "type_visit" : type_visit,
@@ -23,17 +23,13 @@ def index(request):
     partner_list = Partner.objects.all()
     message_of_year = Messageofyear.objects.order_by('year')[0]
     
-    upcoming_visits = Visite.objects.filter(date__gte=date.today())
-    upcoming_researches = Recherche.objects.filter(date__gte=date.today())
-    upcoming_conferences = Seminaire.objects.filter(date__gte=date.today())
+    upcoming_events = Activity.objects.filter(date__gte=date.today())
 
     upcoming_publications = []
     dict = {}
-    pubs = Publication.objects.filter(year__gt=date.today().year)
-    new_pubs = Publication.objects.filter( Q(year =date.today().year) | Q(year = date.today().year -1))
-    new_visits = Visite.objects.filter( Q(date__gt = date.today()-timedelta(days=365)) & Q(date__lte = date.today()))
-    new_researches = Recherche.objects.filter(Q(date__gt = date.today()-timedelta(days=365)) & Q(date__lte = date.today()))
-    new_conferences = Seminaire.objects.filter(Q(date__gt = date.today()-timedelta(days=365)) & Q(date__lte = date.today()))
+    pubs = Publication.objects.filter(date__gt=date.today())
+    new_pubs = Publication.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))
+    new_events = Activity.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))
     for pub in pubs:
         dict['publication']=pub
         dict['authors']=Publicationauthor.objects.filter(idpublication = pub.id)
@@ -43,16 +39,10 @@ def index(request):
     context["type_member_list"]= type_member_list
     context["message_of_year"]= message_of_year
     context["partner_list"]= partner_list
-    context["upcoming_visits"]= upcoming_visits
-    context["upcoming_researches"]= upcoming_researches
+    context["upcoming_events"]= upcoming_events
     context["upcoming_publications"]= upcoming_publications
-    context["upcoming_conferences"]=upcoming_conferences
     context["new_pubs"] = new_pubs
-    context["new_visits"] = new_visits
-    context["new_conferences"] = new_conferences
-    context["new_researches"] = new_researches
-
-    print(upcoming_publications[0]['publication'])
+    context["new_events"] = new_events
     
     return render(request, "association/index.html", context)
 
@@ -70,10 +60,8 @@ def member(request, type_member_id, page=1):
     page_number = Member.objects.filter(idtypemember=type.id).count()
     page_number = ceil(page_number/4)
 
-    members = Memberviewposts.objects.filter(idtypemember=type.id).annotate(
-        range=Substr(F('id'),2)
-    ).order_by(
-        Cast(F('range'),IntegerField())
+    members = Memberviewposts.objects.filter(idtypemember=type.id).order_by(
+        'id'
     )[(page*4):((page*4)+4)]
 
     context["members"]= members

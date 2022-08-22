@@ -1,6 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
-{% block title %}{{type.name}}{% endblock %}
+{% block title %}{{type.type}}{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc85">
@@ -11,7 +11,7 @@
                 <h2>Team</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
-                    <li>{{type.name|title}}</li>
+                    <li>{{type.type|title}}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
         </div>

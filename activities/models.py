@@ -2,62 +2,62 @@ from django.db import models
 from association.models import Department, Institution, Partner, Person, Image
 
 class Fieldschool(models.Model):
-    idvisite = models.ForeignKey('Visite', models.DO_NOTHING, db_column='idvisite')
-    idinst = models.ForeignKey(Institution, models.DO_NOTHING, db_column='idinst', blank=True, null=True)  
-    iddept = models.ForeignKey(Department, models.DO_NOTHING, db_column='iddept', blank=True, null=True)     
+    idvisit = models.ForeignKey('Visit', models.DO_NOTHING, db_column='idvisit')
+    idinst = models.ForeignKey(Institution, models.DO_NOTHING, db_column='idinst')
+    iddept = models.ForeignKey(Department, models.DO_NOTHING, db_column='iddept', blank=True, null=True)
 
     class Meta:
-        managed = True
         db_table = 'fieldschool'
 
-
-class Fieldshcoolpartner(models.Model):
-    idvisite = models.ForeignKey('Visite', models.DO_NOTHING, db_column='idvisite')
-    idpartner = models.ForeignKey(Partner, models.DO_NOTHING, db_column='idpartner')
-
-    class Meta:
-        managed = True
-        db_table = 'fieldshcoolpartner'
-
-
-class Imagevisite(models.Model):
-    idvisite = models.ForeignKey('Visite', models.DO_NOTHING, db_column='idvisite')
-    idimage = models.ForeignKey(Image, models.DO_NOTHING, db_column='idimage')
+class Typesubactivity(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    type = models.CharField(max_length=150, blank=True, null=True)
+    idtypeactivity = models.ForeignKey('Typeactivity', models.DO_NOTHING, db_column='idtypeactivity')
 
     class Meta:
-        managed = True
-        db_table = 'imagevisite'
+        db_table = 'typesubactivity'
 
-
-
-class Lieu(models.Model):
-    nom = models.CharField(max_length=255, blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
-    latitude = models.FloatField(blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'lieu'
-
-class Typevisite(models.Model):
+class Typeactivity(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
     type = models.CharField(max_length=150, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'typevisite'
+        db_table = 'typeactivity'
 
-
-class Visite(models.Model):
-    idtypevisite = models.ForeignKey(Typevisite, models.DO_NOTHING, db_column='idtypevisite', blank=True, null=True)
-    idlieu = models.ForeignKey(Lieu, models.DO_NOTHING, db_column='idlieu')
-    date = models.DateField(blank=True, null=True)
+class Activity(models.Model):
+    idtypeactivity = models.ForeignKey('Typeactivity', models.DO_NOTHING, db_column='idtypeactivity')
+    title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    datefin = models.DateField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    note = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
-        db_table = 'visite'
+        db_table = 'activity'
+
+class Visit(models.Model):
+    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+    idtypesubactivity = models.ForeignKey('Typesubactivity', models.DO_NOTHING, db_column='idtypesubactivity')
+    idlocation = models.ForeignKey('Location', models.DO_NOTHING, db_column='idlocation')
+    dateend = models.DateField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'visit'
+
+class Location(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'location'
+
+class Activityimage(models.Model):
+    idimage = models.ForeignKey(Image, models.DO_NOTHING, db_column='idimage')
+    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+
+    class Meta:
+        managed = False
+        db_table = 'activityimage'
 
 class Intervenantfieldschool(models.Model):
     id = models.IntegerField(primary_key=True,blank=True)
@@ -67,26 +67,12 @@ class Intervenantfieldschool(models.Model):
         managed = False  # Created from a view. Don't remove.
         db_table = 'intervenantfieldschool'
 
-class Seminaire(models.Model):
-    date = models.DateField(blank=True, null=True)
-    idperson = models.ForeignKey(Person, models.DO_NOTHING, db_column='idperson', blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    title = models.CharField(max_length=100, blank=True, null=True)
-    idimage = models.ForeignKey(Image, models.DO_NOTHING, db_column='idimage', blank=True, null=True)
+
+class Activityperson(models.Model):
+    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+    idperson = models.ForeignKey(Person, models.DO_NOTHING, db_column='idperson')
 
     class Meta:
-        managed = True
-        db_table = 'seminaire'
+        managed = False
+        db_table = 'activityperson'
 
-class Recherche(models.Model):
-    date = models.DateField(blank=True, null=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    endemic = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    remarque = models.CharField(max_length=100, blank=True, null=True)
-    auteurs = models.CharField(max_length=255, blank=True, null=True)
-    idimage = models.ForeignKey(Image, models.DO_NOTHING, db_column='idimage', blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'recherche'

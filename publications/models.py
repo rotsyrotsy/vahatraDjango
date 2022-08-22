@@ -7,12 +7,11 @@ class Publication(models.Model):
     idtype = models.ForeignKey('Typepublication', models.DO_NOTHING, db_column='idtype')
     title = models.CharField(max_length=200, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    year = models.IntegerField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
     idimagefront = models.ForeignKey(Image, models.DO_NOTHING, related_name='idimagefront', db_column='idimagefront')
     idimageback = models.ForeignKey(Image, models.DO_NOTHING,related_name='idimageback',  db_column='idimageback')
 
     class Meta:
-        managed = True
         db_table = 'publication'
 
 class Typepublication(models.Model):
@@ -34,7 +33,7 @@ class Publicationdetail(models.Model):
 
 class Publicationauthor(models.Model):
     idpublication = models.ForeignKey('Publication', models.DO_NOTHING, db_column='idpublication')
-    idauthor = models.ForeignKey(Person, models.DO_NOTHING, db_column='idauthor', blank=True, null=True)
+    idperson = models.ForeignKey(Person, models.DO_NOTHING, db_column='idperson', blank=True, null=True)
 
     class Meta:
         managed = False
