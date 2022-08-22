@@ -1,0 +1,154 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc85">
+        <div class="fixed-bg" style="background-image: url({% static 'images/parallax14.jpg' %});"></div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/resources/page-title-ayat.png' %}" alt="page-title-ayat.png"></h1>
+                <h2>Contact</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li>Contact</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="sec-title text-center">
+                <div class="sec-title-inner">
+                    <span>Get information</span>
+                    <h3>Contact information</h3>
+                </div>
+            </div>
+            <div class="contact-info-wrap text-center remove-ext3">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-lg-4">
+                        <div class="contact-info-box">
+                            <i class="flaticon-location-pin"></i>
+                            <strong>Our Location</strong>
+                            <span>B.P. 3972, Antananarivo 101</span>
+                            <a href="#" title="">Madagascar</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-lg-4">
+                        <div class="contact-info-box">
+                            <i class="flaticon-call"></i>
+                            <strong>Contact us Anytime</strong>
+                            <span>Mobile: 20 22 277 55</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-lg-4">
+                        <div class="contact-info-box">
+                            <i class="flaticon-email"></i>
+                            <strong>Write Some Words</strong>
+                            <a href="#" title=""> associatvahatra@moov.mg</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Contact Info Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap no-gap">
+        <div id="map" class="map" style="width: 100%; height: 400px;" ></div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="sec-title text-center">
+                <div class="sec-title-inner">
+                    <span>Have Question</span>
+                    <h3>Send Message</h3>
+                </div>
+            </div>
+            <div class="contact-form text-center">
+                <form action="{% url 'association:contact'  %}" method="post">
+                    {% csrf_token %}
+                    <div class="row mrg20">
+                        <div class="col-md-6 col-sm-6 col-lg-6">
+                            <input type="text" name="message-name" placeholder="Name">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6">
+                            <input type="text" name="message-phone" placeholder="Phone">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6">
+                            
+                            <input type="email" name="message-email" name="email" placeholder="Email" {% if email %} value="{{ email }} " {% endif %}>
+                            
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6">
+                            <input type="text"name="message-subject" placeholder="Subject">
+                        </div>
+                  
+
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <textarea placeholder="Message" name="message-content"></textarea>
+
+                            <button class="thm-btn brd-rd40" type="submit">Contact Us</button>
+                        </div>
+                    </div>
+                    
+                </form>
+                
+                {% if message_name %}
+                    <fieldset>
+                        <legend>Thanks {{message_name}}</legend>
+                        <p>We received your email and will respoond shortly...</p>
+                    </fieldset>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block js %}
+<script>
+    var img = "{% static 'images/map-icon.png' %}";
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+        ],
+        view: new ol.View({
+        center: ol.proj.fromLonLat([ 47.5511327993, -18.9167]),
+        zoom: 17
+        })
+    });
+
+    var layer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [
+                new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([47.5511327993, -18.9167]))})
+            ]
+        }),
+        style: new ol.style.Style({
+            image: new ol.style.Icon({
+            anchor: [0.5, 1],
+            src: img,
+            scale: 0.5
+            }),
+            text : new ol.style.Text({
+                text: 'Association Vahatra',
+                scale: 1.5,
+                fill: new ol.style.Fill({
+                    color: 'red',
+                })
+            })
+        })
+    });
+    map.addLayer(layer);
+</script>
+{% endblock %}

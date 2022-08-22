@@ -1,0 +1,104 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% block title %}Support{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc85">
+        <div class="fixed-bg" style="background-image: url({% static 'images/parallax12.jpg' %});"></div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/resources/page-title-ayat.png' %} " alt="page-title-ayat.png"></h1>
+                <h2>Pedagogic and scientific support</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li>Pedagogic and scientific support</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="hstry-wrap">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        
+                        <div >
+                            <div class="sec-title style2 text-center">
+                                <div class="sec-title-inner">
+                                    <h3>Pedagogic support </h3>
+                                </div>
+                            </div>
+                                <p>Members of Vahatra contribute to the education of numerous students working for their higher degrees in the national university system. These individuals are amongst the future scientific leaders of the country, many of which are trained in conservation biology and biodiversity science.</p>
+                                <p><strong> Vahatra staff members present courses and help guide students at the following universities:</strong></p>
+                                <ul>
+                                    <li>Department of Animal Biology, University of Antananarivo</li>
+                                    <li>Institut des Sciences et Techniques de l’Environnement (ISTE), University of Fianarantsoa</li>
+                                    <li>Department of Animal Biology, University of Mahajanga</li>
+                                    <li>Department of Animal Biology, University of Toliara</li>
+                                </ul>
+                                <p>Further, Vahatra staff members have been committee members for Master’s and PhD theses at universities in the USA, France (including La Réunion), Finland, and South Africa. </p>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- History Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap blue-layer opc9">
+        <div class="fixed-bg" style="background-image: url({% static 'images/parallax10.jpg' %});"></div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="sec-title style2 text-center">
+                <div class="sec-title-inner">
+                    <h3>Scientific support</h3>
+                </div>
+                <p>Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain.</p>
+            </div>
+            <div class="bord-wrap">
+                <div class="row mrg">
+                    {% for partner in partner_list %}
+                        <div class="col-md-3 col-sm-6 col-lg-3">
+                            <div class="bord-box">
+                                {% with 'images/partners/'|add:partner.logo as logo %}
+                                <img src="{% static logo %}" width="100" height="100" alt="{{partner.name}}">
+                                {% endwith %}
+                                <div class="bord-info">
+                                    <h4>{{partner.name}}</h4>
+                                    <p>{{partner.description}}</p>
+                                    <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap blue-layer opc85">
+        <div class="fixed-bg" style="background-image: url({% static 'images/parallax9.jpg' %});"></div>
+        <div class="container">
+            <div class="newsletter-wrap2 text-center">
+                <div class="newsletter-inner">
+                    <div class="nwsltr-title2 text-center">
+                        <h3>Become One Of Our Partners</h3>
+                        <span>Subscribe to out newsletter to get more informations about the processes</span>
+                    </div>
+                    <form action="{% url 'association:contactpage' %}" method="GET">
+                        <input type="email" name="email" placeholder="Your Email">
+                        <button class="thm-btn" type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% block title %}{{type.name}}{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc85">
+        <div class="fixed-bg" style="background-image: url({% static 'images/parallax15.jpg' %});"></div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/resources/page-title-ayat.png' %}" alt="page-title-ayat.png"></h1>
+                <h2>Team</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li>{{type.name|title}}</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="sec-title text-center">
+                <div class="sec-title-inner">
+                    <span>Our Members</span>
+                    <h3>{{type.name|title}}</h3>
+                </div>
+                <p>{{ type.description}}</p>
+            </div>
+            <div class="team-wrap2 text-center remove-ext3">
+                <div class="row">
+                    {% for member in members %}
+                    <div class="col-md-3 col-sm-6 col-lg-3">
+                        <div class="team-box2">
+                            <img src="{% static 'images/resources/team-img2-1.jpg' %}" alt="team-img2-1.jpg">
+                            <div class="team-info2">
+                                <h4>{{member.title}} {{ member.username }} {{ member.name }}</h4>
+                                {% if member.description %}
+                                <p>{{ member.description }}</p>
+                                {% endif %}
+                                <p><strong>{{ member.posts}}</strong> </p>
+                                <div class="team-scl">
+                                    <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" title="Pinterest" target="_blank"><i class="fa fa-pinterest-p"></i></a>
+                                    {% if member.mail %}
+                                    <a href="mailto:{{member.mail}}" title="Google Plus" target="_blank"><i class="flaticon-email"></i></a>
+                                    {% endif %}
+                                    <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination-wrap text-center">
+                    <ul class="pagination">
+                        {% for number in page_number %}
+                            <li ><a href="{% url 'association:member' type.id number %}" title="">{{number}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div><!-- Team Wrap -->
+        </div>
+    </div>
+</section>
+{% endblock content %}

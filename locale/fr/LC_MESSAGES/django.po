@@ -1,0 +1,59 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-28 08:54+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\association\models.py:90
+msgid "title"
+msgstr "titre"
+
+#: .\association\models.py:93
+msgid "description"
+msgstr "description"
+
+#: .\association\models.py:95
+msgid "posts"
+msgstr "postes"
+
+#: .\association\templates\association\includes\nav.html:3
+msgid "Home"
+msgstr "Accueil"
+
+#: .\association\templates\association\includes\nav.html:4
+msgid "Activities"
+msgstr "Activités"
+
+#: .\association\templates\association\includes\nav.html:18
+msgid "Projects"
+msgstr "Projets"
+
+#: .\association\templates\association\includes\nav.html:36
+msgid "About"
+msgstr "A propos"
+
+#: .\vahatraDjango\settings.py:126
+msgid "English"
+msgstr "Anglais"
+
+#: .\vahatraDjango\settings.py:127
+msgid "French"
+msgstr "Français"
+
+#: .\vahatraDjango\urls.py:22
+msgid "admin/"
+msgstr ""

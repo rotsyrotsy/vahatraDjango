@@ -1,0 +1,55 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% block title %}Financing{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc85">
+        <div class="fixed-bg" style="background-image: url({% static 'images/parallax8.jpg' %});"></div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/resources/page-title-ayat.png' %}" alt="page-title-ayat.png"></h1>
+                <h2>Financing</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:portfolio' %}" title="">Home</a></li>
+                    <li>Financing</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap ">
+        <div class="container">
+            <div class="contr-wrap text-center">
+                <div class="contr-inner">
+                    <div class="contr-desc contr-inr">
+                        <h2>TRUST FUND</h2>
+                        <p>In order to guarantee the long-term financial viability of Vahatra we have followed a trust fund model. This fund is folded into the assets of The Field Museum of Natural History in Chicago and managed by the museum’s financial councilors. Each year the interest revenue earned by the fund is made available to Vahatra, with the appropriate year-end financial accounting submitted to the Field Museum.  The fund has been set up as “donor-restricted” under the title “Vahatra Fund.”  This arrangement is necessary following the IRS Code Sec. 170(a) and (c)(2). All donations sent to the Field Museum and earmarked for Vahatra would be tax-exempt in conformance with U.S. Governmental laws. Currently the trust fund contains about 20% of the intended sum. For further information on the trust fund and possible donations, please contact Mr. Steven Strohmeier at 
+                            <strong><a href="mailto:sstrohmeier@fieldmuseum.org">sstrohmeier@fieldmuseum.org</a></strong>
+                        </p>
+                    </div>
+                    <div class="contr-butn contr-inr">
+                        <a class="secndry-btn brd-rd40" href="mailto:sstrohmeier@fieldmuseum.org" title="">DONATE</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contr-wrap text-center">
+                <div class="contr-inner">
+                    <div class="contr-desc contr-inr">
+                        <h2>GRANTS AND FUNDS FROM THE PRIVATE SECTOR</h2>
+                        <p>Currently the functioning of the office, fieldwork, and the financing of student research projects are funded by grants and donations.  A number of granting agencies have been notably generous over the past few years and include: Biodiversity Alliance (Cleveland), Center for Biodiversity Conservation at Conservation International, Centre de Recherche et de Veille sur les Maladies Emergentes dans l'Océan Indien, Field Museum of Natural History, Institut français de la Biodiversité, John D. and Catherine T. MacArthur Foundation, Ministère des Affaires Etrangères (France), and Volkswagen Foundation.  For further information on possibly financing a Malagasy graduate student, helping with fieldwork, or the functioning of the office please contact Madame Sabrina Raharinirina at
+                            <strong><a href="mailto:msraharinirina@gmail.com">msraharinirina@gmail.com</a></strong> (for queries in French) or Mr. Steven Strohmeier at
+                            <strong><a href="mailto:sstrohmeier@fieldmuseum.org">sstrohmeier@fieldmuseum.org</a></strong> (for queries in English).
+                        </p>
+                    </div>
+                    <div class="contr-butn contr-inr">
+                        <a class="secndry-btn brd-rd40" href="mailto:msraharinirina@gmail.com" title="">DONATE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,145 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% load publications_extras %}
+{% block title %}{{ pub_type.type }}{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc85">
+        <div class="fixed-bg" style="background-image: url({% static 'images/parallax13.jpg'%});"></div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/resources/page-title-ayat.png' %}" alt="page-title-ayat.png"></h1>
+                <h2>{{ pub_type.type }}</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li>{{ pub_type.type }}</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap three-block-section">
+        <div class="sec-title2 text-center">
+            <div class="sec-title-inner2">
+                <span>PRESENT TO YOU</span>
+                <h3>{{ pub_type.type }}</h3>
+            </div>
+        </div>
+
+        <div class="fea-car-custom text-center">
+            <div class=" row mycaroussel mrg">
+                {% for publication in publications %}
+                <div class="col-md-4 col-sm-6 col-lg-4">
+                    <div class="fea-itm"  style="background-image: url({% static 'images/publication/' %}{{publication.idimagefront.name}}); ">
+                        <i class="flaticon-heart-1"></i>
+                        <div class="fea-info2">
+                            <h4>{{publication.title }} </h4>
+                            <br>
+                            <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-static="{% static 'images/publication'%}" href="#" title="">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        
+        <div class="gap">
+            <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            {% if pub_type.id == 1 %}
+                                <p>During the French colonial period in Madagascar a journal was produced and entitled, Naturaliste Malgache. This journal served the important function of disseminating to the world scientific community information on the natural history of Madagascar and surrounding islands.  The intention with this new review, <strong>Malagasy Nature</strong>,is to follow this example and publish articles, in both English and French, at high scientific and international standards. This journal allows Malagasy scientists to return information to the scientific world, rather than only being on the receiving end. We consider this a very important professional step for the Malagasy scientific community. <strong>Malagasy Nature</strong> also guarantees the local availability of the results of ecological and biological research conducted on the island, as in many cases such articles published in foreign scientific journals are not repatriated or difficult to access from Madagascar.</p>
+                                <br><p><strong>Malagasy Nature</strong> is a journal published by the Association Vahatra concerning aspects of the natural history of Madagascar and neighboring islands (Comores, Mascarenes, and Seychelles). The journal publishes original scientific contributions in English and French concerning animals, plants, ecology, conservation, biogeography, systematics, and paleontology. To date ten volumes have appeared, all now available online.</p>
+                                <ul>
+                                    <li>First volume (2008) : Monograph dedicated to different aspects of the dry forests of Madagascar.</li>
+                                    <li>Second volume (2009) : Contains articles concerning a variety of different topics. </li>
+                                    <li>Third volume (2010) : Monograph dedicated to the Ambatovy-Analamay region</li>
+                                    <li>Fourth (2010), Fifth (2011) and the Sixth (2012) volumes cover different topics</li>
+                                    <li>Volume 7 (2013) : Dedicated to a monograph on the Beanka Forest (Maintirano)</li>
+                                    <li>Volume 8 (2014) and Volume 9 (2015), are regular issues of the journal</li>
+                                    <li>Volume 10 (2016): A monograph dedicated to Bezà Mahafaly</li>
+                                    <li>Volume 11 (2017): A monograph dedicated to the Nosy Ankao island group</li>
+                                    <li>Volume 12 (2017), Volume 13 (2019), and Volume 14 (2020) contain papers on a variety of subjects</li>
+                                    <li>Volume 15 (2021) : Special issue dedicated to advances in the field of paleosciences by Malagasy researchers and students.</li>
+                                </ul>
+                                <p>The editors of <strong>Malagasy Nature</strong> are Marie Jeanne Raherilalao and Steven M. Goodman. The associated editors include Achille P. Raselimanana and Voahangy Soarimalala.  An editorial committee has been set up with reasearchers from numerous disciplines, often with Francophone-Anglophone counterparts and include Henri-Pierre Aberlenc (France), Franco Andreone (Italy), Christopher Birkinshaw (Madagascar), David Burney (USA), Jean-Marc Duplantier (France), Roger Edmond (Madagascar), Brian Fisher (USA), John Flynn (USA), Jörg Ganzhorn (Germany), Frank Hawkins (USA), Olivier Langrand (USA), Wilson Lourenço (France), Chantal Radimilahy (Madagascar), Daniel Rakotondravony (Madagascar), Jeanne Rasamy (Madagascar), Joelisoa Ratsirarson (Madagascar), Vincent Robert (France), Manuel Ruedi (Switzerland), Melanie L. J. Stiassny (USA), Peter Taylor (South Africa), Miguel Vences (Germany), and Henry Wright (USA).</p>
+                                <hr>
+                                <p><a href="{% static 'pdf/submission_to_Malagasy_Nature.pdf' %}">Here is the information on formatting papers for submission to Malagasy Nature.</a></p>
+                                <p>For information specifically about the journal, please contact <a href="mailto:malagasynature@gmail.com">malagasynature@gmail.com</a>.</p>
+                            {% endif %}
+                            {% if pub_type.id == 2 %}
+                                <p>List of books published in the series "Guides sur la diversité biologique de Madagascar"</p>
+                                <hr>
+                                <p>For information on how to obtain copies of these books, please send a message to  <a href="mailto:malagasynature@gmail.com">malagasynature@gmail.com</a> or write to <strong>Association Vahatra, BP 3972, Antananarivo 101, Madagascar</strong>. </p>
+                            {% endif %}
+                            {% if pub_type.id == 3 %}
+                                <p>As researchers dedicated to the advancement of knowledge and science concerning Madagascar and surrounding islands in particular, Vahatra places emphasis on the dissemination of research results to our local colleagues and the scientific world at large.  Further, to help with the advancement of scientific careers and Malagasy science we strongly encourage students working with us to publish the results of their work. Here is a listing of publications that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.  These publications include papers in scientific journals, books, and chapters in books and monographs. You can find here the “Mémoires” and thesis that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+<div class="contact-form-model-wrap text-center">
+    <span class="model-close"><i class="fa fa-times"></i></span>
+    <div class="contact-form-inner">
+        <div class="sec-title text-center">
+            <div class="sec-title-inner">
+                <span>{{ pub_type.type }}</span>
+                <h3 id="titrePub"></h3>
+            </div>
+        </div>
+        <div class="contact-form" style="text-align: left;">
+            <div class="container" id="content">
+            </div>
+           
+        </div>
+    </div>
+</div><!-- Contact Form Model Wrap -->
+
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript"> 
+
+
+$(document).ready(function(){
+    
+    $('.mycaroussel').slick({
+        dots: true,
+        focusOnSelect: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        speed: 1000,
+        centerMode: true,
+        centerPadding: '60px',
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+  });
+</script>
+{% endblock %}
