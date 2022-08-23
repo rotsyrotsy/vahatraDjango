@@ -1,6 +1,6 @@
 from math import ceil
 from django.shortcuts import get_object_or_404, render
-from association.models import  Memberviewposts, Messageofyear, Typemember, Member,Partner,Person
+from association.models import  Image, Imagetype, Memberviewposts, Messageofyear, Typemember, Member,Partner,Person
 from django.core.mail import send_mail
 from django.db.models.functions import  Substr
 from django.db.models import IntegerField, F,Q
@@ -10,7 +10,7 @@ from datetime import date,timedelta
 
 
 
-# # Create your views here.
+# Create your views here.
 type_visit = Typesubactivity.objects.all()
 type_pub = Typepublication.objects.all
 context = {
@@ -43,6 +43,7 @@ def index(request):
     context["upcoming_publications"]= upcoming_publications
     context["new_pubs"] = new_pubs
     context["new_events"] = new_events
+
     
     return render(request, "association/index.html", context)
 
@@ -92,5 +93,12 @@ def financing(request):
     return render(request, "association/financing.html",context)
 
     
-def portfolio(request):
-    return render(request, "association/portfolio.html",context)
+def gallery(request):
+    context["typeimage"] = Imagetype.objects.filter(~Q(id=8) & ~Q(id=9))
+    context["images"]=Image.objects.filter(~Q(idtype=8) & ~Q(idtype=9))
+    return render(request, "association/gallery.html",context)
+
+def customhandler404(request, exception):
+    response = render(request, 'association/404.html')
+    response.status_code = 404
+    return response

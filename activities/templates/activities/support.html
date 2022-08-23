@@ -1,17 +1,18 @@
 {% extends "association/base.html" %}
 {% load static %}
-{% block title %}Support{% endblock %}
+{% block title %}Supports{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc85">
-        <div class="fixed-bg" style="background-image: url({% static 'images/parallax12.jpg' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.png' %});">
+        </div>
         <div class="container">
             <div class="page-title-wrap">
-                <h1><img src="{% static 'images/resources/page-title-ayat.png' %} " alt="page-title-ayat.png"></h1>
-                <h2>Pedagogic and scientific support</h2>
+                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <h2>Supports</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
-                    <li>Pedagogic and scientific support</li>
+                    <li>Supports</li>
                 </ul>
             </div><!-- Page Title Wrap -->
         </div>
@@ -48,7 +49,7 @@
 </section>
 <section>
     <div class="gap blue-layer opc9">
-        <div class="fixed-bg" style="background-image: url({% static 'images/parallax10.jpg' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/team/Amena 035.jpg' %});"></div>
     </div>
 </section>
 <section>
@@ -84,13 +85,13 @@
 </section>
 <section>
     <div class="gap blue-layer opc85">
-        <div class="fixed-bg" style="background-image: url({% static 'images/parallax9.jpg' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/team/BEA 113.jpg' %});"></div>
         <div class="container">
             <div class="newsletter-wrap2 text-center">
                 <div class="newsletter-inner">
                     <div class="nwsltr-title2 text-center">
                         <h3>Become One Of Our Partners</h3>
-                        <span>Subscribe to out newsletter to get more informations about the processes</span>
+                        <span>Contact us to get more informations about the processes</span>
                     </div>
                     <form action="{% url 'association:contactpage' %}" method="GET">
                         <input type="email" name="email" placeholder="Your Email">

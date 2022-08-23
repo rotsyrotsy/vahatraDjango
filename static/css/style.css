@@ -90,6 +90,15 @@ p {
   line-height:26px;
 }
 
+.sec-title-custom > p {color: #fff;}
+.sec-title-custom ul li {
+  font-family: Poppins;
+  color:rgb(253, 210, 116);
+  font-size:14px;
+  line-height:26px;
+}
+
+
 ul li,
 ol li {
   font-family: Poppins;
@@ -2029,7 +2038,7 @@ footer {
 .page-title-wrap {
   float: left;
   width: 100%;
-  padding: 105px 0 40px;
+  padding: 100px 0 40px;
 }
 .page-title-wrap > h1 {
   margin-bottom: 10px;

@@ -1,0 +1,60 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% block title %}{{type_activity.type}}{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc85">
+        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.png' %});">
+        </div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <h2>{{type_activity.type}}</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li>{{type_activity.type}}</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="blog-wrap remove-ext7">
+                <div class="row mrg40">
+                    {% for item in dict %}
+                    <div class="col-md-4 col-sm-6 col-lg-4 fadeIn" data-wow-duration=".8s" data-wow-delay=".2s">
+                        <div class="blog-box">
+                            <div class="blog-thmb">
+                                <a href="{% url 'activities:activityDetail' item.activity.id %}" title=""><img src="{% static 'images/resources/post-img1.jpg' %}" alt="post-img1.jpg"></a>
+                            </div>
+                            <div class="blog-info">
+                                <ul class="pst-mta2">
+                                    <li>
+                                    {% for person in item.persons %}
+                                        {{person.idperson.username}} {{person.idperson.name}},
+                                    {% endfor %}
+                                    </li>
+                                </ul>
+                                <h4><a href="{% url 'activities:activityDetail' item.activity.id %}" title="">{{item.activity.title | title}}</a></h4>
+                                {% if item.activity.note %}<p>{{item.activity.note}}</p>{% endif %}
+                                <p><i class="fa fa-calendar-o thm-clr"></i> {{item.activity.date |date:"Y"}}</p>
+                                <a href="{% url 'activities:activityDetail' item.activity.id %}" title="">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div><!-- Blog Wrap -->
+            <div class="pagination-wrap text-center">
+                <ul class="pagination">
+                    {% for number in page_number %}
+                        <li ><a href="{% url 'activities:otherActivity' type_activity.id number %}" title="">{{number}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

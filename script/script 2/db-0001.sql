@@ -91,6 +91,7 @@ INSERT INTO imageType(id,type) VALUES (5,'landscape');
 INSERT INTO imageType(id,type) VALUES (6,'miscellaneous');
 INSERT INTO imageType(id,type) VALUES (7,'team');
 INSERT INTO imageType(id,type) VALUES (8,'publication');
+INSERT INTO imageType(id,type) VALUES (9,'members');
 
 
 INSERT INTO image (idtype, name) VALUES (5, 'mikea01.gif');
@@ -149,6 +150,12 @@ INSERT INTO image (idtype, name) VALUES (8,'g6_back.gif');
 INSERT INTO image (idtype, name) VALUES (8,'g7_back.gif');
 INSERT INTO image (idtype, name) VALUES (8,'g8_back.gif');
 INSERT INTO image (idtype, name) VALUES (8,'g9_back.gif');
+
+INSERT INTO image (idtype, name) VALUES (9,'achille.jpg');
+INSERT INTO image (idtype, name) VALUES (9,'marie_jeanne.jpg');
+INSERT INTO image (idtype, name) VALUES (9,'voahangy.jpg');
+INSERT INTO image (idtype, name) VALUES (9,'steve.jpg');
+INSERT INTO image (idtype, name) VALUES (9,'none.jpg');
 
 INSERT INTO typeMember(type, description) VALUES ('board of directors', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.');
 INSERT INTO typeMember(type, description) VALUES ('permanent members', 'The current staff includes eleven individuals, the first four of which are amongst the five founding members of the association.');

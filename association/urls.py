@@ -9,6 +9,6 @@ urlpatterns = [
     path("member/<int:type_member_id>/page/<int:page>", views.member, name="member"),
     path("contact/", views.contact, name="contact"),
     path("financing/", views.financing, name="financing"),
-    path("portfolio/", views.portfolio, name="portfolio"),
+    path("gallery/", views.gallery, name="gallery"),
 
 ]

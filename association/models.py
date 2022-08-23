@@ -83,6 +83,7 @@ class Person(models.Model):
 class Image(models.Model):
     idtype = models.ForeignKey('Imagetype', models.DO_NOTHING, db_column='idtype', blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = True

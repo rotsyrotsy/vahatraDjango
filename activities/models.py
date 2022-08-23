@@ -1,5 +1,5 @@
 from django.db import models
-from association.models import Department, Institution, Partner, Person, Image
+from association.models import Department, Institution,  Person, Image
 
 class Fieldschool(models.Model):
     idvisit = models.ForeignKey('Visit', models.DO_NOTHING, db_column='idvisit')
@@ -73,6 +73,11 @@ class Activityperson(models.Model):
     idperson = models.ForeignKey(Person, models.DO_NOTHING, db_column='idperson')
 
     class Meta:
-        managed = False
         db_table = 'activityperson'
 
+class Activityinstitution(models.Model):
+    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+    idinst = models.ForeignKey(Institution, models.DO_NOTHING, db_column='idinst')
+
+    class Meta:
+        db_table = 'activityinstitution'

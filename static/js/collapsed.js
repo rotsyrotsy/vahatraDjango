@@ -35,15 +35,16 @@ function openNav(typevisit, lieu, visits) {
         // } 
       }
       catch(e) {
-        images = visits[i]['images'];
+
       }
      
       
       try {
+        activity = JSON.parse(visits[i]['activity'])[0];
         visit = JSON.parse(visits[i]['visit'])[0];
-        let date = visit['fields']['date'];
-        let datefin = visit['fields']['datefin'];
-        let description = visit['fields']['description'];
+        let date = activity['fields']['date'];
+        let datefin = visit['fields']['dateend'];
+        let description = activity['fields']['description'];
 
         if (description!==null){
           var par = document.createElement("p");

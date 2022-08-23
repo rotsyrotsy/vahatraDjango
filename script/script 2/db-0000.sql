@@ -17,7 +17,8 @@ CREATE TABLE imageType(
 CREATE TABLE image(
     id serial NOT NULL PRIMARY KEY,
     idType int,
-    name varchar(255)
+    name varchar(255),
+    title varchar(100)
 );
 
 CREATE TABLE typeMember (

@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'association.apps.AssociationConfig',
     'activities.apps.ActivitiesConfig',
-    'projects.apps.ProjectsConfig',
     'publications.apps.PublicationsConfig',
     'parler',
 ]

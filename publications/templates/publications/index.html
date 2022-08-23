@@ -5,10 +5,10 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc85">
-        <div class="fixed-bg" style="background-image: url({% static 'images/parallax13.jpg'%});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneaous/Bea 291.jpg' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
-                <h1><img src="{% static 'images/resources/page-title-ayat.png' %}" alt="page-title-ayat.png"></h1>
+                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
                 <h2>{{ pub_type.type }}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
@@ -66,7 +66,7 @@
                                 </ul>
                                 <p>The editors of <strong>Malagasy Nature</strong> are Marie Jeanne Raherilalao and Steven M. Goodman. The associated editors include Achille P. Raselimanana and Voahangy Soarimalala.  An editorial committee has been set up with reasearchers from numerous disciplines, often with Francophone-Anglophone counterparts and include Henri-Pierre Aberlenc (France), Franco Andreone (Italy), Christopher Birkinshaw (Madagascar), David Burney (USA), Jean-Marc Duplantier (France), Roger Edmond (Madagascar), Brian Fisher (USA), John Flynn (USA), Jörg Ganzhorn (Germany), Frank Hawkins (USA), Olivier Langrand (USA), Wilson Lourenço (France), Chantal Radimilahy (Madagascar), Daniel Rakotondravony (Madagascar), Jeanne Rasamy (Madagascar), Joelisoa Ratsirarson (Madagascar), Vincent Robert (France), Manuel Ruedi (Switzerland), Melanie L. J. Stiassny (USA), Peter Taylor (South Africa), Miguel Vences (Germany), and Henry Wright (USA).</p>
                                 <hr>
-                                <p><a href="{% static 'pdf/submission_to_Malagasy_Nature.pdf' %}">Here is the information on formatting papers for submission to Malagasy Nature.</a></p>
+                                <p><a href="{% static 'pdf/submission_to_Malagasy_Nature.pdf' %}" style="color: blue;">Here is the information on formatting papers for submission to Malagasy Nature.</a></p>
                                 <p>For information specifically about the journal, please contact <a href="mailto:malagasynature@gmail.com">malagasynature@gmail.com</a>.</p>
                             {% endif %}
                             {% if pub_type.id == 2 %}
