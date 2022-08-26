@@ -19,7 +19,6 @@ context = {
 
 def index(request, typesubactivity_id='SA1'):
     visits = get_list_or_404(Visit, Q(idtypesubactivity = typesubactivity_id), Q(idactivity__date__lt=date.today())|Q(idactivity__date__isnull=True))
-    print(visits)
     context["visits"]= visits
     context["type_visite"]=Typesubactivity.objects.get(pk=typesubactivity_id)
     return render(request, "activities/index.html", context)
