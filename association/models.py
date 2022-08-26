@@ -1,12 +1,12 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 class Department(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
     name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'department'
 
 class Institution(models.Model):
@@ -14,7 +14,6 @@ class Institution(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
         db_table = 'institution'
 
 class Member(models.Model):
