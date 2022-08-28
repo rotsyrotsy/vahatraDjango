@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'vahatraDjango.wsgi.application'
 #DATABASES = {
 #    "default": {
 #        "ENGINE": "django.db.backends.postgresql_psycopg2",
-#        "NAME": "vahatra2",
+#        "NAME": "vahatra",
 #        "USER": "postgres",
 #       "PASSWORD": "root",
 #        "HOST": "127.0.0.1",
