@@ -1,1 +1,1 @@
-web gunicorn vahatraDjango.wsgi:application --log-file -
+web: gunicorn vahatraDjango.wsgi

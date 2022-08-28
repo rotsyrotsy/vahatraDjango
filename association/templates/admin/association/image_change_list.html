@@ -1,0 +1,17 @@
+{% extends 'admin/change_list.html' %}
+{% block object-tools %}
+<form id ="image-form" method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" class="vTextField">
+    <button class="button" type="submit">Change font size</button>
+</form>
+<br>
+<script>
+    let titleForm = document.querySelector('#image-form');
+    titleForm.querySelector('input[name="title"]').addEventListener('change',function(e){
+        let title = e.target.value
+        titleForm.action = 'image/'+title+'/';
+    })
+</script>
+{{ block.super }}
+{% endblock object-tools %}
