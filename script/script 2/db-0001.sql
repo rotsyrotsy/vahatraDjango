@@ -986,16 +986,6 @@ INSERT INTO activityInstitution(idActivity,idInst) VALUES (93,'I29');
 INSERT INTO activityInstitution(idActivity,idInst) VALUES (93,'I30');
 
 
-
-
-
-
-
-
-
-
-
-
 INSERT INTO typePublication VALUES (1,'Malagasy Nature');
 INSERT INTO typePublication VALUES (2,'Guides');
 INSERT INTO typePublication VALUES (3,'Other publications'); 
