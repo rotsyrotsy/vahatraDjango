@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load activities_extras %}
 {% block title %}{{type_visite.type}}{% endblock %}
 {% block content %}
 <section>
@@ -104,7 +105,7 @@
             source: new ol.source.Vector({
                 features: [
                     new ol.Feature({
-                        geometry: new ol.geom.Point(ol.proj.fromLonLat(["{{visit.idlocation.longitude}}", "{{visit.idlocation.latitude}}"])),
+                        geometry: new ol.geom.Point(ol.proj.fromLonLat(['{{visit.idlocation.longitude | float_comma_to_dot }}','{{visit.idlocation.latitude | float_comma_to_dot }}'])),
                         id: "{{visit.idlocation.id}}"
                     })
                         

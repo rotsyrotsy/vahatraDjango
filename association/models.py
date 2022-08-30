@@ -1,12 +1,12 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 class Department(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
     name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'department'
 
 class Institution(models.Model):
@@ -14,7 +14,6 @@ class Institution(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = True
         db_table = 'institution'
 
 class Member(models.Model):
@@ -93,5 +92,37 @@ class Imagetype(models.Model):
     type = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
-        managed = True
         db_table = 'imagetype'
+
+class Degree(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    title = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        db_table = 'degree'
+
+class Memberpostinst(models.Model):
+    idmember = models.ForeignKey('Member', models.DO_NOTHING, db_column='idmember')
+    idpost = models.ForeignKey('Post', models.DO_NOTHING, db_column='idpost', blank=True, null=True)
+    idinst = models.ForeignKey('Institution', models.DO_NOTHING, db_column='idinst', blank=True, null=True)
+    iddept = models.ForeignKey('Department', models.DO_NOTHING, db_column='iddept', blank=True, null=True)
+
+    class Meta:
+        db_table = 'memberpostinst'
+
+class Post(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    name = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        db_table = 'post'
+
+class Studentdegree(models.Model):
+    idmember = models.ForeignKey('Member', models.DO_NOTHING, db_column='idmember')
+    iddegree = models.ForeignKey('Degree', models.DO_NOTHING, db_column='iddegree')
+    year = models.IntegerField(blank=True, null=True)
+    subject = models.CharField(max_length=255, blank=True, null=True)
+    mention = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        db_table = 'studentdegree'

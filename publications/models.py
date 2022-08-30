@@ -8,8 +8,8 @@ class Publication(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
-    idimagefront = models.ForeignKey(Image, models.DO_NOTHING, related_name='idimagefront', db_column='idimagefront')
-    idimageback = models.ForeignKey(Image, models.DO_NOTHING,related_name='idimageback',  db_column='idimageback')
+    idimagefront = models.ForeignKey(Image, models.DO_NOTHING, related_name='idimagefront', db_column='idimagefront',null=True)
+    idimageback = models.ForeignKey(Image, models.DO_NOTHING,related_name='idimageback',  db_column='idimageback',null=True)
 
     class Meta:
         db_table = 'publication'
@@ -27,7 +27,6 @@ class Publicationdetail(models.Model):
     pdf = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'publicationdetail'
 
 
@@ -36,5 +35,4 @@ class Publicationauthor(models.Model):
     idperson = models.ForeignKey(Person, models.DO_NOTHING, db_column='idperson', blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'publicationauthor'
