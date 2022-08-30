@@ -89,7 +89,7 @@ def otherActivity(request,typeactivity_id='A2',page=1):
     return render(request, "activities/otherActivities.html", context)
 
 
-def activityDetail(request,activity_id):
+def activityDetail(request,activity_type,activity_id):
 
     activity = get_object_or_404(Activity, pk=activity_id)
     new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id), Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))    
