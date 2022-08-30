@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)&!0d#b7yu*_wxd$7y@1xffuv5&wi9)+3e=0jft&_4w+6_s94a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['https://testvahatra.herokuapp.com/','http://127.0.0.1:8000']
 
@@ -88,7 +88,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "vahatra",
         "USER": "postgres",
-        "PASSWORD": "",
+        "PASSWORD": "root",
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
@@ -162,9 +162,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
 
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_STORAGE = 'vahatradjango.storage.WhiteNoiseStaticFilesStorage'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -178,8 +176,6 @@ EMAIL_HOST_PASSWORD = "Poushinie"
 EMAIL_USE_TLS = True
 
 django_heroku.settings(locals())
-
-
 
 LOGGING = {
     'version': 1,
