@@ -56,7 +56,6 @@ class Activityimage(models.Model):
     idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
 
     class Meta:
-        managed = False
         db_table = 'activityimage'
 
 class Intervenantfieldschool(models.Model):

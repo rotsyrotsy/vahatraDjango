@@ -496,8 +496,6 @@ the Vahatra team will redo another elevational transect in the Andohahela
 protected area in the same fashion as Marojejy and part of the The Rainforest
 of the Atsinanana.');
 
-insert into visit(idActivity, idTypeSubActivity, idLocation, dateEnd) values ()
-
 INSERT INTO visit(idActivity, idTypeSubActivity, idLocation, dateEnd) VALUES (1,'SA1',1,null);
 INSERT INTO visit(idActivity, idTypeSubActivity, idLocation, dateEnd) VALUES (2,'SA1',2,null);
 INSERT INTO visit(idActivity, idTypeSubActivity, idLocation, dateEnd) VALUES (3,'SA1',3,null);
@@ -986,16 +984,6 @@ INSERT INTO activityInstitution(idActivity,idInst) VALUES (91,'I27');
 INSERT INTO activityInstitution(idActivity,idInst) VALUES (91,'I28');
 INSERT INTO activityInstitution(idActivity,idInst) VALUES (93,'I29');
 INSERT INTO activityInstitution(idActivity,idInst) VALUES (93,'I30');
-
-
-
-
-
-
-
-
-
-
 
 
 INSERT INTO typePublication VALUES (1,'Malagasy Nature');
