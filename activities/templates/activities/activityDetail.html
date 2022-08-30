@@ -91,9 +91,9 @@
                                 <div class="rcnt-wrp">
                                     {% for item in new_events %}
                                     <div class="rcnt-bx">
-                                        <a href="{% url 'activities:activityDetail' item.id %}" title=""><img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg"></a>
+                                        <a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title=""><img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg"></a>
                                         <div class="rcnt-inf">
-                                            <h6><a href="{% url 'activities:activityDetail' item.id %}" title="">{{item.title }} </a></h6>
+                                            <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
                                             <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         </div>
                                     </div>

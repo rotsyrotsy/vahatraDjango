@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load publications_extras %}
 <ul>
     <li class="menu-item"><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
     <li class="menu-item-has-children"><a href="{% url 'activities:index' %}" title="">{% trans "Activities" %}</a>
@@ -20,7 +21,7 @@
     <li class="menu-item-has-children"><a href="#" title="">Publications</a>
         <ul>
             {% for publication_type in type_pub %}
-                <li><a href="{% url 'publications:index' publication_type.id %}" title="">{{ publication_type.type|title }}</a></li>
+                <li><a href="{% url 'publications:index' publication_type.type|toSlug publication_type.id %}" title="">{{ publication_type.type|title }}</a></li>
             {% endfor %}
         </ul>
     </li>
