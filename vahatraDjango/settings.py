@@ -37,8 +37,6 @@ ALLOWED_HOSTS = ['https://testvahatra.herokuapp.com/','http://127.0.0.1:8000']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
