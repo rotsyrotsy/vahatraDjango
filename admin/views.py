@@ -8,7 +8,10 @@ from django.contrib.auth.hashers import make_password, check_password
 
 
 def index(request):
-    return render(request, "admin/index.html")
+    if 'admin' not in request.session:
+        return HttpResponseRedirect(reverse("admin:login"))
+    else:
+        return render(request, "admin/index.html")
 
 def login(request):
     if request.method == 'POST':
@@ -31,7 +34,36 @@ def login(request):
                 },
             )
         else:
+            if len(request.POST.getlist("remember_me"))==0:
+                request.session.set_expiry(0)
+            request.session['admin']=admin.id
             return HttpResponseRedirect(reverse("admin:index"))
     else:
         return render(request, "admin/login.html")
 
+
+def logout(request):
+    try:
+        del request.session['admin']
+    except KeyError:
+        pass
+    return render(request, "admin/login.html",{"message":"You're logged out"})
+
+def reset_password(request):
+    if request.method == 'POST':
+        try:
+            admin = Administrator.objects.get(mail=request.POST["mail"])
+        except (KeyError, Administrator.DoesNotExist):
+            return render(
+                request,
+                "admin/reset_password.html",
+                {
+                    "error_message": "There is no account related to this email. Verify your input.",
+                },
+            )
+        else:        
+            #send mail
+            print(admin)
+            return render(request, "admin/reset_password.html",{"message":"We have sent you an email to change your password."})
+    else:
+        return render(request, "admin/reset_password.html")
