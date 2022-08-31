@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'association.apps.AssociationConfig',
     'activities.apps.ActivitiesConfig',
     'publications.apps.PublicationsConfig',
+    'admin.apps.AdminConfig',
     'parler',
 ]
 
