@@ -285,3 +285,10 @@ ALTER TABLE member
     ADD CONSTRAINT fk_member_person FOREIGN KEY (idPerson) REFERENCES person(id) ;
 
 
+
+CREATE TABLE Administrator(
+    id varchar(20) NOT NULL PRIMARY KEY,
+    username varchar(100) NOT NULL,
+    mail varchar(100),
+    password varchar(255) NOT NULL
+);

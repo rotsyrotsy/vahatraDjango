@@ -1423,3 +1423,6 @@ INSERT INTO activityPerson (idActivity, idPerson) VALUES (82,1);
 INSERT INTO activityPerson (idActivity, idPerson) VALUES (82,84);
 INSERT INTO activityPerson (idActivity, idPerson) VALUES (82,89);
 INSERT INTO activityPerson (idActivity, idPerson) VALUES (82,80);
+
+INSERT INTO administrator (id, username,mail,password) VALUES ('ADM1','Vahatra','rafa.rotsy@gmail.com',tohash('associationvahatra2015'));
+select * from administrator where password = crypt('associationvahatra2015', password);
