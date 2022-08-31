@@ -32,11 +32,3 @@ CREATE OR REPLACE VIEW intervenantFieldSchool  as (
     left join institution i on i.id = f.idinst 
     left join department d on d.id = f.iddept
 );
-
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
-
-CREATE OR REPLACE FUNCTION tohash(text) returns text AS
-$$
-    SELECT crypt($1, gen_salt('bf', 8))
-$$ LANGUAGE SQL STRICT IMMUTABLE;
