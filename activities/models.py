@@ -75,7 +75,7 @@ class Activityperson(models.Model):
         db_table = 'activityperson'
 
 class Activityinstitution(models.Model):
-    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+    idactivity = models.ForeignKey(Activity, models.DO_NOTHING, db_column='idactivity')
     idinst = models.ForeignKey(Institution, models.DO_NOTHING, db_column='idinst')
 
     class Meta:

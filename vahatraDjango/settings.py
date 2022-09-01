@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)&!0d#b7yu*_wxd$7y@1xffuv5&wi9)+3e=0jft&_4w+6_s94a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://testvahatra.herokuapp.com/','http://127.0.0.1:8000']
 
@@ -170,11 +170,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_HOST = 'smtp-mail.outlook.com'
-EMAIL_PORT = '587'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = "rotsyvonimanitra@hotmail.com"
 EMAIL_HOST_PASSWORD = "Poushinie"
-EMAIL_USE_TLS = True
+EMAIL_TIMEOUT = 1000
+DEFAULT_FROM_EMAIL = 'rotsyvonimanitra@hotmail.com'
 
 django_heroku.settings(locals())
 
@@ -185,11 +187,20 @@ django_heroku.settings(locals())
 #         'console': {
 #             'class': 'logging.StreamHandler',
 #         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler'
+#         },
 #     },
 #     'loggers': {
 #         'django': {
 #             'handlers': ['console'],
 #             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+#         },
+#         'Django.request': {
+#             'handlers': ['mail_admins'],
+#             'level': 'ERROR',
+#             'propagate': True,
 #         },
 #     },
 # }
