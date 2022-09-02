@@ -1,7 +1,7 @@
 
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.http import  HttpResponseRedirect
+from django.http import  HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from activities.models import Activity, Typeactivity,Activityinstitution,Visit
 from admin.models import Administrator
 from django.shortcuts import render, HttpResponse
@@ -9,6 +9,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail,EmailMessage
 from django.db.models import Min,Max
 from math import ceil
+
+from association.models import Institution, Person
 
 type_activity = Typeactivity.objects.all()
 context = {
@@ -84,7 +86,7 @@ def reset_password(request):
     else:
         return render(request, "admin/reset_password.html")
 
-def list(request,activity_id="A1",page=1,subactivity_id=None, year = None):
+def listActivities(request,activity_id="A1",page=1,subactivity_id=None, year = None):
     if 'subactivity_id' in context:
         del context['subactivity_id']
     if 'year' in context:
@@ -109,7 +111,7 @@ def list(request,activity_id="A1",page=1,subactivity_id=None, year = None):
             list = Activity.objects.filter(idtypeactivity_id = activity_id, date__year = year)
             context["year"]=year
 
-
+    list = list.order_by('date')
     page_number = list.count()
     page_number = ceil(page_number/8)
 
@@ -129,3 +131,28 @@ def list(request,activity_id="A1",page=1,subactivity_id=None, year = None):
 
     return render(request, "admin/list.html",context)
 
+def deleteActivity(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method == 'POST':
+            id_activity = request.POST.get('id_activity','')
+            try:
+                Activity.objects.get(pk=id_activity).delete()
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success':'Activity successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+
+def addActivity(request,type_activity='A1'):
+    type = get_object_or_404(Typeactivity,pk=type_activity)
+    context["type"]=type
+    context["persons"]=Person.objects.all()
+    context["institutions"]=Institution.objects.all()
+    return render(request, "admin/addActivity.html",context)
+
+def addPerson(request):
+    return render(request, "admin/addPerson.html",context)

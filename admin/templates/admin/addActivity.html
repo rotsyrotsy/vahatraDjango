@@ -1,0 +1,94 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Add new {{type.type}}</h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:addActivity' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                    <label for="selectTypeActivity">Type of activity</label>
+                        <select class="form-control" id="selectTypeActivity" name="idtypeactivity">
+                            <option value="{{type.id}}">{{type.type}}</option>
+                            {% for item in type_activity %}
+                                {% if item.id != type.id %}
+                                <option value="{{item.id}}">{{item.type}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="Title">
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="4"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="date">Starting date</label>
+                    <input type="date" class="form-control" id="date" placeholder="dd/mm/yyyy">
+                  </div>
+                  <div class="form-group">
+                    <label for="note">Note</label>
+                    <textarea class="form-control" id="note" rows="2"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="addCollaborators()">
+                        <i class="ti-plus"></i> Add collaborators
+                    </button>
+                  </div>
+                  <div id="inputcollaborators"></div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="addInstitutions()">
+                        <i class="ti-plus"></i> Add institutions
+                    </button>
+                </div>
+                <div id="inputinstitutions"></div>
+
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listActivities' type.id %}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+    let click1 = 0;
+    let click2 = 0;
+    function addCollaborators(){
+        if (click1==0){
+            button = '<div class="form-group"><a href="{% url "admin:addPerson" %}" type="button" class="btn btn-outline-primary" >Add a new person</button></div>';
+            $('#inputcollaborators').append(button);
+        }
+        var select = '<div class="form-group"><label for="selectNewCollaborator">Collaborator</label>\
+                        <select class="form-control" id="selectNewCollaborator" name="idperson'+click1+'">';
+        select += '{% for person in persons %}<option value="{{person.id}}">{{person.name}} {{person.username}}</option>{% endfor %}';
+        select += '</select></div>';
+        $('#inputcollaborators').append(select);
+        click1 += 1;
+    }
+    function addInstitutions(){
+        if (click2==0){
+            button = '<div class="form-group"><button type="button" class="btn btn-outline-primary" id="newInst">Add a new institution</button></div>';
+            $('#inputinstitutions').append(button);
+        }
+        var select = '<div class="form-group"><label for="selectNewInstitution">Institution partner</label>\
+                        <select class="form-control" id="selectNewInstitution" name="idinst'+click2+'">';
+        select += '{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
+        select += '</select></div>';
+        $('#inputinstitutions').append(select);
+        click2 += 1;
+    }
+</script>
+{% endblock %}
