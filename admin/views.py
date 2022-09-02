@@ -7,6 +7,8 @@ from admin.models import Administrator
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail,EmailMessage
+from django.db.models import Min,Max
+from math import ceil
 
 type_activity = Typeactivity.objects.all()
 context = {
@@ -82,13 +84,48 @@ def reset_password(request):
     else:
         return render(request, "admin/reset_password.html")
 
-def crud(request,activity_id="A1"):
+def list(request,activity_id="A1",page=1,subactivity_id=None, year = None):
+    if 'subactivity_id' in context:
+        del context['subactivity_id']
+    if 'year' in context:
+        del context['year']
+
     type = get_object_or_404(Typeactivity,pk=activity_id)
     context["type"]=type
-    activities = type.activity_set.all()
-    for activity in activities:
-        
-        print(activity.visit_set.get(idactivity=activity.id).idlocation.name)
-        # for visit in activity.visit_set.all():
-        #     print(visit[0].idlocation.name)
+
+    list = Activity.objects.filter(idtypeactivity_id = activity_id)
+    if subactivity_id is not None:
+        idactivity_list = Visit.objects.filter(idtypesubactivity=subactivity_id).values('idactivity')
+
+        if year is not None:
+            list = Activity.objects.filter(idtypeactivity_id = activity_id, pk__in = idactivity_list, date__year = year)
+            context["year"]=year
+        else:
+            list = Activity.objects.filter(idtypeactivity_id = activity_id, pk__in = idactivity_list)
+            
+        context["subactivity_id"]=subactivity_id
+    else:
+        if year is not None:
+            list = Activity.objects.filter(idtypeactivity_id = activity_id, date__year = year)
+            context["year"]=year
+
+
+    page_number = list.count()
+    page_number = ceil(page_number/8)
+
+    if (page>page_number): page = page_number
+    elif page<1 : page = 1
+    page -= 1
+
+    
+    if (list.count()>0):
+        activities = list.order_by('-date')[(page*8):((page*8)+8)]
+        context["activities"]=activities
+
+    min = Activity.objects.filter(idtypeactivity=activity_id).aggregate(Min('date'))
+    max = Activity.objects.filter(idtypeactivity=activity_id).aggregate(Max('date'))
+    context["years"]=range(min['date__min'].year,max['date__max'].year)
+    context["page_number"]= range(1,page_number+1)
+
     return render(request, "admin/list.html",context)
+

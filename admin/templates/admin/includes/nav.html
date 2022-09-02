@@ -16,7 +16,7 @@
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
             {% for item in type_activity %}
-            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:crud' item.id %}">{{item.type}}</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:list' item.id %}">{{item.type}}</a></li>
             {% endfor %}
           </ul>
         </div>
