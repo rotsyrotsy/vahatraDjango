@@ -1,15 +1,18 @@
 
+from urllib import request
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import  HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
-from activities.models import Activity, Typeactivity,Activityinstitution,Visit
+from activities.models import Activity, Activityperson, Typeactivity,Activityinstitution,Visit
 from admin.models import Administrator
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail,EmailMessage
 from django.db.models import Min,Max
 from math import ceil
-
+from sequences import get_next_value
+from django.core.files.storage import FileSystemStorage
+from django.templatetags.static import static
 from association.models import Institution, Person
 
 type_activity = Typeactivity.objects.all()
@@ -152,7 +155,64 @@ def addActivity(request,type_activity='A1'):
     context["type"]=type
     context["persons"]=Person.objects.all()
     context["institutions"]=Institution.objects.all()
+    if request.method == 'POST':
+        
+        if request.POST['idtypeactivity']=="" or request.POST['title']=="":
+            context["error"]="Fields 'Type of activity' and 'Title' are required."
+            return render(request, "admin/addActivity.html",context)
+
+        activity = Activity(idtypeactivity=Typeactivity.objects.get(pk=request.POST['idtypeactivity']),title=request.POST['title'])
+        
+        names = ['description', 'date', 'note']
+        values = [request.POST.get(p) for p in names]
+
+        for i, value in enumerate([v for v in values if v]):
+            setattr(activity, names[i],value)
+
+        # activity.save()
+
+        lastActivity = Activity.objects.last()
+        data = request.POST.items()
+        for keys, values in data:
+            if 'fkidperson' in keys:
+                actpers = Activityperson(idactivity = lastActivity, idperson = Person.objects.get(pk=values))
+                # actpers.save()
+            if 'fkidinst' in keys:
+                actpers = Activityinstitution(idactivity = lastActivity, idinst = Institution.objects.get(pk=values))
+                # actpers.save()
+
+        if request.FILES:
+            files = request.FILES.getlist('files')
+            print(files)
+            for f in files:
+                myfile = request.FILES['myfile']
+                fs = FileSystemStorage(location=folder) #defaults to   MEDIA_ROOT  
+                filename = fs.save(myfile.name, myfile)
+                file_url = fs.url(filename)
+                return render(request, 'upload.html', {
+                    'file_url': file_url
+                })
+        context["success"]="New activity inserted successfully to the database."
+
+        
+
     return render(request, "admin/addActivity.html",context)
 
+
+
 def addPerson(request):
+    if request.method == 'POST':
+        person = Person(title=request.POST['title'], name=request.POST['name'],username=request.POST['username'])
+        person.save()
+        context["success"]="New person inserted successfully to the database."
     return render(request, "admin/addPerson.html",context)
+
+def addInstitution(request):
+    if request.method == 'POST':
+        nextId= get_next_value("institution")
+        nextId = "I"+str(nextId)
+        inst = Institution(id = nextId, name=request.POST['name'])
+        inst.save()
+        context["success"]="New institution inserted successfully to the database."
+    return render(request, "admin/addInstitution.html",context)
+

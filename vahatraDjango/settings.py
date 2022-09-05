@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'activities.apps.ActivitiesConfig',
     'publications.apps.PublicationsConfig',
     'admin.apps.AdminConfig',
+    'sequences.apps.SequencesConfig',
     'parler',
 ]
 

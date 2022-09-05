@@ -179,7 +179,7 @@
               dataType: 'JSON',
               type:"POST",
               data: {
-                  'id_activity': 'id',
+                  'id_activity': id,
                   'csrfmiddlewaretoken': '{{ csrf_token }}',
               },
               success:function(data){

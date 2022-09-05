@@ -6,29 +6,17 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Add new Person</h4>
+                <h4 class="card-title">Add new Institution</h4>
                 <p class="card-description">
                   Fill in the form
                 </p>
-                <form class="forms-sample" action="{% url 'admin:addPerson' %}" method="post">
+                <form class="forms-sample" action="{% url 'admin:addInstitution' %}" method="post">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="selectTypeActivity">Title</label>
-                            <select class="form-control" id="selectTypeActivity" name="title">
-                                <option value="Pr.">Pr.</option>
-                                <option value="Dr.">Dr.</option>
-                                <option value="Ms.">Ms.</option>
-                                <option value="Mr.">Mr.</option>
-                            </select>
-                        </div>
                   <div class="form-group">
                     <label for="Name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name">
                   </div>
-                  <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-                  </div>
+                  
                   {% if success %}
                     <div class="alert alert-success">
                         {{ success }}
