@@ -31,7 +31,7 @@
             <div class=" row mycaroussel mrg">
                 {% for publication in publications %}
                 <div class="col-md-4 col-sm-6 col-lg-4">
-                    <div class="fea-itm"  style="background-image: url({% static 'images/publication/' %}{{publication.idimagefront.name}}); ">
+                    <div class="fea-itm"  style="background-image: url({% static 'images/publication/' %}{{publication.imagefront}}); ">
                         <i class="flaticon-heart-1"></i>
                         <div class="fea-info2">
                             <h4>{{publication.title }} </h4>

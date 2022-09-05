@@ -26,14 +26,21 @@
                     <div class="col-md-9 col-sm-12 col-lg-9">
                         <div class="blog-detail">
                             <div class="blog-detail-inf brd-rd5">
-                                <img src="{% static 'images/resources/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
+                                {% if activity.activityimage_set.all %}
+                                
+                                    {% with activity.activityimage_set.all|first as image %}
+                                    <img src="{% static 'images/site/' %}{{image.image}}" width="68" alt="{{image.image}}">
+                                    {% endwith %}
+                                {% else %}
+                                    <img src="{% static 'images/resources/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
+                                {% endif %}
                                 <div class="blog-detail-inf-inr">
                                     <h4>{{activity.title}}</h4>
                                     <ul class="pst-mta">
                                         <li><i class="fa fa-calendar-o thm-clr"></i>{{activity.date |date:"Y"}}</li>
-                                        {% if person %}
+                                        {% if activity.activityperson_set.all  %}
                                         <li><i class="fa fa-user-o thm-clr"></i>
-                                            {% for person in persons %}
+                                            {% for person in activity.activityperson_set.all  %}
                                             {{person.idperson.name | title}} {{person.idperson.username | title}},
                                             {% endfor %}
                                         </li>
@@ -44,14 +51,14 @@
                             <div class="blog-detail-desc">
                                 {% if activity.note %}<p>{{activity.note}}</p>{% endif %}
                                 <p>{{activity.description}}</p>
-                                {% if partners or persons %}
+                                {% if activity.activityinstitution_set.all or activity.activityperson_set.all %}
                                 <p>
                                     <strong>Our collaborators</strong>
                                     <ul>
-                                        {% for partner in partners %}
+                                        {% for partner in activity.activityinstitution_set.all %}
                                         <li>{{partner.idinst.name}}</li>
                                         {% endfor %}
-                                        {% for person in persons %}
+                                        {% for person in activity.activityperson_set.all %}
                                         <li>{{person.idperson.name | title}} {{person.idperson.username | title}}</li>
                                         {% endfor %}
                                     </ul>
@@ -91,7 +98,16 @@
                                 <div class="rcnt-wrp">
                                     {% for item in new_events %}
                                     <div class="rcnt-bx">
-                                        <a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title=""><img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg"></a>
+                                        <a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">
+                                            
+                                        {% if item.activityimage_set.all %}
+                                            {% with item.activityimage_set.all|first as image %}
+                                            <img src="{% static 'images/site/' %}{{image.image}}" width="68" alt="{{image.image}}">
+                                            {% endwith %}
+                                        {% else %}
+                                            <img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
+                                        {% endif %}
+                                        </a>
                                         <div class="rcnt-inf">
                                             <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
                                             <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>

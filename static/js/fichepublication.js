@@ -15,8 +15,6 @@ $('.volume-btn').on('click', function () {
                 var pub = JSON.parse(data["publication"])[0];
                 var details = JSON.parse(data["details"]);
                 var authors = JSON.parse(data["authors"]);
-                var image = data["image"];
-                var front = JSON.parse(image["front"])[0];
                 
                 if (details.length == 1){
                     if (details[0]['fields']['name']== null && details[0]['fields']['pdf']!== null){
@@ -28,28 +26,28 @@ $('.volume-btn').on('click', function () {
                 $('#titrePub').text(pub['fields']['title']);
                 
                 var img = '<div  class="row">';
-
-                if (image["back"]){
-                    var back = JSON.parse(image["back"])[0];
+                var front = pub['fields']['imagefront']
+                if (pub['fields']['imageback']){
+                    var back = pub['fields']['imageback'];
                     if (pub['fields']['idtype']==2){
                             img += '<div class="col-md-12 col-sm-12 col-lg-12 text-center">\
-                                <img src="'+static+back['fields']['name']+'" alt="">\
+                                <img src="'+static+back+'" alt="">\
                             </div>\
                             ';
                     }else{
                             img += '<div class="col-md-6 col-sm-12 col-lg-6">\
-                                <img src="'+static+front['fields']['name']+'" alt="">\
+                                <img src="'+static+front+'" alt="">\
                             </div>\
                             ';
 
                             img += '<div class="col-md-6 col-sm-12 col-lg-6">\
-                                <img src="'+static+back['fields']['name']+'" alt="">\
+                                <img src="'+static+back+'" alt="">\
                             </div>\
                             ';
                     }
                 }else{
                     img += '<div class="col-md-12 col-sm-12 col-lg-12 text-center">\
-                        <img src="'+static+front['fields']['name']+'" alt="">\
+                        <img src="'+static+front+'" alt="">\
                     </div>\
                     ';
                 }

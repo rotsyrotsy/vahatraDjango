@@ -33,7 +33,7 @@ CREATE TABLE member (
     idTypeMember int NOT NULL,
     mail varchar(100),
     description text,
-    idImage int
+    image varchar(255)
 );
 
 
@@ -141,7 +141,7 @@ CREATE TABLE activityInstitution(
 
 CREATE TABLE activityImage(
     id serial NOT NULL PRIMARY KEY,
-    idImage int NOT NULL,
+    image varchar(255),
     idActivity int NOT NULL
 );
 
@@ -166,8 +166,8 @@ CREATE TABLE publication(
     title varchar(200),
     description text,
     date date,
-    idImagefront int,
-    idImageback int
+    imagefront varchar(255),
+    imageback varchar(255)
 );
 
 CREATE TABLE publicationDetail (

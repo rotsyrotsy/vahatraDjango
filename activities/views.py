@@ -40,10 +40,7 @@ def visit_by_lieu(request):
                 dict = {}
                 dict['activity']=serializers.serialize('json', [visit.idactivity])
                 dict['visit']= serializers.serialize('json', [ visit])
-                images = []
-                for image in Activityimage.objects.filter(idactivity=visit.idactivity_id):
-                    images.append(image.idimage)
-                dict['images']= serializers.serialize('json',images)
+                dict['images']= serializers.serialize('json',Activityimage.objects.filter(idactivity=visit.idactivity_id))
                 dict['fs']=serializers.serialize('json',Intervenantfieldschool.objects.filter(id=visit.id))
                
                 tab.append(dict)
@@ -69,22 +66,16 @@ def otherActivity(request,typeactivity_id='A2',page=1):
     elif page<1 : page = 1
     
     
-    list = []
     page -= 1
     activities = Activity.objects.filter( Q(idtypeactivity_id = typeactivity_id),Q(date__lt=date.today())|Q(date__isnull=True)).order_by('-date')[(page*6):((page*6)+6)]
     
     if (activities.count()==0):
         return customhandler404(request,'There is no activity')
     
-    for activity in activities:
-        dict = {}
-        dict['activity'] = activity
-        dict['persons']=Activityperson.objects.filter(idactivity = activity.id)
-        list.append(dict)
 
    
     context["type_activity"]= Typeactivity.objects.get(pk=typeactivity_id)
-    context["dict"]= list
+    context["activities"]= activities
     context["page_number"]= range(1,page_number+1)
     return render(request, "activities/otherActivities.html", context)
 
@@ -94,9 +85,7 @@ def activityDetail(request,activity_type,activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
     new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id), Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))    
 
-    context['partners']=Activityinstitution.objects.filter(idactivity = activity.id)
     context["activity"]= activity
-    context["persons"]= Activityperson.objects.filter(idactivity = activity_id)
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)
 

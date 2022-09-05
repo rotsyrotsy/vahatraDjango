@@ -638,16 +638,16 @@ INSERT INTO fieldSchool (idVisit,idInst,idDept) VALUES (50,'I9','D6');
 
 INSERT INTO fieldSchool (idVisit,idInst,idDept) VALUES (51,'I2','D1');
 
-INSERT INTO activityImage (idActivity, idImage) VALUES (52,1);
-INSERT INTO activityImage (idActivity, idImage) VALUES (53,2);
-INSERT INTO activityImage (idActivity, idImage) VALUES (54,3);
-INSERT INTO activityImage (idActivity, idImage) VALUES (55,4);
-INSERT INTO activityImage (idActivity, idImage) VALUES (56,5);
-INSERT INTO activityImage (idActivity, idImage) VALUES (57,6);
-INSERT INTO activityImage (idActivity, idImage) VALUES (58,7);
-INSERT INTO activityImage (idActivity, idImage) VALUES (59,8);
-INSERT INTO activityImage (idActivity, idImage) VALUES (60,9);
-INSERT INTO activityImage (idActivity, idImage) VALUES (61,10);
+INSERT INTO activityImage (id,idActivity, image) VALUES (1, 52,'mikea01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (2, 53,'nosyhara01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (3, 54,'anjozorobe01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (4, 55,'kirindymitea01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (5, 56,'midongy01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (6, 57,'ambatovy01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (7, 58,'andranomena01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (8, 59,'beanka01.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (9, 60,'salaryeng.gif');
+INSERT INTO activityImage (id,idActivity, image) VALUES (10, 61,'bemanevika01.gif');
 
 INSERT INTO activity (idTypeActivity,date,title,description) VALUES ('A2','2008-01-01','Micro-endemism in Madagascar', 'A new hypothesis and model of micro-endemism in Madagascar and its application to the conservation of Malagasy biodiversity. (Presented in French.)');
 INSERT INTO activity (idTypeActivity,date,title,description) VALUES ('A2','2009-01-01','New Traversodontidae','Two new Traversodontidae from the Triassic of Madagascar: implications for paleoecology and the issue of endemic Malagasy terrestrial vertebrates in the Pre-Jurassic. (Presented in French.)');
@@ -990,41 +990,41 @@ INSERT INTO typePublication VALUES (1,'Malagasy Nature');
 INSERT INTO typePublication VALUES (2,'Guides');
 INSERT INTO typePublication VALUES (3,'Other publications'); 
 
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 1 - Les forêts sèches de Madagascar','This first issue of Malagasy Nature is a monograph of 200 pages on Madagascar dry forests, associated with inventories conducted by a group of scientists in Madagascar, which are among the founding members of the Association Vahatra.','2009-01-01',11,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 2','','2009-01-01',12,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 3: Biodiversity, exploration, and conservation of the natural habitats associated with the Ambatovy project','The third volume of Malagasy Nature presents a series of studies undertaken in the Ambatovy forests, near Moramanga. These studies were made within the framework of a research on the biodiversity partially covered forest zones, exposed to the mining by the Ambatovy Project. They were done to support the project conservation program.
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 1 - Les forêts sèches de Madagascar','This first issue of Malagasy Nature is a monograph of 200 pages on Madagascar dry forests, associated with inventories conducted by a group of scientists in Madagascar, which are among the founding members of the Association Vahatra.','2009-01-01','mn1.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 2','','2009-01-01','mn2.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 3: Biodiversity, exploration, and conservation of the natural habitats associated with the Ambatovy project','The third volume of Malagasy Nature presents a series of studies undertaken in the Ambatovy forests, near Moramanga. These studies were made within the framework of a research on the biodiversity partially covered forest zones, exposed to the mining by the Ambatovy Project. They were done to support the project conservation program.
 
-Besides the description of the mining project conservation and ecological monitoring programmes, this Volume 3 shows the diverse biological and ecological information on various groups in particular, the invertebrates, the vertebrates, as well as the plants. It also compiles the results of the inventories of a zone near the region of Andasibe which was extensively studied for decades, in particular emphasizing the new discoveries on the flora and the fauna for these last 20 years. The new data presented in this volume show the biological importance of the studied zones. They will form basic information for the ecological and specific changes monitoring within the local biodiversity in time and in space.','2010-01-01',13,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 4','','2010-01-01',14,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 5','','2011-01-01',15,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 6','','2013-01-01',16,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 7','','2013-01-01',17,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 8','','2014-01-01',18,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 9','','2015-01-01',19,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 10','','2016-01-01',20,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 11','','2017-01-01',21,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 12','','2017-01-01',22,41);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 13','','2019-01-01',23,42);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 14','','2020-01-01',24,43);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (1,'Volume 15','','2021-01-01',25,44);
+Besides the description of the mining project conservation and ecological monitoring programmes, this Volume 3 shows the diverse biological and ecological information on various groups in particular, the invertebrates, the vertebrates, as well as the plants. It also compiles the results of the inventories of a zone near the region of Andasibe which was extensively studied for decades, in particular emphasizing the new discoveries on the flora and the fauna for these last 20 years. The new data presented in this volume show the biological importance of the studied zones. They will form basic information for the ecological and specific changes monitoring within the local biodiversity in time and in space.','2010-01-01','mn3.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 4','','2010-01-01','mn4.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 5','','2011-01-01','mn5.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 6','','2013-01-01','mn6.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 7','','2013-01-01','mn7.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 8','','2014-01-01','mn8.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 9','','2015-01-01','mn9.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 10','','2016-01-01','mn10.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 11','','2017-01-01','mn11.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 12','','2017-01-01','mn12.gif','mn12_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 13','','2019-01-01','mn13.gif','mn13_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 14','','2020-01-01','mn14.gif','mn14_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (1,'Volume 15','','2021-01-01','mn15.gif','mn15_back.gif');
 
 
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Les chauves-souris de Madagascar','129 pp and 77 figures.','2011-01-01',27,46);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Les petits mammifères de Madagascar','176 pp and 100 figures.','2011-01-01',28,47);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Histoire naturelle des familles et sous-familles endémiques d''oiseaux de Madagascar','pp 148 and 54 figures.','2011-01-01',29,48);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Les Carnivora de Madagascar','pp 158 and 73 figures.','2012-01-01',30,49);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Les animaux et écosystèmes de l''Holocène disparus de Madagascar','pp 249, 34 figures and 20 plates.','2013-01-01',31,50);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Les amphibiens des zones arides du Sud et de l''Ouest de Madagascar','pp 180 and 129 figures','2014-01-01',32,51);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Les amphibiens du Nord de Madagascar','pp 354 and 197 figures, with pictograms.','2018-01-01',33,52);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Fourmis de Madagascar : un guide pour les 62 genres / Ants of Madagascar: a guide for the 62 genera','A bilingual French-English book. 253 pp.','2019-01-01',34,53);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (2,'Libellules et demoiselles de Madagascar et des Iles de l’Océan Indien occidentale / Dragonflies and damselflies of Madagascar and the western Indian Ocean Islands','A bilingual French-English book. 194 pp.','2021-01-01',35,54);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Les chauves-souris de Madagascar','129 pp and 77 figures.','2011-01-01','g1.gif','g1_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Les petits mammifères de Madagascar','176 pp and 100 figures.','2011-01-01','g2.gif','g2_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Histoire naturelle des familles et sous-familles endémiques d''oiseaux de Madagascar','pp 148 and 54 figures.','2011-01-01','g3.gif','g3_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Les Carnivora de Madagascar','pp 158 and 73 figures.','2012-01-01','g4.gif','g4_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Les animaux et écosystèmes de l''Holocène disparus de Madagascar','pp 249, 34 figures and 20 plates.','2013-01-01','g5.gif','g5_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Les amphibiens des zones arides du Sud et de l''Ouest de Madagascar','pp 180 and 129 figures','2014-01-01','g6.gif','g6_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Les amphibiens du Nord de Madagascar','pp 354 and 197 figures, with pictograms.','2018-01-01','g7.gif','g7_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Fourmis de Madagascar : un guide pour les 62 genres / Ants of Madagascar: a guide for the 62 genera','A bilingual French-English book. 253 pp.','2019-01-01','g8.gif','g8_back.gif');
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (2,'Libellules et demoiselles de Madagascar et des Iles de l’Océan Indien occidentale / Dragonflies and damselflies of Madagascar and the western Indian Ocean Islands','A bilingual French-English book. 194 pp.','2021-01-01','g9.gif','g9_back.gif');
 
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (3,'Publications','',null,36,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (3,'Memoirs and thesis','',null,37,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (3,'Atlas of selected land vertebrates of Madagascar','While the past few decades have seen numerous publications about the extraordinary and highly endemic terrestrial vertebrate fauna of Madagascar, ranging from technical papers, to species descriptions, and field guides, no detailed mapping exercise has been completed in the form of an atlas. The purpose of this book is that, to bring together information from numerous sources and present distributional maps for a wide range of taxa, descriptive texts to interpret patterns, and, for most, habitat models (Maxent). For the different reptiles, birds, and mammals treated herein, this atlas is intended as a reference for students, researchers, naturalists, and conservationists.','2013-01-01',38,null);
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (3,'The terrestrial protected areas of Madagascar: their history, description and biota.','','2018-01-01',26,45);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (3,'Publications','',null,'op1.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (3,'Memoirs and thesis','',null,'op2.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (3,'Atlas of selected land vertebrates of Madagascar','While the past few decades have seen numerous publications about the extraordinary and highly endemic terrestrial vertebrate fauna of Madagascar, ranging from technical papers, to species descriptions, and field guides, no detailed mapping exercise has been completed in the form of an atlas. The purpose of this book is that, to bring together information from numerous sources and present distributional maps for a wide range of taxa, descriptive texts to interpret patterns, and, for most, habitat models (Maxent). For the different reptiles, birds, and mammals treated herein, this atlas is intended as a reference for students, researchers, naturalists, and conservationists.','2013-01-01','op3.gif',null);
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (3,'The terrestrial protected areas of Madagascar: their history, description and biota.','','2018-01-01','op4.gif','op4_back.gif');
 
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (3,'The New Natural History of Madagascar','In 2003, Steve Goodman and Jonathan P. Benstead (University of Georgia)
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (3,'The New Natural History of Madagascar','In 2003, Steve Goodman and Jonathan P. Benstead (University of Georgia)
 published a large volume (+1700 pages) entitled The Natural History
 of Madagascar (University of Chicago Press). Steve was first editor
 and principal contributor to the volume, which was widely praised—
@@ -1048,13 +1048,13 @@ of which about one-third are Malagasy and the 2003 book less than onequarter. Th
 pages each. Princeton University Press has been highly collaborative in this
 project and several hundred copies of the book will be sent to Madagascar for
 distribution to different governmental and non-governmental collaborators
-and partners of Association Vahatra','2023-01-01',39,null);
+and partners of Association Vahatra','2023-01-01','nnhm.jpg',null);
 
-INSERT INTO publication(idType, title,description,date,idimagefront,idimageback) VALUES (3,'The Natural History of Madagascar',' Separated from the mainland of Africa for 160 million years, Madagascar has evolved an incredible wealth of biodiversity, with thousands of species that can be found nowhere else on earth. For instance, of its estimated 12,000 plant species, nearly 10,000 are unique to Madagascar. Malagasy animals are just as spectacular, from its almost forty currently recognized species of lemurs―a primate group found only here―to the numerous species of tiny dwarf chameleons. With astounding frequency scientists discover a previously unknown species in Madagascar―and at almost the same rate another natural area of habitat is degraded or destroyed, a combination that recently led conservation organizations to name Madagascar one of the most important and threatened conservation priorities on the planet.
+INSERT INTO publication(idType, title,description,date,imagefront,imageback) VALUES (3,'The Natural History of Madagascar',' Separated from the mainland of Africa for 160 million years, Madagascar has evolved an incredible wealth of biodiversity, with thousands of species that can be found nowhere else on earth. For instance, of its estimated 12,000 plant species, nearly 10,000 are unique to Madagascar. Malagasy animals are just as spectacular, from its almost forty currently recognized species of lemurs―a primate group found only here―to the numerous species of tiny dwarf chameleons. With astounding frequency scientists discover a previously unknown species in Madagascar―and at almost the same rate another natural area of habitat is degraded or destroyed, a combination that recently led conservation organizations to name Madagascar one of the most important and threatened conservation priorities on the planet.
 
 The Natural History of Madagascar provides the most comprehensive, up-to-date synthesis available of this island nation''s priceless biological treasures. Contributions by nearly three hundred world-renowned experts cover the history of scientific exploration in Madagascar, its geology and soils, climate, forest ecology, human ecology, marine and coastal ecosystems, plants, invertebrates, fishes, amphibians, reptiles, birds, and mammals. Detailed discussions of conservation efforts in Madagascar highlight several successful park reserve programs that could serve as models for other areas. Beautifully illustrated throughout, the book includes over one hundred color illustrations, with fifty color photos by nature photographer Harald Schütz, as well as more than three hundred black-and-white photographs and line drawings.
 
-The Natural History of Madagascar will be the invaluable reference for anyone interested in the Malagasy environment, from biologists and conservationists to policymakers and ecotourists. ','2003-01-01',40,null);
+The Natural History of Madagascar will be the invaluable reference for anyone interested in the Malagasy environment, from biologists and conservationists to policymakers and ecotourists. ','2003-01-01','nhm.jpg',null);
 
 
 

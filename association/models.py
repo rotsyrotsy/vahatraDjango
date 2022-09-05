@@ -21,7 +21,7 @@ class Member(models.Model):
     idtypemember = models.ForeignKey('Typemember', models.DO_NOTHING, db_column='idtypemember')
     mail = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    idimage = models.IntegerField(blank=True, null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = True

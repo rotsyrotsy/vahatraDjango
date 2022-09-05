@@ -52,7 +52,7 @@ class Location(models.Model):
         db_table = 'location'
 
 class Activityimage(models.Model):
-    idimage = models.ForeignKey(Image, models.DO_NOTHING, db_column='idimage')
+    image = models.CharField(max_length=255, blank=True, null=True)
     idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
 
     class Meta:

@@ -30,13 +30,6 @@ def detail(request):
         if request.method == 'GET':
             pub_id = request.GET.get('pub_id','')
             publication = get_object_or_404(Publication, pk = pub_id)
-            image = {}
-            try:
-                image['front'] = serializers.serialize('json', [ publication.idimagefront])
-                image['back'] = serializers.serialize('json', [ publication.idimageback])
-            except Image.DoesNotExist:
-                image['front'] = serializers.serialize('json', [ publication.idimagefront])
-            
             
             pubdetails = Publicationdetail.objects.filter(idpublication= pub_id)
             pubidauthors = Publicationauthor.objects.filter(idpublication=pub_id)
@@ -47,7 +40,7 @@ def detail(request):
             publication_serialize =  serializers.serialize('json', [ publication])
             pubdetails_serialize =  serializers.serialize('json', pubdetails)
             pubauthors_serialize =  serializers.serialize('json', pubauthors)
-            return  JsonResponse({ 'publication': publication_serialize, 'details': pubdetails_serialize, 'authors': pubauthors_serialize,'image': image})
+            return  JsonResponse({ 'publication': publication_serialize, 'details': pubdetails_serialize, 'authors': pubauthors_serialize})
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')

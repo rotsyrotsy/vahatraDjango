@@ -23,24 +23,32 @@
         <div class="container">
             <div class="blog-wrap remove-ext7">
                 <div class="row mrg40">
-                    {% for item in dict %}
+                    {% for activity in activities %}
                     <div class="col-md-4 col-sm-6 col-lg-4 fadeIn" data-wow-duration=".8s" data-wow-delay=".2s">
                         <div class="blog-box">
                             <div class="blog-thmb">
-                                <a href="{% url 'activities:activityDetail' item.activity.idtypeactivity.type item.activity.id %}" title=""><img src="{% static 'images/resources/post-img1.jpg' %}" alt="post-img1.jpg"></a>
+                                <a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">
+                                    {% if activity.activityimage_set.all %}
+                                        {% with activity.activityimage_set.all|first as image %}
+                                        <img src="{% static 'images/site/' %}{{image.image}}" alt="post-img1.jpg">
+                                        {% endwith %}
+                                    {% else %}
+                                    <img src="{% static 'images/resources/post-img1.jpg' %}" alt="post-img1.jpg">
+                                    {% endif %}
+                                </a>
                             </div>
                             <div class="blog-info">
                                 <ul class="pst-mta2">
                                     <li>
-                                    {% for person in item.persons %}
+                                    {% for person in activity.activityperson_set.all %}
                                         {{person.idperson.username}} {{person.idperson.name}},
                                     {% endfor %}
                                     </li>
                                 </ul>
-                                <h4><a href="{% url 'activities:activityDetail' item.activity.idtypeactivity.type item.activity.id %}" title="">{{item.activity.title | title}}</a></h4>
-                                {% if item.activity.note %}<p>{{item.activity.note}}</p>{% endif %}
-                                <p><i class="fa fa-calendar-o thm-clr"></i> {{item.activity.date |date:"Y"}}</p>
-                                <a href="{% url 'activities:activityDetail' item.activity.idtypeactivity.type item.activity.id %}" title="">Read More</a>
+                                <h4><a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">{{activity.title | title}}</a></h4>
+                                {% if activity.note %}<p>{{activity.note}}</p>{% endif %}
+                                <p><i class="fa fa-calendar-o thm-clr"></i> {{activity.date |date:"Y"}}</p>
+                                <a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">Read More</a>
                             </div>
                         </div>
                     </div>

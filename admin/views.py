@@ -186,7 +186,7 @@ def addActivity(request,type_activity='A1'):
             print(files)
             for f in files:
                 myfile = request.FILES['myfile']
-                fs = FileSystemStorage(location=folder) #defaults to   MEDIA_ROOT  
+                fs = FileSystemStorage(location=static('images/')) #defaults to   MEDIA_ROOT  
                 filename = fs.save(myfile.name, myfile)
                 file_url = fs.url(filename)
                 return render(request, 'upload.html', {

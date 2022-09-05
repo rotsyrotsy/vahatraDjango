@@ -8,8 +8,8 @@ class Publication(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
-    idimagefront = models.ForeignKey(Image, models.DO_NOTHING, related_name='idimagefront', db_column='idimagefront',null=True)
-    idimageback = models.ForeignKey(Image, models.DO_NOTHING,related_name='idimageback',  db_column='idimageback',null=True)
+    imagefront = models.CharField(max_length=255, blank=True, null=True)
+    imageback = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         db_table = 'publication'

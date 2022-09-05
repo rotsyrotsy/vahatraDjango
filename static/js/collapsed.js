@@ -30,7 +30,7 @@ function openNav(typevisit, lieu, visits) {
         imagevisit = document.getElementById("imagevisit");
         static = imagevisit.getAttribute('data-url');
         // for (let ii = 0; ii< images.length; ii++){
-            imagevisit.setAttribute('src', static+images[0]['fields']['name']);
+            imagevisit.setAttribute('src', static+images[0]['fields']['image']);
             
         // } 
       }
