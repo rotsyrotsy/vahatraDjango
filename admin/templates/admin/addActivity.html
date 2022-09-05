@@ -55,8 +55,32 @@
                   
                   <div class="form-group">
                     <label for="note">Note</label>
-                    <textarea class="form-control" id="note"name="note" rows="2"></textarea>
+                    <textarea class="form-control" id="note" name="note" rows="2"></textarea>
                   </div>
+
+                  {% if type.id == 'A1' %}
+                      <div class="form-group">
+                          <label for="selectTypeVisit">Type of visit</label>
+                          <select class="form-control" id="selectTypeVisit" name="idtypesubactivity" required>
+                              {% for item in typevisit %}
+                                  <option value="{{item.id}}">{{item.type}}</option>
+                              {% endfor %}
+                          </select>
+                      </div>
+                      <div class="form-group">
+                          <label for="selectLocation">Location</label>
+                          <select class="form-control" id="selectLocation" name="idlocation" required>
+                              {% for location in locations %}
+                                  <option value="{{item.id}}">{{location.name}}</option>
+                              {% endfor %}
+                          </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="end">End of visit</label>
+                        <input type="date" class="form-control" id="end" name="dateend" placeholder="dd/mm/yyyy">
+                      </div>
+                  {% endif %}
+                  
                   <div class="form-group">
                     <button type="button" class="btn btn-primary" onclick="addCollaborators()">
                         <i class="ti-plus"></i> Add collaborators

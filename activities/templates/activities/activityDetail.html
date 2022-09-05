@@ -50,7 +50,7 @@
                             </div>
                             <div class="blog-detail-desc">
                                 {% if activity.note %}<p>{{activity.note}}</p>{% endif %}
-                                <p>{{activity.description}}</p>
+                                {% if activity.description %}<p>{{activity.description}}</p>{% endif %}
                                 {% if activity.activityinstitution_set.all or activity.activityperson_set.all %}
                                 <p>
                                     <strong>Our collaborators</strong>

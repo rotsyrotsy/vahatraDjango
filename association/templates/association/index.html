@@ -306,7 +306,15 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb">
-                                            <a onclick="openmodal({{activity.id}}, '{{activity.idtypeactivity.type}}')" title=""><img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg"></a>
+                                            <a onclick="openmodal({{activity.id}}, '{{activity.idtypeactivity.type}}')" title="">
+                                                {% if activity.activityimage_set.all %}
+                                                    {% with activity.activityimage_set.all|first as image %}
+                                                    <img src="{% static 'images/site/' %}{{image.image}}" alt="{{image.image}}">
+                                                    {% endwith %}
+                                                {% else %}
+                                                    <img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg">
+                                                {% endif %}
+                                            </a>
                                         </div>
                                         <div class="evnt-info">
                                             <h4><a onclick="openmodal({{activity.id}}, '{{activity.idtypeactivity.type}}')" title="">{{activity.title | title}}</a></h4>
@@ -319,23 +327,23 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-                                {% for dict in upcoming_publications %}
+                                {% for publication in upcoming_publications %}
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb" >
-                                            <a  class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{dict.publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title=""><img src="{% static 'images/publication/' %}{{dict.publication.idimagefront.name}}" alt="{{dict.publication.title}}" ></a>
+                                            <a  class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title=""><img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" ></a>
                                         </div>
                                         <div class="evnt-info">
-                                            <h4><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{dict.publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{dict.publication.title| title}}</a></h4>
+                                            <h4><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{publication.title| title}}</a></h4>
                                             <ul class="pst-mta">
-                                                <li class="thm-clr">{{dict.publication.date | date:"Y"}}</li>
+                                                <li class="thm-clr">{{publication.date | date:"Y"}}</li>
                                                 <li><i class="fa fa-user-o thm-clr"></i>
-                                                    {% for pubauthor in dict.authors %}
-                                                    {{pubauthor.idperson.name}} {{pubauthor.idperson.username}}, 
+                                                    {% for pubauthor in publication.publicationauthor_set.all %}
+                                                        {{pubauthor.idperson.name}} {{pubauthor.idperson.username}}, 
                                                     {% endfor %}
                                                 </li>
                                             </ul>
-                                            <p>{{dict.publication.description|truncatewords:10 }}</p>
+                                            <p>{{publication.description|truncatewords:10 }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -374,16 +382,24 @@
                             <div class="rcnt-wrp">
                                 {% for newpub in new_pubs %}
                                 <div class="rcnt-bx">
-                                    <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title=""><img src="{% static 'images/publication/' %}{{newpub.idimagefront.name}}" width="68"  alt="rcnt-img1.jpg"></a>
+                                    <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title=""><img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="rcnt-img1.jpg"></a>
                                     <div class="rcnt-inf">
-                                        <h6><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{newpub.title}}</a></h6>
+                                        <h6><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{newpub.title}}</a></h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{newpub.year}}</span>
                                     </div>
                                 </div>
                                 {% endfor %}
                                 {% for item in new_events %}
                                 <div class="rcnt-bx">
-                                    <a onclick="openmodal({{item.id}},'{{item.idtypeactivity.type}}' )" title=""><img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg"></a>
+                                    <a onclick="openmodal({{item.id}},'{{item.idtypeactivity.type}}' )" title="">
+                                        {% if item.activityimage_set.all %}
+                                            {% with item.activityimage_set.all|first as image %}
+                                            <img src="{% static 'images/site/' %}{{image.image}}" width="68" alt="{{image.image}}">
+                                            {% endwith %}
+                                        {% else %}
+                                            <img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
+                                        {% endif %}
+                                    </a>
                                     <div class="rcnt-inf">
                                         <small>{{item.idtypeactivity.type}}</small><br>
                                         <h6><a onclick="openmodal({{item.id}},'{{item.idtypeactivity.type}}' )" title="">{{item.title }} </a></h6>
@@ -491,17 +507,21 @@
                     if (data['lieu']){
                         lieu = JSON.parse(data["lieu"])[0];
                     }
-                    var images = data["images"];
                     $('#titrePub').text(activity['fields']['title']);
                     if (lieu !==null){
                         $('#titrePub').text(activity['fields']['title']+" : "+lieu['fields']['name']);
                     }
                     
-                    static = '{% static "images/"%}';
+                    static = '{% static "images/site/"%}';
                 
-                    var img = '<div  class="row"><div class="col-md-12 col-sm-12 col-lg-12">\
-                                <img src="'+static+'/resources/blog-detail-img.jpg" alt="">\
-                            </div></div>';
+                    var img = '<div  class="row"><div class="col-md-12 col-sm-12 col-lg-12">';
+                        try{
+                            var images = JSON.parse(data["images"]);
+                            img += '<img src="'+static+'/'+images[0]['fields']['image']+'" alt="">';
+                        }catch(e) {
+                            img += '<img src="'+static+'/resources/blog-detail-img.jpg" alt="">';
+                        }
+                    img += '</div></div>';
                     $('#content').append(img);
 
                     let d1 = new Date(activity['fields']['date']);

@@ -25,15 +25,9 @@ def index(request):
     
     upcoming_events = Activity.objects.filter(date__gte=date.today())
 
-    upcoming_publications = []
-    dict = {}
-    pubs = Publication.objects.filter(date__gt=date.today())
+    upcoming_publications = Publication.objects.filter(date__gt=date.today())
     new_pubs = Publication.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))
     new_events = Activity.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))
-    for pub in pubs:
-        dict['publication']=pub
-        dict['authors']=Publicationauthor.objects.filter(idpublication = pub.id)
-        upcoming_publications.append(dict)
     
 
     context["type_member_list"]= type_member_list

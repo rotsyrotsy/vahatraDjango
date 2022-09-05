@@ -106,7 +106,7 @@ def ajaxActivityDetail(request):
             }
             images= Activityimage.objects.filter(idactivity=activity.id)
             if len(images)>0:
-                response['image'] = serializers.serialize('json',images)
+                response['images'] = serializers.serialize('json',images)
         
             authorsactivity= Activityperson.objects.filter(idactivity=activity.id)
             authors=[]

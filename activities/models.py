@@ -53,7 +53,7 @@ class Location(models.Model):
 
 class Activityimage(models.Model):
     image = models.CharField(max_length=255, blank=True, null=True)
-    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+    idactivity = models.ForeignKey('Activity',  db_column='idactivity',on_delete =models.CASCADE)
 
     class Meta:
         db_table = 'activityimage'
@@ -68,14 +68,14 @@ class Intervenantfieldschool(models.Model):
 
 
 class Activityperson(models.Model):
-    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+    idactivity = models.ForeignKey('Activity',  db_column='idactivity', on_delete =models.CASCADE)
     idperson = models.ForeignKey(Person, models.DO_NOTHING, db_column='idperson')
 
     class Meta:
         db_table = 'activityperson'
 
 class Activityinstitution(models.Model):
-    idactivity = models.ForeignKey(Activity, models.DO_NOTHING, db_column='idactivity')
+    idactivity = models.ForeignKey(Activity, db_column='idactivity', on_delete =models.CASCADE)
     idinst = models.ForeignKey(Institution, models.DO_NOTHING, db_column='idinst')
 
     class Meta:

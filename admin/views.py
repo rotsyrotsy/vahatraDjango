@@ -3,7 +3,7 @@ from urllib import request
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import  HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
-from activities.models import Activity, Activityperson, Typeactivity,Activityinstitution,Visit
+from activities.models import Activity, Activityimage, Activityperson, Typeactivity,Activityinstitution,Visit,Typesubactivity,Location
 from admin.models import Administrator
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
@@ -11,9 +11,8 @@ from django.core.mail import send_mail,EmailMessage
 from django.db.models import Min,Max
 from math import ceil
 from sequences import get_next_value
-from django.core.files.storage import FileSystemStorage
-from django.templatetags.static import static
 from association.models import Institution, Person
+import os
 
 type_activity = Typeactivity.objects.all()
 context = {
@@ -134,6 +133,14 @@ def listActivities(request,activity_id="A1",page=1,subactivity_id=None, year = N
 
     return render(request, "admin/list.html",context)
 
+
+def _delete_file(path):
+   """ Deletes file from filesystem. """
+   path = 'static/images/site/'+path
+   if os.path.isfile(path):
+       os.remove(path)
+
+
 def deleteActivity(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
@@ -141,7 +148,10 @@ def deleteActivity(request):
         if request.method == 'POST':
             id_activity = request.POST.get('id_activity','')
             try:
-                Activity.objects.get(pk=id_activity).delete()
+                activity = Activity.objects.get(pk=id_activity)
+                for activityimage in activity.activityimage_set.all():
+                    _delete_file(activityimage.image)
+                activity.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
             else:
@@ -151,54 +161,72 @@ def deleteActivity(request):
         return HttpResponseBadRequest('Invalid request')
 
 def addActivity(request,type_activity='A1'):
+    if 'type' in context:
+        del context['type']
+    if 'success' in context:
+        del context['success']
+    if 'error' in context:
+        del context['error']
+
     type = get_object_or_404(Typeactivity,pk=type_activity)
     context["type"]=type
-    context["persons"]=Person.objects.all()
-    context["institutions"]=Institution.objects.all()
+    context["persons"]=Person.objects.all().order_by('name')
+    context["institutions"]=Institution.objects.all().order_by('name')
+    context["typevisit"]=Typesubactivity.objects.all()
+    context["locations"]=Location.objects.all().order_by('name')
+
     if request.method == 'POST':
-        
         if request.POST['idtypeactivity']=="" or request.POST['title']=="":
             context["error"]="Fields 'Type of activity' and 'Title' are required."
             return render(request, "admin/addActivity.html",context)
+        
+        typeactivity = Typeactivity.objects.get(pk=request.POST['idtypeactivity'])
+        context["type"]=typeactivity
+        
+        if request.POST['idtypeactivity']=='A1':
+            if request.POST['idlocation']==""  or request.POST['idtypesubactivity']=="":
+                context["error"]="Fields 'Type of visit' and 'Location' are required."
+                return render(request, "admin/addActivity.html",context)
 
-        activity = Activity(idtypeactivity=Typeactivity.objects.get(pk=request.POST['idtypeactivity']),title=request.POST['title'])
+        activity = Activity(idtypeactivity=typeactivity,title=request.POST['title'])
         
         names = ['description', 'date', 'note']
         values = [request.POST.get(p) for p in names]
+        
+        counter = 0
+        for value in values:
+            if value!="":
+                setattr(activity, names[counter],value)
+            counter += 1
 
-        for i, value in enumerate([v for v in values if v]):
-            setattr(activity, names[i],value)
-
-        # activity.save()
+        activity.save()
 
         lastActivity = Activity.objects.last()
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
                 actpers = Activityperson(idactivity = lastActivity, idperson = Person.objects.get(pk=values))
-                # actpers.save()
+                actpers.save()
             if 'fkidinst' in keys:
                 actpers = Activityinstitution(idactivity = lastActivity, idinst = Institution.objects.get(pk=values))
-                # actpers.save()
+                actpers.save()
 
         if request.FILES:
             files = request.FILES.getlist('files')
             print(files)
             for f in files:
-                myfile = request.FILES['myfile']
-                fs = FileSystemStorage(location=static('images/')) #defaults to   MEDIA_ROOT  
-                filename = fs.save(myfile.name, myfile)
-                file_url = fs.url(filename)
-                return render(request, 'upload.html', {
-                    'file_url': file_url
-                })
-        context["success"]="New activity inserted successfully to the database."
-
-        
+                image = Activityimage(image=f.name, idactivity = lastActivity)
+                image.save()
+                handle_uploaded_file(f)
+                
+        context["success"]="New "+typeactivity.type+" inserted successfully."
 
     return render(request, "admin/addActivity.html",context)
 
-
+def handle_uploaded_file(f):
+    with open('static/images/site/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 def addPerson(request):
     if request.method == 'POST':
