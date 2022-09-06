@@ -67,13 +67,22 @@
                               {% endfor %}
                           </select>
                       </div>
+                      <div id="fieldschool" style="margin-left:5rem"></div>
                       <div class="form-group">
                           <label for="selectLocation">Location</label>
-                          <select class="form-control" id="selectLocation" name="idlocation" required>
-                              {% for location in locations %}
-                                  <option value="{{item.id}}">{{location.name}}</option>
-                              {% endfor %}
-                          </select>
+                          <div class="input-group">
+                              <select class="form-control" id="selectLocation" name="idlocation" required>
+                                  {% for location in locations %}
+                                      <option value="{{location.id}}">{{location.name}}</option>
+                                  {% endfor %}
+                              </select>                            
+                              <div class="input-group-append">
+                                <a href="{% url 'admin:addLocation' %}" type="button" class="btn btn-outline-success" >
+                                  <i class="ti-plus"></i> Add new location
+                                </a> 
+                              </div>
+                          </div>
+                          
                       </div>
                       <div class="form-group">
                         <label for="end">End of visit</label>
@@ -154,5 +163,43 @@
     actualBtn.addEventListener('change', function(){
       fileChosen.value = this.files.length+" files selected"
     })
+
+    $('#selectTypeVisit').change(function(){
+      val = $(this).find(":selected").val();
+      if (val == 'SA2'){
+        var addnew = '<div class="row"><button type="button" class="btn btn-primary btn-sm" onclick="addFS()">\
+                        <i class="ti-plus"></i> Add institution that took part\
+                    </button></div>';
+              
+        var select = '<div class="row"><div class="form-group row"><div class="col text-primary">\
+                  <label for="instFS">Institution that took part</label>\
+                        <div><select class="form-control form-control-sm" id="instFS" name="fsidinst0">';
+        select += '{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
+        select += '</select></div></div>';
+        select += '<div class="col text-primary"><label for="deptFS">Department</label>\
+                        <select class="form-control form-control-sm" id="deptFS" name="fsiddept0">';
+        select += '{% for dept in departments %}<option value="{{dept.id}}">{{dept.name}}</option>{% endfor %}';
+        select += '</select></div></div></div></div>';
+        $('#fieldschool').html(addnew+select);
+      }
+    });
+
+    var clickFS = 1;
+    function addFS (){
+      var select = '<div class="row"><div class="form-group row"><div class="col text-primary">\
+                  <label for="instFS">Institution that took part</label>\
+                        <div><select class="form-control form-control-sm" id="instFS" name="fsidinst'+clickFS+'">\
+                          <option value="">--</option>';
+        select += '{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
+        select += '</select></div></div>';
+        select += '<div class="col text-primary"><label for="deptFS">Department</label>\
+                        <select class="form-control form-control-sm" id="deptFS" name="fsiddept'+clickFS+'">\
+                          <option value="">--</option>';
+        select += '{% for dept in departments %}<option value="{{dept.id}}">{{dept.name}}</option>{% endfor %}';
+        select += '</select></div></div></div></div>';
+        $('#fieldschool').append(select);
+        clickFS += 1;
+    };
+
 </script>
 {% endblock %}

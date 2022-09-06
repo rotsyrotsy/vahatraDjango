@@ -3,7 +3,7 @@ from urllib import request
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import  HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
-from activities.models import Activity, Activityimage, Activityperson, Typeactivity,Activityinstitution,Visit,Typesubactivity,Location
+from activities.models import Activity, Activityimage, Activityperson, Fieldschool,Typeactivity,Activityinstitution,Visit,Typesubactivity,Location
 from admin.models import Administrator
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
@@ -11,18 +11,20 @@ from django.core.mail import send_mail,EmailMessage
 from django.db.models import Min,Max
 from math import ceil
 from sequences import get_next_value
-from association.models import Institution, Person
+from association.models import Department, Institution, Person
 import os
 
 type_activity = Typeactivity.objects.all()
-context = {
-        "type_activity" : type_activity,
-        }
+
 
 def index(request):
+    context = {
+        "type_activity" : type_activity,
+    }
     if 'admin' not in request.session:
         return HttpResponseRedirect(reverse("admin:login"))
     else:
+        print(request.session['admin'])
         return render(request, "admin/index.html",context)
 
 def login(request):
@@ -89,10 +91,9 @@ def reset_password(request):
         return render(request, "admin/reset_password.html")
 
 def listActivities(request,activity_id="A1",page=1,subactivity_id=None, year = None):
-    if 'subactivity_id' in context:
-        del context['subactivity_id']
-    if 'year' in context:
-        del context['year']
+    context = {
+        "type_activity" : type_activity,
+        }
 
     type = get_object_or_404(Typeactivity,pk=activity_id)
     context["type"]=type
@@ -160,18 +161,16 @@ def deleteActivity(request):
     else:
         return HttpResponseBadRequest('Invalid request')
 
-def addActivity(request,type_activity='A1'):
-    if 'type' in context:
-        del context['type']
-    if 'success' in context:
-        del context['success']
-    if 'error' in context:
-        del context['error']
+def addActivity(request,idtypeactivity='A1'):
+    context = {
+        "type_activity" : type_activity,
+    }
 
-    type = get_object_or_404(Typeactivity,pk=type_activity)
+    type = get_object_or_404(Typeactivity,pk=idtypeactivity)
     context["type"]=type
     context["persons"]=Person.objects.all().order_by('name')
     context["institutions"]=Institution.objects.all().order_by('name')
+    context["departments"]=Department.objects.all().order_by('name')
     context["typevisit"]=Typesubactivity.objects.all()
     context["locations"]=Location.objects.all().order_by('name')
 
@@ -218,7 +217,34 @@ def addActivity(request,type_activity='A1'):
                 image = Activityimage(image=f.name, idactivity = lastActivity)
                 image.save()
                 handle_uploaded_file(f)
+        
+        
+        if request.POST['idtypeactivity']=='A1': # if activity is visit
+            visit = Visit(idactivity = lastActivity, idlocation = Location.objects.get(pk = request.POST['idlocation']),idtypesubactivity=Typesubactivity.objects.get(pk= request.POST['idtypesubactivity']))
+            if (request.POST['dateend']!=""):
+                visit.dateend = request.POST['dateend']
+            visit.save()
+            if request.POST['idtypesubactivity'] == 'SA2': # if field school
+                fsnumber = 0
+                data = request.POST.items()
+                for keys, values in data:
+                    if 'fsidinst' in keys or 'fsiddept' in keys:
+                        fsnumber += 1
+
+                fsnumber = int(fsnumber/2)
+                for i in range(0,fsnumber):
+                    fs = Fieldschool(idvisit = Visit.objects.last())
+                    valueInst = request.POST.get('fsidinst'+str(i))
+                    valueDept = request.POST.get('fsiddept'+str(i))
+                    if valueInst!="":
+                        print('fsidinst'+str(i)+" = "+valueInst)
+                        setattr(fs,'idinst',Institution.objects.get(pk = valueInst))
+                    if valueDept!="":
+                        print('fsiddept'+str(i)+" = "+valueDept)
+                        setattr(fs,'iddept',Department.objects.get(pk=valueDept))
+                    fs.save()
                 
+
         context["success"]="New "+typeactivity.type+" inserted successfully."
 
     return render(request, "admin/addActivity.html",context)
@@ -229,18 +255,31 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 def addPerson(request):
+    context = {
+        "type_activity" : type_activity,
+    }
     if request.method == 'POST':
         person = Person(title=request.POST['title'], name=request.POST['name'],username=request.POST['username'])
         person.save()
-        context["success"]="New person inserted successfully to the database."
+        context["success"]="New person inserted successfully."
     return render(request, "admin/addPerson.html",context)
 
 def addInstitution(request):
+    context = {
+        "type_activity" : type_activity,
+    }
     if request.method == 'POST':
         nextId= get_next_value("institution")
         nextId = "I"+str(nextId)
         inst = Institution(id = nextId, name=request.POST['name'])
         inst.save()
-        context["success"]="New institution inserted successfully to the database."
+        context["success"]="New institution inserted successfully."
     return render(request, "admin/addInstitution.html",context)
 
+def addLocation(request):
+    context = {
+        "type_activity" : type_activity,
+    }
+    if request.method == 'POST':
+        context["success"]="New location inserted successfully."
+    return render(request, "admin/addLocation.html",context)

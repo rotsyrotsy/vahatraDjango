@@ -16,8 +16,8 @@ urlpatterns = [
     path("listActivities/<str:activity_id>/year-<int:year>/page-<int:page>", views.listActivities, name="listActivities"),
     path("deleteActivity/", views.deleteActivity, name="deleteActivity"),
     path("addActivity/", views.addActivity, name="addActivity"),
-    path("addActivity/<str:type_activity>", views.addActivity, name="addActivity"),
+    path("addActivity/<str:idtypeactivity>", views.addActivity, name="addActivity"),
     path("addPerson/", views.addPerson, name="addPerson"),
     path("addInstitution/", views.addInstitution, name="addInstitution"),
-
+    path("addLocation/", views.addLocation, name="addLocation"),
 ]

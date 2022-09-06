@@ -1519,6 +1519,8 @@ footer {
   float: left;
   width: 100%;
   margin-bottom: 50px;
+  overflow: auto;
+  height: 400px;
 }
 .wdgt-box > p {
   margin-bottom: 0;

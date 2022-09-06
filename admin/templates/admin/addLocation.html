@@ -1,0 +1,89 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Add new Location</h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:addLocation' %}" method="post">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <label for="Name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                  </div>
+                  
+                  <div id="map" class="map" style="width: 100%; height: 400px;" ></div>
+                  {% if success %}
+                    <div class="alert alert-success">
+                        {{ success }}
+                    </div>
+                  {% endif %}
+                  <br>
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:index' %}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    var img = "{% static 'images/map-icon.png' %}";
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+        ],
+        view: new ol.View({
+        center: ol.proj.fromLonLat([ 47.5511327993, -18.9167]),
+        zoom: 5
+        })
+    });
+    var options = {
+          key: '0fd71b372e004a6498f579f0d6c1589c',
+          // you will need to become a customer to get a geosearch key
+          // language: 'fr',
+          // onSelect: (params) => { console.log('hello from onSelect', params) },
+          position: 'topright'
+        };
+
+        // add geosearch to the map
+        var controlGeosearch = new OpenCageGeosearchControl(options);
+        map.addControl(controlGeosearch);
+
+    // var layer = new ol.layer.Vector({
+    //     source: new ol.source.Vector({
+    //         features: [
+    //             new ol.Feature({
+    //                 geometry: new ol.geom.Point(ol.proj.fromLonLat([47.5511327993, -18.9167]))})
+    //         ]
+    //     }),
+    //     style: new ol.style.Style({
+    //         image: new ol.style.Icon({
+    //         anchor: [0.5, 1],
+    //         src: img,
+    //         scale: 0.5
+    //         }),
+    //         text : new ol.style.Text({
+    //             text: 'Association Vahatra',
+    //             scale: 1.5,
+    //             fill: new ol.style.Fill({
+    //                 color: 'red',
+    //             })
+    //         })
+    //     })
+    // });
+    // map.addLayer(layer);
+</script>
+{% endblock %}

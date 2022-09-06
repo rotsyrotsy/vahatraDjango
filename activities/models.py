@@ -2,7 +2,7 @@ from django.db import models
 from association.models import Department, Institution,  Person, Image
 
 class Fieldschool(models.Model):
-    idvisit = models.ForeignKey('Visit', models.DO_NOTHING, db_column='idvisit')
+    idvisit = models.ForeignKey('Visit', db_column='idvisit',on_delete =models.CASCADE)
     idinst = models.ForeignKey(Institution, models.DO_NOTHING, db_column='idinst')
     iddept = models.ForeignKey(Department, models.DO_NOTHING, db_column='iddept', blank=True, null=True)
 
@@ -35,7 +35,7 @@ class Activity(models.Model):
         db_table = 'activity'
 
 class Visit(models.Model):
-    idactivity = models.ForeignKey('Activity', models.DO_NOTHING, db_column='idactivity')
+    idactivity = models.ForeignKey('Activity', db_column='idactivity',on_delete =models.CASCADE)
     idtypesubactivity = models.ForeignKey('Typesubactivity', models.DO_NOTHING, db_column='idtypesubactivity')
     idlocation = models.ForeignKey('Location', models.DO_NOTHING, db_column='idlocation')
     dateend = models.DateField(blank=True, null=True)
