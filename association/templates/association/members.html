@@ -32,7 +32,7 @@
                     {% for member in members %}
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="team-box2">
-                            <img src="{% static 'images/resources/team-img2-1.jpg' %}" alt="team-img2-1.jpg">
+                            <img src="{% static 'images/members/' %}{{member.image}}" alt="{{ member.username }}">
                             <div class="team-info2">
                                 <h4>{{member.title}} {{ member.username }} {{ member.name }}</h4>
                                 {% if member.description %}

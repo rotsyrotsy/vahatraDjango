@@ -5,7 +5,7 @@ select m.id ,pers.title as title, pers.name, pers.username, m.description as des
         when d.name is not null then CONCAT(p.name ,' : ', i.name , ' in ' ,d.name) 
         when i.name is not null and d.name is null then CONCAT(p.name ,' : ', i.name ) 
         else p.name
-    END post, m.idTypeMember
+    END post, m.idTypeMember,m.image
     from "member" m 
     join person pers on pers.id = m.idPerson
     join memberpostinst m2 on m2.idmember = m.id 
@@ -17,9 +17,9 @@ select m.id ,pers.title as title, pers.name, pers.username, m.description as des
 
 CREATE OR REPLACE VIEW memberViewPosts as (
     select id ,title ,name,username, description,
-    mail,string_agg(post,', ') as posts , idTypeMember
+    mail,string_agg(post,', ') as posts , idTypeMember,image
     from memberViewPost
-    group by id,title ,name,username, description,mail,idTypeMember
+    group by id,title ,name,username, description,mail,idTypeMember,image
 );
 
 CREATE OR REPLACE VIEW intervenantFieldSchool  as (

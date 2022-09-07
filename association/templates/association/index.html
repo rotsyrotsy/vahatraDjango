@@ -305,7 +305,8 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb">
-                                            <a onclick="openmodal({{activity.id}}, '{{activity.idtypeactivity.type}}')" title="">
+                                            
+                                            <a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">
                                                 {% if activity.activityimage_set.all %}
                                                     {% with activity.activityimage_set.all|first as image %}
                                                     <img src="{% static 'images/site/' %}{{image.image}}" alt="{{image.image}}">
@@ -316,7 +317,7 @@
                                             </a>
                                         </div>
                                         <div class="evnt-info">
-                                            <h4><a onclick="openmodal({{activity.id}}, '{{activity.idtypeactivity.type}}')" title="">{{activity.title | title}}</a></h4>
+                                            <h4><a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">{{activity.title | title}}</a></h4>
                                             <ul class="pst-mta">
                                                 <li class="thm-clr">{{activity.date}}</li>
                                                 <li>{{activity.idtypeactivity.type}}</li>
@@ -390,7 +391,7 @@
                                 {% endfor %}
                                 {% for item in new_events %}
                                 <div class="rcnt-bx">
-                                    <a onclick="openmodal({{item.id}},'{{item.idtypeactivity.type}}' )" title="">
+                                    <a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
                                             <img src="{% static 'images/site/' %}{{image.image}}" width="68" alt="{{image.image}}">
@@ -401,7 +402,7 @@
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{item.idtypeactivity.type}}</small><br>
-                                        <h6><a onclick="openmodal({{item.id}},'{{item.idtypeactivity.type}}' )" title="">{{item.title }} </a></h6>
+                                        <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         
                                     </div>
@@ -430,7 +431,7 @@
                 <div class="testi-car-two">
                   
                     <div class="testi-itm" id="messageyearfocus">
-                        <i><img src="{% static 'images/resources/testi-img1.jpg' %} " alt="testi-img1.jpg"></i>
+                        <i><img src="{% static 'images/members/' %}{{message_of_year.idmember.image}} " width="106" height="106" alt="testi-img1.jpg"></i>
                         <div class="testi-info">
                             <h4>Achille P. RASELIMANANA</h4>
              
@@ -488,80 +489,3 @@
 </section>
   {% endblock content %}
 
-
-  {% block js %}
-  <script type="text/javascript"> 
-  
-    function openmodal( id, typeactivity) {
-        $('#content').empty();
-        var model = $('.contact-form-model-wrap');
-            $.ajax({
-                url : "{% url 'activities:ajaxActivityDetail' %}",
-                dataType: 'JSON',
-                type:"GET",
-                data:{id:id},
-                success:function(data){
-                    var activity = JSON.parse(data["activity"])[0];
-                    var lieu = null;
-                    if (data['lieu']){
-                        lieu = JSON.parse(data["lieu"])[0];
-                    }
-                    $('#titrePub').text(activity['fields']['title']);
-                    if (lieu !==null){
-                        $('#titrePub').text(activity['fields']['title']+" : "+lieu['fields']['name']);
-                    }
-                    
-                    static = '{% static "images/site/"%}';
-                
-                    var img = '<div  class="row"><div class="col-md-12 col-sm-12 col-lg-12">';
-                        try{
-                            var images = JSON.parse(data["images"]);
-                            img += '<img src="'+static+'/'+images[0]['fields']['image']+'" alt="">';
-                        }catch(e) {
-                            img += '<img src="'+static+'/resources/blog-detail-img.jpg" alt="">';
-                        }
-                    img += '</div></div>';
-                    $('#content').append(img);
-
-                    let d1 = new Date(activity['fields']['date']);
-                    d1 =  d1.toLocaleString('default', { month: 'long' })+", "+d1.getFullYear();
-
-                    subtitles = "<ul class=\"pst-mta\"><li class=\"thm-clr\">"+d1+"</li>";
-                    subtitles +="</ul>";
-
-                    $('#content').append(subtitles);
-                    
-                    try{
-                        var authors = JSON.parse(data["authors"]);
-                        listauthors = "<p><i class=\"fa fa-user-o thm-clr\"></i><strong>";
-                        for (let i=0; i<authors.length; i++){
-                            const name = authors[i]['fields']['name'].replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
-                            const username = authors[i]['fields']['username'].replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
-                            listauthors += name+" "+username+", ";
-                        }
-                        listauthors += "</strong><p>";
-                        $('#content').append(listauthors);
-                    }catch(e) {
-       
-                    }
-
-                    paragraph = "<p>"+activity['fields']['description']+"</p>";
-                    $('#content').append(paragraph);
-
-
-                    model.addClass('active');
-                },  
-                error:function(data){
-                    console.log('error')
-                    console.log(data)
-                }
-            });
-        return false;
-    };
-    $('.model-close').on('click', function () {
-      $('.contact-form-model-wrap').removeClass('active');
-      return false;
-    });
-  
-  </script>
-  {% endblock %}

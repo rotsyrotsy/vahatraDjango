@@ -55,6 +55,7 @@ class Memberviewposts(models.Model):
     mail = models.CharField(max_length=100, blank=True, null=True)
     posts = models.TextField(blank=True, null=True)
     idtypemember = models.IntegerField(blank=True, null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
