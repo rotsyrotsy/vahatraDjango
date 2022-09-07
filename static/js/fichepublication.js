@@ -60,11 +60,11 @@ $('.volume-btn').on('click', function () {
                 var ul = "<ul>";
                 for (let i = 0; i < details.length; i++) {
                     if (details[i]['fields']['pdf']==null){
-                        ul += "<li>"+details[i]['fields']['name']+"</li>";
+                        ul += "<div class='horizontal_dotted_line'><div><li>"+details[i]['fields']['name']+"</li></div><div class='dotted'></div></div>";
                     }else{
-                        ul += "<li><a title=\"export to pdf\" href='"+staticpdf+details[i]['fields']['pdf']+"'>"+details[i]['fields']['name']+"</a></li>";
+                        ul += "<div class='horizontal_dotted_line'><div><li>"+details[i]['fields']['name']+"</li></div><div class='dotted'></div>\
+                        <div><a class='btn btn-inverse-info btn-icon' title='"+details[i]['fields']['name']+"' href='"+staticpdf+details[i]['fields']['pdf']+"'><i class=\"ti-printer btn-icon-append\"></i> PDF</a></div></div>";
                     }
-                    
                 }
                 ul += "</ul>";
                 descriPub += ul;

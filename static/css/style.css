@@ -449,7 +449,7 @@ nav ul ul,
 .srch-cls-btn,
 .rsnp-mnu,
 .sidepanel,
-.plr-box > i
+.plr-box > i, .plr-box .img
 {
   -webkit-transition: all 600ms cubic-bezier(0.175, 0.885, 0.320, 1); /* older webkit */
   -webkit-transition: all 600ms cubic-bezier(0.175, 0.885, 0.320, 1.275); 
@@ -464,7 +464,7 @@ nav ul ul,
 }
 
 .brd-rd50,
-.pilr-box > i
+.pilr-box > i,.plr-box .img
 {
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -957,21 +957,56 @@ header.style1.sticky-active nav > div > ul > li {color: #666;}
 }
 .plr-box > i {
   color: #2a486c;
-  font-size: 55px;
   display: inline-block;
   background-color: #fff;
   border: 1px solid #2a486c;
   -webkit-border-radius: 50%;
   border-radius: 50%;
-  height: 106px;
-  width: 106px;
   line-height: 104px;
   position: relative;
   z-index: 1;
   margin-bottom: 10px;
+  height: 106px;
+  width: 106px;
+  font-size: 55px;
 }
+
+.plr-box .img {
+  color: #2a486c;
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid #2a486c;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  line-height: 104px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 10px;
+  height: 106px;
+  width: 106px;
+}
+
+
 .plr-box:hover > i {color: #fff;}
-.plr-box > i:after {
+.plr-box:hover .img {color: #fff;}
+.plr-box > i:after{
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  z-index: -1;
+  border: 10px solid;
+  -webkit-border-radius: inherit;
+  border-radius: inherit;
+  opacity: .55;
+  -webkit-box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  -ms-box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  -o-box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+.plr-box .img:after {
   content: "";
   position: absolute;
   left: -10px;
@@ -993,6 +1028,8 @@ header.style1.sticky-active nav > div > ul > li {color: #666;}
   width: 100%;
 }
 .plr-box > i + .pilr-info {margin-top: 25px;}
+.plr-box .img + .pilr-info {margin-top: 25px;}
+
 .pilr-info > h4 {
   margin-bottom: 0;
   color: #2a486c;
@@ -1106,7 +1143,19 @@ header.style1.sticky-active nav > div > ul > li {color: #666;}
   float: left;
   line-height: initial;
 }
+.serv-box > img{
+  width: 64px;
+  float: left;
+  line-height: initial;
+
+}
 .serv-box:hover > i {
+  -webkit-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.serv-box:hover > img {
   -webkit-transform: rotateY(180deg);
   -ms-transform: rotateY(180deg);
   -o-transform: rotateY(180deg);
@@ -1118,6 +1167,10 @@ header.style1.sticky-active nav > div > ul > li {color: #666;}
 }
 .serv-box > i + .serv-info {
   width: calc(100% - 50px);
+  padding-left: 15px;
+}
+.serv-box > img + .serv-info {
+  width: calc(100% - 64px);
   padding-left: 15px;
 }
 .serv-info > h4 {
@@ -1515,12 +1568,17 @@ footer {
   float: left;
   width: 100%;
 }
-.wdgt-box {
+.wdgt-box-overflow {
   float: left;
   width: 100%;
   margin-bottom: 50px;
   overflow: auto;
   height: 400px;
+}
+.wdgt-box {
+  float: left;
+  width: 100%;
+  margin-bottom: 50px;
 }
 .wdgt-box > p {
   margin-bottom: 0;
@@ -4027,12 +4085,20 @@ blockquote p i.fa {
 .rspn-mnu-cls:hover,
 .rspn-scil > li a:focus,
 .plr-box:hover > i,
+.plr-box:hover .img,
 .breadcrumbs > li + li::before,
 .srv-box2:hover,
 .team-box2:hover,
 .model-close:hover
 {
   background-color: #d1ad3c;
+}
+
+.plr-box:hover .img {
+  -webkit-transform: rotateY(360deg);
+  -ms-transform: rotateY(360deg);
+  -o-transform: rotateY(360deg);
+  transform: rotateY(360deg);
 }
 
 .wdgt-box > h4:before
@@ -4056,6 +4122,7 @@ nav div > ul li a:focus:before,
 .sec-title-inner > h3,
 .srv-tl > h2 span,
 .serv-box > i,
+.serv-box > img,
 .serv-info > h4 a:hover,
 .serv-info > h4 a:focus,
 .team-info > h4,
@@ -4126,10 +4193,12 @@ nav div > ul li a:focus:before,
 /*===== Border Color =====*/
 .thm-brd-clr,
 .plr-box > i::after,
+.plr-box .img::after,
 .testi-itm,
 .hstry-img:before,
 .thm-layer .team-box2 > img,
 .plr-box:hover > i,
+.plr-box:hover > img,
 .srv-box2:hover
 {
   border-color: #d1ad3c;
@@ -4170,6 +4239,7 @@ nav div > ul li a:focus:before,
 /*===== Text Color =====*/
 .secndry-clr,
 .plr-box > i,
+.plr-box .img,
 .pilr-info > h4,
 .sec-title-inner > span,
 .sec-title-inner > h3 span,
@@ -4198,6 +4268,7 @@ nav div > ul li a:focus:before,
 /*===== Border Color =====*/
 .secndry-brd-clr,
 .plr-box > i,
+.plr-box .img,
 .team-box > img,
 .testi-itm > i img,
 .team-box2 > img,

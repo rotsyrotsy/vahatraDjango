@@ -18,7 +18,7 @@
     }, 0);
   });
 
-  $('.mycaroussel').slick({
+  $('.mycaroussel-center').slick({
     dots: true,
     focusOnSelect: true,
     infinite: true,
@@ -48,10 +48,14 @@
         }
     ]
 });
-    $('.mycaroussel-fade').slick({
-      dots: true,
-      infinite: true,
-      speed: 500,
-      fade: true,
-      cssEase: 'linear'
-    });
+
+$('.mycaroussel-simple').slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    focusOnSelect: true,
+    prevArrow: '<button class="slide-arrow prev-arrow"></button>',
+    nextArrow: '<button class="slide-arrow next-arrow"></button>'
+});
+

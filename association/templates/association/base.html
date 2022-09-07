@@ -8,7 +8,7 @@
         <meta name="keywords" content="" />
         <link rel="icon"href="{% static 'favicon.ico' %}">
         <title>{% block title %}{% endblock %} | Vahatra</title>
-      
+        <link rel="stylesheet" type="text/css" href="http://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css">
         <link rel="stylesheet" href="{% static 'css/icons.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
         <link rel="stylesheet" href="{% static 'css/collapsed.css' %}">
+        <link rel="stylesheet" href="{% static 'admin/vendors/ti-icons/css/themify-icons.css' %}">
       
         <!-- Color Scheme -->
         <link rel="stylesheet" href="{% static 'css/colors/color.css' %}" title="color" /><!-- Color -->
@@ -91,15 +92,14 @@
 
       {% block content %}
       {% endblock content %}
-
-  <footer>
+      <footer>
         <div class="gap top-spac60 drk-bg remove-bottom">
             <div class="container">
                 <div class="footer-data">
                     <div class="row">
                         <div class="col-md-4 col-sm-12 col-lg-4">
                             <div class="wdgt-box">
-                                <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img src="{% static 'images/logo2.png' %}" alt="logo2.png"></a></div>
+                                <div class="logo"><a href="/en/" title="Logo"><img src="/static/images/logo2.png" alt="logo2.png"></a></div>
                                 <p>Vahatra's challenge, objectives and mission are mainly based on its history; and the members are doing their best to achieve these objectives.</p>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                                         <h4>Useful Links</h4>
                                         <ul>
                                             <li><a href="#" title="">Contact Us</a></li>
-                                            <li><a href="#" title="">Terms & Conditions</a></li>
+                                            <li><a href="#" title="">Terms &amp; Conditions</a></li>
                                             <li><a href="#" title="">Privacy Policy</a></li>
                                             <li><a href="#" title="">Cookies Policy</a></li>
                                         </ul>
@@ -142,13 +142,14 @@
                     </div>
                 </div><!-- Footer Data -->
                 <div class="bottom-bar">
-                    <p>&copy; Copyright 2020. All Rights Reserved.</p>
+                    <p>© Copyright 2022. All Rights Reserved.</p>
                     <div class="scl">
                         <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
                         <a href="#" title="Pinterest" target="_blank"><i class="fa fa-pinterest-p"></i></a>
                         <a href="#" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a>
                         <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
                     </div>
+                    <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a>,<a href="https://www.flaticon.com/authors/iconixar" title="iconixar">iconixar</a>,<a href="https://www.flaticon.com/authors/hilmy-abiyyu-a" title="Hilmy Abiyyu A.">Hilmy Abiyyu A.</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
                 </div><!-- Bottom Bar -->
             </div>
         </div>
@@ -165,7 +166,8 @@
 <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'js/perfectscrollbar.min.js' %}"></script>
 <script src="{% static 'js/wow.min.js' %}"></script>
-<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script type="text/javascript" src="http://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js"></script>
+<!-- <script src="{% static 'js/owl.carousel.min.js' %}"></script> -->
 <script src="{% static 'js/jquery.circliful.min.js' %}"></script>
 <script src="{% static 'js/custom-scripts.js' %}"></script>
 <script src="{% static 'js/customize.js' %}"></script>

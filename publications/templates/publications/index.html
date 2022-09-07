@@ -28,13 +28,11 @@
         </div>
 
         <div class="fea-car-custom text-center">
-            <div class=" row mycaroussel mrg">
+            <div class=" row mycaroussel-center mrg">
                 {% for publication in publications %}
                 <div class="col-md-4 col-sm-6 col-lg-4">
                     <div class="fea-itm"  style="background-image: url({% static 'images/publication/' %}{{publication.imagefront}}); ">
-                        <i class="flaticon-heart-1"></i>
                         <div class="fea-info2">
-                            <h4>{{publication.title }} </h4>
                             <br>
                             <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-static="{% static 'images/publication'%}" href="#" title="">Read More</a>
                         </div>

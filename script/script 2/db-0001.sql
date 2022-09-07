@@ -158,7 +158,8 @@ INSERT INTO image (idtype, name) VALUES (9,'steve.jpg');
 INSERT INTO image (idtype, name) VALUES (9,'none.jpg');
 
 INSERT INTO typeMember(type, description) VALUES ('board of directors', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.');
-INSERT INTO typeMember(type, description) VALUES ('permanent members', 'The current staff includes eleven individuals, the first four of which are amongst the five founding members of the association.');
+INSERT INTO typeMember(type, description) VALUES ('staff', 'The current staff includes seven individuals');
+INSERT INTO typeMember(type, description) VALUES ('scientists', 'They are the founding members of the association.');
 INSERT INTO typeMember(type, description) VALUES ('students', 'Students enrolled within the Malagasy university system, particularly in the field of biology and environmental ecology, are the principal focus of the Vahatra program to help with their advancement and capacity building. We aim at having 12-15 students working with us at any given time. Once a student has finished their degree, the place is open for another incoming student.');
 
 
@@ -166,16 +167,16 @@ INSERT INTO member(idTypeMember, idPerson, mail, description) VALUES (2, 1, 'ras
 INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,2,'jraherilalao@gmail.com', 'Founding member. She has interests in ornithology including biology, ecology, systematics, biogeography, biological evaluation, and the study of environmental impact. Responsible for teaching of bird biology for second year students as well as evolutionary biology and biodiversity evaluation, especially terrestrial vertebrates for master level students.');
 INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,3,'voahangysoarimalala@gmail.com','Founding member. Her research interests include mammals, especially small mammals and carnivores which includes systematics, biogeography, ecology, biological evaluation and environmental impact study. Responsible for teaching ecology and animal systematics for first and second year students; biodiversity conservation and valorisation for third year students.');
 INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,4,'sgoodman@fieldmuseum.org',' Founding member. His fields of research interests include several domains such as mammals, bats and birds. He is particularly interested in biology, ecology, systematics, biogeography, paleoecology, etc.');
-INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,5,'msraharinirina@gmail.com','Sabrina joined the association in October 2015.');
-INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,6,null,' Ledada
+INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (4,5,'msraharinirina@gmail.com','Sabrina joined the association in October 2015.');
+INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (4,6,null,' Ledada
 started working with the ETP some 29 years ago and transferred to
 Vahatra in October 2007. He has helped organize logistics for hundreds
 of field missions to some of the remotest areas on Madagascar.');
-INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,7,null,'She has worked with
+INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (4,7,null,'She has worked with
 Vahatra since May 2016.' );
-INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,8,null,null);
-INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,9,null,null);
-INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (2,10,null,null);
+INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (4,8,null,null);
+INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (4,9,null,null);
+INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (4,10,null,null);
 
 INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (1,11,null,'He is actually retired');
 INSERT INTO  member(idTypeMember, idPerson, mail, description) VALUES (1,12,null,null);
@@ -368,7 +369,7 @@ INSERT INTO typeActivity VALUES ('A2','Conference');
 INSERT INTO typeActivity VALUES ('A3','Research');
 INSERT INTO typeActivity VALUES ('A4','Project');
 
-INSERT INTO typeSubActivity(id,idTypeActivity,type) VALUES ('SA1','A1','village');
+INSERT INTO typeSubActivity(id,idTypeActivity,type) VALUES ('SA1','A1','science for the people');
 INSERT INTO typeSubActivity(id,idTypeActivity,type) VALUES ('SA2','A1','field school');
 INSERT INTO typeSubActivity(id,idTypeActivity,type) VALUES ('SA3','A1','biological inventories');
 
