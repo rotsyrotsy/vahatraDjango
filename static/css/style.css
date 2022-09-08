@@ -1964,6 +1964,12 @@ footer {
   float: left;
   width: 100%;
 }
+
+.fea-itm-img  .fea-info2 {
+  float: left;
+  width: 100%;
+  margin-bottom: 15px;
+}
 .fea-info2 > h4 {
   color: #fff;
   position: relative;
