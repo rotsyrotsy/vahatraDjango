@@ -12,4 +12,6 @@ urlpatterns = [
     path("<str:activity_type>/<int:activity_id>", views.activityDetail, name="activityDetail"),
     path("collection/", views.collection, name="collection"),
     path("ajaxActivityDetail/", views.ajaxActivityDetail, name="ajaxActivityDetail"),
+    path("virtualtour/", views.virtualtour, name="virtualtour"),
+    path("virtualtour/<str:salle>", views.virtualtour, name="virtualtour"),
 ]

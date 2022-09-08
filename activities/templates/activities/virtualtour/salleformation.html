@@ -1,0 +1,20 @@
+
+{% extends "activities/virtualtour/basevt.html" %}
+{% load static %}
+{% block content %}
+<h1>jQuery virtual tour</h1>
+
+<div id="page">
+	<p>
+		More script and css style
+: <a href="http://www.htmldrive.net/" title="HTML DRIVE - Free DHMTL Scripts,Jquery plugins,Javascript,CSS,CSS3,Html5 Library">www.htmldrive.net </a>
+	</p>
+	
+	<img src="{% static 'images/virtual-tour/atelier.jpg' %}" class="advancedpanorama" width="2642" height="375" usemap="testmap" alt="Salle de formation" />
+	<map id="testmap" name="testmap"> 
+		<area shape="rect" coords="543,105,699,225" href="{% url 'activities:virtualtour' 'sculpteur' %}" alt="vers l'atelier du sculpteur" /> 
+	</map>
+	
+	
+</div>
+{% endblock %}

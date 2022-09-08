@@ -125,3 +125,7 @@ def ajaxActivityDetail(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+def virtualtour(request,salle='index'):
+    salle="activities/virtualtour/"+salle+".html"
+    return render(request, salle)
