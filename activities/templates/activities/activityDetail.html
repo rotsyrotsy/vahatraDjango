@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load activities_extras %}
 {% block title %}{{activity.title}}{% endblock %}
 {% block content %}
 <section>
@@ -50,7 +51,18 @@
                             </div>
                             <div class="blog-detail-desc">
                                 {% if activity.note %}<p>{{activity.note}}</p>{% endif %}
-                                {% if activity.description %}<p>{{activity.description}}</p>{% endif %}
+                                {% if activity.description %}
+                                    <p>{{activity.description | truncatesmart:',62'}}</p>
+                                    <div class="row my-3">
+                                        <div class="col-md-4">
+                                            <img src="{% static 'images/resources/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <img src="{% static 'images/resources/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
+                                        </div>
+                                    </div>
+                                    <p>{{activity.description | truncatesmart:'62,'}}</p>
+                                {% endif %}
                                 {% if activity.activityinstitution_set.all or activity.activityperson_set.all %}
                                 <p>
                                     <strong>Our collaborators</strong>

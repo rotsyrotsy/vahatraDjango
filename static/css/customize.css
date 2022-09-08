@@ -7,20 +7,14 @@
 }
 
 
-.mycaroussel-center .slick-slide {
-  z-index: 9;
-  opacity: .68;
+.mycaroussel-center .slick-current .fea-itm-img {
+    margin-top: 10px;
+}
+.mycaroussel-center .slick-current .fea-itm-img > img {
+    height:550px;
+    width: auto;
 }
 
-.mycaroussel-center .slick-current {
-    transform: scale(1.09);
-    margin-top: 5px;
-    opacity: 1;
-}
-
-.mycaroussel-center .slick-current > .fea-itm{
-    background-size: cover;
-}
 
 .slide-arrow{
     position: absolute;

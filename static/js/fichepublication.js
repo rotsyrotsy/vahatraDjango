@@ -26,30 +26,15 @@ $('.volume-btn').on('click', function () {
                 $('#titrePub').text(pub['fields']['title']);
                 
                 var img = '<div  class="row">';
-                var front = pub['fields']['imagefront']
-                if (pub['fields']['imageback']){
-                    var back = pub['fields']['imageback'];
-                    if (pub['fields']['idtype']==2){
-                            img += '<div class="col-md-12 col-sm-12 col-lg-12 text-center">\
-                                <img src="'+static+back+'" alt="">\
-                            </div>\
-                            ';
-                    }else{
-                            img += '<div class="col-md-6 col-sm-12 col-lg-6">\
-                                <img src="'+static+front+'" alt="">\
-                            </div>\
-                            ';
 
-                            img += '<div class="col-md-6 col-sm-12 col-lg-6">\
-                                <img src="'+static+back+'" alt="">\
-                            </div>\
-                            ';
-                    }
+                if (pub['fields']['imageback']){
+                    img += '<div class="col-md-12 col-sm-12 col-lg-12 text-center">\
+                        <img src="'+static+pub['fields']['imageback']+'" alt="">\
+                    </div>';
                 }else{
                     img += '<div class="col-md-12 col-sm-12 col-lg-12 text-center">\
-                        <img src="'+static+front+'" alt="">\
-                    </div>\
-                    ';
+                        <img src="'+static+pub['fields']['imagefront']+'" alt="">\
+                    </div>';
                 }
                 img += '</div>';
                 $('#content').append(img);
