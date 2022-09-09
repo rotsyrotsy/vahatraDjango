@@ -90,7 +90,8 @@ def activityDetail(request,activity_type,activity_id):
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)
 
-def collection(request):
+def collection(request,salle=''):
+    context['salle']=salle
     return render(request, "activities/collection.html",context)
 
 def ajaxActivityDetail(request):
@@ -125,7 +126,3 @@ def ajaxActivityDetail(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
-
-def virtualtour(request,salle='index'):
-    salle="activities/virtualtour/"+salle+".html"
-    return render(request, salle)

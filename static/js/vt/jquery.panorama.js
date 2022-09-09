@@ -19,6 +19,7 @@
 				auto_start: true,
 				mode_360: true
 			};
+			
 			if(options) $.extend(settings, options);
 		
 			var elemWidth = parseInt($(this).attr('width'));
@@ -44,7 +45,7 @@
 				right = $('#fancy-icon').attr("data-right");
 				closeicon = $('#fancy-icon').attr("data-close");
 			panoramaContainer = $(this).parent();
-			panoramaContainer.css('height', elemHeight+'px').css('overflow', 'hidden').wrap("<div class='panorama-viewport'></div>").parent().css('width',settings.viewport_width+'px')
+			panoramaContainer.css('overflow', 'hidden').wrap("<div class='panorama-viewport'></div>").parent()
 				.append("<div class='panorama-control'><a href='#' class='panorama-control-left'><img src='"+left+"'></a> <a href='#' class='panorama-control-pause'><img src='"+closeicon+"'></a> <a href='#' class='panorama-control-right'><img src='"+right+"'></a> </div>");
 			
 			panoramaViewport = panoramaContainer.parent();
