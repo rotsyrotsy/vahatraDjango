@@ -61,7 +61,13 @@
                                             <img src="{% static 'images/resources/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
                                         </div>
                                     </div>
-                                    <p>{{activity.description | truncatesmart:'62,'}}</p>
+                                    <p>{{activity.description | truncatesmart:'62,200'}}</p>
+                                    <div class="row my-3">
+                                        <div class="col-md-12">
+                                            <img src="{% static 'images/resources/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
+                                        </div>
+                                    </div>
+                                    <p>{{activity.description | truncatesmart:'200,'}}</p>
                                 {% endif %}
                                 {% if activity.activityinstitution_set.all or activity.activityperson_set.all %}
                                 <p>
