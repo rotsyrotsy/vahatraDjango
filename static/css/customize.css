@@ -5,6 +5,10 @@
     display: none;
 }
 
+#historicfocus ul li{
+  color:rgb(218, 176, 105);
+} 
+
 #messageyear{
     display: none;
 }
@@ -106,3 +110,33 @@
     border-color: #248AFD;
   }
   
+
+  
+.bord-box-custom {
+  float: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.bord-box-custom:before {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: .8;
+  content: "";
+}
+.bord-box-custom:hover:before {
+  opacity: 0;
+}
+.bord-box-custom > img {width: 100%;}
+.bord-box-custom .bord-info {
+  opacity: 1;
+  bottom: 0;
+}
+
+.bord-box-custom:hover .bord-info {
+  opacity: 0;
+}

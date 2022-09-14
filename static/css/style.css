@@ -978,7 +978,6 @@ header.style1.sticky-active nav > div > ul > li {color: #666;}
   border: 1px solid #2a486c;
   -webkit-border-radius: 50%;
   border-radius: 50%;
-  line-height: 104px;
   position: relative;
   z-index: 1;
   margin-bottom: 10px;
@@ -986,6 +985,9 @@ header.style1.sticky-active nav > div > ul > li {color: #666;}
   width: 106px;
 }
 
+.plr-box .img > img{
+  border-radius: 50%;
+}
 
 .plr-box:hover > i {color: #fff;}
 .plr-box:hover .img {color: #fff;}

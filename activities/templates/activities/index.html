@@ -45,17 +45,46 @@
                             {% if type_visite.id == "SA3" %}
                                 <p>Over the past 18 years, over 430 sites have been the subjects of multi-disciplinary biological inventories by the former ETP group and more recently by Vahatra scientists. Here are a few examples of some of the localities visited and the context of the project.  In numerous cases, multiple sites were surveyed at a given locality</p>
                             {%endif%}
+
                         </div>
                     </div>
                 </div>
             </div><!-- History Wrap -->
+            <br>
+            
         </div>
     </div>
 </section>
 
 
 <section>
+    <div class="container">
+        <div class="bord-wrap">
+            <div class="row mrg  mycaroussel-simple">
+                
+                {% for visit in visits %}
+                    <div class="col-md-3 col-sm-6 col-lg-3">
+                        <div class="bord-box">
+                            {% if visit.idactivity.activityimage_set.all %}
+                                {% with visit.idactivity.activityimage_set.all|first as image %}
+                                <img src="{% static 'images/site/' %}{{image.image}}" alt="{{image.image}}" alt="" width="100" height="100">
+                                {% endwith %}
+                            {% endif %}
+                            
+                            <div class="bord-info">
+                                <h4>{{visit.idlocation.name}}</h4>
+                                <p>Date: {{visit.idactivity.date}} - {{visit.dateend|default_if_none:""}}</p>
+                                <span><a  title="" onclick="clickImage('{{visit.idlocation.id}}')">Show more<i class="flaticon-right-arrow"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
     <div class="gap ">
+        
         <div class="row no-gutters" >
             <div class="col-md-12 col-sm-12 col-lg-12" id="divmap">
                 <div id="mapvisit" class="map" style="width: 100%; height: 600px; z-index: 0;" ></div>
@@ -65,7 +94,7 @@
                 <div id="mySidebar" class="event-box2 sidebarcustom">
                     <a href="javascript:void(0)" class="closebtncustom" onclick="closeNav()">×</a>
                     <div class="event-thumb">
-                        <a href="#" title=""><img id="imagevisit" src="{% static 'images/resources/event-img3.jpg' %} " data-url="{% static 'images/site/' %}" alt="event-img2-1.jpg"></a>
+                        <a href="#"  title=""><img id="imagevisit" src="{% static 'images/resources/event-img3.jpg' %} " data-url="{% static 'images/site/' %}" alt="event-img2-1.jpg"></a>
                     </div>
                     <div class="event-info">
                     </div>
@@ -97,10 +126,6 @@
     });
 
     "{% for visit in visits %}"
-        "{% if 'Marotandrano' in visit.idactivity.description and visit.idtypesubactivity.id == 'SA1' %}"
-        img = "{% static 'images/map-icon-green.png' %}";
-        "{% endif %}"
-
         var layer = new ol.layer.Vector({
             source: new ol.source.Vector({
                 features: [
@@ -132,38 +157,20 @@
     var selected = null;
     var lesvisites = null;
     var lelieu = null;
-    map.on('pointermove', function (e) {
-        if (selected !== null) {
-            selected.setStyle(undefined);
-            selected = null;
-        }
 
-
-        map.forEachFeatureAtPixel(e.pixel, function (f) {
-            
-            selected = f;
-           
-            var thelayer;
-            map.getLayers().forEach(function (lyr) {
-                if (f.get("id") == lyr.get('id')) {  
-                    thelayer = lyr;
-                }            
-            });
-
-            
+    function extendMarker(idlocation,openFiche){
             $.ajax({
                 url : "{% url 'activities:visit_by_lieu' %}",
                 dataType: 'JSON',
                 type:"GET",
-                data:{lieu_id:f.get("id"), id_visit_type:"{{type_visite.id}}"},
+                data:{lieu_id:idlocation, id_visit_type:"{{type_visite.id}}"},
                 success:function(data){
                     lelieu = JSON.parse(data["lieu"])[0];
                     lesvisites = data["visits"];
-
                     var newstyle =  new ol.style.Style({
                         image: new ol.style.Icon({
                             anchor: [0.5, 1.0],
-                            src: thelayer.getStyle().getImage().getSrc(),
+                            src:  "{% static 'images/map-icon-green.png' %}",
                             scale: 0.5
                         }),
                         text : new ol.style.Text({
@@ -177,22 +184,61 @@
                     if (selected!=null){
                         selected.setStyle(newstyle);
                     }
+                    if (openFiche==1){
+                        openNav("{{type_visite.type}}", lelieu['fields']['name'], lesvisites);
+                    }
                 },
                 error:function(data){
                     // console.log('error')
                     // console.log(data)
                 }
             });
-            return true;
+    }
+
+
+    map.on('pointermove', function (e) {
+
+        map.forEachFeatureAtPixel(e.pixel, function (f) {
+            
+            map.getLayers().forEach(function (lyr) {
+                if (f.get("id") == lyr.get('id')) {  
+                    if (selected !== null) {
+                        selected.setStyle(undefined);
+                        selected = null;
+                    }
+                    selected = f;
+                    extendMarker(f.get("id"),0);
+                }            
+            });
+            
+           
 
         });
     });
     
     map.on('singleclick', function (evt) {
-            if (selected!=null){
+            if (selected!=null && lelieu!=null && lesvisites!=null){
                 openNav("{{type_visite.type}}", lelieu['fields']['name'], lesvisites);
             }
         });
+
+    function clickImage(idlocation){
+        map.getLayers().forEach(function (layer) {
+            if (idlocation == layer.get('id')) {
+                var source = layer.getSource();
+                var features = source.getFeatures(); 
+
+                if (selected !== null) {
+                    selected.setStyle(undefined);
+                    selected = null;
+                }
+                
+                selected = features[0];
+                
+                extendMarker(features[0].get("id"),1);
+            }            
+        });
+    }
     
 </script>
 {% endblock %}
