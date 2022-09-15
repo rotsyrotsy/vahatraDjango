@@ -83,7 +83,6 @@ $( document ).ready(function() {
 });
 $( ".custom-featured-item" ).hover(
     function() {
-        console.log('eo ambony');
         $('.slide-arrow-index').css('display','block');
     }, function() {
         $('.slide-arrow-index').css('display','none');
