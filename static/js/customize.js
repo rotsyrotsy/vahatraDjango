@@ -67,4 +67,26 @@ $('.mycaroussel-partner').slick({
     nextArrow: '<button class="slide-arrow next-arrow"></button>'
 });
 
+$('.mycaroussel-index').slick({
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    infinite: true,
+    fade: true,
+    prevArrow: '<button class="slide-arrow-index previous-arrow-index"></button>',
+    nextArrow: '<button class="slide-arrow-index next-arrow-index"></button>'
+})
+
+
+$( document ).ready(function() {
+    $('.slide-arrow-index').css('display','none');
+});
+$( ".custom-featured-item" ).hover(
+    function() {
+        console.log('eo ambony');
+        $('.slide-arrow-index').css('display','block');
+    }, function() {
+        $('.slide-arrow-index').css('display','none');
+      }
+  );
 
