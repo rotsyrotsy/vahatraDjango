@@ -13,4 +13,5 @@ urlpatterns = [
     path("collection/", views.collection, name="collection"),
     path("collection/<str:salle>", views.collection, name="collection"),
     path("ajaxActivityDetail/", views.ajaxActivityDetail, name="ajaxActivityDetail"),
+    path("atlas/", views.atlas, name="atlas"),
 ]

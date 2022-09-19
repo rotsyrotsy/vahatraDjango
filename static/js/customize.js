@@ -88,4 +88,3 @@ $( ".custom-featured-item" ).hover(
         $('.slide-arrow-index').css('display','none');
       }
   );
-

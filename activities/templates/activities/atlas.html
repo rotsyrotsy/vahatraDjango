@@ -1,0 +1,88 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% block title %}Atlas{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc1">
+        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.png' %});">
+        </div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <h2>Atlas</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li>Atlas</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="hstry-wrap">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div >
+                            <img src="{% static 'images/publication/op3.jpg' %}"  id="myImg" alt="Atlas" data-img="{% static 'images/publication/op3_back.gif' %}">
+                        </div>
+
+                        <div id="myModalImage" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="img01">
+                            <div id="caption"></div>
+                          </div>
+
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="hstry-desc">
+                            <span>Database & Atlas</span>
+                            <h2>Atlas of selected land vertebrates of Madagascar</h2>
+                            <p>Over the past 20 years, members of the Association Vahatra collected 
+                                considerable data on terrestrial vertebrates of Madagascar, 
+                                based on fieldwork and museum studies. To contribute to better 
+                                management and conservation of Malagasy biodiversity from sound scientific basis,
+                                 the Association has initiated a project on an atlas of vertebrates from Madagascar 
+                                 in parallel with the development of a database on Malagasy biodiversity accessible to 
+                                 the public and various users.</p><br>
+                            <p>This project is implemented in collaboration with <strong><a href="https://www.rebioma.org/" target="_blank">REBIOMA</a></strong>
+                                , given that the scientific founding members of the Association Vahatra 
+                                are part of " Board authority members" of the database managed by <strong><a href="https://www.rebioma.org/" target="_blank">REBIOMA</a></strong>
+                                , as they are specialists of Malagasy biodiversity.
+                            </p><br>
+                            <p>While the past few decades have seen numerous publications about the extraordinary and highly endemic terrestrial vertebrate fauna of Madagascar, ranging from technical papers, to species descriptions, and field guides, no detailed mapping exercise has been completed in the form of an atlas.  The purpose of this new book is that, to bring together information from numerous sources and present distributional maps for a wide range of taxa,
+                                 descriptive texts to interpret patterns, and, for most, habitat models (Maxent).  For the different reptiles, birds, and mammals treated herein, this atlas is intended as a reference for students, researchers, naturalists, and conservationists.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div><!-- History Wrap -->
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block js %}
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModalImage");
+    
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById("myImg");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    img.onclick = function(){
+      modal.style.display = "block";
+      modalImg.src = img.getAttribute('data-img');
+      captionText.innerHTML = this.alt;
+    }
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() { 
+      modal.style.display = "none";
+    }
+    </script>
+{% endblock %}

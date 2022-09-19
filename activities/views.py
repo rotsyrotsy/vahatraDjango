@@ -58,6 +58,9 @@ def support(request):
     
     return render(request, "activities/support.html", context)
 
+def atlas(request):
+    return render(request, "activities/atlas.html", context)
+
 def otherActivity(request,typeactivity_id='A2',page=1):
     
     page_number = Activity.objects.filter(Q(idtypeactivity_id = typeactivity_id), Q(date__lt=date.today())|Q(date__isnull=True)).count()
