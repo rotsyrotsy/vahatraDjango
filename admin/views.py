@@ -129,7 +129,7 @@ def listActivities(request,activity_id="A1",page=1,subactivity_id=None, year = N
 
     min = Activity.objects.filter(idtypeactivity=activity_id).aggregate(Min('date'))
     max = Activity.objects.filter(idtypeactivity=activity_id).aggregate(Max('date'))
-    context["years"]=range(min['date__min'].year,max['date__max'].year)
+    context["years"]=range(min['date__min'].year,max['date__max'].year+1)
     context["page_number"]= range(1,page_number+1)
 
     return render(request, "admin/list.html",context)

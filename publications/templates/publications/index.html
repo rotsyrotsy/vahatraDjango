@@ -47,7 +47,7 @@
         <div class="gap">
             <div class="container">
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-9 col-sm-12 col-lg-9">
                             {% if pub_type.id == 1 %}
                                 <p>During the French colonial period in Madagascar a journal was produced and entitled, Naturaliste Malgache. This journal served the important function of disseminating to the world scientific community information on the natural history of Madagascar and surrounding islands.  The intention with this new review, <strong>Malagasy Nature</strong>,is to follow this example and publish articles, in both English and French, at high scientific and international standards. This journal allows Malagasy scientists to return information to the scientific world, rather than only being on the receiving end. We consider this a very important professional step for the Malagasy scientific community. <strong>Malagasy Nature</strong> also guarantees the local availability of the results of ecological and biological research conducted on the island, as in many cases such articles published in foreign scientific journals are not repatriated or difficult to access from Madagascar.</p>
                                 <br><p><strong>Malagasy Nature</strong> is a journal published by the Association Vahatra concerning aspects of the natural history of Madagascar and neighboring islands (Comores, Mascarenes, and Seychelles). The journal publishes original scientific contributions in English and French concerning animals, plants, ecology, conservation, biogeography, systematics, and paleontology. To date ten volumes have appeared, all now available online.</p>
@@ -76,6 +76,51 @@
                             {% if pub_type.id == 3 %}
                                 <p>As researchers dedicated to the advancement of knowledge and science concerning Madagascar and surrounding islands in particular, Vahatra places emphasis on the dissemination of research results to our local colleagues and the scientific world at large.  Further, to help with the advancement of scientific careers and Malagasy science we strongly encourage students working with us to publish the results of their work. Here is a listing of publications that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.  These publications include papers in scientific journals, books, and chapters in books and monographs. You can find here the “Mémoires” and thesis that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.</p>
                             {% endif %}
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-lg-3">
+                            <div class="sidebar-wrp">
+                                <div class="wdgt-box">
+                                    <h4>Search</h4>
+                                    <form class="srch-frm">
+                                        <input type="text" placeholder="Search">
+                                        <button type="submit" class="thm-clr"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                                <div class="wdgt-box">
+                                    <h4>Categories</h4>
+                                    <ul class="cat-lst">
+                                        
+                                    {% for publication_type in type_pub %}
+                                    <li><a href="{% url 'publications:index' publication_type.type|toSlug publication_type.id %}" title="">{{publication_type.type}}</a>({{publication_type.publication_set.all|length}})</li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="wdgt-box">
+                                    <h4>Multicriteria Search</h4>
+                                        <form action="{% url 'publications:search'  %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="text" class="form-control" name="author" placeholder="Author">
+                                            <select class="form-control mb-2"  name="year">
+                                                {% for year in years %}
+                                                <option value="{{year}}">{{year}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <select class="form-control"  name="type_pub">
+                                                {% for publication_type in type_pub %}
+                                                <option value="{{publication_type.id}}">{{publication_type.type}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <br>
+                                            <button class="thm-btn btn-block" type="submit"> 
+                                                <i class="fa fa-search"></i>                                                   
+                                                Search
+                                            </button>
+                                            
+                                        </form>
+                                            
+                                </div>
+                            </div><!-- Sidebar Wrap -->
                         </div>
                     </div>
                 </div>

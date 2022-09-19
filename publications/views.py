@@ -5,7 +5,8 @@ from django.core import serializers
 from django.http import JsonResponse, HttpResponseBadRequest
 from datetime import date
 from django.db.models import Q
-import json
+from django.db.models import Min,Max
+
 
 from association.models import Person,Image
 # Create your views here.
@@ -22,6 +23,10 @@ def index(request,typepublication_name='malagasy-nature', typepublication_id=1):
     type = get_object_or_404(Typepublication, pk=typepublication_id)
     context["publications"]=publications
     context["pub_type"]=type
+    
+    min = Publication.objects.all().aggregate(Min('date'))
+    max = Publication.objects.all().aggregate(Max('date'))
+    context["years"]=range(min['date__min'].year,max['date__max'].year+1)
     return render(request, "publications/index.html", context)
 
 def detail(request):
@@ -44,3 +49,10 @@ def detail(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+def search(request):
+    publications = Publication.objects.filter(Q(idtype=1), Q(date__lte = date.today())|Q(date__isnull=True))
+    type = get_object_or_404(Typepublication, pk=1)
+    context["publications"]=publications
+    context["pub_type"]=type
+    return render(request, "publications/index.html", context)

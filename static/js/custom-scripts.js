@@ -73,9 +73,9 @@
   }
 
   //===== Select =====//
-  if ($('select').length > 0) {
-    $('select').selectpicker();
-  }
+  // if ($('select').length > 0) {
+  //   $('select').selectpicker();
+  // }
 
   //===== Circliful =====//
   if ($.isFunction($.fn.circliful)) {
