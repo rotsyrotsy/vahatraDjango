@@ -74,7 +74,6 @@ def otherActivity(request,typeactivity_id='A2',page=1):
         return customhandler404(request,'There is no activity')
     
 
-   
     context["type_activity"]= Typeactivity.objects.get(pk=typeactivity_id)
     context["activities"]= activities
     context["page_number"]= range(1,page_number+1)

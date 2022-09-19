@@ -1,6 +1,7 @@
 
 $('.volume-btn').on('click', function () {
     $('#content').empty();
+    $('#titrePub').empty();
     var model = $('.contact-form-model-wrap');
     var pub_id = $(this).attr("data-id");
     var staticpdf = $(this).attr("data-staticpdf")+"/";
@@ -15,6 +16,7 @@ $('.volume-btn').on('click', function () {
                 var pub = JSON.parse(data["publication"])[0];
                 var details = JSON.parse(data["details"]);
                 var authors = JSON.parse(data["authors"]);
+                var type = JSON.parse(data['typepublication'])[0];
                 
                 if (details.length == 1){
                     if (details[0]['fields']['name']== null && details[0]['fields']['pdf']!== null){
@@ -23,7 +25,8 @@ $('.volume-btn').on('click', function () {
                     }
                 }
                 
-                $('#titrePub').text(pub['fields']['title']);
+                titrepub = "<span>"+type['fields']['type']+"</span><h3>"+pub['fields']['title']+"</h3>";
+                $('#titrePub').append(titrepub);
                 
                 var img = '<div  class="row">';
 

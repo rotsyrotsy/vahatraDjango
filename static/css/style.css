@@ -2432,7 +2432,6 @@ footer {
 }
 .pagination > li a {
   height: 33px;
-  color: ;
   float: left;
   width: 33px;
   -webkit-border-radius: 50%;
@@ -2443,6 +2442,22 @@ footer {
 .pagination > li.active a, 
 .pagination > li a:hover, 
 .pagination > li a:focus {color: #fff;}
+
+.pagination .submit-pagination {
+  height: 33px;
+  color: ;
+  float: left;
+  width: 33px;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  border: 1px solid #d2d2d2;
+  line-height: 33px;
+}
+.pagination .submit-pagination:hover, 
+.pagination .submit-pagination:focus {color: #fff;}
+
+
+
 /*===== Event Page =====*/
 .event-wrap {
   float: left;
@@ -2558,7 +2573,7 @@ footer {
   margin-right: 10px;
   display: inline-block;
   font-size: 18px;
-  float: left;
+  /* float: left; */
   line-height: inherit;
 }
 .event-mta > li + li {margin-top: 10px;}
@@ -4238,6 +4253,8 @@ nav div > ul li a:focus:before,
 .pagination > li.active > a,
 .pagination > li a:hover,
 .pagination > li a:focus,
+.pagination .submit-pagination:hover,
+.pagination .submit-pagination:focus,
 .msn-desc > ul li:before,
 .prtfl-box:before,
 .fltr-lnks > li a:before

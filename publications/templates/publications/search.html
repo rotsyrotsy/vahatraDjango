@@ -1,0 +1,118 @@
+{% extends "association/base.html" %}
+{% load static %}
+{% load publications_extras %}
+{% block title %}Search{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc6">
+        <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneaous/Bea_291.jpg' %});"></div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <h2>Search</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'publications:index' %}" title="">Publications</a></li>
+                    <li>Search</li>
+                </ul>
+                
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="sec-title text-center">
+                <div class="sec-title-inner">
+                    <span>Publication Searching</span>
+                    <h3>Results ({{results_number}}) </h3>
+                </div>
+            </div>
+            <div>
+                    <div class="table-responsive pt-3">
+                      <table class="table table-bordered">
+                        <thead class="text-center">
+                          <tr>
+                            <th>
+                              #
+                            </th>
+                            <th>
+                              Categorie
+                            </th>
+                            <th>
+                              Title
+                            </th>
+                            <th>
+                              Authors
+                            </th>
+                            <th>
+                              Year
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for pub in pubs %}
+                          <tr>
+                            <td>
+                                <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{pub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication'%}" href="#" title="">
+                                    <img src="{% static 'images/publication/' %}{{pub.imagefront}}" width="50">
+                                </a>
+                            </td>
+                            <td>
+                              {{pub.idtype.type}}
+                            </td>
+                            <td>
+                                {{pub.title}}
+                            </td>
+                            <td>
+                                {% for author in pub.publicationauthor_set.all %}
+                                    {{author.idperson.username}} {{author.idperson.name}},
+                                {% endfor %}
+                            </td>
+                            <td class="text-right">
+                                {{pub.date |date:"Y"}}
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="pagination-wrap text-center">
+                        <ul class="pagination">
+                          {% for number in page_number %}
+                            {% if keyword %}
+                                <li ><a href="{% url 'publications:search' keyword number %}" title="">{{number}}</a></li>
+                            {% else %}
+                                <form action="{% url 'publications:multicriteriasearch'%}" method="POST">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="author" value="{{author}}">
+                                  <input type="hidden" name="type_pub" value="{{typepublication}}">
+                                  <input type="hidden" name="year" value="{{year}}">
+                                  <input type="hidden" name="page" value="{{number}}">
+                                  <li><input class="submit-pagination" type="submit" value="{{number}}"></li>
+                                </form>
+                                
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                    </div>
+                  </div>
+        </div>
+    </div>
+</section>
+
+<div class="contact-form-model-wrap text-center">
+    <span class="model-close"><i class="fa fa-times"></i></span>
+    <div class="contact-form-inner">
+        <div class="sec-title text-center">
+            <div class="sec-title-inner" id="titrePub">
+            </div>
+        </div>
+        <div class="contact-form" style="text-align: left;">
+            <div class="container" id="content">
+            </div>
+        </div>
+    </div>
+</div><!-- Contact Form Model Wrap -->
+{% endblock content %}

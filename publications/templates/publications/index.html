@@ -4,7 +4,7 @@
 {% block title %}{{ pub_type.type }}{% endblock %}
 {% block content %}
 <section>
-    <div class="gap remove-bottom black-layer2 opc85">
+    <div class="gap remove-bottom black-layer2 opc6">
         <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneaous/Bea_291.jpg' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
@@ -82,8 +82,9 @@
                             <div class="sidebar-wrp">
                                 <div class="wdgt-box">
                                     <h4>Search</h4>
-                                    <form class="srch-frm">
-                                        <input type="text" placeholder="Search">
+                                    <form class="srch-frm" action="{% url 'publications:search'  %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="text" name="keyword" placeholder="Search">
                                         <button type="submit" class="thm-clr"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
@@ -98,15 +99,17 @@
                                 </div>
                                 <div class="wdgt-box">
                                     <h4>Multicriteria Search</h4>
-                                        <form action="{% url 'publications:search'  %}" method="post">
+                                        <form action="{% url 'publications:multicriteriasearch'  %}" method="post">
                                             {% csrf_token %}
                                             <input type="text" class="form-control" name="author" placeholder="Author">
                                             <select class="form-control mb-2"  name="year">
+                                                <option value="" selected="selected">Year</option>
                                                 {% for year in years %}
                                                 <option value="{{year}}">{{year}}</option>
                                                 {% endfor %}
                                             </select>
                                             <select class="form-control"  name="type_pub">
+                                                <option value="" selected="selected">Categorie</option>
                                                 {% for publication_type in type_pub %}
                                                 <option value="{{publication_type.id}}">{{publication_type.type}}</option>
                                                 {% endfor %}
@@ -118,7 +121,6 @@
                                             </button>
                                             
                                         </form>
-                                            
                                 </div>
                             </div><!-- Sidebar Wrap -->
                         </div>
@@ -132,9 +134,7 @@
     <span class="model-close"><i class="fa fa-times"></i></span>
     <div class="contact-form-inner">
         <div class="sec-title text-center">
-            <div class="sec-title-inner">
-                <span>{{ pub_type.type }}</span>
-                <h3 id="titrePub"></h3>
+            <div class="sec-title-inner"  id="titrePub">
             </div>
         </div>
         <div class="contact-form" style="text-align: left;">
