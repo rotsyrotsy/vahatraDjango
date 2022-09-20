@@ -281,5 +281,10 @@ def addLocation(request):
         "type_activity" : type_activity,
     }
     if request.method == 'POST':
+        if request.POST['name']=="" or request.POST['longitude']=="" or request.POST['latitude']=="":
+            context["error"]="All fields are required."
+            return render(request, "admin/addLocation.html",context)
+        location = Location(name=request.POST['name'], longitude=request.POST['longitude'], latitude=request.POST['latitude'])
+        location.save()
         context["success"]="New location inserted successfully."
     return render(request, "admin/addLocation.html",context)
