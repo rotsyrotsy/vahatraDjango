@@ -1,0 +1,245 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Update {{activity.idtypeactivity.type}}</h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:updateActivity' activity.id %}" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                    <label for="selectTypeActivity">Type of activity</label>
+                        <select class="form-control" id="selectTypeActivity" name="idtypeactivity" required>
+                            <option value="{{activity.idtypeactivity.id}}">{{activity.idtypeactivity.type}}</option>
+                            {% for item in type_activity %}
+                                {% if item.id != activity.idtypeactivity.id %}
+                                <option value="{{item.id}}">{{item.type}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{activity.title}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4">{{activity.description|default_if_none:""}}</textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="date">Starting date</label>
+                    <input type="date" class="form-control" id="date" name="date" value="{{activity.date | date:'Y-m-d'}}" >
+                  </div>
+
+                  <div class="form-group">
+                    <label for="file-chosen">Images</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn" name="files" multiple hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn" style="margin-bottom:0; padding-top: .7rem;">Upload images</label>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                        {% for img in activity.activityimage_set.all %}
+                        <div class="col-md-4">
+                            <img src="{% static 'images/site/' %}{{img.image}}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                   
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="note">Note</label>
+                    <textarea class="form-control" id="note" name="note" rows="2">{{activity.note|default_if_none:""}}</textarea>
+                  </div>
+
+                  {% if visit %}
+                      <div class="form-group">
+                          <label for="selectTypeVisit">Type of visit</label>
+                          <select class="form-control" id="selectTypeVisit" name="idtypesubactivity" required>
+                            <option value="{{visit.idtypesubactivity.id}}">{{visit.idtypesubactivity.type}}</option>
+                              {% for item in typevisit %}
+                                  <option value="{{item.id}}">{{item.type}}</option>
+                              {% endfor %}
+                          </select>
+                      </div>
+                      {% if fieldschool %}
+                      <div class="form-group">
+                        <label for="fstxt">Institution that took part of the field school</label>
+                        <ul id="fstxt">
+                            {% for fs in fieldschool %}
+                                <li>{{fs.iddept.name|title }}, {{fs.idinst.name|title}}</li>
+                            {% endfor %}
+                        </ul>
+                        </div>
+                      {% endif %}
+                      <div id="fieldschool" style="margin-left:5rem"></div>
+                      <div class="form-group">
+                          <label for="selectLocation">Location</label>
+                          <div class="input-group">
+                              <select class="form-control" id="selectLocation" name="idlocation" required>
+                                <option value="{{visit.idlocation.id}}">{{visit.idlocation.name}}</option>
+                                  {% for location in locations %}
+                                      <option value="{{location.id}}">{{location.name}}</option>
+                                  {% endfor %}
+                              </select>                            
+                              <div class="input-group-append">
+                                <a href="{% url 'admin:addLocation' %}" type="button" class="btn btn-outline-success" >
+                                  <i class="ti-plus"></i> Add new location
+                                </a> 
+                              </div>
+                          </div>
+                          
+                      </div>
+                      <div class="form-group">
+                        <label for="end">End of visit</label>
+                        <input type="date" class="form-control" id="end" name="dateend" value="{{visit.dateend| date:'Y-m-d'}}" >
+                      </div>
+                  {% endif %}
+
+                    <div class="form-group">
+                        <label for="coltxt">Collaborators</label>
+                        <p id="coltxt">
+                            {% for person in activity.activityperson_set.all %}
+                                {{person.idperson.username|title }} {{person.idperson.name|title}},
+                            {% endfor %}
+                        </p>
+                    </div>
+
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="addCollaborators()">
+                        <i class="ti-plus"></i> Add collaborators
+                    </button>
+                    <span id="btncol"></span>
+                  </div>
+                  <div id="inputcollaborators"></div>
+
+                  <div class="form-group">
+                    <label for="coltxt">Institutions</label>
+                    <ul id="coltxt">
+                        {% for inst in activity.activityinstitution_set.all %}
+                            <li>{{inst.idinst.name|title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="addInstitutions()">
+                        <i class="ti-plus"></i> Add institutions
+                    </button>
+                    <span id="btninst"></span>
+                </div>
+                <div id="inputinstitutions"></div>
+
+                
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listActivities' activity.idtypeactivity.id %}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+    let click1 = 0;
+    let click2 = 0;
+    function addCollaborators(){
+        if (click1==0){
+            button = '<a href="{% url "admin:addPerson" %}" type="button" class="btn btn-outline-success" >Add a new person</a>';
+            $('#btncol').append(button);
+        }
+        var select = '<div class="form-group"><label for="selectNewCollaborator">Collaborator</label>\
+                        <select class="form-control" id="selectNewCollaborator" name="fkidperson'+click1+'">';
+        select += '{% for person in persons %}<option value="{{person.id}}">{{person.name}} {{person.username}}</option>{% endfor %}';
+        select += '</select></div>';
+        $('#inputcollaborators').append(select);
+        click1 += 1;
+    }
+    function addInstitutions(){
+        if (click2==0){
+            button = '<a href="{% url "admin:addInstitution" %}" type="button" class="btn btn-outline-success" >Add a new institution</a>';
+            $('#btninst').append(button);
+        }
+        var select = '<div class="form-group"><label for="selectNewInstitution">Institution partner</label>\
+                        <select class="form-control" id="selectNewInstitution" name="fkidinst'+click2+'">';
+        select += '{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
+        select += '</select></div>';
+        $('#inputinstitutions').append(select);
+        click2 += 1;
+    }
+
+    const actualBtn = document.getElementById('actual-btn');
+
+    const fileChosen = document.getElementById('file-chosen');
+
+    actualBtn.addEventListener('change', function(){
+      fileChosen.value = this.files.length+" files selected"
+    })
+
+    $('#selectTypeVisit').change(function(){
+      val = $(this).find(":selected").val();
+      if (val == 'SA2'){
+        var addnew = '<div class="row"><button type="button" class="btn btn-primary btn-sm" onclick="addFS()">\
+                        <i class="ti-plus"></i> Add institution that took part\
+                    </button></div>';
+              
+        var select = '<div class="row"><div class="form-group row"><div class="col text-primary">\
+                  <label for="instFS">Institution that took part</label>\
+                        <div><select class="form-control form-control-sm" id="instFS" name="fsidinst0">';
+        select += '{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
+        select += '</select></div></div>';
+        select += '<div class="col text-primary"><label for="deptFS">Department</label>\
+                        <select class="form-control form-control-sm" id="deptFS" name="fsiddept0">';
+        select += '{% for dept in departments %}<option value="{{dept.id}}">{{dept.name}}</option>{% endfor %}';
+        select += '</select></div></div></div></div>';
+        $('#fieldschool').html(addnew+select);
+      }
+    });
+
+    var clickFS = 1;
+    function addFS (){
+      var select = '<div class="row"><div class="form-group row"><div class="col text-primary">\
+                  <label for="instFS">Institution that took part</label>\
+                        <div><select class="form-control form-control-sm" id="instFS" name="fsidinst'+clickFS+'">\
+                          <option value="">--</option>';
+        select += '{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
+        select += '</select></div></div>';
+        select += '<div class="col text-primary"><label for="deptFS">Department</label>\
+                        <select class="form-control form-control-sm" id="deptFS" name="fsiddept'+clickFS+'">\
+                          <option value="">--</option>';
+        select += '{% for dept in departments %}<option value="{{dept.id}}">{{dept.name}}</option>{% endfor %}';
+        select += '</select></div></div></div></div>';
+        $('#fieldschool').append(select);
+        clickFS += 1;
+    };
+
+</script>
+{% endblock %}

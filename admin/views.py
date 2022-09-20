@@ -288,3 +288,49 @@ def addLocation(request):
         location.save()
         context["success"]="New location inserted successfully."
     return render(request, "admin/addLocation.html",context)
+
+def updateActivity(request,activity_id=1):
+    context = {
+        "type_activity" : type_activity,
+    }
+
+    activity = get_object_or_404(Activity,pk=activity_id)
+    context["activity"]=activity
+    context["persons"]=Person.objects.all().order_by('name')
+    context["institutions"]=Institution.objects.all().order_by('name')
+    context["departments"]=Department.objects.all().order_by('name')
+    context["typevisit"]=Typesubactivity.objects.all()
+    context["locations"]=Location.objects.all().order_by('name')
+
+    if activity.idtypeactivity.id=='A1':
+        visit = activity.visit_set.get()
+        context['visit']= visit
+        if visit.idtypesubactivity.id =='SA2':
+            context['fieldschool']=visit.fieldschool_set.all()
+
+    countChange= 0
+    if request.method == 'POST':
+        if request.POST['idtypeactivity']!=activity.idtypeactivity.id:
+            activity.idtypeactivity= Typeactivity.objects.get(pk=request.POST['idtypeactivity']) 
+            countChange +=1 
+        
+        params=['title','description','date','note']
+        values = [activity.title,activity.description, activity.date, activity.note]
+
+        for i in range(0,len(params)):
+            if request.POST[params[i]]!=str(values[i]) and (request.POST[params[i]]!="" or values[i] is not None):
+                param = request.POST[params[i]]
+                if param=="":
+                    param = None
+                values[i]=param
+                countChange +=1 
+
+        if countChange>0:
+            context["success"]="Activity updated successfully."
+            activity.save()
+        else:
+            context["success"]="There is nothing to change."
+
+
+    return render(request, "admin/updateActivity.html",context)
+
