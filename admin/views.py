@@ -302,16 +302,19 @@ def updateActivity(request,activity_id=1):
     context["typevisit"]=Typesubactivity.objects.all()
     context["locations"]=Location.objects.all().order_by('name')
 
+    visit = None
     if activity.idtypeactivity.id=='A1':
         visit = activity.visit_set.get()
         context['visit']= visit
         if visit.idtypesubactivity.id =='SA2':
             context['fieldschool']=visit.fieldschool_set.all()
 
-    countChange= 0
+    countChange = 0
+    countChangeActivity= 0
     if request.method == 'POST':
         if request.POST['idtypeactivity']!=activity.idtypeactivity.id:
             activity.idtypeactivity= Typeactivity.objects.get(pk=request.POST['idtypeactivity']) 
+            countChangeActivity +=1 
             countChange +=1 
         
         params=['title','description','date','note']
@@ -323,6 +326,7 @@ def updateActivity(request,activity_id=1):
                 if param=="":
                     param = None
                 values[i]=param
+                countChangeActivity +=1 
                 countChange +=1 
 
         if request.FILES:
@@ -341,11 +345,90 @@ def updateActivity(request,activity_id=1):
                 _delete_file(activityimage.image)
                 activityimage.delete()
             countChange +=1 
+        
+        if len(request.POST.getlist("deletefs"))>0:
+            for id_fs in request.POST.getlist("deletefs"):
+                fs = Fieldschool.objects.get(pk=id_fs)
+                fs.delete()
+            countChange +=1 
+        
+        
+        if len(request.POST.getlist("deletecollab"))>0:
+            for id_activityperson in request.POST.getlist("deletecollab"):
+                ap = Activityperson.objects.get(pk=id_activityperson)
+                ap.delete()
+            countChange +=1 
+        
+        if len(request.POST.getlist("deleteinst"))>0:
+            for id_activityinst in request.POST.getlist("deleteinst"):
+                ai = Activityinstitution.objects.get(pk=id_activityinst)
+                ai.delete()
+            countChange +=1 
+
+        countChangeVisit = 0
+
+        data = request.POST.items()
+        for keys, values in data:
+            if 'fkidperson' in keys:
+                actpers = Activityperson(idactivity = activity, idperson = Person.objects.get(pk=values))
+                actpers.save()
+            if 'fkidinst' in keys:
+                actpers = Activityinstitution(idactivity = activity, idinst = Institution.objects.get(pk=values))
+                actpers.save()
+         
+        if 'visit' in context:
+            if request.POST['idtypesubactivity']!=str(visit.idtypesubactivity.id):
+                visit.idtypesubactivity= Typesubactivity.objects.get(pk=request.POST['idtypesubactivity']) 
+                countChangeVisit += 1
+                countChange +=1 
+            
+            
+            if request.POST['idlocation']!=str(visit.idlocation.id):
+                visit.idlocation= Location.objects.get(pk=request.POST['idlocation']) 
+                countChangeVisit += 1
+                countChange +=1 
+
+            if request.POST['dateend']!=str(visit.dateend) and (request.POST['dateend']!="" or visit.dateend is not None):
+                dateend = request.POST['dateend']
+                if request.POST['dateend']=="":
+                    dateend = None
+                visit.dateend = dateend
+                countChangeVisit += 1
+                countChange +=1
+
+            if 'fieldschool' in context:
+                fsnumber = 0
+                data = request.POST.items()
+                for keys, values in data:
+                    if 'fsidinst' in keys or 'fsiddept' in keys:
+                        fsnumber += 1
+
+                fsnumber = int(fsnumber/2)
+                for i in range(0,fsnumber):
+                    fs = Fieldschool(idvisit = Visit.objects.last())
+                    valueInst = request.POST.get('fsidinst'+str(i))
+                    valueDept = request.POST.get('fsiddept'+str(i))
+                    if valueInst!="":
+                        print('fsidinst'+str(i)+" = "+valueInst)
+                        setattr(fs,'idinst',Institution.objects.get(pk = valueInst))
+                    if valueDept!="":
+                        print('fsiddept'+str(i)+" = "+valueDept)
+                        setattr(fs,'iddept',Department.objects.get(pk=valueDept))
+                    fs.save()
+
+        
+
+        if countChangeVisit>0:
+            context['visit']= visit
+            visit.save()
             
 
+        if countChangeActivity>0:
+            context["activity"]=activity
+            activity.save()
+        
         if countChange>0:
             context["success"]="Activity updated successfully."
-            # activity.save()
         else:
             context["success"]="There is nothing to change."
 
