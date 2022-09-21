@@ -21,4 +21,12 @@ urlpatterns = [
     path("addInstitution/", views.addInstitution, name="addInstitution"),
     path("addLocation/", views.addLocation, name="addLocation"),
     path("updateActivity/<str:activity_id>", views.updateActivity, name="updateActivity"),
+    path("listPublications/<str:pub_id>", views.listPublications, name="listPublications"),
+    path("listPublications/<str:pub_id>/page-<int:page>", views.listPublications, name="listPublications"),
+    path("listPublications/<str:pub_id>/year-<int:year>/page-<int:page>", views.listPublications, name="listPublications"),
+    path("updatePublication/<str:pub_id>", views.updatePublication, name="updatePublication"),
+    path("deletePublication/", views.deletePublication, name="deletePublication"),
+    path("addPublication/", views.addPublication, name="addPublication"),
+    path("addPublication/<str:idtypepublication>", views.addPublication, name="addPublication"),
+    
 ]

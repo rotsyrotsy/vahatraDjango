@@ -2,18 +2,18 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'admin:index' %}">
+        <a class="nav-link" data-priority="1" href="{% url 'admin:index' %}">
           <i class="icon-grid menu-icon"></i>
           <span class="menu-title">Dashboard</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <a class="nav-link" data-toggle="collapse" href="#activity" aria-expanded="false" aria-controls="activity">
           <i class="icon-layout menu-icon"></i>
           <span class="menu-title">Activities</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="ui-basic">
+        <div class="collapse" id="activity">
           <ul class="nav flex-column sub-menu">
             {% for item in type_activity %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listActivities' item.id %}">{{item.type}}</a></li>
@@ -22,24 +22,26 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+        <a class="nav-link" data-toggle="collapse" href="#publications" aria-expanded="false" aria-controls="publications">
           <i class="icon-grid-2 menu-icon"></i>
           <span class="menu-title">Publications</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="tables">
+        <div class="collapse" id="publications">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
+            {% for item in type_publication %}
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listPublications' item.id %}">{{item.type}}</a></li>
+            {% endfor %}
           </ul>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+        <a class="nav-link" data-toggle="collapse" href="#members" aria-expanded="false" aria-controls="members">
           <i class="icon-head menu-icon"></i>
           <span class="menu-title">Members</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="auth">
+        <div class="collapse" id="members">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addPerson' %}"> Person </a></li>
             <li class="nav-item"> <a class="nav-link" href="#"> Member </a></li>
