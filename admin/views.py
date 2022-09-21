@@ -325,9 +325,27 @@ def updateActivity(request,activity_id=1):
                 values[i]=param
                 countChange +=1 
 
+        if request.FILES:
+            files = request.FILES.getlist('files')
+            print(files)
+            for f in files:
+                image = Activityimage(image=f.name, idactivity = activity)
+                image.save()
+                handle_uploaded_file(f)
+            countChange +=1 
+        
+        if len(request.POST.getlist("supprImage"))>0:
+            img_ids = request.POST.getlist("supprImage")
+            for img_id in img_ids:
+                activityimage=Activityimage.objects.get(pk=img_id)
+                _delete_file(activityimage.image)
+                activityimage.delete()
+            countChange +=1 
+            
+
         if countChange>0:
             context["success"]="Activity updated successfully."
-            activity.save()
+            # activity.save()
         else:
             context["success"]="There is nothing to change."
 
