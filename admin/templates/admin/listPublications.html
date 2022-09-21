@@ -80,6 +80,7 @@
                          {{publication.date |date:"Y" }}
                       </td>
                       <td class="text-center" style="white-space: nowrap;">
+                        <!-- ESCAPE ' IN FUNCTION ONCLICK -->
                         <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deletePublication('{{publication.title}}','{{publication.id}}')" >
                             <i class="ti-trash"></i>
                           </button>
@@ -135,6 +136,7 @@
 {% block js %}
 <script>
   function deletePublication(title,id){
+    console.log("{{type.type}}");
     $('#exampleModalLabel').text('Delete '+"{{type.type}}"+' : '+title);
 
     $('#confirmDeletePub').click(function() {
