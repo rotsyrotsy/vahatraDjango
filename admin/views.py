@@ -522,9 +522,9 @@ def listPublications(request, pub_id=1, page=1, year=None):
     return render(request, "admin/listPublications.html", context)
 
 
-def publicationPdfLocation(publication, fileRenamed):
+def publicationPdfLocation(publication):
     folder = renameFile(publication.idtype.type)
-    path = folder+"/"+fileRenamed
+    path = folder+"/"
     return path
 
 
@@ -595,7 +595,8 @@ def addPublication(request, idtypepublication=1):
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
                     pd.pdf = renameFile(pdf.name)
-                    path = publicationPdfLocation(lastPublication, pd.pdf)
+                    path = publicationPdfLocation(lastPublication)
+
                     handle_uploaded_file(pdf, 'pdf/'+path)
 
             pd.save()
@@ -619,7 +620,16 @@ def deletePublication(request, pub_id=None):
                     _delete_file(publication.imagefront, 'images/publication/')
                 if publication.imageback:
                     _delete_file(publication.imageback, 'images/publication/')
+
+                pubDetails = Publicationdetail.objects.filter(
+                    idpublication=publication.id)
+                for det in pubDetails:
+                    print(det.pdf)
+                    path = publicationPdfLocation(publication)
+                    _delete_file(det.pdf, 'pdf/' + path)
+
                 publication.delete()
+
             except KeyError:
                 return HttpResponseBadRequest('Error')
             else:
