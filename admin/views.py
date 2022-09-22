@@ -599,13 +599,111 @@ def addPublication(request, idtypepublication=1):
 
                     handle_uploaded_file(pdf, 'pdf/'+path)
 
-            pd.save()
+            if pd.name is not None and pd.pdf is not None:
+                pd.save()
 
     return render(request, "admin/addPublication.html", context)
 
 
 def updatePublication(request, pub_id=1):
-    return HttpResponseRedirect(reverse("admin:index"))
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+    }
+
+    publication = get_object_or_404(Publication, pk=pub_id)
+    context["publication"] = publication
+    context["persons"] = Person.objects.all().order_by('name')
+
+    countChange = 0
+    countChangePublication = 0
+    if request.method == 'POST':
+        if request.POST['idtype'] != str(publication.idtype.id):
+            publication.idtype = Typepublication.objects.get(
+                pk=request.POST['idtype'])
+            countChangePublication += 1
+            countChange += 1
+
+        names = ['title', 'description', 'date']
+        values = [request.POST.get(p) for p in names]
+
+        i = 0
+        for value in values:
+            if value != str(getattr(publication, names[i])) and (value != "" or getattr(publication, names[i]) is None):
+                if value == "":
+                    value = None
+                setattr(publication, names[i], value)
+                countChangePublication += 1
+                countChange += 1
+            i += 1
+
+        # ADD PUBLICATION ITEMS
+        if request.FILES:
+            if request.FILES.getlist('imagefront'):
+                front = request.FILES.getlist('imagefront')[0]
+                publication.imagefront = renameFile(front.name)
+                handle_uploaded_file(front, 'images/publication/')
+                countChangePublication += 1
+                countChange += 1
+            if request.FILES.getlist('imageback'):
+                back = request.FILES.getlist('imageback')[0]
+                publication.imageback = renameFile(back.name)
+                handle_uploaded_file(back, 'images/publication/')
+                countChangePublication += 1
+                countChange += 1
+
+        fkarticlenumber = 0
+        data = request.POST.items()
+        for keys, values in data:
+            if 'fkidperson' in keys:
+                pubauth = Publicationauthor(
+                    idpublication=publication, idperson=Person.objects.get(pk=values))
+                pubauth.save()
+            if 'fknamearticle' in keys:
+                fkarticlenumber += 1
+
+        for i in range(0, fkarticlenumber):
+            pd = Publicationdetail(idpublication=publication)
+            name = request.POST.get('fknamearticle'+str(i))
+            if name != "":
+                pd.name = name
+
+            if request.FILES:
+                if request.FILES.getlist('fkpdfarticle'+str(i)):
+                    pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
+                    pd.pdf = renameFile(pdf.name)
+                    path = publicationPdfLocation(publication)
+
+                    handle_uploaded_file(pdf, 'pdf/'+path)
+
+            if pd.name is not None and pd.pdf is not None:
+                pd.save()
+
+        # UPDATE PUBLICATION ITEMS
+        if len(request.POST.getlist("deleteeditor")) > 0:
+            for id_pubauth in request.POST.getlist("deleteeditor"):
+                authortodelete = Publicationauthor.objects.get(pk=id_pubauth)
+                authortodelete.delete()
+            countChange += 1
+
+        if len(request.POST.getlist("deletepd")) > 0:
+            for id_pubDetail in request.POST.getlist("deletepd"):
+                pubdetailtodelete = Publicationdetail.objects.get(
+                    pk=id_pubDetail)
+                if pubdetailtodelete.pdf is not None:
+                    path = publicationPdfLocation(publication)
+                    _delete_file(pubdetailtodelete.pdf, 'pdf/' + path)
+                pubdetailtodelete.delete()
+            countChange += 1
+
+        if countChangePublication > 0:
+            publication.save()
+        if countChange > 0:
+            context["success"] = "Publication updated successfully."
+        else:
+            context["success"] = "There is nothing to change."
+
+    return render(request, "admin/updatePublication.html", context)
 
 
 def deletePublication(request, pub_id=None):

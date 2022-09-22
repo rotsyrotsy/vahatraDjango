@@ -1,0 +1,228 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% load publications_extras %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Update {{publication.idtype.type}}</h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:updatePublication' publication.id %}" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                    <label for="selectTypePub">Type of publication : <strong>{{publication.idtype.type}}</strong></label>
+                        <select class="form-control" id="selectTypePub" name="idtype" >
+                            <option value="{{publication.idtype.id}}">{{publication.idtype.type}}</option>
+                            {% for item in type_publication %}
+                                {% if item.id != publication.idtype.id %}
+                                <option value="{{item.id}}">{{item.type}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{publication.title}}">
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4">{{publication.description|default_if_none:""}}</textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="date">Publication date</label>
+                    {% if publication.date|date:'Y-m-d' %}
+                    <input type="date" class="form-control" id="date" name="date" value="{{publication.date|date:'Y-m-d'}}" >
+                    {% else %}
+                    <input type="date" class="form-control" id="date" name="date" value="{{publication.date}}" >
+                    {% endif %}
+                  </div>
+
+
+                  <div class="form-group">
+                    <label>Cover (<span style="color: red;">Pick another one to change the cover</span>)</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen-front" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn-front" name="imagefront" accept="image/*" hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn-front" style="margin-bottom:0; padding-top: .7rem;">Upload image</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                        <img src="{% static 'images/publication/' %}{{publication.imagefront}}" width="200">
+                    </div>
+                  <div class="form-group">
+                    <label>Back Cover (<span style="color: red;">Pick another one to change the back cover</span>)</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen-back" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn-back" name="imageback" accept="image/*" hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn-back" style="margin-bottom:0; padding-top: .7rem;">Upload image</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <img src="{% static 'images/publication/' %}{{publication.imageback}}" width="200">
+                </div>  
+                
+                {% if publication.publicationauthor_set.all %}
+                <div class="form-group">
+                    <label for="coltxt">Editors<span style="color: red;">(Check to delete items)</span></label>
+                        {% for person in publication.publicationauthor_set.all %}
+                        <div class="form-check form-check-danger">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="deleteeditor" value="{{person.id}}">
+                            {{person.idperson.username|title }} {{person.idperson.name|title}}
+                            <i class="input-helper"></i>
+                          </label>
+                        </div>
+                        {% endfor %}
+                </div>
+                {% endif %}
+
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="addEditors()">
+                        <i class="ti-plus"></i> Add editor(s)
+                    </button>
+                    <span id="btncol"></span>
+                  </div>
+                  <div id="inputeditors"></div>
+
+                  <hr>
+                  {% if publication.publicationdetail_set.all %}
+                      <div class="form-group">
+                        <p class="card-title">List of articles <span style="color: red;">(Check to delete items)</span></p>
+                          {% for pd in publication.publicationdetail_set.all %}
+                              <div class="form-check form-check-danger">
+                                <label class="form-check-label">
+                                  <input type="checkbox" class="form-check-input" name="deletepd" value="{{pd.id}}">
+                                  {{pd.name|title }} 
+                                  <i class="input-helper"></i>
+                                    {% if pd.pdf %}
+                                   - <a style="color: #D5A843;" href="{% static 'pdf/' %}{{publication.idtype.type|snake_case}}/{{pd.pdf}}">PDF</a>
+                                    {% endif %}
+                                </label>
+                              </div>
+                            {% endfor %}
+                        </div>
+                      {% endif %}
+
+                  <p class="card-title">Attach an article to the publication</p>
+                  <div class="form-group">
+                    <label for="name">Article name</label>
+                    <input type="text" class="form-control" id="name" name="fknamearticle0" placeholder="Name">
+                  </div>
+                  <div class="form-group">
+                    <label>Attach PDF</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen-pdf-0" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn-pdf-0" name="fkpdfarticle0" accept="application/pdf" hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf-0" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-outline-primary" onclick="addArticles()">
+                        <i class="ti-plus"></i> Add another article
+                    </button>
+                  </div>
+                  <div id="inputarticles"></div>
+                  
+                
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+                
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listPublications' publication.idtype.id %}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+    let click1 = 0;
+    function addEditors(){
+        if (click1==0){
+            button = '<a href="{% url "admin:addPerson" %}" type="button" class="btn btn-outline-success" >Add a new editor</a>';
+            $('#btncol').append(button);
+        }
+        var select = '<div class="form-group"><label for="selectNewEditor">Editor</label>\
+                        <select class="form-control" id="selectNewEditor" name="fkidperson'+click1+'">';
+        select += '{% for person in persons %}<option value="{{person.id}}">{{person.name}} {{person.username}}</option>{% endfor %}';
+        select += '</select></div>';
+        $('#inputeditors').append(select);
+        click1 += 1;
+    }
+
+    const actualBtnFront = document.getElementById('actual-btn-front');
+
+    actualBtnFront.addEventListener('change', function(){
+        document.getElementById('file-chosen-front').value = this.files[0].name
+    });
+
+    
+    const actualBtnBack = document.getElementById('actual-btn-back');
+
+    actualBtnBack.addEventListener('change', function(){
+        document.getElementById('file-chosen-back').value = this.files[0].name
+    });
+
+    
+    const actualBtnPdf = document.getElementById('actual-btn-pdf-0');
+
+    actualBtnPdf.addEventListener('change', function(){
+        document.getElementById('file-chosen-pdf-0').value = this.files[0].name
+    })
+  
+
+    let click2 = 1
+    function addArticles(){
+        var select ='<fieldset style="padding: 10;margin-bottom: 10px;border: 3;"><div class="form-group"><label>Article name</label>\
+                    <input type="text" class="form-control"  name="fknamearticle'+click2+'" placeholder="Name">\
+                  </div><div class="form-group"><label>Attach PDF</label><div class="input-group">\
+                      <input type="text" class="form-control" id="file-chosen-pdf-'+click2+'" placeholder="No file chosen" aria-label="No file chosen">\
+                      <div class="input-group-append">\
+                        <input type="file" id="actual-btn-pdf-'+click2+'" name="fkpdfarticle'+click2+'" accept="application/pdf" hidden/>\
+                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf-'+click2+'" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>\
+                      </div>\
+                    </div>\
+                  </div></fieldset>';
+        click2 += 1
+        $('#inputarticles').append(select);
+
+        for (let i=1; i<click2; i++){
+          const actualBtnPdf = document.getElementById('actual-btn-pdf-'+i);
+
+          actualBtnPdf.addEventListener('change', function(){
+              document.getElementById('file-chosen-pdf-'+i).value = this.files[0].name
+          })
+        }
+    }
+
+    
+    
+</script>
+{% endblock %}
