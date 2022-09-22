@@ -55,7 +55,7 @@ def member(request, type_member_id, page=1):
     page_number = Member.objects.filter(idtypemember=type.id).count()
     page_number = ceil(page_number/4)
 
-    members = Memberviewposts.objects.filter(idtypemember=type.id).order_by(
+    members = Member.objects.filter(idtypemember=type.id).order_by(
         'id'
     )[(page*4):((page*4)+4)]
 

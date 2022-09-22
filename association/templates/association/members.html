@@ -27,31 +27,51 @@
                 </div>
                 <p>{{ type.description}}</p>
             </div>
+            {% if type.id == 3 %}
+
+            <div class="sec-title text-center">
+                <ul>
+                    {% for member in members %}
+                        <li>{{member.idperson.name}} {{member.idperson.username}}</li>
+                    {%endfor%}
+                </ul>
+            </div>
+            {% else %}
             <div class="team-wrap2 text-center remove-ext3">
                 <div class="row">
-                    {% for member in members %}
-                    <div class="col-md-3 col-sm-6 col-lg-3">
-                        <div class="team-box2">
-                            <img src="{% static 'images/members/' %}{{member.image}}" alt="{{ member.username }}">
-                            <div class="team-info2">
-                                <h4>{{member.title|default_if_none:""}} {{ member.username }} {{ member.name }}</h4>
-                                {% if member.description %}
-                                <p>{{ member.description }}</p>
+                        {% for member in members %}
+                        <div class="col-md-3 col-sm-6 col-lg-3">
+                            <div class="team-box2">
+                                {% if member.image %}
+                                <img src="{% static 'images/members/' %}{{member.image}}" alt="{{ member.idperson.username }}">
+                                {% else %}
+                                <img src="{% static 'images/members/none.jpg' %}" alt="{{ member.idperson.username }}">
                                 {% endif %}
-                                <p><strong>{{ member.posts}}</strong> </p>
-                                <div class="team-scl">
-                                    <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-                                    <a href="#" title="Pinterest" target="_blank"><i class="fa fa-pinterest-p"></i></a>
-                                    {% if member.mail %}
-                                    <a href="mailto:{{member.mail}}" title="Google Plus" target="_blank"><i class="flaticon-email"></i></a>
-                                    {% endif %}
-                                    <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                                <div class="team-info2">
+                                    <h4>{{member.idperson.title|default_if_none:""}} {{ member.idperson.username }} {{ member.idperson.name }}</h4>
+                                    <p>{{ member.description|default_if_none:"" }}</p>
+                                    <ul>
+                                        {% for mpi in member.memberpostinst_set.all %}
+                                            <li>
+                                                {{mpi.idpost.name|capfirst}} {% if mpi.idinst.name %}-{% endif %} {{mpi.idinst.name|capfirst }} {% if mpi.iddept.name %},{% endif %} {{mpi.iddept.name|capfirst}}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="team-scl">
+                                        <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+                                        <a href="#" title="Pinterest" target="_blank"><i class="fa fa-pinterest-p"></i></a>
+                                        {% if member.mail %}
+                                        <a href="mailto:{{member.mail}}" title="Google Plus" target="_blank"><i class="flaticon-email"></i></a>
+                                        {% endif %}
+                                        <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
+                        {% endfor %}
                 </div>
+                
+            {% endif %}
                 <div class="pagination-wrap text-center">
                     <ul class="pagination">
                         {% for number in page_number %}
