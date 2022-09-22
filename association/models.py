@@ -46,21 +46,6 @@ class Typemember(models.Model):
         db_table = 'typemember'
 
 
-class Memberviewposts(models.Model):
-    id = models.IntegerField(primary_key=True, blank=True)
-    title = models.CharField(max_length=10, blank=True, null=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    username = models.CharField(max_length=200, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    mail = models.CharField(max_length=100, blank=True, null=True)
-    posts = models.TextField(blank=True, null=True)
-    idtypemember = models.IntegerField(blank=True, null=True)
-    image = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False  # Created from a view. Don't remove.
-        db_table = 'memberviewposts'
-
 class Partner(models.Model):
     idinst = models.ForeignKey('Institution', on_delete=models.CASCADE, db_column='idinst')
     description = models.TextField(blank=True, null=True)

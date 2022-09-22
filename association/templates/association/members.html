@@ -50,13 +50,13 @@
                                 <div class="team-info2">
                                     <h4>{{member.idperson.title|default_if_none:""}} {{ member.idperson.username }} {{ member.idperson.name }}</h4>
                                     <p>{{ member.description|default_if_none:"" }}</p>
-                                    <ul>
+                                    
                                         {% for mpi in member.memberpostinst_set.all %}
-                                            <li>
+                                            <p style="font-weight: bold;">
                                                 {{mpi.idpost.name|capfirst}} {% if mpi.idinst.name %}-{% endif %} {{mpi.idinst.name|capfirst }} {% if mpi.iddept.name %},{% endif %} {{mpi.iddept.name|capfirst}}
-                                            </li>
+                                            </p>
                                         {% endfor %}
-                                    </ul>
+                                    
                                     <div class="team-scl">
                                         <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
                                         <a href="#" title="Pinterest" target="_blank"><i class="fa fa-pinterest-p"></i></a>

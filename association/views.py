@@ -1,6 +1,6 @@
 from math import ceil
 from django.shortcuts import get_object_or_404, render
-from association.models import  Image, Imagetype, Memberviewposts, Messageofyear, Typemember, Member,Partner,Person
+from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner,Person
 from django.core.mail import send_mail
 from django.db.models.functions import  Substr
 from django.db.models import IntegerField, F,Q
