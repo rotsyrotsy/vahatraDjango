@@ -58,6 +58,7 @@
 
                   <div class="form-group">
                     <label>Image</label>
+                    {% if imageError %}<div class="alert alert-danger">{{imageError}} </div>{%endif%}
                     <div class="input-group">
                       <input type="text" class="form-control" id="file-chosen-front" placeholder="No file chosen" aria-label="No file chosen">
                       <div class="input-group-append">
@@ -106,8 +107,8 @@
 
     actualBtnFront.addEventListener('change', function(){
         document.getElementById('file-chosen-front').value = this.files[0].name
-    });
 
+    });
 
     let click2 = 0
     function addRole(){

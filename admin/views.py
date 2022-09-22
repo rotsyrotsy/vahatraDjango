@@ -16,6 +16,7 @@ from association.models import Department, Institution, Member, Memberpostinst, 
 import os
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 import unidecode
+from django.core.files.images import get_image_dimensions
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -799,6 +800,7 @@ def addMember(request,typemember_id=1):
         newperson = Person(name=request.POST['name'], username=request.POST['username'])
         if request.POST['title']!="":
             newperson.title = request.POST['title']
+        newperson.save()
         
         lastPerson = Person.objects.last()
 
@@ -817,9 +819,13 @@ def addMember(request,typemember_id=1):
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
                 member.image = renameFile(imageFile.name)
-                # handle_uploaded_file(imageFile, 'images/members/')
+                w,h = get_image_dimensions(imageFile)
+                print(str(w)+", "+str(h))
+                if w!=h:
+                    context['imageError']="Recommended size : 1080 x 1080 pixels"
+                handle_uploaded_file(imageFile, 'images/members/')
 
-        # member.save()
+        member.save()
 
         lastMember = Member.objects.last()
         fkmembernumber = 0
