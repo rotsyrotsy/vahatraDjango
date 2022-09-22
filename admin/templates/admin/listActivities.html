@@ -109,7 +109,7 @@
                          {{activity.date |date:"Y" }}
                       </td>
                       <td class="text-center">
-                        <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deleteActivity('{{activity.title}}','{{activity.id}}')" >
+                        <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deleteActivity('{{activity.title|escapejs}}','{{activity.id}}')" >
                             <i class="ti-trash"></i>
                           </button>
                           <a href="{% url 'admin:updateActivity' activity.id %}" type="button" class="btn btn-inverse-warning btn-icon" id="btn-change">

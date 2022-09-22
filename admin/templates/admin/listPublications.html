@@ -81,7 +81,8 @@
                       </td>
                       <td class="text-center" style="white-space: nowrap;">
                         <!-- ESCAPE ' IN FUNCTION ONCLICK -->
-                        <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deletePublication('{{publication.title}}','{{publication.id}}')" >
+
+                        <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deletePublication('{{publication.title|escapejs}}','{{publication.id}}')" >
                             <i class="ti-trash"></i>
                           </button>
                           <button onclick="location.href='{% url 'admin:updatePublication' publication.id %}'" type="button" class="btn btn-inverse-warning btn-icon" id="btn-change" >
