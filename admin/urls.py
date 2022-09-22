@@ -28,5 +28,12 @@ urlpatterns = [
     path("deletePublication/", views.deletePublication, name="deletePublication"),
     path("addPublication/", views.addPublication, name="addPublication"),
     path("addPublication/<str:idtypepublication>", views.addPublication, name="addPublication"),
+    path("listMembers/<str:typemember_id>", views.listMembers, name="listMembers"),
+    path("listMembers/<str:typemember_id>/page-<int:page>", views.listMembers, name="listMembers"),
+    path("updateMember/<str:member_id>", views.updateMember, name="updateMember"),
+    path("deleteMember/", views.deleteMember, name="deleteMember"),
+    path("addMember/", views.addMember, name="addMember"),
+    path("addMember/<str:typemember_id>", views.addMember, name="addMember"),
+
     
 ]

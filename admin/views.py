@@ -12,19 +12,20 @@ from django.core.mail import send_mail, EmailMessage
 from django.db.models import Min, Max
 from math import ceil
 from sequences import get_next_value
-from association.models import Department, Institution, Person
+from association.models import Department, Institution, Member, Memberpostinst, Person, Post, Typemember
 import os
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 import unidecode
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
-
+type_member = Typemember.objects.all()
 
 def index(request):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
     if 'admin' not in request.session:
         return HttpResponseRedirect(reverse("admin:login"))
@@ -105,6 +106,7 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
 
     type = get_object_or_404(Typeactivity, pk=activity_id)
@@ -185,6 +187,7 @@ def addActivity(request, idtypeactivity='A1'):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
 
     type = get_object_or_404(Typeactivity, pk=idtypeactivity)
@@ -293,6 +296,7 @@ def addPerson(request):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
     if request.method == 'POST':
         person = Person(
@@ -306,6 +310,7 @@ def addInstitution(request):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
     if request.method == 'POST':
         nextId = get_next_value("institution")
@@ -320,6 +325,7 @@ def addLocation(request):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
     if request.method == 'POST':
         if request.POST['name'] == "" or request.POST['longitude'] == "" or request.POST['latitude'] == "":
@@ -336,6 +342,7 @@ def updateActivity(request, activity_id=1):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
 
     activity = get_object_or_404(Activity, pk=activity_id)
@@ -489,6 +496,7 @@ def listPublications(request, pub_id=1, page=1, year=None):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
 
     type = get_object_or_404(Typepublication, pk=pub_id)
@@ -532,6 +540,7 @@ def addPublication(request, idtypepublication=1):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
 
     type = get_object_or_404(Typepublication, pk=idtypepublication)
@@ -609,6 +618,7 @@ def updatePublication(request, pub_id=1):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
+        "type_member": type_member,
     }
 
     publication = get_object_or_404(Publication, pk=pub_id)
@@ -727,6 +737,133 @@ def deletePublication(request, pub_id=None):
                     _delete_file(det.pdf, 'pdf/' + path)
 
                 publication.delete()
+
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': 'Publication successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+
+# LIST OF MEMBERS
+def listMembers(request,typemember_id=2,page=1):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    type = get_object_or_404(Typemember, pk=typemember_id)
+    context["type"] = type
+
+    list = Member.objects.filter(idtypemember=typemember_id)
+
+    page_number = list.count()
+    page_number = ceil(page_number/8)
+
+    if (page > page_number):
+        page = page_number
+    elif page < 1:
+        page = 1
+    page -= 1
+
+    if (list.count() > 0):
+        members = list.order_by('idperson__name')[(page*8):((page*8)+8)]
+        context["members"] = members
+
+    context["page_number"] = range(1, page_number+1)
+
+    return render(request, "admin/listMembers.html", context)
+
+def addMember(request,typemember_id=1):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    type = get_object_or_404(Typemember, pk=typemember_id)
+    context["type"] = type
+    context['posts']=Post.objects.all().order_by('name')
+    context['insts']= Institution.objects.all().order_by('name')
+    context['depts']=Department.objects.all().order_by('name')
+    if request.method == 'POST':
+
+        if request.POST['idtypemember'] == "" or request.POST['name'] == "" or request.POST['username'] == "":
+            context["error"] = "Fields 'Type','Name' and 'Username'  are required."
+            return render(request, "admin/addMember.html", context)
+
+        typemember = Typemember.objects.get(
+            pk=request.POST['idtypemember'])
+        context["type"] = typemember
+
+        newperson = Person(name=request.POST['name'], username=request.POST['username'])
+        if request.POST['title']!="":
+            newperson.title = request.POST['title']
+        
+        lastPerson = Person.objects.last()
+
+        member = Member(idtypemember=typemember,idperson=lastPerson)
+
+        names = ['description', 'mail']
+        values = [request.POST.get(p) for p in names]
+
+        counter = 0
+        for value in values:
+            if value != "":
+                setattr(member, names[counter], value)
+            counter += 1
+
+        if request.FILES:
+            if request.FILES.getlist('image'):
+                imageFile = request.FILES.getlist('image')[0]
+                member.image = renameFile(imageFile.name)
+                # handle_uploaded_file(imageFile, 'images/members/')
+
+        # member.save()
+
+        lastMember = Member.objects.last()
+        fkmembernumber = 0
+        data = request.POST.items()
+        for keys, values in data:
+            if 'fkpost' in keys:
+                fkmembernumber += 1
+
+        for i in range(0, fkmembernumber):
+            mip = Memberpostinst(idmember=lastMember)
+            countifnull=0
+            if request.POST['fkpost'+str(i)]!="":
+                mip.idpost = Post.objects.get(pk=request.POST['fkpost'+str(i)])
+                countifnull += 1
+            if request.POST['fkinst'+str(i)]!="":
+                mip.idinst = Institution.objects.get(pk=request.POST['fkinst'+str(i)])
+                countifnull += 1
+            if request.POST['fkdept'+str(i)]!="":
+                mip.iddept = Department.objects.get(pk=request.POST['fkdept'+str(i)])
+                countifnull += 1
+
+            if countifnull>0:
+                mip.save()
+
+        context["success"] = "New member inserted successfully."
+
+
+    return render(request, "admin/addMember.html", context)
+
+
+def updateMember(request,member_id=None):
+    return HttpResponseRedirect(reverse("admin:index")) 
+
+def deleteMember(request, member_id=None):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method == 'POST':
+            member_id = request.POST.get('member_id', '')
+            try:
+                member = Member.objects.get(pk=member_id)
+                if member.image:
+                    _delete_file(member.image, 'images/members/')
+                member.delete()
 
             except KeyError:
                 return HttpResponseBadRequest('Error')

@@ -16,7 +16,7 @@
         <div class="collapse" id="activity">
           <ul class="nav flex-column sub-menu">
             {% for item in type_activity %}
-            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listActivities' item.id %}">{{item.type}}</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listActivities' item.id %}">{{item.type|capfirst}}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -30,7 +30,7 @@
         <div class="collapse" id="publications">
           <ul class="nav flex-column sub-menu">
             {% for item in type_publication %}
-            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listPublications' item.id %}">{{item.type}}</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listPublications' item.id %}">{{item.type|capfirst}}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -43,8 +43,10 @@
         </a>
         <div class="collapse" id="members">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addPerson' %}"> Person </a></li>
-            <li class="nav-item"> <a class="nav-link" href="#"> Member </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addPerson' %}"> Add a new person </a></li>
+            {% for item in type_member %}
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listMembers' item.id %}">{{item.type|capfirst}}</a></li>
+            {% endfor %}
           </ul>
         </div>
       </li>

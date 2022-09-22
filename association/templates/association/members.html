@@ -34,7 +34,7 @@
                         <div class="team-box2">
                             <img src="{% static 'images/members/' %}{{member.image}}" alt="{{ member.username }}">
                             <div class="team-info2">
-                                <h4>{{member.title}} {{ member.username }} {{ member.name }}</h4>
+                                <h4>{{member.title|default_if_none:""}} {{ member.username }} {{ member.name }}</h4>
                                 {% if member.description %}
                                 <p>{{ member.description }}</p>
                                 {% endif %}
