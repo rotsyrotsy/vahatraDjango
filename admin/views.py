@@ -14,7 +14,7 @@ from math import ceil
 from sequences import get_next_value
 from association.models import Department, Institution, Person
 import os
-from publications.models import Publication, Typepublication
+from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 import unidecode
 
 type_activity = Typeactivity.objects.all()
@@ -154,9 +154,9 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
     return render(request, "admin/listActivities.html", context)
 
 
-def _delete_file(path):
+def _delete_file(path, location):
     """ Deletes file from filesystem. """
-    path = 'static/images/site/'+path
+    path = 'static/'+location+path
     if os.path.isfile(path):
         os.remove(path)
 
@@ -170,7 +170,7 @@ def deleteActivity(request):
             try:
                 activity = Activity.objects.get(pk=id_activity)
                 for activityimage in activity.activityimage_set.all():
-                    _delete_file(activityimage.image)
+                    _delete_file(activityimage.image, 'images/site/')
                 activity.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
@@ -389,7 +389,7 @@ def updateActivity(request, activity_id=1):
             img_ids = request.POST.getlist("supprImage")
             for img_id in img_ids:
                 activityimage = Activityimage.objects.get(pk=img_id)
-                _delete_file(activityimage.image)
+                _delete_file(activityimage.image, 'images/site/')
                 activityimage.delete()
             countChange += 1
 
@@ -522,6 +522,12 @@ def listPublications(request, pub_id=1, page=1, year=None):
     return render(request, "admin/listPublications.html", context)
 
 
+def publicationPdfLocation(publication, fileRenamed):
+    folder = renameFile(publication.idtype.type)
+    path = folder+"/"+fileRenamed
+    return path
+
+
 def addPublication(request, idtypepublication=1):
     context = {
         "type_publication": type_publication,
@@ -556,28 +562,43 @@ def addPublication(request, idtypepublication=1):
         if request.FILES:
             if request.FILES.getlist('imagefront'):
                 front = request.FILES.getlist('imagefront')[0]
-                print(front)
                 publication.imagefront = renameFile(front.name)
                 handle_uploaded_file(front, 'images/publication/')
             if request.FILES.getlist('imageback'):
                 back = request.FILES.getlist('imageback')[0]
-                print(back)
                 publication.imageback = renameFile(back.name)
                 handle_uploaded_file(back, 'images/publication/')
 
         publication.save()
         context["success"] = "New publication inserted successfully."
 
-        # data = request.POST.items()
-        # for keys, values in data:
-        #     if 'fkidperson' in keys:
-        #         actpers = Activityperson(
-        #             idactivity=lastActivity, idperson=Person.objects.get(pk=values))
-        #         actpers.save()
-        #     if 'fkidinst' in keys:
-        #         actpers = Activityinstitution(
-        #             idactivity=lastActivity, idinst=Institution.objects.get(pk=values))
-        #         actpers.save()
+        lastPublication = Publication.objects.last()
+
+        fkarticlenumber = 0
+        data = request.POST.items()
+        for keys, values in data:
+            if 'fkidperson' in keys:
+                pubauth = Publicationauthor(
+                    idpublication=lastPublication, idperson=Person.objects.get(pk=values))
+                pubauth.save()
+            if 'fknamearticle' in keys:
+                fkarticlenumber += 1
+
+        for i in range(0, fkarticlenumber):
+            pd = Publicationdetail(idpublication=lastPublication)
+            name = request.POST.get('fknamearticle'+str(i))
+
+            if name != "":
+                pd.name = name
+
+            if request.FILES:
+                if request.FILES.getlist('fkpdfarticle'+str(i)):
+                    pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
+                    pd.pdf = renameFile(pdf.name)
+                    path = publicationPdfLocation(lastPublication, pd.pdf)
+                    handle_uploaded_file(pdf, 'pdf/'+path)
+
+            pd.save()
 
     return render(request, "admin/addPublication.html", context)
 
@@ -595,9 +616,9 @@ def deletePublication(request, pub_id=None):
             try:
                 publication = Publication.objects.get(pk=id_publication)
                 if publication.imagefront:
-                    _delete_file(publication.imagefront)
+                    _delete_file(publication.imagefront, 'images/publication/')
                 if publication.imageback:
-                    _delete_file(publication.imageback)
+                    _delete_file(publication.imageback, 'images/publication/')
                 publication.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')

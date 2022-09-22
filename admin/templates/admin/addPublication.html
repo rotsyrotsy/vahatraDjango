@@ -81,10 +81,10 @@
                   <div class="form-group">
                     <label>Attach PDF</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" id="file-chosen-pdf" placeholder="No file chosen" aria-label="No file chosen">
+                      <input type="text" class="form-control" id="file-chosen-pdf-0" placeholder="No file chosen" aria-label="No file chosen">
                       <div class="input-group-append">
-                        <input type="file" id="actual-btn-pdf" name="fkpdfarticle0" accept="application/pdf" hidden/>
-                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>
+                        <input type="file" id="actual-btn-pdf-0" name="fkpdfarticle0" accept="application/pdf" hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf-0" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>
                       </div>
                     </div>
                   </div>
@@ -147,26 +147,38 @@
     });
 
     
-    const actualBtnPdf = document.getElementById('actual-btn-pdf');
+    const actualBtnPdf = document.getElementById('actual-btn-pdf-0');
 
     actualBtnPdf.addEventListener('change', function(){
-        document.getElementById('file-chosen-pdf').value = this.files[0].name
+        document.getElementById('file-chosen-pdf-0').value = this.files[0].name
     })
+  
 
     let click2 = 1
     function addArticles(){
         var select ='<fieldset style="padding: 10;margin-bottom: 10px;border: 3;"><div class="form-group"><label>Article name</label>\
-                    <input type="text" class="form-control"  name="fknamearticle"'+click2+' placeholder="Name">\
+                    <input type="text" class="form-control"  name="fknamearticle'+click2+'" placeholder="Name">\
                   </div><div class="form-group"><label>Attach PDF</label><div class="input-group">\
-                      <input type="text" class="form-control" id="file-chosen-pdf" placeholder="No file chosen" aria-label="No file chosen">\
+                      <input type="text" class="form-control" id="file-chosen-pdf-'+click2+'" placeholder="No file chosen" aria-label="No file chosen">\
                       <div class="input-group-append">\
-                        <input type="file" id="actual-btn-pdf" name="fkpdfarticle"'+click2+' accept="application/pdf" hidden/>\
-                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>\
+                        <input type="file" id="actual-btn-pdf-'+click2+'" name="fkpdfarticle'+click2+'" accept="application/pdf" hidden/>\
+                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf-'+click2+'" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>\
                       </div>\
                     </div>\
                   </div></fieldset>';
         click2 += 1
         $('#inputarticles').append(select);
+
+        for (let i=1; i<click2; i++){
+          const actualBtnPdf = document.getElementById('actual-btn-pdf-'+i);
+
+          actualBtnPdf.addEventListener('change', function(){
+              document.getElementById('file-chosen-pdf-'+i).value = this.files[0].name
+          })
+        }
     }
+
+    
+    
 </script>
 {% endblock %}
