@@ -20,16 +20,16 @@
 <section>
     <div class="gap">
         <div class="container">
+            
+            {% if type.id == 3 %}
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>Our Members</span>
                     <h3>{{type.name|title}}</h3>
                 </div>
-                <p>{{ type.description}}</p>
             </div>
-            {% if type.id == 3 %}
-
-            <div class="sec-title text-center">
+            <div >
+                <p>{{ type.description}}</p>
                 <ul>
                     {% for member in members %}
                         <li>{{member.idperson.name}} {{member.idperson.username}}</li>
@@ -37,6 +37,13 @@
                 </ul>
             </div>
             {% else %}
+            <div class="sec-title text-center">
+                <div class="sec-title-inner">
+                    <span>Our Members</span>
+                    <h3>{{type.name|title}}</h3>
+                </div>
+                <p>{{ type.description}}</p>
+            </div>
             <div class="team-wrap2 text-center remove-ext3">
                 <div class="row">
                         {% for member in members %}
