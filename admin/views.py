@@ -371,21 +371,25 @@ def updateActivity(request, activity_id=1):
             countChange += 1
 
         params = ['title', 'description', 'date', 'note']
-        values = [activity.title, activity.description,
-                  activity.date, activity.note]
+        values = [request.POST.get(p) for p in params]
 
-        for i in range(0, len(params)):
-            if request.POST[params[i]] != str(values[i]) and (request.POST[params[i]] != "" or values[i] is not None):
-                param = request.POST[params[i]]
-                if param == "":
-                    param = None
-                values[i] = param
+        i = 0
+        for value in values:
+            if value != str(getattr(activity, params[i])):
+                if value == "":
+                    value = None
+                setattr(activity, params[i], value)
                 countChangeActivity += 1
                 countChange += 1
+            i += 1
+
+    
+        if countChangeActivity > 0:
+            activity.save()
+            context["activity"] = activity
 
         if request.FILES:
             files = request.FILES.getlist('files')
-            print(files)
             for f in files:
                 image = Activityimage(image=renameFile(
                     f.name), idactivity=activity)
@@ -445,7 +449,7 @@ def updateActivity(request, activity_id=1):
                 countChangeVisit += 1
                 countChange += 1
 
-            if request.POST['dateend'] != str(visit.dateend) and (request.POST['dateend'] != "" or visit.dateend is not None):
+            if request.POST['dateend'] != str(visit.dateend):
                 dateend = request.POST['dateend']
                 if request.POST['dateend'] == "":
                     dateend = None
@@ -479,9 +483,6 @@ def updateActivity(request, activity_id=1):
             context['visit'] = visit
             visit.save()
 
-        if countChangeActivity > 0:
-            context["activity"] = activity
-            activity.save()
 
         if countChange > 0:
             context["success"] = "Activity updated successfully."
@@ -640,7 +641,7 @@ def updatePublication(request, pub_id=1):
 
         i = 0
         for value in values:
-            if value != str(getattr(publication, names[i])) and (value != "" or getattr(publication, names[i]) is None):
+            if value != str(getattr(publication, names[i])):
                 if value == "":
                     value = None
                 setattr(publication, names[i], value)
@@ -857,7 +858,103 @@ def addMember(request,typemember_id=1):
 
 
 def updateMember(request,member_id=None):
-    return HttpResponseRedirect(reverse("admin:index")) 
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    member = get_object_or_404(Member, pk=member_id)
+    context['member'] = member
+    context['posts']=Post.objects.all().order_by('name')
+    context['insts']= Institution.objects.all().order_by('name')
+    context['depts']=Department.objects.all().order_by('name')
+
+
+    countChange = 0
+    countChangeMember = 0
+    if request.method == 'POST':
+        if request.POST['idtypemember'] != str(member.idtypemember.id):
+            member.idtypemember = Typemember.objects.get(
+                pk=request.POST['idtypemember'])
+            countChangeMember += 1
+            countChange += 1
+        
+        countChangePerson = 0
+        theperson = member.idperson
+        namesPerson = ['title', 'name','username']
+        valuesPerson = [request.POST.get(p) for p in namesPerson]
+        i = 0
+        for value in valuesPerson:
+            if value != str(getattr(theperson, namesPerson[i])):
+                if value == "":
+                    value = None
+                setattr(theperson, namesPerson[i], value)
+                countChangePerson += 1
+                countChange += 1
+            i += 1
+        if countChangePerson>0:
+            theperson.save()
+
+        names = ['mail', 'description']
+        values = [request.POST.get(p) for p in names]
+
+        i = 0
+        for value in values:
+            if value != str(getattr(member, names[i])):
+                if value == "":
+                    value = None
+                setattr(member, names[i], value)
+                countChangeMember += 1
+                countChange += 1
+            i += 1
+        if request.FILES:
+            if request.FILES.getlist('image'):
+                imageFile = request.FILES.getlist('image')[0]
+                member.image = renameFile(imageFile.name)
+                w,h = get_image_dimensions(imageFile)
+                if w!=h:
+                    context['imageError']="Recommended size : 1080 x 1080 pixels"
+                handle_uploaded_file(imageFile, 'images/members/')
+                countChangeMember += 1
+                countChange += 1
+        
+        if len(request.POST.getlist("deletempi")) > 0:
+            for id_mpi in request.POST.getlist("deletempi"):
+                mpitodelete = Memberpostinst.objects.get(pk=id_mpi)
+                mpitodelete.delete()
+            countChange += 1
+
+        fkmembernumber = 0
+        data = request.POST.items()
+        for keys, values in data:
+            if 'fkpost' in keys:
+                fkmembernumber += 1
+
+        for i in range(0, fkmembernumber):
+            mip = Memberpostinst(idmember=member)
+            countifnull=0
+            if request.POST['fkpost'+str(i)]!="":
+                mip.idpost = Post.objects.get(pk=request.POST['fkpost'+str(i)])
+                countifnull += 1
+            if request.POST['fkinst'+str(i)]!="":
+                mip.idinst = Institution.objects.get(pk=request.POST['fkinst'+str(i)])
+                countifnull += 1
+            if request.POST['fkdept'+str(i)]!="":
+                mip.iddept = Department.objects.get(pk=request.POST['fkdept'+str(i)])
+                countifnull += 1
+
+            if countifnull>0:
+                countChange += 1
+                mip.save()
+        
+        if countChangeMember>0:
+            member.save()
+        if countChange > 0:
+            context["success"] = "Member's informations updated successfully."
+        else:
+            context["success"] = "There is nothing to change."
+            
+    return render(request, "admin/updateMember.html", context)
 
 def deleteMember(request, member_id=None):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

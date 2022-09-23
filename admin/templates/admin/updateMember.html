@@ -6,11 +6,11 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Add new member : <strong>{{type.type}}</strong></h4>
+                <h4 class="card-title">Update informations about <strong>{{member.idperson.name}} {{member.idperson.username}}</strong></h4>
                 <p class="card-description">
                   Fill in the form
                 </p>
-                <form class="forms-sample" action="{% url 'admin:addMember' %}" enctype="multipart/form-data" method="post">
+                <form class="forms-sample" action="{% url 'admin:updateMember' member.id %}" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
                     {% if error %}
                     <div class="alert alert-danger">
@@ -20,10 +20,10 @@
 
                 <div class="form-group">
                 <label for="selectType">Member type</label>
-                    <select class="form-control" id="selectType" name="idtypemember" required>
-                        <option value="{{type.id}}">{{type.type}}</option>
+                    <select class="form-control" id="selectType" name="idtypemember" >
+                        <option value="{{member.idtypemember.id}}">{{member.idtypemember.type}}</option>
                         {% for item in type_member %}
-                            {% if item.id != type.id %}
+                            {% if item.id != member.idtypemember.id %}
                             <option value="{{item.id}}">{{item.type}}</option>
                             {% endif %}
                         {% endfor %}
@@ -32,6 +32,7 @@
                 <div class="form-group">
                     <label for="selectTypetitle">Title</label>
                         <select class="form-control" id="selectTypetitle" name="title" >
+                            <option value="{{member.idperson.title}}">{{member.idperson.title|default_if_none:"--"}} (current)</option>
                             <option value="">--</option>
                             <option value="Pr.">Pr.</option>
                             <option value="Dr.">Dr.</option>
@@ -41,23 +42,23 @@
                     </div>
                   <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{member.idperson.name}}">
                   </div>
                   <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{member.idperson.username}}">
                   </div>
                   <div class="form-group">
                     <label for="mail">Email</label>
-                    <input type="email" class="form-control" id="mail" name="mail" placeholder="Email" >
+                    <input type="email" class="form-control" id="mail" name="mail" placeholder="Email" value="{{member.mail|default_if_none:""}}">
                   </div>
                   <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="4">{{member.description|default_if_none:""}}</textarea>
                   </div>
 
                   <div class="form-group">
-                    <label>Image</label>
+                    <label>Image (<span style="color: red;">Pick another one to change photo</span>)</label>
                     {% if imageError %}<div class="alert alert-danger">{{imageError}} </div>{%endif%}
                     <div class="input-group">
                       <input type="text" class="form-control" id="file-chosen-front" placeholder="No file chosen" aria-label="No file chosen">
@@ -67,8 +68,24 @@
                       </div>
                     </div>
                   </div>
-
+                  <div class="form-group">
+                    <img src="{% static 'images/members/' %}{{member.image}}" width="200">
+                    </div>
                   <hr>
+                  {% if member.memberpostinst_set.all %}
+                <div class="form-group">
+                    <label for="coltxt">Post(s) of this member <span style="color: red;">(Check to delete items)</span></label>
+                        {% for mpi in  member.memberpostinst_set.all %}
+                        <div class="form-check form-check-danger">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="deletempi" value="{{mpi.id}}">
+                            {{mpi.idpost.name|capfirst}} {% if mpi.idinst.name %}-{% endif %} {{mpi.idinst.name|capfirst }} {% if mpi.iddept.name %},{% endif %} {{mpi.iddept.name|capfirst}}
+                            <i class="input-helper"></i>
+                          </label>
+                        </div>
+                        {% endfor %}
+                </div>
+                {% endif %}
                   <div class="form-group">
                     <button type="button" class="btn btn-outline-primary" onclick="addRole()">
                         <i class="ti-plus"></i> Add role
@@ -90,7 +107,7 @@
                 {% endif %}
                 
                   <button type="submit" class="btn btn-info mr-2">Submit</button>
-                  <a href="{% url 'admin:listMembers' type.id %}" class="btn btn-light">Cancel</a>
+                  <a href="{% url 'admin:listMembers' member.idtypemember.id %}" class="btn btn-light">Cancel</a>
                 </form>
               </div>
             </div>
