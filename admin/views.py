@@ -6,7 +6,7 @@ from admin.models import Administrator
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, EmailMessage
-from django.db.models import Min, Max
+from django.db.models import Min, Max,Q
 from math import ceil
 from sequences import get_next_value
 from association.models import Department, Institution, Member, Memberpostinst, Person, Post, Typemember
@@ -782,12 +782,16 @@ def addMember(request,typemember_id=1):
             pk=request.POST['idtypemember'])
         context["type"] = typemember
 
-        newperson = Person(name=request.POST['name'], username=request.POST['username'])
-        if request.POST['title']!="":
-            newperson.title = request.POST['title']
-        newperson.save()
-        
-        lastPerson = Person.objects.last()
+        lastPerson = None
+        theperson = Person.objects.filter(Q(name=str(request.POST['name'])), Q(username=str(request.POST['username'])))
+        if theperson.count()>0:
+            lastPerson = theperson[0]
+        else:
+            newperson = Person(name=request.POST['name'], username=request.POST['username'])
+            if request.POST['title']!="":
+                newperson.title = request.POST['title']
+            newperson.save()
+            lastPerson = Person.objects.last()
 
         member = Member(idtypemember=typemember,idperson=lastPerson)
 

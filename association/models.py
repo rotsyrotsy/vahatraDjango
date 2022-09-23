@@ -80,13 +80,6 @@ class Imagetype(models.Model):
     class Meta:
         db_table = 'imagetype'
 
-class Degree(models.Model):
-    id = models.CharField(primary_key=True, max_length=20)
-    title = models.CharField(max_length=100, blank=True, null=True)
-
-    class Meta:
-        db_table = 'degree'
-
 class Memberpostinst(models.Model):
     idmember = models.ForeignKey('Member', on_delete=models.CASCADE, db_column='idmember')
     idpost = models.ForeignKey('Post', on_delete=models.CASCADE, db_column='idpost', blank=True, null=True)
@@ -102,13 +95,3 @@ class Post(models.Model):
 
     class Meta:
         db_table = 'post'
-
-class Studentdegree(models.Model):
-    idmember = models.ForeignKey('Member', on_delete=models.CASCADE, db_column='idmember')
-    iddegree = models.ForeignKey('Degree', on_delete=models.CASCADE, db_column='iddegree')
-    year = models.IntegerField(blank=True, null=True)
-    subject = models.CharField(max_length=255, blank=True, null=True)
-    mention = models.CharField(max_length=100, blank=True, null=True)
-
-    class Meta:
-        db_table = 'studentdegree'
