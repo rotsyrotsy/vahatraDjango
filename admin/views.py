@@ -10,7 +10,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.db.models import Min, Max,Q
 from math import ceil
 from sequences import get_next_value
-from association.models import Department, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
+from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
 import os
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 import unidecode
@@ -1089,3 +1089,16 @@ def deletePartner(request,partner_id=None):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+# IMAGES--------------------------------
+def listImages(request,image_type=1):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    type_image = Imagetype.objects.all()
+    context['type_image']=type_image
+    imagetype=Imagetype.objects.get(pk=image_type)
+    context['imagetype'] = imagetype
+    return render(request, "admin/listImages.html", context)
