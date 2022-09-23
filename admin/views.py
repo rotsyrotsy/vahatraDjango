@@ -1,12 +1,9 @@
-
-from turtle import title
-from urllib import request
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.models import Administrator
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, EmailMessage
 from django.db.models import Min, Max
@@ -102,6 +99,22 @@ def reset_password(request):
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
+def pagination(actualpage, list, item_number, orderby):
+    page_number = list.count()
+    page_number = ceil(page_number/item_number)
+
+    if (actualpage > page_number):
+        actualpage = page_number
+    elif actualpage < 1:
+        actualpage = 1
+    actualpage -= 1
+
+    list = list.order_by(orderby)[(actualpage*item_number):((actualpage*item_number)+item_number)]
+    dict={
+        'list':list,
+        'page_number':page_number
+    }
+    return dict
 
 def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
     context = {
@@ -134,17 +147,12 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
             context["year"] = year
 
     list = list.order_by('date')
-    page_number = list.count()
-    page_number = ceil(page_number/8)
-
-    if (page > page_number):
-        page = page_number
-    elif page < 1:
-        page = 1
-    page -= 1
-
+    
+    page_number=0
     if (list.count() > 0):
-        activities = list.order_by('-date')[(page*8):((page*8)+8)]
+        dictpagination = pagination(page, list, 8, '-date')
+        page_number = dictpagination['page_number']
+        activities = dictpagination['list']
         context["activities"] = activities
 
     min = Activity.objects.filter(
@@ -183,7 +191,27 @@ def deleteActivity(request):
     else:
         return HttpResponseBadRequest('Invalid request')
 
+def setAttributeByRequestParams(request,params,model):
+    values = [request.POST.get(p) for p in params]
+    i = 0
+    for value in values:
+        if value != "":
+            setattr(model, params[i], value)
+        i += 1
 
+def updateAttributeByRequestParams(request,params,model):
+    countChange = 0
+    values = [request.POST.get(p) for p in params]
+    i = 0
+    for value in values:
+        if value != str(getattr(model, params[i])):
+            if value == "":
+                value = None
+            setattr(model, params[i], value)
+            countChange += 1
+        i += 1
+    return countChange
+        
 def addActivity(request, idtypeactivity='A1'):
     context = {
         "type_publication": type_publication,
@@ -217,13 +245,7 @@ def addActivity(request, idtypeactivity='A1'):
                             title=request.POST['title'])
 
         names = ['description', 'date', 'note']
-        values = [request.POST.get(p) for p in names]
-
-        counter = 0
-        for value in values:
-            if value != "":
-                setattr(activity, names[counter], value)
-            counter += 1
+        setAttributeByRequestParams(request,names, activity)
 
         activity.save()
 
@@ -241,7 +263,6 @@ def addActivity(request, idtypeactivity='A1'):
 
         if request.FILES:
             files = request.FILES.getlist('files')
-            print(files)
             for f in files:
                 image = Activityimage(image=renameFile(
                     f.name), idactivity=lastActivity)
@@ -368,23 +389,12 @@ def updateActivity(request, activity_id=1):
             activity.idtypeactivity = Typeactivity.objects.get(
                 pk=request.POST['idtypeactivity'])
             countChangeActivity += 1
-            countChange += 1
 
         params = ['title', 'description', 'date', 'note']
-        values = [request.POST.get(p) for p in params]
-
-        i = 0
-        for value in values:
-            if value != str(getattr(activity, params[i])):
-                if value == "":
-                    value = None
-                setattr(activity, params[i], value)
-                countChangeActivity += 1
-                countChange += 1
-            i += 1
-
+        countChangeActivity += updateAttributeByRequestParams(request,params, activity)
     
         if countChangeActivity > 0:
+            countChange += 1
             activity.save()
             context["activity"] = activity
 
@@ -511,17 +521,12 @@ def listPublications(request, pub_id=1, page=1, year=None):
         context["year"] = year
 
     list = list.order_by('date')
-    page_number = list.count()
-    page_number = ceil(page_number/8)
 
-    if (page > page_number):
-        page = page_number
-    elif page < 1:
-        page = 1
-    page -= 1
-
+    page_number=0
     if (list.count() > 0):
-        publications = list.order_by('-date')[(page*8):((page*8)+8)]
+        dictpagination = pagination(page, list, 8, '-date')
+        page_number = dictpagination['page_number']
+        publications = dictpagination['list']
         context["publications"] = publications
 
     min = Publication.objects.filter(idtype=pub_id).aggregate(Min('date'))
@@ -561,15 +566,11 @@ def addPublication(request, idtypepublication=1):
 
         publication = Publication(idtype=typepub, title=request.POST['title'])
 
+        
+
         names = ['description', 'date']
-        values = [request.POST.get(p) for p in names]
-
-        counter = 0
-        for value in values:
-            if value != "":
-                setattr(publication, names[counter], value)
-            counter += 1
-
+        setAttributeByRequestParams(request,names, publication)
+        
         if request.FILES:
             if request.FILES.getlist('imagefront'):
                 front = request.FILES.getlist('imagefront')[0]
@@ -637,18 +638,8 @@ def updatePublication(request, pub_id=1):
             countChange += 1
 
         names = ['title', 'description', 'date']
-        values = [request.POST.get(p) for p in names]
-
-        i = 0
-        for value in values:
-            if value != str(getattr(publication, names[i])):
-                if value == "":
-                    value = None
-                setattr(publication, names[i], value)
-                countChangePublication += 1
-                countChange += 1
-            i += 1
-
+        countChangePublication += updateAttributeByRequestParams(request,names,publication)
+        
         # ADD PUBLICATION ITEMS
         if request.FILES:
             if request.FILES.getlist('imagefront'):
@@ -656,13 +647,11 @@ def updatePublication(request, pub_id=1):
                 publication.imagefront = renameFile(front.name)
                 handle_uploaded_file(front, 'images/publication/')
                 countChangePublication += 1
-                countChange += 1
             if request.FILES.getlist('imageback'):
                 back = request.FILES.getlist('imageback')[0]
                 publication.imageback = renameFile(back.name)
                 handle_uploaded_file(back, 'images/publication/')
                 countChangePublication += 1
-                countChange += 1
 
         fkarticlenumber = 0
         data = request.POST.items()
@@ -709,6 +698,7 @@ def updatePublication(request, pub_id=1):
             countChange += 1
 
         if countChangePublication > 0:
+            countChange += 1
             publication.save()
         if countChange > 0:
             context["success"] = "Publication updated successfully."
@@ -734,7 +724,6 @@ def deletePublication(request, pub_id=None):
                 pubDetails = Publicationdetail.objects.filter(
                     idpublication=publication.id)
                 for det in pubDetails:
-                    print(det.pdf)
                     path = publicationPdfLocation(publication)
                     _delete_file(det.pdf, 'pdf/' + path)
 
@@ -760,18 +749,13 @@ def listMembers(request,typemember_id=2,page=1):
 
     list = Member.objects.filter(idtypemember=typemember_id)
 
-    page_number = list.count()
-    page_number = ceil(page_number/8)
-
-    if (page > page_number):
-        page = page_number
-    elif page < 1:
-        page = 1
-    page -= 1
-
+    page_number=0
     if (list.count() > 0):
-        members = list.order_by('idperson__name')[(page*8):((page*8)+8)]
+        dictpagination = pagination(page, list, 8, 'idperson__name')
+        page_number = dictpagination['page_number']
+        members = dictpagination['list']
         context["members"] = members
+
 
     context["page_number"] = range(1, page_number+1)
 
@@ -808,14 +792,8 @@ def addMember(request,typemember_id=1):
         member = Member(idtypemember=typemember,idperson=lastPerson)
 
         names = ['description', 'mail']
-        values = [request.POST.get(p) for p in names]
-
-        counter = 0
-        for value in values:
-            if value != "":
-                setattr(member, names[counter], value)
-            counter += 1
-
+        setAttributeByRequestParams(request,names, member)
+        
         if request.FILES:
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
@@ -882,31 +860,15 @@ def updateMember(request,member_id=None):
         countChangePerson = 0
         theperson = member.idperson
         namesPerson = ['title', 'name','username']
-        valuesPerson = [request.POST.get(p) for p in namesPerson]
-        i = 0
-        for value in valuesPerson:
-            if value != str(getattr(theperson, namesPerson[i])):
-                if value == "":
-                    value = None
-                setattr(theperson, namesPerson[i], value)
-                countChangePerson += 1
-                countChange += 1
-            i += 1
+        countChangePerson += updateAttributeByRequestParams(request, namesPerson,theperson)
+        
         if countChangePerson>0:
             theperson.save()
+            countChange += 1
 
         names = ['mail', 'description']
-        values = [request.POST.get(p) for p in names]
+        countChangeMember += updateAttributeByRequestParams(request, names,member)
 
-        i = 0
-        for value in values:
-            if value != str(getattr(member, names[i])):
-                if value == "":
-                    value = None
-                setattr(member, names[i], value)
-                countChangeMember += 1
-                countChange += 1
-            i += 1
         if request.FILES:
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
