@@ -1,3 +1,4 @@
+from msilib import sequence
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
@@ -9,7 +10,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.db.models import Min, Max,Q
 from math import ceil
 from sequences import get_next_value
-from association.models import Department, Institution, Member, Memberpostinst, Person, Post, Typemember
+from association.models import Department, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
 import os
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 import unidecode
@@ -644,11 +645,13 @@ def updatePublication(request, pub_id=1):
         if request.FILES:
             if request.FILES.getlist('imagefront'):
                 front = request.FILES.getlist('imagefront')[0]
+                _delete_file(publication.imagefront, 'images/publication/')
                 publication.imagefront = renameFile(front.name)
                 handle_uploaded_file(front, 'images/publication/')
                 countChangePublication += 1
             if request.FILES.getlist('imageback'):
                 back = request.FILES.getlist('imageback')[0]
+                _delete_file(publication.imageback, 'images/publication/')
                 publication.imageback = renameFile(back.name)
                 handle_uploaded_file(back, 'images/publication/')
                 countChangePublication += 1
@@ -801,11 +804,12 @@ def addMember(request,typemember_id=1):
         if request.FILES:
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
-                member.image = renameFile(imageFile.name)
                 w,h = get_image_dimensions(imageFile)
                 print(str(w)+", "+str(h))
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
+                    return render(request, "admin/addMember.html", context)
+                member.image = renameFile(imageFile.name)
                 handle_uploaded_file(imageFile, 'images/members/')
 
         member.save()
@@ -876,10 +880,12 @@ def updateMember(request,member_id=None):
         if request.FILES:
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
-                member.image = renameFile(imageFile.name)
                 w,h = get_image_dimensions(imageFile)
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
+                    return render(request, "admin/updateMember.html", context)
+                _delete_file(member.image, 'images/members/')
+                member.image = renameFile(imageFile.name)
                 handle_uploaded_file(imageFile, 'images/members/')
                 countChangeMember += 1
                 countChange += 1
@@ -933,6 +939,148 @@ def deleteMember(request, member_id=None):
                 if member.image:
                     _delete_file(member.image, 'images/members/')
                 member.delete()
+
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': 'Publication successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+
+# ---------------------------------------PARTNERS------------------------------------------
+def listPartners(request,page=1):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+
+    list = Partner.objects.all()
+    page_number=0
+    if (list.count() > 0):
+        dictpagination = pagination(page, list, 8, 'idinst__name')
+        page_number = dictpagination['page_number']
+        partners = dictpagination['list']
+        context["partners"] = partners
+
+    context["page_number"] = range(1, page_number+1)
+
+    return render(request, "admin/listPartners.html", context)
+
+def addPartner(request):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    if request.method=="POST":
+        if request.POST['name'] == "" or request.POST['link'] == "":
+            context["error"] = "Fields 'Name' and 'Link' are required."
+            return render(request, "admin/addPartner.html", context)
+        
+        partner = Partner(link=request.POST['link'])
+
+        if request.FILES:
+            if request.FILES.getlist('logo'):
+                file = request.FILES.getlist('logo')[0]
+                w,h = get_image_dimensions(file)
+                if w!=295 and h!=250:
+                    context['imageError']="Recommended size : 295 x 250 pixels"
+                    return render(request, "admin/addPartner.html", context)
+                partner.logo = renameFile(file.name)
+                handle_uploaded_file(file, 'images/partners/')
+        else:
+            context["error"] = "You must insert a logo."
+            return render(request, "admin/addPartner.html", context)
+            
+        lastInst = None
+        theinstitution = Institution.objects.filter(name=str(request.POST['name']))
+        if theinstitution.count()>0:
+            lastInst = theinstitution[0]
+        else:
+            nextId = get_next_value("institution")
+            nextId = "I"+str(nextId)
+            newinst = Institution(id=nextId,name=request.POST['name'])
+            newinst.save()
+            lastInst = Institution.objects.get(pk=nextId)
+
+        partner.idinst = lastInst
+
+        names = ['description']
+        setAttributeByRequestParams(request,names, partner)
+        
+           
+        partner.isLink = eval(request.POST['be_link'])
+
+        partner.save()
+        context["success"] = "New partner inserted successfully."
+
+
+    return render(request, "admin/addPartner.html", context)
+
+
+def updatePartner(request,partner_id=None):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    partner = get_object_or_404(Partner,pk=partner_id)
+    context['partner']=partner
+    countChange = 0
+    countChangePartner = 0
+    if request.method == 'POST':
+        
+        inst = partner.idinst
+        params = ['name']
+        countChangeInstPerson = updateAttributeByRequestParams(request, params,inst)
+        
+        if countChangeInstPerson>0:
+            inst.save()
+            countChange += 1
+
+        names = ['link', 'description']
+        countChangePartner += updateAttributeByRequestParams(request, names,partner)
+
+        if eval(request.POST['be_link'])!=partner.isLink:
+            partner.isLink = eval(request.POST['be_link'])
+            countChangePartner += 1
+
+        if request.FILES:
+            if request.FILES.getlist('logo'):
+                imageFile = request.FILES.getlist('logo')[0]
+                w,h = get_image_dimensions(imageFile)
+                if w!=295 and h!=250:
+                    context['imageError']="Recommended size : 295 x 250 pixels"
+                    return render(request, "admin/addPartner.html", context)
+                _delete_file(partner.logo, 'images/partners/')
+                partner.logo = renameFile(imageFile.name)
+                handle_uploaded_file(imageFile, 'images/partners/')
+                countChangePartner += 1
+                countChange += 1
+        
+        if countChangePartner>0:
+            countChange +=1
+            partner.save()
+        if countChange > 0:
+            context["success"] = "Member's informations updated successfully."
+        else:
+            context["success"] = "There is nothing to change."
+            
+    return render(request, "admin/updatePartner.html", context)
+
+def deletePartner(request,partner_id=None):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method=="POST": 
+            partner_id = request.POST.get('partner_id', '')
+            try:
+                partner = Partner.objects.get(pk=partner_id)
+                if partner.logo:
+                    _delete_file(partner.logo, 'images/partners/')
+                partner.delete()
 
             except KeyError:
                 return HttpResponseBadRequest('Error')

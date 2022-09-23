@@ -20,7 +20,8 @@ context = {
 
 def index(request):
     type_member_list = Typemember.objects.all
-    partner_list = Partner.objects.all()
+    partner_list = Partner.objects.filter(isLink=False)
+    links_list = Partner.objects.filter(isLink=True)
     message_of_year = Messageofyear.objects.order_by('year')[0]
     
     upcoming_events = Activity.objects.filter(date__gte=date.today())
@@ -33,6 +34,7 @@ def index(request):
     context["type_member_list"]= type_member_list
     context["message_of_year"]= message_of_year
     context["partner_list"]= partner_list
+    context["links_list"]=links_list
     context["upcoming_events"]= upcoming_events
     context["upcoming_publications"]= upcoming_publications
     context["new_pubs"] = new_pubs

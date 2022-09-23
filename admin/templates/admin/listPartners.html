@@ -1,0 +1,133 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                  <h4 class="card-title">Partners and links</h4>
+                  <a href="{% url 'admin:addPartner' %}" type="button" class="btn btn-info">
+                    <i class="ti-plus"></i> Add new item
+                  </a>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="align-items-end d-flex flex-column">
+                     <div class="form-group">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username">
+                          <div class="input-group-append">
+                            <button class="btn btn-sm btn-primary" type="button">Search</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                   </div>
+              
+              
+              <div class="table-responsive pt-3">
+                <table class="table table-bordered table-custom">
+                  <thead>
+                    <tr class="text-center">
+                      <th>
+                        #
+                      </th>
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for partner in partners %}
+                    <tr>
+                      <td class="text-center">
+                        <img src="{% static 'images/partners/' %}{{partner.logo}}">
+                      </td>
+                      <td >
+                        {{partner.idinst.name}}
+                      </td>
+                      <td class="text-center" style="white-space: nowrap;">
+                        <!-- ESCAPE ' IN FUNCTION ONCLICK -->
+
+                        <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deletePartner('{{partner.idinst.name|escapejs}}','{{partner.id}}')" >
+                            <i class="ti-trash"></i>
+                          </button>
+                          <button onclick="location.href='{% url 'admin:updatePartner' partner.id %}'" type="button" class="btn btn-inverse-warning btn-icon" id="btn-change" >
+                            <i class="ti-loop"></i>
+                          </button>
+                      </td>
+                    </tr>
+                   {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+                <div class="pagination-wrap text-center">
+                    <ul class="pagination">
+                        {% for number in page_number %}
+                              <li ><a href="{% url 'admin:listPartners' number %}" title="">{{number}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              </div>
+              
+          </div>
+        </div>
+       
+       
+    </div>
+    
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure to delete this item?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" id="confirmdeletePartner">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+{% block js %}
+<script>
+  function deletePartner(name,id){
+    $('#exampleModalLabel').text('Delete partner : '+name);
+
+    $('#confirmdeletePartner').click(function() {
+    
+      $.ajax({
+              url : "{% url 'admin:deletePartner' %}",
+              dataType: 'JSON',
+              type:"POST",
+              data: {
+                  'partner_id': id,
+                  'csrfmiddlewaretoken': '{{ csrf_token }}',
+              },
+              success:function(data){
+                $('#exampleModal').modal('hide');
+                location.reload(true);
+                // console.log(data['success'])
+              },
+              error:function(data){
+                //   console.log('error')
+                //   console.log(data)
+              }
+          });
+    });
+  }
+</script>
+{% endblock %}

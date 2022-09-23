@@ -483,7 +483,7 @@
     </div>
   </section>
   <section>
-    <div class="gap">
+    <div class="gap no-gap">
         <div class="container">
             <div class="sec-title style2 text-center">
                 <div class="sec-title-inner">
@@ -493,7 +493,7 @@
                 <p>Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain.</p>
             </div>
             <div class="bord-wrap">
-                <div class="row mrg mycaroussel-partner">
+                <div class="row mrg mycaroussel-partner" data-length="{{partner_list|length}}">
                     {% for partner in partner_list %}
                         <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
                             <div class="bord-box">
@@ -502,15 +502,44 @@
                                 {% endwith %}
                                 <div class="bord-info">
                                     <h4>{{partner.name}}</h4>
-                                    <p>{{partner.description}}</p>
+                                    <p>{{partner.description|default_if_none:""}}</p>
                                     <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
-                    
                 </div>
             </div>
+            
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap">
+        <div class="container">
+            <div class="sec-title style2 text-center">
+                <div class="sec-title-inner">
+                    <span>Our </span>
+                    <h3>Links</h3>
+                </div>
+            </div>
+            <div class="bord-wrap">
+                <div class="row mrg" data-length="{{links_list|length}}">
+                    {% for link in links_list %}
+                        <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
+                            <div class="bord-box">
+                                <img src="{% static 'images/partners/' %}{{link.logo}}" width="100" height="100" alt="{{link.name}}">
+                                <div class="bord-info">
+                                    <h4>{{link.name}}</h4>
+                                    <p>{{link.description|default_if_none:""}}</p>
+                                    <span><a href="{{link.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
         </div>
     </div>
 </section>

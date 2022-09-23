@@ -51,6 +51,7 @@ class Partner(models.Model):
     description = models.TextField(blank=True, null=True)
     link = models.CharField(max_length=150, blank=True, null=True)
     logo = models.CharField(max_length=150, blank=True, null=True)
+    isLink = models.BooleanField(default=False)
 
     class Meta:
         managed = True

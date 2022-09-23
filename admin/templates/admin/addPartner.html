@@ -1,0 +1,99 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Add new partner </h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:addPartner' %}" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" id="link" name="link" placeholder="Link" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Logo</label>
+                    {% if imageError %}
+                    <div class="alert alert-danger">
+                        {{ imageError }}
+                    </div>
+                    {% endif %}
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen-front" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn-front" name="logo" accept="image/*" hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn-front" style="margin-bottom:0; padding-top: .7rem;">Upload logo</label>
+                      </div>
+                    </div>
+                  </div>
+                  <p>Chose to make it a partner or a simple link</p>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="be_link" id="be_link1" value="False" checked="">
+                        Partner
+                      <i class="input-helper"></i></label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="be_link" id="be_link2" value="True" >
+                        Simple link
+                      <i class="input-helper"></i></label>
+                    </div>
+                  </div>
+
+
+
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+                
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listPartners'%}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+    
+
+    const actualBtnFront = document.getElementById('actual-btn-front');
+
+    actualBtnFront.addEventListener('change', function(){
+        document.getElementById('file-chosen-front').value = this.files[0].name
+
+    });
+</script>
+{% endblock %}

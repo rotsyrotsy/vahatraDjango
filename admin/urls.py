@@ -34,6 +34,11 @@ urlpatterns = [
     path("deleteMember/", views.deleteMember, name="deleteMember"),
     path("addMember/", views.addMember, name="addMember"),
     path("addMember/<str:typemember_id>", views.addMember, name="addMember"),
+    path("listPartners/", views.listPartners, name="listPartners"),
+    path("listPartners/page-<int:page>", views.listPartners, name="listPartners"),
+    path("addPartner/", views.addPartner, name="addPartner"),
+    path("updatePartner/<str:partner_id>", views.updatePartner, name="updatePartner"),
+    path("deletePartner/", views.deletePartner, name="deletePartner"),
 
     
 ]
