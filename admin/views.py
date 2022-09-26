@@ -16,9 +16,45 @@ from publications.models import Publication, Publicationauthor, Publicationdetai
 import unidecode
 from django.core.files.images import get_image_dimensions
 
+
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
 type_member = Typemember.objects.all()
+
+
+def renameFile(file):
+    file = file.replace(" ", "_")
+    unaccented_string = unidecode.unidecode(file)
+    return unaccented_string
+
+def reduce_image_size( pic):
+    from io import BytesIO
+    from django.core.files import File
+    from PIL import Image
+    print('initial size: '+str(pic.size))
+    img = Image.open(pic)
+    thumb_io = BytesIO()
+    img.save(thumb_io, 'jpeg', quality=40)
+    new_image = File(thumb_io, name=pic.name)
+    print('final size: '+str(new_image.size))
+    return new_image
+
+def handle_uploaded_file(f, location):
+    if f.content_type.split("/")[0]=="image":
+        f = reduce_image_size(f)    
+    f.name=renameFile(f.name)
+    with open('static/'+location+'/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    return f.name
+
+
+
+def _delete_file(path, location):
+    """ Deletes file from filesystem. """
+    path = 'static/'+location+'/'+path
+    if os.path.isfile(path):
+        os.remove(path)
 
 def index(request):
     context = {
@@ -166,11 +202,6 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
     return render(request, "admin/listActivities.html", context)
 
 
-def _delete_file(path, location):
-    """ Deletes file from filesystem. """
-    path = 'static/'+location+path
-    if os.path.isfile(path):
-        os.remove(path)
 
 
 def deleteActivity(request):
@@ -182,7 +213,7 @@ def deleteActivity(request):
             try:
                 activity = Activity.objects.get(pk=id_activity)
                 for activityimage in activity.activityimage_set.all():
-                    _delete_file(activityimage.image, 'images/site/')
+                    _delete_file(activityimage.image, 'images/site')
                 activity.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
@@ -265,10 +296,9 @@ def addActivity(request, idtypeactivity='A1'):
         if request.FILES:
             files = request.FILES.getlist('files')
             for f in files:
-                image = Activityimage(image=renameFile(
-                    f.name), idactivity=lastActivity)
+                image = Activityimage(idactivity=lastActivity)
+                image.name = handle_uploaded_file(f, 'images/site')
                 image.save()
-                handle_uploaded_file(f, 'images/site/')
 
         if request.POST['idtypeactivity'] == 'A1':  # if activity is visit
             visit = Visit(idactivity=lastActivity, idlocation=Location.objects.get(
@@ -301,18 +331,6 @@ def addActivity(request, idtypeactivity='A1'):
         context["success"] = "New "+typeactivity.type+" inserted successfully."
 
     return render(request, "admin/addActivity.html", context)
-
-
-def renameFile(file):
-    file = file.replace(" ", "_")
-    unaccented_string = unidecode.unidecode(file)
-    return unaccented_string
-
-
-def handle_uploaded_file(f, location):
-    with open('static/'+location+renameFile(f.name), 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
 
 
 def addPerson(request):
@@ -402,17 +420,16 @@ def updateActivity(request, activity_id=1):
         if request.FILES:
             files = request.FILES.getlist('files')
             for f in files:
-                image = Activityimage(image=renameFile(
-                    f.name), idactivity=activity)
-                image.save()
-                handle_uploaded_file(f, 'images/site/')
+                activityimage = Activityimage(idactivity=activity)
+                activityimage.image = handle_uploaded_file(f, 'images/site')
+                activityimage.save()
             countChange += 1
 
         if len(request.POST.getlist("supprImage")) > 0:
             img_ids = request.POST.getlist("supprImage")
             for img_id in img_ids:
                 activityimage = Activityimage.objects.get(pk=img_id)
-                _delete_file(activityimage.image, 'images/site/')
+                _delete_file(activityimage.image, 'images/site')
                 activityimage.delete()
             countChange += 1
 
@@ -537,13 +554,6 @@ def listPublications(request, pub_id=1, page=1, year=None):
 
     return render(request, "admin/listPublications.html", context)
 
-
-def publicationPdfLocation(publication):
-    folder = renameFile(publication.idtype.type)
-    path = folder+"/"
-    return path
-
-
 def addPublication(request, idtypepublication=1):
     context = {
         "type_publication": type_publication,
@@ -575,12 +585,12 @@ def addPublication(request, idtypepublication=1):
         if request.FILES:
             if request.FILES.getlist('imagefront'):
                 front = request.FILES.getlist('imagefront')[0]
-                publication.imagefront = renameFile(front.name)
-                handle_uploaded_file(front, 'images/publication/')
+                publication.imagefront = handle_uploaded_file(front, 'images/publication/')
+                
             if request.FILES.getlist('imageback'):
                 back = request.FILES.getlist('imageback')[0]
-                publication.imageback = renameFile(back.name)
-                handle_uploaded_file(back, 'images/publication/')
+                publication.imageback = handle_uploaded_file(back, 'images/publication/')
+                
 
         publication.save()
         context["success"] = "New publication inserted successfully."
@@ -607,10 +617,9 @@ def addPublication(request, idtypepublication=1):
             if request.FILES:
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
-                    pd.pdf = renameFile(pdf.name)
-                    path = publicationPdfLocation(lastPublication)
+                
 
-                    handle_uploaded_file(pdf, 'pdf/'+path)
+                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type))
 
             if pd.name is not None and pd.pdf is not None:
                 pd.save()
@@ -645,15 +654,14 @@ def updatePublication(request, pub_id=1):
         if request.FILES:
             if request.FILES.getlist('imagefront'):
                 front = request.FILES.getlist('imagefront')[0]
-                _delete_file(publication.imagefront, 'images/publication/')
-                publication.imagefront = renameFile(front.name)
-                handle_uploaded_file(front, 'images/publication/')
+                _delete_file(publication.imagefront, 'images/publication')
+                publication.imagefront = handle_uploaded_file(front, 'images/publication')
+                
                 countChangePublication += 1
             if request.FILES.getlist('imageback'):
                 back = request.FILES.getlist('imageback')[0]
-                _delete_file(publication.imageback, 'images/publication/')
-                publication.imageback = renameFile(back.name)
-                handle_uploaded_file(back, 'images/publication/')
+                _delete_file(publication.imageback, 'images/publication')
+                publication.imageback = handle_uploaded_file(back, 'images/publication')
                 countChangePublication += 1
 
         fkarticlenumber = 0
@@ -675,10 +683,7 @@ def updatePublication(request, pub_id=1):
             if request.FILES:
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
-                    pd.pdf = renameFile(pdf.name)
-                    path = publicationPdfLocation(publication)
-
-                    handle_uploaded_file(pdf, 'pdf/'+path)
+                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(publication.idtype.type))
 
             if pd.name is not None and pd.pdf is not None:
                 pd.save()
@@ -695,8 +700,7 @@ def updatePublication(request, pub_id=1):
                 pubdetailtodelete = Publicationdetail.objects.get(
                     pk=id_pubDetail)
                 if pubdetailtodelete.pdf is not None:
-                    path = publicationPdfLocation(publication)
-                    _delete_file(pubdetailtodelete.pdf, 'pdf/' + path)
+                    _delete_file(pubdetailtodelete.pdf, 'pdf/' + renameFile(publication.idtype.type))
                 pubdetailtodelete.delete()
             countChange += 1
 
@@ -720,15 +724,14 @@ def deletePublication(request, pub_id=None):
             try:
                 publication = Publication.objects.get(pk=id_publication)
                 if publication.imagefront:
-                    _delete_file(publication.imagefront, 'images/publication/')
+                    _delete_file(publication.imagefront, 'images/publication')
                 if publication.imageback:
-                    _delete_file(publication.imageback, 'images/publication/')
+                    _delete_file(publication.imageback, 'images/publication')
 
                 pubDetails = Publicationdetail.objects.filter(
                     idpublication=publication.id)
                 for det in pubDetails:
-                    path = publicationPdfLocation(publication)
-                    _delete_file(det.pdf, 'pdf/' + path)
+                    _delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type))
 
                 publication.delete()
 
@@ -809,8 +812,8 @@ def addMember(request,typemember_id=1):
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
                     return render(request, "admin/addMember.html", context)
-                member.image = renameFile(imageFile.name)
-                handle_uploaded_file(imageFile, 'images/members/')
+                member.image = handle_uploaded_file(imageFile, 'images/members')
+                
 
         member.save()
 
@@ -884,9 +887,9 @@ def updateMember(request,member_id=None):
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
                     return render(request, "admin/updateMember.html", context)
-                _delete_file(member.image, 'images/members/')
-                member.image = renameFile(imageFile.name)
-                handle_uploaded_file(imageFile, 'images/members/')
+                _delete_file(member.image, 'images/members')
+                member.image = handle_uploaded_file(imageFile, 'images/members')
+                
                 countChangeMember += 1
                 countChange += 1
         
@@ -937,7 +940,7 @@ def deleteMember(request, member_id=None):
             try:
                 member = Member.objects.get(pk=member_id)
                 if member.image:
-                    _delete_file(member.image, 'images/members/')
+                    _delete_file(member.image, 'images/members')
                 member.delete()
 
             except KeyError:
@@ -988,8 +991,8 @@ def addPartner(request):
                 if w!=295 and h!=250:
                     context['imageError']="Recommended size : 295 x 250 pixels"
                     return render(request, "admin/addPartner.html", context)
-                partner.logo = renameFile(file.name)
-                handle_uploaded_file(file, 'images/partners/')
+                partner.logo = handle_uploaded_file(file, 'images/partners')
+                
         else:
             context["error"] = "You must insert a logo."
             return render(request, "admin/addPartner.html", context)
@@ -1054,9 +1057,9 @@ def updatePartner(request,partner_id=None):
                 if w!=295 and h!=250:
                     context['imageError']="Recommended size : 295 x 250 pixels"
                     return render(request, "admin/addPartner.html", context)
-                _delete_file(partner.logo, 'images/partners/')
-                partner.logo = renameFile(imageFile.name)
-                handle_uploaded_file(imageFile, 'images/partners/')
+                _delete_file(partner.logo, 'images/partners')
+                partner.logo = handle_uploaded_file(imageFile, 'images/partners')
+                
                 countChangePartner += 1
                 countChange += 1
         
@@ -1079,7 +1082,7 @@ def deletePartner(request,partner_id=None):
             try:
                 partner = Partner.objects.get(pk=partner_id)
                 if partner.logo:
-                    _delete_file(partner.logo, 'images/partners/')
+                    _delete_file(partner.logo, 'images/partners')
                 partner.delete()
 
             except KeyError:
@@ -1102,3 +1105,98 @@ def listImages(request,image_type=1):
     imagetype=Imagetype.objects.get(pk=image_type)
     context['imagetype'] = imagetype
     return render(request, "admin/listImages.html", context)
+
+def addImage(request,image_type=1):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    type_image = Imagetype.objects.all()
+    context['type_image']=type_image
+    imagetype=Imagetype.objects.get(pk=image_type)
+    context['imagetype'] = imagetype
+    if request.method == 'POST':
+        if request.POST['idtype'] == "":
+            context["error"] = "Fields 'Type' is required."
+            return render(request, "admin/addImage.html", context)
+
+        typeimage = Imagetype.objects.get(pk=request.POST['idtype'])
+        context["imagetype"] = typeimage
+
+
+        if not request.FILES:
+            context["error"] = "You must upload photo."
+            return render(request, "admin/addImage.html", context)
+        else:
+            files = request.FILES.getlist('files')
+            for f in files:
+                title = f.name.split(".")[0].replace("_"," ")
+                image = Image(idtype=typeimage,title=title)
+                path = renameFile(typeimage.type)
+                image.name = handle_uploaded_file(f, 'images/'+path)
+                image.save()
+
+        context["success"] = "New photo of "+typeimage.type+" inserted successfully."
+
+
+    return render(request, "admin/addImage.html", context)
+
+def updateImage(request,image_id=1):
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    type_image = Imagetype.objects.all()
+    context['type_image']=type_image
+
+    image=Image.objects.get(pk=image_id)
+    context['image'] = image
+
+    countChange = 0
+    if request.method == 'POST':
+        if request.POST['idtype'] != str(image.idtype.id):
+            image.idtype = Imagetype.objects.get(pk=request.POST['idtype'])
+            countChange += 1
+
+        names = ['title']
+        countChange += updateAttributeByRequestParams(request, names,image)
+
+        if request.FILES:
+            if request.FILES.getlist('file'):
+                imageFile = request.FILES.getlist('file')[0]
+                path = renameFile(image.idtype.type)
+                print(image.name)
+                _delete_file(image.name, 'images/'+path)
+                image.name = handle_uploaded_file(imageFile, 'images/'+path)
+                countChange += 1
+        
+        if countChange>0:
+            context["success"] = "Image's informations updated successfully."            
+            image.save()
+        else:
+            context["success"] = "There is nothing to change."
+            
+    return render(request, "admin/updateImage.html", context)
+
+def deleteImage(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method=="POST": 
+            id_image = request.POST.get('id_image', '')
+            try:
+                image = Image.objects.get(pk=id_image)
+                if image.name:
+                    path = renameFile(image.idtype.type)
+                    _delete_file(image.name, 'images/'+path)
+                image.delete()
+
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': 'Publication successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')

@@ -1,0 +1,71 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Add photos of {{imagetype.type}}</h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:addImage' %}" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                    <label for="selectTypePhoto">Type of photo</label>
+                        <select class="form-control" id="selectTypePhoto" name="idtype" required>
+                            <option value="{{imagetype.id}}">{{imagetype.type}}</option>
+                            {% for item in type_image %}
+                                {% if item.id != imagetype.id %}
+                                <option value="{{item.id}}">{{item.type}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                  <div class="form-group">
+                    <label for="file-chosen">Images</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn" name="files" accept="image/*" multiple hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn" style="margin-bottom:0; padding-top: .7rem;">Upload images</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listImages' imagetype.id %}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+   
+    const actualBtn = document.getElementById('actual-btn');
+
+    const fileChosen = document.getElementById('file-chosen');
+
+    actualBtn.addEventListener('change', function(){
+      fileChosen.value = this.files.length+" files selected"
+    })
+
+</script>
+{% endblock %}

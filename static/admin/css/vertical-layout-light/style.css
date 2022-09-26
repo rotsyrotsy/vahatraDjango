@@ -30616,3 +30616,75 @@ div.tagsinput span.tag a {
   margin-left: 0.3rem;
   font-family: sans-serif;
 }
+
+/*===== Portfolio =====*/
+.sec-title + .prtfl-admin-wrap {margin-top: 25px;}
+.prtfl-admin-wrap {
+  float: left;
+  width: 100%;
+}
+.prtfl-admin-dta {
+  float: left;
+  width: 100%;
+}
+.fltr-lnks + .prtfl-admin-dta {margin-top: 35px;}
+.fltr-lnks > li.active a::before, 
+.fltr-lnks > li a:hover:before, 
+.fltr-lnks > li a:focus:before {
+  right: 0;
+  opacity: 1;
+}
+.prtfl-admin-box {
+  float: left;
+  width: 100%;
+  position: relative;
+}
+.prtfl-admin-box > img {width: 100%;}
+.remove-ext1 .prtfl-admin-box {margin-bottom: 15px;}
+.prtfl-admin-box:before {
+  background-color: #2a486c;
+  content: "";
+  position: absolute;
+  left: 45px;
+  right: 45px;
+  top: 45px;
+  bottom: 45px;
+  opacity: 0;
+}
+.prtfl-admin-box:hover:before {
+  opacity: .95;
+}
+.prtfl-admin-info {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  top: 50%;
+  padding: 0 15px;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  opacity: 0;
+}
+.prtfl-admin-box:hover .prtfl-admin-info {opacity: 1;}
+.prtfl-admin-info > a {
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
+}
+.prtfl-admin-info > a + h4 {margin-top: 5px;}
+.prtfl-admin-info > h4 {
+  color: #fff;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.prtfl-admin-info > h4 + span {margin-top: 10px;}
+.prtfl-admin-info > span {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}

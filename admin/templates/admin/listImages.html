@@ -1,5 +1,6 @@
 {% extends "admin/base.html" %}
 {% load static %}
+{% load publications_extras %}
 {% block content %}
     <div class="content-wrapper">
       <div class="row">
@@ -9,8 +10,8 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h4 class="card-title">Photos : {{imagetype.type}}</h4>
-                  <a href="#" type="button" class="btn btn-info">
-                    <i class="ti-plus"></i> Add new item
+                  <a href="{% url 'admin:addImage' imagetype.id %}" type="button" class="btn btn-info">
+                    <i class="ti-plus"></i> Add new photos
                   </a>
                 </div>
                 <div class="col-12 col-xl-4">
@@ -29,12 +30,31 @@
                 </div>
               </div>
               
-              <div class="row">
-                {% for img in imagetype.image_set.all %}
-                <div class="col-4 col-xl-6 mb-4 mb-xl-0">
-                    <img src="{{img.name}}">
+              <div class="prtfl-admin-wrap text-center pt-2">
+              <div class="prtfl-admin-dta remove-ext1">
+                <div class="row mrg15 masonry">
+                  {% for img in imagetype.image_set.all %}
+                    <div class="col-md-4 col-sm-6 col-lg-4 ">
+                        <div class="prtfl-admin-box">
+                            <img src="{% static 'images/' %}{{img.idtype.type|snake_case}}/{{img.name}}" alt="prtfl-admin-img1.jpg" class="w-100 shadow-1-strong rounded mb-4">
+                            <div class="prtfl-admin-info">
+                                <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deleteImage('{{img.title|escapejs}}','{{img.id}}')" >
+                                  <i class="ti-trash"></i>
+                                </button>
+                                <button onclick="location.href='{% url 'admin:updateImage' img.id %}'" type="button" class="btn btn-inverse-warning btn-icon" id="btn-change" >
+                                  <i class="ti-loop"></i>
+                                </button>
+                                <hr>
+                                <h4>{{img.title}}</h4>
+                                <span>{{img.idtype.type}}</span>
+                            </div>
+                        </div>
+                    </div>        
+                    {% endfor %}
                 </div>
-                {% endfor %}
+            </div>
+          </div>
+
               </div>
               
           </div>
@@ -43,7 +63,7 @@
        
     </div>
     
-<!-- 
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -62,21 +82,21 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 {% endblock content %}
 {% block js %}
 <script>
-  function deleteActivity(title,id){
-    $('#exampleModalLabel').text('Delete '+"{{type.type}}"+' : '+title);
+  function deleteImage(title,id){
+    $('#exampleModalLabel').text('Delete '+"{{imagetype.type}}"+' : '+title);
 
     $('#confirmDelete').click(function() {
     
       $.ajax({
-              url : "{% url 'admin:deleteActivity' %}",
+              url : "{% url 'admin:deleteImage' %}",
               dataType: 'JSON',
               type:"POST",
               data: {
-                  'id_activity': id,
+                  'id_image': id,
                   'csrfmiddlewaretoken': '{{ csrf_token }}',
               },
               success:function(data){

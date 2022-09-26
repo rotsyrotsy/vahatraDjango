@@ -1,0 +1,79 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% load publications_extras %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Update informations about the image {{image.title|default_if_none:""}}</h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:updateImage' image.id %}" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                    <label for="selectTypePhoto">Type of photo : <strong>{{image.idtype.type}} </strong></label>
+                        <select class="form-control" id="selectTypePhoto" name="idtype">
+                            <option value="{{image.idtype.id}}">{{image.idtype.type}}</option>
+                            {% for item in type_image %}
+                                {% if item.id != image.idtype.id %}
+                                <option value="{{item.id}}">{{item.type}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{image.title}}">
+                      </div>
+                  <div class="form-group">
+                    <label for="file-chosen">Image (<span style="color: red;">Pick another one to change photo</span>)</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn" name="file" accept="image/*" hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn" style="margin-bottom:0; padding-top: .7rem;">Upload image</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <img src="{% static 'images/' %}{{image.idtype.type|snake_case}}/{{image.name}}" width="200">
+                    </div>
+
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listImages' image.idtype.id %}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+   
+    const actualBtn = document.getElementById('actual-btn');
+
+    const fileChosen = document.getElementById('file-chosen');
+
+    actualBtn.addEventListener('change', function(){
+      fileChosen.value = this.files.length+" files selected"
+    })
+
+</script>
+{% endblock %}
