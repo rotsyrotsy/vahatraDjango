@@ -5,7 +5,7 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc6">
-        <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneaous/Bea_291.jpg' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneous/Bea_291.jpg' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
@@ -35,7 +35,7 @@
                         <img src="{% static 'images/publication/' %}{{publication.imagefront}}" >
                         <div class="fea-info2">
                             <br>
-                            <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-static="{% static 'images/publication'%}" href="#" title="">Read More</a>
+                            <a class="volume-btn" data-url="{% url 'publications:detail' %}"  data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title}}", "description":"{{publication.description}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}'  href="#" title="">Read More</a>
                         </div>
                     </div>
                 </div>

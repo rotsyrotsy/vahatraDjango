@@ -26,3 +26,4 @@ urlpatterns = i18n_patterns(
 )
 handler404 = "vahatraDjango.views.page_not_found_view"
 handler403 = "vahatraDjango.views.my_custom_permission_denied_view"
+# handler500 = "vahatraDjango.views.server_error"

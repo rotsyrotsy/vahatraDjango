@@ -3,17 +3,18 @@ $('.volume-btn').on('click', function () {
     $('#content').empty();
     $('#titrePub').empty();
     var model = $('.contact-form-model-wrap');
-    var pub_id = $(this).attr("data-id");
     var staticpdf = $(this).attr("data-staticpdf")+"/";
-    var static = $(this).attr("data-static")+"/";
+    // var static = $(this).attr("data-static")+"/";
+    var pub = $(this).attr("data-pub")
     var url = $(this).attr("data-url");
+    pub = JSON.parse(pub);
+    console.log(pub)
         $.ajax({
             url : url,
             dataType: 'JSON',
             type:"GET",
-            data:{pub_id:pub_id},
+            data:{pub_id:pub.id},
             success:function(data){
-                var pub = JSON.parse(data["publication"])[0];
                 var details = JSON.parse(data["details"]);
                 var authors = JSON.parse(data["authors"]);
                 var type = JSON.parse(data['typepublication'])[0];
@@ -25,25 +26,28 @@ $('.volume-btn').on('click', function () {
                     }
                 }
                 
-                titrepub = "<span>"+type['fields']['type']+"</span><h3>"+pub['fields']['title']+"</h3>";
+                titrepub = "<span>"+type['fields']['type']+"</span><h3>"+pub.title+"</h3>";
                 $('#titrePub').append(titrepub);
                 
                 var img = '<div  class="row">';
 
-                if (pub['fields']['imageback']){
+                if (pub.imageback != "/static/images/publication/" ){
                     img += '<div class="col-md-12 col-sm-12 col-lg-12 text-center">\
-                        <img src="'+static+pub['fields']['imageback']+'" alt="">\
+                        <img src="'+pub.imageback+'" alt="">\
                     </div>';
                 }else{
                     img += '<div class="col-md-12 col-sm-12 col-lg-12 text-center">\
-                        <img src="'+static+pub['fields']['imagefront']+'" alt="">\
+                        <img src="'+pub.imagefront+'" alt="">\
                     </div>';
                 }
                 img += '</div>';
                 $('#content').append(img);
 
                 descriPub = '<div>';
-                descriPub += '<p>'+pub['fields']['description']+'</p>';
+                if (pub.decription!= null) {
+                    descriPub += '<p>'+pub.decription+'</p>';
+                }
+                
 
                 var ul = "<ul>";
                 for (let i = 0; i < details.length; i++) {
