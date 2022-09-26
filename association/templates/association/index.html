@@ -8,7 +8,7 @@
         <img class="botm-shp shp-img" src="{% static 'images/shp1.png' %}" alt="shp1.png">
         <div class="custom-featured-area-wrap text-center">
             <div class="custom-featured-area mycaroussel-index">
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.jpg' %});">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.JPG' %});">
                     <div class="custom-featured-cap">
                         <h3>He raised the sky and set up the balance</h3>
                         <span>"Surah Al-Rahmaan Vesre 7"</span>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/Bea_354.JPG' %});">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/Bea_354.jpg' %});">
                     <div class="custom-featured-cap">
                         <h3>He raised the sky and set up the balance</h3>
                         <span>"Surah Al-Rahmaan Vesre 7"</span>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Miza_242.JPG' %} " ></div>
+                            <div class="img"><img src="{% static 'fonts/mycollection/Miza_242.jpg' %} " ></div>
                             <div class="pilr-info">
                                 <h4>Mammal</h4>
                                 <p>Miza 242</p>
@@ -413,7 +413,7 @@
                                     <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title=""><img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="rcnt-img1.jpg"></a>
                                     <div class="rcnt-inf">
                                         <h6><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{newpub.title}}</a></h6>
-                                        <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{newpub.year}}</span>
+                                        <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{newpub.date|date:"Y"}}</span>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -498,10 +498,10 @@
                         <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
                             <div class="bord-box">
                                 {% with 'images/partners/'|add:partner.logo as logo %}
-                                <img src="{% static logo %}" width="100" height="100" alt="{{partner.name}}">
+                                <img src="{% static logo %}" width="100" height="100" alt="{{partner.idinst.name}}">
                                 {% endwith %}
                                 <div class="bord-info">
-                                    <h4>{{partner.name}}</h4>
+                                    <h4>{{partner.idinst.name}}</h4>
                                     <p>{{partner.description|default_if_none:""}}</p>
                                     <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
                                 </div>
@@ -528,9 +528,9 @@
                     {% for link in links_list %}
                         <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
                             <div class="bord-box">
-                                <img src="{% static 'images/partners/' %}{{link.logo}}" width="100" height="100" alt="{{link.name}}">
+                                <img src="{% static 'images/partners/' %}{{link.logo}}" width="100" height="100" alt="{{link.idinst.name}}">
                                 <div class="bord-info">
-                                    <h4>{{link.name}}</h4>
+                                    <h4>{{link.idinst.name}}</h4>
                                     <p>{{link.description|default_if_none:""}}</p>
                                     <span><a href="{{link.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
                                 </div>

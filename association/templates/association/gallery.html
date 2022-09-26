@@ -33,7 +33,7 @@
                         {% for image in images %}
                         <div class="col-md-4 col-sm-6 col-lg-4 fltr-itm img{{image.idtype.id}}">
                             <div class="prtfl-box">
-                                <img src="{% static 'images/' %}{{ image.idtype.type|lower|snake_case }}/{{image.name}}" alt="{{image.name}}">
+                                <img class="w-100 shadow-1-strong rounded " src="{% static 'images/' %}{{ image.idtype.type|lower|snake_case }}/{{image.name}}" alt="{{image.name}}">
                                 <div class="prtfl-info">
                                     <a href="{% static 'images/' %}{{ image.idtype.type|lower|snake_case }}/{{image.name}}" data-fancybox="gallery" title=""><i class="fa fa-plus"></i></a>
                                     <h4>{{image.title}}</h4>

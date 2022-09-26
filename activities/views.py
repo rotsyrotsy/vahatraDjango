@@ -7,7 +7,6 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from datetime import date,timedelta
 from publications.models import Typepublication
 from django.db.models import Q
-from association.views import customhandler404
 # # Create your views here.
 
 type_visit = Typesubactivity.objects.all
@@ -73,8 +72,8 @@ def otherActivity(request,typeactivity_id='A2',page=1):
     page -= 1
     activities = Activity.objects.filter( Q(idtypeactivity_id = typeactivity_id),Q(date__lt=date.today())|Q(date__isnull=True)).order_by('-date')[(page*6):((page*6)+6)]
     
-    if (activities.count()==0):
-        return customhandler404(request,'There is no activity')
+    # if (activities.count()==0):
+    #     return customhandler404(request,'There is no activity')
     
 
     context["type_activity"]= Typeactivity.objects.get(pk=typeactivity_id)

@@ -45,6 +45,4 @@ urlpatterns = [
     path("addImage/<str:image_type>", views.addImage, name="addImage"),
     path("deleteImage/", views.deleteImage, name="deleteImage"),
     path("updateImage/<str:image_id>", views.updateImage, name="updateImage"),
-
-    
 ]

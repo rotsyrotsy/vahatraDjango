@@ -92,11 +92,6 @@ def financing(request):
 
     
 def gallery(request):
-    context["typeimage"] = Imagetype.objects.filter(~Q(id=8) & ~Q(id=9))
-    context["images"]=Image.objects.filter(~Q(idtype=8) & ~Q(idtype=9))
+    context["typeimage"] = Imagetype.objects.all()
+    context["images"]=Image.objects.all().order_by('name')
     return render(request, "association/gallery.html",context)
-
-def customhandler404(request, exception):
-    response = render(request, 'association/404.html')
-    response.status_code = 404
-    return response

@@ -1,7 +1,7 @@
 from msilib import sequence
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest,HttpResponseForbidden
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.models import Administrator
 from django.shortcuts import render
@@ -15,7 +15,7 @@ import os
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 import unidecode
 from django.core.files.images import get_image_dimensions
-
+from django.core.exceptions import PermissionDenied
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -56,17 +56,21 @@ def _delete_file(path, location):
     if os.path.isfile(path):
         os.remove(path)
 
+
+def checkIfAdmin(request):
+    if 'admin' not in request.session:
+        return False
+    return True
+
 def index(request):
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
         "type_member": type_member,
     }
-    if 'admin' not in request.session:
-        return HttpResponseRedirect(reverse("admin:login"))
-    else:
-        print(request.session['admin'])
-        return render(request, "admin/index.html", context)
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
+    return render(request, "admin/index.html", context)
 
 
 def login(request):
@@ -154,6 +158,9 @@ def pagination(actualpage, list, item_number, orderby):
     return dict
 
 def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
+    
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -205,6 +212,8 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
 
 
 def deleteActivity(request):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
@@ -245,6 +254,8 @@ def updateAttributeByRequestParams(request,params,model):
     return countChange
         
 def addActivity(request, idtypeactivity='A1'):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -334,6 +345,8 @@ def addActivity(request, idtypeactivity='A1'):
 
 
 def addPerson(request):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -348,6 +361,8 @@ def addPerson(request):
 
 
 def addInstitution(request):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -363,6 +378,8 @@ def addInstitution(request):
 
 
 def addLocation(request):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -380,6 +397,8 @@ def addLocation(request):
 
 
 def updateActivity(request, activity_id=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -523,6 +542,8 @@ def updateActivity(request, activity_id=1):
 # --------------------------- PUBLICATIONS ------------------------------
 
 def listPublications(request, pub_id=1, page=1, year=None):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -555,6 +576,8 @@ def listPublications(request, pub_id=1, page=1, year=None):
     return render(request, "admin/listPublications.html", context)
 
 def addPublication(request, idtypepublication=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -628,6 +651,8 @@ def addPublication(request, idtypepublication=1):
 
 
 def updatePublication(request, pub_id=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -716,6 +741,8 @@ def updatePublication(request, pub_id=1):
 
 
 def deletePublication(request, pub_id=None):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
@@ -745,6 +772,8 @@ def deletePublication(request, pub_id=None):
 
 # LIST OF MEMBERS
 def listMembers(request,typemember_id=2,page=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -768,6 +797,8 @@ def listMembers(request,typemember_id=2,page=1):
     return render(request, "admin/listMembers.html", context)
 
 def addMember(request,typemember_id=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+    
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -847,6 +878,8 @@ def addMember(request,typemember_id=1):
 
 
 def updateMember(request,member_id=None):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -932,6 +965,8 @@ def updateMember(request,member_id=None):
     return render(request, "admin/updateMember.html", context)
 
 def deleteMember(request, member_id=None):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
@@ -953,6 +988,8 @@ def deleteMember(request, member_id=None):
 
 # ---------------------------------------PARTNERS------------------------------------------
 def listPartners(request,page=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -972,6 +1009,8 @@ def listPartners(request,page=1):
     return render(request, "admin/listPartners.html", context)
 
 def addPartner(request):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -1024,6 +1063,8 @@ def addPartner(request):
 
 
 def updatePartner(request,partner_id=None):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -1074,6 +1115,8 @@ def updatePartner(request,partner_id=None):
     return render(request, "admin/updatePartner.html", context)
 
 def deletePartner(request,partner_id=None):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
@@ -1095,6 +1138,8 @@ def deletePartner(request,partner_id=None):
 
 # IMAGES--------------------------------
 def listImages(request,image_type=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -1107,6 +1152,8 @@ def listImages(request,image_type=1):
     return render(request, "admin/listImages.html", context)
 
 def addImage(request,image_type=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -1143,6 +1190,8 @@ def addImage(request,image_type=1):
     return render(request, "admin/addImage.html", context)
 
 def updateImage(request,image_id=1):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -1181,6 +1230,8 @@ def updateImage(request,image_id=1):
     return render(request, "admin/updateImage.html", context)
 
 def deleteImage(request):
+    if not checkIfAdmin(request): raise PermissionDenied() 
+
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
