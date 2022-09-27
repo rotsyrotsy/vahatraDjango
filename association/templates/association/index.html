@@ -361,10 +361,16 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb" >
-                                            <a  class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title=""><img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" ></a>
+                                            <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}' title="">
+                                                <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" >
+                                            </a>
                                         </div>
                                         <div class="evnt-info">
-                                            <h4><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{publication.id}}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{publication.title| title}}</a></h4>
+                                            <h4>
+                                                <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}' title="">
+                                                    {{publication.title}}
+                                                </a>
+                                            </h4>
                                             <ul class="pst-mta">
                                                 <li class="thm-clr">{{publication.date | date:"Y"}}</li>
                                                 <li><i class="fa fa-user-o thm-clr"></i>
@@ -410,9 +416,15 @@
                             <div class="rcnt-wrp">
                                 {% for newpub in new_pubs %}
                                 <div class="rcnt-bx">
-                                    <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title=""><img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="rcnt-img1.jpg"></a>
+                                    <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""}}"}' title="">
+                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="rcnt-img1.jpg">
+                                    </a>
                                     <div class="rcnt-inf">
-                                        <h6><a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{newpub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication/'%}" title="">{{newpub.title}}</a></h6>
+                                        <h6>
+                                            <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""}}"}' title="">
+                                                {{newpub.title}}
+                                            </a>
+                                        </h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{newpub.date|date:"Y"}}</span>
                                     </div>
                                 </div>
@@ -544,3 +556,30 @@
     </div>
 </section>
   {% endblock content %}
+{% block js%}
+<script>
+    $('.volume-btn').on('click', function () {
+    $('#content').empty();
+    $('#titrePub').empty();
+    var model = $('.contact-form-model-wrap');
+    var staticpdf = $(this).attr("data-staticpdf")+"/";
+    var pub = $(this).attr("data-pub")
+    pub = JSON.parse(pub);
+        $.ajax({
+            url : "{% url 'publications:detail' %}",
+            dataType: 'JSON',
+            type:"GET",
+            data:{ pub_id:pub.id },
+            success:function(data){
+                fichepublicationretour(data,model,staticpdf,pub)
+            },  
+            error:function(data){
+                console.log('error')
+                console.log(data)
+            }
+            });
+
+    return false;
+  });
+</script>
+{% endblock %}

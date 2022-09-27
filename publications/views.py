@@ -30,10 +30,12 @@ def index(request,typepublication_name='malagasy-nature', typepublication_id=1):
     return render(request, "publications/index.html", context)
 
 def detail(request):
+    print("COUCOU")
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if is_ajax:
         if request.method == 'GET':
-            pub_id = request.GET.get('pub_id','')
+            print(request.GET.dict())
+            pub_id = request.GET.get('pub_id')
             publication = get_object_or_404(Publication, pk = pub_id)
             
             pubdetails = Publicationdetail.objects.filter(idpublication= pub_id)
@@ -42,11 +44,10 @@ def detail(request):
             for idauthor in pubidauthors:
                 pubauthors.append(Person.objects.get(pk=idauthor.idperson_id))
 
-            publication_serialize =  serializers.serialize('json', [ publication])
             publication_type_serialize =  serializers.serialize('json', [ Typepublication.objects.get(pk=publication.idtype.id)])
             pubdetails_serialize =  serializers.serialize('json', pubdetails)
             pubauthors_serialize =  serializers.serialize('json', pubauthors)
-            return  JsonResponse({ 'publication': publication_serialize, 'details': pubdetails_serialize, 'authors': pubauthors_serialize, 'typepublication':publication_type_serialize})
+            return  JsonResponse({ 'details': pubdetails_serialize, 'authors': pubauthors_serialize, 'typepublication':publication_type_serialize})
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
