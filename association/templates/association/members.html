@@ -20,6 +20,18 @@
 <section>
     <div class="gap">
         <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="wdgt-box" style="float:right; width:30%;">
+                        <h4>Search</h4>
+                        <form class="srch-frm" action="{% url 'association:searchMember' type.id  %}" method="post">
+                            {% csrf_token %}
+                            <input type="text" name="keyword" placeholder="Search">
+                            <button type="submit" class="thm-clr"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             
             {% if type.id == 3 %}
             <div class="sec-title text-center">
@@ -82,7 +94,17 @@
                 <div class="pagination-wrap text-center">
                     <ul class="pagination">
                         {% for number in page_number %}
-                            <li ><a href="{% url 'association:member' type.id number %}" title="">{{number}}</a></li>
+                        {% if keyword %}
+                        <form class="srch-frm" action="{% url 'association:searchMember' type.id  %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="page" value="{{number}}">
+                            <input type="hidden" name="keyword" value="{{keyword}}">
+                            <li><input class="submit-pagination" type="submit" value="{{number}}"></li>
+                        </form>
+                        {% else %}
+                        <li ><a href="{% url 'association:member' type.id number %}" title="">{{number}}</a></li>
+                        {% endif%}
+                            
                         {% endfor %}
                     </ul>
                 </div>

@@ -1,23 +1,21 @@
 from msilib import sequence
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest,HttpResponseForbidden
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.models import Administrator
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, EmailMessage
 from django.db.models import Min, Max,Q
-from math import ceil
 from sequences import get_next_value
 from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
-import os
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
-import unidecode
+
 from django.core.files.images import get_image_dimensions
 from django.core.exceptions import PermissionDenied
-
 from vahatraDjango.collectstatic import  Command
+from vahatraDjango.functions import *
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -27,43 +25,6 @@ def saveChanges(request):
     if not checkIfAdmin(request): raise PermissionDenied()
     watchdog = Command()
     watchdog.handle()
-
-def renameFile(file):
-    file = file.replace(" ", "_")
-    unaccented_string = unidecode.unidecode(file)
-    return unaccented_string
-
-def reduce_image_size( pic):
-    from io import BytesIO
-    from django.core.files import File
-    from PIL import Image
-    print('initial size: '+str(pic.size))
-    img = Image.open(pic)
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
-    thumb_io = BytesIO()
-    img.save(thumb_io, 'jpeg', quality=40)
-    new_image = File(thumb_io, name=pic.name)
-    print('final size: '+str(new_image.size))
-    return new_image
-
-def handle_uploaded_file(f, location):
-    if f.content_type.split("/")[0]=="image":
-        f = reduce_image_size(f)    
-    f.name=renameFile(f.name)
-    with open('static/'+location+'/'+f.name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-    return f.name
-
-
-
-def _delete_file(path, location):
-    """ Deletes file from filesystem. """
-    path = 'static/'+location+'/'+path
-    if os.path.isfile(path):
-        os.remove(path)
-
 
 def checkIfAdmin(request):
     if 'admin' not in request.session:
@@ -148,27 +109,9 @@ def reset_password(request):
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
-def pagination(actualpage, list, item_number, orderby):
-    page_number = list.count()
-    page_number = ceil(page_number/item_number)
-
-    if (actualpage > page_number):
-        actualpage = page_number
-    elif actualpage < 1:
-        actualpage = 1
-    actualpage -= 1
-
-    list = list.order_by(orderby)[(actualpage*item_number):((actualpage*item_number)+item_number)]
-    dict={
-        'list':list,
-        'page_number':page_number
-    }
-    return dict
 
 def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
     if not checkIfAdmin(request): raise PermissionDenied() 
-
-    
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,

@@ -2,11 +2,14 @@ from math import ceil
 from django.shortcuts import get_object_or_404, render
 from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner,Person
 from django.core.mail import send_mail
-from django.db.models.functions import  Substr
-from django.db.models import IntegerField, F,Q
+from django.db.models import Q
 from activities.models import Activity, Typesubactivity
 from publications.models import Typepublication,Publication,Publicationauthor
 from datetime import date,timedelta
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+from vahatraDjango.functions import pagination
 
 
 
@@ -55,13 +58,14 @@ def member(request, type_member_id, page=1):
     rangenumber=4
     if type_member_id==3:
         rangenumber=10
-    page -= 1
-    page_number = Member.objects.filter(idtypemember=type.id).count()
-    page_number = ceil(page_number/rangenumber)
-
-    members = Member.objects.filter(idtypemember=type.id).order_by(
-        'id'
-    )[(page*rangenumber):((page*rangenumber)+rangenumber)]
+    
+    list =  Member.objects.filter(idtypemember=type.id)
+    page_number=0
+    if (list.count() > 0):
+        dictpagination = pagination(page, list, rangenumber, 'id')
+        page_number = dictpagination['page_number']
+        members = dictpagination['list']
+        context["members"] = members
 
     context["members"]= members
     context["type"]= type
@@ -95,3 +99,37 @@ def gallery(request):
     context["typeimage"] = Imagetype.objects.all()
     context["images"]=Image.objects.all().order_by('name')
     return render(request, "association/gallery.html",context)
+
+def searchMember(request,type_member_id,page=1):
+    if request.method == 'POST':
+        type = get_object_or_404(Typemember, pk = type_member_id)
+    
+        if request.POST['keyword']=="":
+            return HttpResponseRedirect(reverse('association:member', args=(type_member_id,)))
+        
+        if 'page' in request.POST:
+            page = int(request.POST['page'])
+
+        keyword = request.POST['keyword']
+
+        rangenumber=4
+        if type_member_id==3:
+            rangenumber=10
+
+        list =  Member.objects.filter(idtypemember=type.id)
+        list = list.filter(Q(idperson__name__icontains=keyword)|
+            Q(idperson__username__icontains=keyword))
+        page_number=0
+        if (list.count() > 0):
+            dictpagination = pagination(page, list, rangenumber, 'id')
+            page_number = dictpagination['page_number']
+            members = dictpagination['list']
+            context["members"] = members
+
+        context["type"]= type
+        context["page_number"]= range(1,page_number+1)
+        context['keyword']=keyword
+
+        return render(request, "association/members.html", context)
+
+    return HttpResponseRedirect(reverse('association:member', args=(type_member_id,)))
