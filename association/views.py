@@ -16,12 +16,13 @@ from vahatraDjango.functions import pagination
 # Create your views here.
 type_visit = Typesubactivity.objects.all()
 type_pub = Typepublication.objects.all
-context = {
+
+
+def index(request):
+    context = {
         "type_visit" : type_visit,
         "type_pub": type_pub,
         }
-
-def index(request):
     type_member_list = Typemember.objects.all
     partner_list = Partner.objects.filter(isLink=False)
     links_list = Partner.objects.filter(isLink=True)
@@ -47,6 +48,10 @@ def index(request):
     return render(request, "association/index.html", context)
 
 def contactpage(request):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+        }
     if request.method == 'GET' and 'email' in request.GET:
         email = request.GET["email"]
         context["email"]= email
@@ -54,6 +59,10 @@ def contactpage(request):
     return render(request, "association/contact.html",context)
     
 def member(request, type_member_id, page=1):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+        }
     type = get_object_or_404(Typemember, pk = type_member_id)
     rangenumber=4
     if type_member_id==3:
@@ -73,6 +82,10 @@ def member(request, type_member_id, page=1):
     return render(request, "association/members.html", context)
     
 def contact(request):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+        }
     if request.method == "POST":
         message_name = request.POST['message-name']
         message_phone = request.POST['message-phone']
@@ -92,44 +105,52 @@ def contact(request):
         return render(request, "association/contact.html",context)
 
 def financing(request):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+        }
     return render(request, "association/financing.html",context)
 
     
 def gallery(request):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+        }
     context["typeimage"] = Imagetype.objects.all()
     context["images"]=Image.objects.all().order_by('name')
     return render(request, "association/gallery.html",context)
 
-def searchMember(request,type_member_id,page=1):
-    if request.method == 'POST':
-        type = get_object_or_404(Typemember, pk = type_member_id)
+def searchMember(request,type_member_id,keyword=None,page=1):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+        }
     
-        if request.POST['keyword']=="":
+    type = get_object_or_404(Typemember, pk = type_member_id)
+
+    if keyword is None:
+        if keyword in request.GET and request.GET['keyword']=="":
             return HttpResponseRedirect(reverse('association:member', args=(type_member_id,)))
-        
-        if 'page' in request.POST:
-            page = int(request.POST['page'])
+        keyword = request.GET['keyword']
+    
+    rangenumber=4
+    if type_member_id==3:
+        rangenumber=10
 
-        keyword = request.POST['keyword']
+    list =  Member.objects.filter(idtypemember=type.id)
+    list = list.filter(Q(idperson__name__icontains=keyword)|
+        Q(idperson__username__icontains=keyword))
+    page_number=0
+    if (list.count() > 0):
+        dictpagination = pagination(page, list, rangenumber, 'id')
+        page_number = dictpagination['page_number']
+        members = dictpagination['list']
+        context["members"] = members
 
-        rangenumber=4
-        if type_member_id==3:
-            rangenumber=10
+    context["type"]= type
+    context["page_number"]= range(1,page_number+1)
+    context['keyword']=keyword
 
-        list =  Member.objects.filter(idtypemember=type.id)
-        list = list.filter(Q(idperson__name__icontains=keyword)|
-            Q(idperson__username__icontains=keyword))
-        page_number=0
-        if (list.count() > 0):
-            dictpagination = pagination(page, list, rangenumber, 'id')
-            page_number = dictpagination['page_number']
-            members = dictpagination['list']
-            context["members"] = members
+    return render(request, "association/members.html", context)
 
-        context["type"]= type
-        context["page_number"]= range(1,page_number+1)
-        context['keyword']=keyword
-
-        return render(request, "association/members.html", context)
-
-    return HttpResponseRedirect(reverse('association:member', args=(type_member_id,)))

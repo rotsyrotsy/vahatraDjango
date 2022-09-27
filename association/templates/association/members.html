@@ -24,9 +24,12 @@
                 <div class="col-md-12">
                     <div class="wdgt-box" style="float:right; width:30%;">
                         <h4>Search</h4>
-                        <form class="srch-frm" action="{% url 'association:searchMember' type.id  %}" method="post">
-                            {% csrf_token %}
+                        <form class="srch-frm" action="{% url 'association:searchMember' type.id  %}" method="get">
+                            {% if keyword %}
+                            <input type="text" name="keyword" value="{{keyword}}" placeholder="Search">
+                            {% else %}
                             <input type="text" name="keyword" placeholder="Search">
+                            {% endif %}
                             <button type="submit" class="thm-clr"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
@@ -95,12 +98,7 @@
                     <ul class="pagination">
                         {% for number in page_number %}
                         {% if keyword %}
-                        <form class="srch-frm" action="{% url 'association:searchMember' type.id  %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="page" value="{{number}}">
-                            <input type="hidden" name="keyword" value="{{keyword}}">
-                            <li><input class="submit-pagination" type="submit" value="{{number}}"></li>
-                        </form>
+                        <li ><a href="{% url 'association:searchMember' type.id keyword number %}" title="">{{number}}</a></li>
                         {% else %}
                         <li ><a href="{% url 'association:member' type.id number %}" title="">{{number}}</a></li>
                         {% endif%}

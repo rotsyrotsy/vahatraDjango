@@ -173,7 +173,7 @@ def deleteActivity(request):
             try:
                 activity = Activity.objects.get(pk=id_activity)
                 for activityimage in activity.activityimage_set.all():
-                    _delete_file(activityimage.image, 'images/site')
+                    delete_file(activityimage.image, 'images/site')
                 activity.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
@@ -399,7 +399,7 @@ def updateActivity(request, activity_id=1):
             img_ids = request.POST.getlist("supprImage")
             for img_id in img_ids:
                 activityimage = Activityimage.objects.get(pk=img_id)
-                _delete_file(activityimage.image, 'images/site')
+                delete_file(activityimage.image, 'images/site')
                 activityimage.delete()
             countChange += 1
 
@@ -630,13 +630,13 @@ def updatePublication(request, pub_id=1):
         if request.FILES:
             if request.FILES.getlist('imagefront'):
                 front = request.FILES.getlist('imagefront')[0]
-                _delete_file(publication.imagefront, 'images/publication')
+                delete_file(publication.imagefront, 'images/publication')
                 publication.imagefront = handle_uploaded_file(front, 'images/publication')
                 
                 countChangePublication += 1
             if request.FILES.getlist('imageback'):
                 back = request.FILES.getlist('imageback')[0]
-                _delete_file(publication.imageback, 'images/publication')
+                delete_file(publication.imageback, 'images/publication')
                 publication.imageback = handle_uploaded_file(back, 'images/publication')
                 countChangePublication += 1
 
@@ -676,7 +676,7 @@ def updatePublication(request, pub_id=1):
                 pubdetailtodelete = Publicationdetail.objects.get(
                     pk=id_pubDetail)
                 if pubdetailtodelete.pdf is not None:
-                    _delete_file(pubdetailtodelete.pdf, 'pdf/' + renameFile(publication.idtype.type))
+                    delete_file(pubdetailtodelete.pdf, 'pdf/' + renameFile(publication.idtype.type))
                 pubdetailtodelete.delete()
             countChange += 1
 
@@ -702,14 +702,14 @@ def deletePublication(request, pub_id=None):
             try:
                 publication = Publication.objects.get(pk=id_publication)
                 if publication.imagefront:
-                    _delete_file(publication.imagefront, 'images/publication')
+                    delete_file(publication.imagefront, 'images/publication')
                 if publication.imageback:
-                    _delete_file(publication.imageback, 'images/publication')
+                    delete_file(publication.imageback, 'images/publication')
 
                 pubDetails = Publicationdetail.objects.filter(
                     idpublication=publication.id)
                 for det in pubDetails:
-                    _delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type))
+                    delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type))
 
                 publication.delete()
 
@@ -871,7 +871,7 @@ def updateMember(request,member_id=None):
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
                     return render(request, "admin/updateMember.html", context)
-                _delete_file(member.image, 'images/members')
+                delete_file(member.image, 'images/members')
                 member.image = handle_uploaded_file(imageFile, 'images/members')
                 
                 countChangeMember += 1
@@ -926,7 +926,7 @@ def deleteMember(request, member_id=None):
             try:
                 member = Member.objects.get(pk=member_id)
                 if member.image:
-                    _delete_file(member.image, 'images/members')
+                    delete_file(member.image, 'images/members')
                 member.delete()
 
             except KeyError:
@@ -1049,7 +1049,7 @@ def updatePartner(request,partner_id=None):
                 if w!=295 and h!=250:
                     context['imageError']="Recommended size : 295 x 250 pixels"
                     return render(request, "admin/addPartner.html", context)
-                _delete_file(partner.logo, 'images/partners')
+                delete_file(partner.logo, 'images/partners')
                 partner.logo = handle_uploaded_file(imageFile, 'images/partners')
                 
                 countChangePartner += 1
@@ -1076,7 +1076,7 @@ def deletePartner(request,partner_id=None):
             try:
                 partner = Partner.objects.get(pk=partner_id)
                 if partner.logo:
-                    _delete_file(partner.logo, 'images/partners')
+                    delete_file(partner.logo, 'images/partners')
                 partner.delete()
 
             except KeyError:
@@ -1129,8 +1129,8 @@ def addImage(request,image_type=1):
         else:
             files = request.FILES.getlist('files')
             for f in files:
-                title = f.name.split(".")[0].replace("_"," ")
-                image = Image(idtype=typeimage,title=title)
+                titleImg = f.name.split(".")[0].replace("_"," ")
+                image = Image(idtype=typeimage,title=titleImg)
                 path = renameFile(typeimage.type)
                 image.name = handle_uploaded_file(f, 'images/'+path)
                 image.save()
@@ -1168,7 +1168,7 @@ def updateImage(request,image_id=1):
                 imageFile = request.FILES.getlist('file')[0]
                 path = renameFile(image.idtype.type)
                 print(image.name)
-                _delete_file(image.name, 'images/'+path)
+                delete_file(image.name, 'images/'+path)
                 image.name = handle_uploaded_file(imageFile, 'images/'+path)
                 countChange += 1
             
@@ -1193,7 +1193,7 @@ def deleteImage(request):
                 image = Image.objects.get(pk=id_image)
                 if image.name:
                     path = renameFile(image.idtype.type)
-                    _delete_file(image.name, 'images/'+path)
+                    delete_file(image.name, 'images/'+path)
                 image.delete()
 
             except KeyError:

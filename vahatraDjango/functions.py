@@ -1,7 +1,7 @@
 import unidecode
 from io import BytesIO
 from django.core.files import File
-from PIL import Image
+
 import os
 from math import ceil
 
@@ -11,6 +11,7 @@ def renameFile(file):
     return unaccented_string
 
 def reduce_image_size( pic):
+    from PIL import Image
     print('initial size: '+str(pic.size))
     img = Image.open(pic)
     if img.mode != 'RGB':
@@ -30,7 +31,7 @@ def handle_uploaded_file(f, location):
             destination.write(chunk)
     return f.name
 
-def _delete_file(path, location):
+def delete_file(path, location):
     """ Deletes file from filesystem. """
     path = 'static/'+location+'/'+path
     if os.path.isfile(path):

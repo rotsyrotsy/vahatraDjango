@@ -15,5 +15,6 @@ urlpatterns = [
     path("financing/", views.financing, name="financing"),
     path("gallery/", views.gallery, name="gallery"),
     path("searchMember/<int:type_member_id>", views.searchMember, name="searchMember"),
+    path("searchMember/<int:type_member_id>/<str:keyword>/page-<int:page>", views.searchMember, name="searchMember"),
 
 ]

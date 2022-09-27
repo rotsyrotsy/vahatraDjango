@@ -106,7 +106,7 @@
     <div class="gap top-spac120 white-grad-layer">
         <img class="top-shp shp-img" src="{% static 'images/shp2.png' %} " alt="shp2.png">
         <img class="botm-shp shp-img" src="{% static 'images/shp3.png' %} " alt="shp3.png">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/Appui_scient/DSC_0631.JPG' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/site/Appui_scient/DSC_1.JPG' %});"></div>
         <div class="container">
             <div class="abot-wrap">
                 <div class="row">
@@ -294,7 +294,7 @@
                     {% for item in type_member_list %}
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box mt-5">
-                            <img src="{% static 'images/resources/team-img1-1.jpg' %} " alt="team-img1-1.jpg">
+                            <img src="{% static 'images/members/' %}{{item.image}} " style="width: 265px; height: 265px;" alt="team-img1-1.jpg">
                             <div class="team-info">
                                 <h4><a href="{% url 'association:member' item.id %}" >{{ item.type|title }}</a></h4>
                                 <p>{{ item.description|truncatewords:10 }}</p>
