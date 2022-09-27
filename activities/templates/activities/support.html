@@ -32,7 +32,17 @@
                                 </div>
                             </div>
                                 <p>Members of Vahatra contribute to the education of numerous students working for their higher degrees in the national university system. These individuals are amongst the future scientific leaders of the country, many of which are trained in conservation biology and biodiversity science.</p>
+                                <div class="row m-3">
+                                    {% for i in '67'|make_list %}
+                                    <div class="col-md-6 col-sm-6 col-lg-6">
+                                        <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.JPG" data-fancybox="gallery" title="">
+                                        <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.JPG" width="500">
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
                                 <p><strong> Vahatra staff members present courses and help guide students at the following universities:</strong></p>
+
                                 <ul>
                                     <li>Department of Animal Biology, University of Antananarivo</li>
                                     <li>Institut des Sciences et Techniques de l’Environnement (ISTE), University of Fianarantsoa</li>
@@ -48,9 +58,15 @@
     </div>
 </section>
 <section>
-    <div class="gap blue-layer opc9">
-        <div class="fixed-bg" style="background-image: url({% static 'images/team/Amena 035.jpg' %});"></div>
-    </div>
+        <div class="row">
+            {% for i in '012345'|make_list %}
+            <div class="col-md-4 col-sm-4 col-lg-4">
+                <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.JPG" data-fancybox="gallery" title="">
+                    <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.JPG">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
 </section>
 <section>
     <div class="gap">
@@ -67,7 +83,7 @@
                         <div class="col-md-3 col-sm-6 col-lg-3">
                             <div class="bord-box">
                                 {% with 'images/partners/'|add:partner.logo as logo %}
-                                <img src="{% static logo %}" width="100" height="100" alt="{{partner.name}}">
+                                    <img src="{% static logo %}" width="100" height="100" alt="{{partner.name}}">
                                 {% endwith %}
                                 <div class="bord-info">
                                     <h4>{{partner.name}}</h4>
@@ -83,9 +99,10 @@
         </div>
     </div>
 </section>
+
 <section>
-    <div class="gap blue-layer opc85">
-        <div class="fixed-bg" style="background-image: url({% static 'images/team/BEA 113.jpg' %});"></div>
+    <div class="gap blue-layer opc5">
+        <div class="fixed-bg" style="background-image: url({% static 'images/team/BEA_113.jpg' %});"></div>
         <div class="container">
             <div class="newsletter-wrap2 text-center">
                 <div class="newsletter-inner">

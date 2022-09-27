@@ -5,7 +5,7 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc6">
-        <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneaous/Bea_291.jpg' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneous/Bea_291.jpg' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
@@ -55,7 +55,7 @@
                             {% for pub in pubs %}
                           <tr>
                             <td>
-                                <a class="volume-btn" data-url="{% url 'publications:detail' %}" data-id="{{pub.id}}" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type|lower|snake_case }}" data-static="{% static 'images/publication'%}" href="#" title="">
+                                <a class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{pub.id}}","title":"{{pub.title}}", "description":"{{pub.description}}", "imagefront":"{% static "images/publication/" %}{{pub.imagefront}}", "imageback":"{% static "images/publication/" %}{{pub.imageback|default_if_none:""}}"}'  href="#" title="">
                                     <img src="{% static 'images/publication/' %}{{pub.imagefront}}" width="50">
                                 </a>
                             </td>
@@ -116,3 +116,31 @@
     </div>
 </div><!-- Contact Form Model Wrap -->
 {% endblock content %}
+
+{% block js%}
+<script>
+    $('.volume-btn').on('click', function () {
+    $('#content').empty();
+    $('#titrePub').empty();
+    var model = $('.contact-form-model-wrap');
+    var staticpdf = $(this).attr("data-staticpdf")+"/";
+    var pub = $(this).attr("data-pub")
+    pub = JSON.parse(pub);
+        $.ajax({
+            url : "{% url 'publications:detail' %}",
+            dataType: 'JSON',
+            type:"GET",
+            data:{ pub_id:pub.id },
+            success:function(data){
+                fichepublicationretour(data,model,staticpdf,pub)
+            },  
+            error:function(data){
+                console.log('error')
+                console.log(data)
+            }
+            });
+
+    return false;
+  });
+</script>
+{% endblock %}

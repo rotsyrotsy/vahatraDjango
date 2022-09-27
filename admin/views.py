@@ -17,10 +17,16 @@ import unidecode
 from django.core.files.images import get_image_dimensions
 from django.core.exceptions import PermissionDenied
 
+from vahatraDjango.collectstatic import  Command
+
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
 type_member = Typemember.objects.all()
 
+def saveChanges(request):
+    if not checkIfAdmin(request): raise PermissionDenied()
+    watchdog = Command()
+    watchdog.handle()
 
 def renameFile(file):
     file = file.replace(" ", "_")
@@ -33,6 +39,8 @@ def reduce_image_size( pic):
     from PIL import Image
     print('initial size: '+str(pic.size))
     img = Image.open(pic)
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
     thumb_io = BytesIO()
     img.save(thumb_io, 'jpeg', quality=40)
     new_image = File(thumb_io, name=pic.name)
@@ -1220,6 +1228,7 @@ def updateImage(request,image_id=1):
                 _delete_file(image.name, 'images/'+path)
                 image.name = handle_uploaded_file(imageFile, 'images/'+path)
                 countChange += 1
+            
         
         if countChange>0:
             context["success"] = "Image's informations updated successfully."            

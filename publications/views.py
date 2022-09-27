@@ -30,11 +30,9 @@ def index(request,typepublication_name='malagasy-nature', typepublication_id=1):
     return render(request, "publications/index.html", context)
 
 def detail(request):
-    print("COUCOU")
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if is_ajax:
         if request.method == 'GET':
-            print(request.GET.dict())
             pub_id = request.GET.get('pub_id')
             publication = get_object_or_404(Publication, pk = pub_id)
             

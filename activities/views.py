@@ -52,7 +52,7 @@ def visit_by_lieu(request):
         return HttpResponseBadRequest('Invalid request')
 
 def support(request):
-    partner_list = Partner.objects.all()
+    partner_list = Partner.objects.filter(isLink=False)
     context["partner_list"]= partner_list
     
     return render(request, "activities/support.html", context)

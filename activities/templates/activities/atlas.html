@@ -24,16 +24,9 @@
             <div class="hstry-wrap">
                 <div class="row">
                     <div class="col-md-6 col-sm-12 col-lg-6">
-                        <div >
-                            <img src="{% static 'images/publication/op3.jpg' %}"  id="myImg" alt="Atlas" data-img="{% static 'images/publication/op3_back.gif' %}">
-                        </div>
-
-                        <div id="myModalImage" class="modal">
-                            <span class="close">&times;</span>
-                            <img class="modal-content" id="img01">
-                            <div id="caption"></div>
-                          </div>
-
+                        <a href="{% static 'images/publication/op3_back.gif' %}" data-fancybox="gallery" title="">
+                            <img src="{% static 'images/publication/op3.jpg' %}" alt="Atlas" >
+                        </a>
                     </div>
                     <div class="col-md-6 col-sm-12 col-lg-6">
                         <div class="hstry-desc">
@@ -61,28 +54,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
-{% block js %}
-<script>
-    // Get the modal
-    var modal = document.getElementById("myModalImage");
-    
-    // Get the image and insert it inside the modal - use its "alt" text as a caption
-    var img = document.getElementById("myImg");
-    var modalImg = document.getElementById("img01");
-    var captionText = document.getElementById("caption");
-    img.onclick = function(){
-      modal.style.display = "block";
-      modalImg.src = img.getAttribute('data-img');
-      captionText.innerHTML = this.alt;
-    }
-    
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() { 
-      modal.style.display = "none";
-    }
-    </script>
 {% endblock %}
