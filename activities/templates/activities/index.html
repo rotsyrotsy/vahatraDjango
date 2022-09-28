@@ -62,19 +62,18 @@
         <div class="bord-wrap">
             <div class="row mrg  mycaroussel-simple">
                 
-                {% for visit in visits %}
+                {% for dict in dicts %}
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="bord-box">
-                            {% if visit.idactivity.activityimage_set.all %}
-                                {% with visit.idactivity.activityimage_set.all|first as image %}
-                                <img src="{% static 'images/site/' %}{{image.image}}" alt="{{image.image}}" alt="" width="100" height="100">
-                                {% endwith %}
+                            {% if dict.image %}
+                                <img src="{% static 'images/site/' %}{{dict.image.image}}" alt="{{dict.image.image}}" alt="" >
+                            {% else %}
+                                <img src="{% static 'images/parallax2.png' %}" alt="no image" alt="">
                             {% endif %}
                             
                             <div class="bord-info">
-                                <h4>{{visit.idlocation.name}}</h4>
-                                <p>Date: {{visit.idactivity.date}} - {{visit.dateend|default_if_none:""}}</p>
-                                <span><a  title="" onclick="clickImage('{{visit.idlocation.id}}')">Show more<i class="flaticon-right-arrow"></i></a></span>
+                                <h4>{{dict.location.name}}</h4>
+                                <span><a  title="" onclick="clickImage('{{dict.location.id}}')">Show more<i class="flaticon-right-arrow"></i></a></span>
                             </div>
                         </div>
                     </div>

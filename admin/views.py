@@ -109,8 +109,7 @@ def reset_password(request):
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
-
-def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
+def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None,keyword=None):
     if not checkIfAdmin(request): raise PermissionDenied() 
     context = {
         "type_publication": type_publication,
@@ -141,21 +140,41 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
                 idtypeactivity_id=activity_id, date__year=year)
             context["year"] = year
 
-    list = list.order_by('date')
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+        
+            try:
+                year = int(keyword)
+                list = list.filter(date__year=year)
+            except ValueError:
+                list = list.filter(Q(title__icontains=keyword)|
+                Q(visit__idlocation__name__icontains = keyword)|
+                Q(activityinstitution__idinst__name__icontains = keyword)|
+                Q(activityperson__idperson__name__icontains = keyword)|
+                Q(activityperson__idperson__username__icontains = keyword))
+
+            context['keyword']=keyword
     
-    page_number=0
-    if (list.count() > 0):
-        dictpagination = pagination(page, list, 8, '-date')
-        page_number = dictpagination['page_number']
-        activities = dictpagination['list']
-        context["activities"] = activities
+    list = list.order_by('date')
+
+    if 'keyword' not in context:
+        page_number=0
+        if (list.count() > 0):
+            dictpagination = pagination(page, list, 8, '-date')
+            page_number = dictpagination['page_number']
+            activities = dictpagination['list']
+            context["activities"] = activities
+            context["page_number"] = range(1, page_number+1)
+    else:
+        context['activities']=list
 
     min = Activity.objects.filter(
         idtypeactivity=activity_id).aggregate(Min('date'))
     max = Activity.objects.filter(
         idtypeactivity=activity_id).aggregate(Max('date'))
     context["years"] = range(min['date__min'].year, max['date__max'].year+1)
-    context["page_number"] = range(1, page_number+1)
+    
 
     return render(request, "admin/listActivities.html", context)
 

@@ -26,7 +26,7 @@
                     {% for activity in activities %}
                     <div class="col-md-4 col-sm-6 col-lg-4 fadeIn" data-wow-duration=".8s" data-wow-delay=".2s">
                         <div class="blog-box">
-                            <div class="blog-thmb">
+                            <div class="blog-thmb ">
                                 <a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">
                                     {% if activity.activityimage_set.all %}
                                         {% with activity.activityimage_set.all|first as image %}

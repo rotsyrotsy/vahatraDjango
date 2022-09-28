@@ -19,6 +19,27 @@ context = {
 def index(request, typesubactivity_id='SA1'):
     visits = get_list_or_404(Visit, Q(idtypesubactivity = typesubactivity_id), Q(idactivity__date__lt=date.today())|Q(idactivity__date__isnull=True))
     context["visits"]= visits
+    
+    locations= list(map(lambda x: x.idlocation, visits)) #locations of visit
+    locations=list(dict.fromkeys(locations)) #remove duplicates
+    context['locations']=locations
+
+    listImageLocation = []
+    for location in locations:
+        dictionnary = {
+            'location':location,
+        }
+        visitLocations = location.visit_set.filter(idtypesubactivity=typesubactivity_id)
+        image = None
+        for visitLocation in visitLocations:
+            if visitLocation.idactivity.activityimage_set.all():
+                image = visitLocation.idactivity.activityimage_set.all()[0]
+                break
+        dictionnary['image']=image
+        listImageLocation.append(dictionnary)
+    
+    context['dicts']=listImageLocation
+
     context["type_visite"]=Typesubactivity.objects.get(pk=typesubactivity_id)
     print( context["type_visite"].type)
     return render(request, "activities/index.html", context)
@@ -88,6 +109,8 @@ def activityDetail(request,activity_type,activity_id):
     new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id), Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))    
 
     context["activity"]= activity
+    context["images"]=activity.activityimage_set.all()
+    print(len(activity.activityimage_set.all()))
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)
 
