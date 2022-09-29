@@ -22,7 +22,7 @@ def index(request, typesubactivity_id='SA1'):
     
     locations= list(map(lambda x: x.idlocation, visits)) #locations of visit
     locations=list(dict.fromkeys(locations)) #remove duplicates
-    context['locations']=locations
+    context['locations']=locations.sort(key=lambda x: x.name, reverse=False)
 
     listImageLocation = []
     for location in locations:

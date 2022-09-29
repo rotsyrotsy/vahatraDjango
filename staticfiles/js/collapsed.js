@@ -28,11 +28,19 @@ function openNav(typevisit, lieu, visits) {
       try {
         images = JSON.parse(visits[i]['images']);
         imagevisit = document.getElementById("imagevisit");
+        while (imagevisit.firstChild) {
+          imagevisit.removeChild(imagevisit.firstChild);
+        };
+        
         static = imagevisit.getAttribute('data-url');
-        // for (let ii = 0; ii< images.length; ii++){
-            imagevisit.setAttribute('src', static+images[0]['fields']['image']);
-            
-        // } 
+        for (let ii = 0; ii< images.length; ii++){
+            var aimg = document.createElement("div");
+            aimg.classList.add("col-md-12" ,"col-sm-12", "col-lg-12");
+            var img = document.createElement("img");
+            img.src = static+images[ii]['fields']['image'];
+            aimg.appendChild(img);
+            imagevisit.appendChild(aimg);
+        } 
       }
       catch(e) {
 

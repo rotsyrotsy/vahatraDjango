@@ -78,6 +78,14 @@ $('.mycaroussel-index').slick({
 })
 
 
+$('.mycaroussel-single').slick({
+    dots: true,
+    slidesToShow: 1,
+    autoplay: true,
+    autoplaySpeed: 1000
+});
+
+
 $( document ).ready(function() {
     $('.slide-arrow-index').css('display','none');
 });

@@ -16,6 +16,7 @@ from django.core.files.images import get_image_dimensions
 from django.core.exceptions import PermissionDenied
 from vahatraDjango.collectstatic import  Command
 from vahatraDjango.functions import *
+from django.contrib.auth import authenticate,login,logout, get_user
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -27,9 +28,7 @@ def saveChanges(request):
     watchdog.handle()
 
 def checkIfAdmin(request):
-    if 'admin' not in request.session:
-        return False
-    return True
+    if not request.user.is_authenticated: raise PermissionDenied() 
 
 def index(request):
     context = {
@@ -37,25 +36,19 @@ def index(request):
         "type_activity": type_activity,
         "type_member": type_member,
     }
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     return render(request, "admin/index.html", context)
 
-
-def login(request):
+def my_login(request):
     if request.method == 'POST':
-        try:
-            # encryptedpassword=make_password(request.POST['password'])
-            # print(encryptedpassword)
-            # checkpassword=check_password(request.POST['password'], encryptedpassword)
-            # print(checkpassword)
-            # data = Administrator(id='ADM2',username=request.POST["username"],password=encryptedpassword)
-            # data.save()
-            admin = Administrator.objects.get(
-                username=request.POST["username"])
-            if check_password(request.POST['password'], admin.password) == False:
-                raise Administrator.DoesNotExist
-        except (KeyError, Administrator.DoesNotExist):
+        admin = authenticate(request,username=request.POST["username"],password=request.POST['password'])
+        if admin is not None:
+            login(request,admin)
+            if len(request.POST.getlist("remember_me")) == 0:
+                request.session.set_expiry(0)
+            return HttpResponseRedirect(reverse("admin:index"))
+        else:
             return render(
                 request,
                 "admin/login.html",
@@ -63,21 +56,53 @@ def login(request):
                     "error_message": "Verify your username and password.",
                 },
             )
-        else:
-            if len(request.POST.getlist("remember_me")) == 0:
-                request.session.set_expiry(0)
-            request.session['admin'] = admin.id
-            return HttpResponseRedirect(reverse("admin:index"))
-    else:
-        return render(request, "admin/login.html")
+    return render(request, "admin/login.html")
 
 
-def logout(request):
+def my_logout(request):
     try:
-        del request.session['admin']
+        logout(request)
     except KeyError:
         pass
     return render(request, "admin/login.html", {"message": "You're logged out"})
+
+
+# def login(request):
+#     if request.method == 'POST':
+#         try:
+#             # encryptedpassword=make_password(request.POST['password'])
+#             # print(encryptedpassword)
+#             # checkpassword=check_password(request.POST['password'], encryptedpassword)
+#             # print(checkpassword)
+#             # data = Administrator(id='ADM2',username=request.POST["username"],password=encryptedpassword)
+#             # data.save()
+#             admin = Administrator.objects.get(
+#                 username=request.POST["username"])
+#             if check_password(request.POST['password'], admin.password) == False:
+#                 raise Administrator.DoesNotExist
+#         except (KeyError, Administrator.DoesNotExist):
+#             return render(
+#                 request,
+#                 "admin/login.html",
+#                 {
+#                     "error_message": "Verify your username and password.",
+#                 },
+#             )
+#         else:
+#             if len(request.POST.getlist("remember_me")) == 0:
+#                 request.session.set_expiry(0)
+#             request.session['admin'] = admin.id
+#             return HttpResponseRedirect(reverse("admin:index"))
+#     else:
+#         return render(request, "admin/login.html")
+
+
+# def logout(request):
+#     try:
+#         del request.session['admin']
+#     except KeyError:
+#         pass
+#     return render(request, "admin/login.html", {"message": "You're logged out"})
 
 
 def reset_password(request):
@@ -110,7 +135,7 @@ def reset_password(request):
 #  -----------------------------------ACTIVITIES ---------------------------------
 
 def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None,keyword=None):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
@@ -182,7 +207,7 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
 
 
 def deleteActivity(request):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
@@ -224,7 +249,7 @@ def updateAttributeByRequestParams(request,params,model):
     return countChange
         
 def addActivity(request, idtypeactivity='A1'):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -315,7 +340,7 @@ def addActivity(request, idtypeactivity='A1'):
 
 
 def addPerson(request):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -331,7 +356,7 @@ def addPerson(request):
 
 
 def addInstitution(request):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -348,7 +373,7 @@ def addInstitution(request):
 
 
 def addLocation(request):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -367,7 +392,7 @@ def addLocation(request):
 
 
 def updateActivity(request, activity_id=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -512,7 +537,7 @@ def updateActivity(request, activity_id=1):
 # --------------------------- PUBLICATIONS ------------------------------
 
 def listPublications(request, pub_id=1, page=1, year=None):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -546,7 +571,7 @@ def listPublications(request, pub_id=1, page=1, year=None):
     return render(request, "admin/listPublications.html", context)
 
 def addPublication(request, idtypepublication=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -621,7 +646,7 @@ def addPublication(request, idtypepublication=1):
 
 
 def updatePublication(request, pub_id=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -711,7 +736,7 @@ def updatePublication(request, pub_id=1):
 
 
 def deletePublication(request, pub_id=None):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
@@ -742,7 +767,7 @@ def deletePublication(request, pub_id=None):
 
 # LIST OF MEMBERS
 def listMembers(request,typemember_id=2,page=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -767,7 +792,7 @@ def listMembers(request,typemember_id=2,page=1):
     return render(request, "admin/listMembers.html", context)
 
 def addMember(request,typemember_id=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
     
     context = {
         "type_publication": type_publication,
@@ -848,7 +873,7 @@ def addMember(request,typemember_id=1):
 
 
 def updateMember(request,member_id=None):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -935,7 +960,7 @@ def updateMember(request,member_id=None):
     return render(request, "admin/updateMember.html", context)
 
 def deleteMember(request, member_id=None):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
@@ -958,7 +983,7 @@ def deleteMember(request, member_id=None):
 
 # ---------------------------------------PARTNERS------------------------------------------
 def listPartners(request,page=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -979,7 +1004,7 @@ def listPartners(request,page=1):
     return render(request, "admin/listPartners.html", context)
 
 def addPartner(request):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -1033,7 +1058,7 @@ def addPartner(request):
 
 
 def updatePartner(request,partner_id=None):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -1085,7 +1110,7 @@ def updatePartner(request,partner_id=None):
     return render(request, "admin/updatePartner.html", context)
 
 def deletePartner(request,partner_id=None):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
@@ -1108,7 +1133,7 @@ def deletePartner(request,partner_id=None):
 
 # IMAGES--------------------------------
 def listImages(request,image_type=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -1122,7 +1147,7 @@ def listImages(request,image_type=1):
     return render(request, "admin/listImages.html", context)
 
 def addImage(request,image_type=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -1160,7 +1185,7 @@ def addImage(request,image_type=1):
     return render(request, "admin/addImage.html", context)
 
 def updateImage(request,image_id=1):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     context = {
         "type_publication": type_publication,
@@ -1201,7 +1226,7 @@ def updateImage(request,image_id=1):
     return render(request, "admin/updateImage.html", context)
 
 def deleteImage(request):
-    if not checkIfAdmin(request): raise PermissionDenied() 
+    checkIfAdmin(request)
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 

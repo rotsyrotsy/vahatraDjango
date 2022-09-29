@@ -55,7 +55,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2" style="">
                       
                         {% if subactivity_id %}
-                          <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity_id %}">all</a>
+                          <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity_id 1 %}">all</a>
                           {% for i in years %}
                             <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity_id i 1 %}">{{i}}</a>
                           {% endfor %}
