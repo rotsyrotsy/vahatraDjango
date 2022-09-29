@@ -35,12 +35,12 @@
   }
   .prev-arrow{
     left: -40px;
-    background-image: url('prev.png');
+    background-image: url("prev.84b76dee6b27.png");
     background-position: right;
   }
   .next-arrow{
     right: -40px;
-    background-image: url('next.png');
+    background-image: url("next.31f15875975a.png");
     background-position: left;
   }
   
@@ -57,7 +57,7 @@
 
 .previous-arrow-index {
   left: 5px;
-  background-image: url('prev.png');
+  background-image: url("prev.84b76dee6b27.png");
   background-position: right;
   z-index: 1;
 }
@@ -65,7 +65,7 @@
 
 .next-arrow-index {
   right: 5px;
-  background-image: url('next.png');
+  background-image: url("next.31f15875975a.png");
   background-position: left;
 }
 

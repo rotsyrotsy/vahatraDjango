@@ -55,6 +55,7 @@
         </div><!-- Featured Area Wrap -->
     </div>
   </section>
+
   <section>
     <div class="gap">
         <div class="lft-shp shp-lyr"></div>
@@ -278,6 +279,7 @@
         </div>
     </div>
   </section>
+  <div >
   <section>
     <div class="gap top-spac60 white-layer opc9">
         <div class="container">
@@ -309,9 +311,8 @@
     </div>
   </section>
   <section>
-    <div class="gap top-spac120 bottom-spac140 gray-layer opc95">
+    <div class="gap top-spac120 gray-layer opc95 pb-5" >
         <img class="top-shp shp-img" src="{% static 'images/shp40.png' %} " alt="shp4.png">
-        <img class="botm-shp shp-img" src="{% static 'images/shp50.png' %} " alt="shp5.png">
         <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.png' %});"></div>
         <div class="container">
             <div class="evnt-pry-wrap">
@@ -450,7 +451,7 @@
         </div>
     </div>
   </section>
-  <section>
+  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.jpg' %}');">
     <div class="gap top-spac60 white-layer opc9">
         <div class="container">
             <div class="sec-title text-center">
@@ -488,7 +489,7 @@
         </div>
     </div>
   </section>
-  <section>
+  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.jpg' %}');">
     <div class="gap no-gap">
         <div class="container">
             <div class="sec-title style2 text-center">
@@ -496,7 +497,7 @@
                     <span>Our </span>
                     <h3>Partners</h3>
                 </div>
-                <p>Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain.</p>
+                <p style="color: #000;">Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain.</p>
             </div>
             <div class="bord-wrap">
                 <div class="row mrg mycaroussel-partner" data-length="{{partner_list|length}}">
@@ -520,7 +521,7 @@
         </div>
     </div>
 </section>
-<section>
+<section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.jpg' %}');">
     <div class="gap">
         <div class="container">
             <div class="sec-title style2 text-center">
@@ -549,6 +550,7 @@
         </div>
     </div>
 </section>
+</div>
   {% endblock content %}
 {% block js%}
 <script>

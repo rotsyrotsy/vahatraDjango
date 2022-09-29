@@ -55,7 +55,27 @@ $('.mycaroussel-simple').slick({
     autoplay: true,
     autoplaySpeed: 3000,
     prevArrow: '<button class="slide-arrow prev-arrow"></button>',
-    nextArrow: '<button class="slide-arrow next-arrow"></button>'
+    nextArrow: '<button class="slide-arrow next-arrow"></button>',
+    responsive: [
+        {
+            breakpoint: 768,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 3
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 1
+            }
+        }
+    ]
 });
 
 $('.mycaroussel-partner').slick({
@@ -64,7 +84,27 @@ $('.mycaroussel-partner').slick({
     autoplay: true,
     autoplaySpeed: 2000,
     prevArrow: '<button class="slide-arrow prev-arrow"></button>',
-    nextArrow: '<button class="slide-arrow next-arrow"></button>'
+    nextArrow: '<button class="slide-arrow next-arrow"></button>',
+    responsive: [
+        {
+            breakpoint: 768,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 3
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 1
+            }
+        }
+    ]
 });
 
 $('.mycaroussel-index').slick({
@@ -74,7 +114,27 @@ $('.mycaroussel-index').slick({
     infinite: true,
     fade: true,
     prevArrow: '<button class="slide-arrow-index previous-arrow-index"></button>',
-    nextArrow: '<button class="slide-arrow-index next-arrow-index"></button>'
+    nextArrow: '<button class="slide-arrow-index next-arrow-index"></button>',
+    responsive: [
+        {
+            breakpoint: 768,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 3
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 1
+            }
+        }
+    ]
 })
 
 
@@ -82,7 +142,27 @@ $('.mycaroussel-single').slick({
     dots: true,
     slidesToShow: 1,
     autoplay: true,
-    autoplaySpeed: 1000
+    autoplaySpeed: 1000,
+    responsive: [
+        {
+            breakpoint: 768,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 3
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                arrows: false,
+                centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 1
+            }
+        }
+    ]
 });
 
 
