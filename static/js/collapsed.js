@@ -21,24 +21,42 @@ function openNav(typevisit, lieu, visits) {
     h4.appendChild(a);
     
     eventinfo.appendChild(h4);
-
+    imagevisit = document.getElementById("imagevisit");
+    while (imagevisit.firstChild) {
+      imagevisit.removeChild(imagevisit.firstChild);
+    };
     
+    
+    var countIndex=0;
     for (let i = 0; i < visits.length; i++) {
 
       try {
         images = JSON.parse(visits[i]['images']);
-        imagevisit = document.getElementById("imagevisit");
-        while (imagevisit.firstChild) {
-          imagevisit.removeChild(imagevisit.firstChild);
-        };
         
         static = imagevisit.getAttribute('data-url');
+
+        
         for (let ii = 0; ii< images.length; ii++){
+          
             var aimg = document.createElement("div");
-            aimg.classList.add("col-md-12" ,"col-sm-12", "col-lg-12");
+            aimg.classList.add("col-md-12" ,"col-sm-12", "col-lg-12","p-0");
+            var href = document.createElement("a");
+            href.href = static+images[ii]['fields']['image'];
+            href.setAttribute('data-fancybox','gallery');
+
+            
             var img = document.createElement("img");
             img.src = static+images[ii]['fields']['image'];
-            aimg.appendChild(img);
+
+            
+            if (ii == 0 && countIndex==0){
+              countIndex += 1;
+            }else{
+              img.style.display = "none";
+            }
+            
+            href.appendChild(img);
+            aimg.appendChild(href);
             imagevisit.appendChild(aimg);
         } 
       }
