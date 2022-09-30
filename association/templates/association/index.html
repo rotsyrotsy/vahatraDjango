@@ -415,6 +415,7 @@
                                         <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="rcnt-img1.jpg">
                                     </a>
                                     <div class="rcnt-inf">
+                                        <small>{{newpub.idtype.type}}</small><br>
                                         <h6>
                                             <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""}}"}' title="">
                                                 {{newpub.title}}
