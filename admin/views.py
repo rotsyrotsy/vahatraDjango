@@ -5,9 +5,8 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadReque
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.models import Administrator
 from django.shortcuts import render
-from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, EmailMessage
-from django.db.models import Min, Max,Q
+from django.db.models import Min, Max,Q,Count
 from sequences import get_next_value
 from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
@@ -16,7 +15,10 @@ from django.core.files.images import get_image_dimensions
 from django.core.exceptions import PermissionDenied
 from vahatraDjango.collectstatic import  Command
 from vahatraDjango.functions import *
-from django.contrib.auth import authenticate,login,logout, get_user
+from django.contrib.auth import authenticate,login,logout
+from django.db.models.functions import ExtractYear
+from itertools import groupby
+from operator import itemgetter
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -1247,3 +1249,61 @@ def deleteImage(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+# STATISTICS-------------------------
+
+def groupByYear(queryset, limit):
+    qyeryset_year = queryset.annotate(year=ExtractYear('date')).values('year').annotate(count=Count('id')).values('year','count')
+    list=[]
+    for key, value in groupby(qyeryset_year, key = itemgetter('year')):
+        dicti={
+            'year':key,
+            'count':sum(val['count'] for val in value)
+        }
+        list.append(dicti)
+        
+    ten = len(list)-limit
+    return list[ten:]
+
+
+def groupByYearAndActivity(queryset, limit):
+    qyeryset_year = queryset.annotate(year=ExtractYear('date')).values('year').annotate(count=Count('id')).values('year','count','idtypeactivity__type')
+    list=[]
+    for key, value in groupby(qyeryset_year,key=lambda x:(x['year'], x['idtypeactivity__type']) ):
+        dicti={
+            'year':key[0],
+            'count':sum(val['count'] for val in value),
+            'type':key[1]
+        }
+        list.append(dicti)
+        
+    ten = len(list)-limit
+    
+    return list
+
+def statisticActivities(request):
+    
+    checkIfAdmin(request)
+
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    context['global'] = Typeactivity.objects.annotate(num_activity=Count('activity'))
+    listdictionnary = []
+    activities = Activity.objects.all().order_by('date').order_by('idtypeactivity')
+    listdictionnary.append(groupByYearAndActivity(activities,5))
+    
+    context['compare']=listdictionnary
+
+    if  request.method == 'POST':
+        if 'idtypeactivity' in request.POST:
+            typeactivity = Typeactivity.objects.get(pk=request.POST['idtypeactivity'])
+            context['typeactivity']=typeactivity
+             
+            activities = Activity.objects.filter(idtypeactivity=typeactivity.id).order_by('date')
+            
+            context['peryear']=groupByYear(activities,10)
+            
+    return render(request, "admin/statisticActivities.html", context)

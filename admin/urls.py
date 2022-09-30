@@ -15,7 +15,7 @@ urlpatterns = [
     path("listActivities/<str:activity_id>/sub-activity-<str:subactivity_id>/page-<int:page>", views.listActivities, name="listActivities"),
     path("listActivities/<str:activity_id>/sub-activity-<str:subactivity_id>/year-<int:year>/page-<int:page>", views.listActivities, name="listActivities"),
     path("listActivities/<str:activity_id>/year-<int:year>/page-<int:page>", views.listActivities, name="listActivities"),
-   path("deleteActivity/", views.deleteActivity, name="deleteActivity"),
+    path("deleteActivity/", views.deleteActivity, name="deleteActivity"),
     path("addActivity/", views.addActivity, name="addActivity"),
     path("addActivity/<str:idtypeactivity>", views.addActivity, name="addActivity"),
     path("addPerson/", views.addPerson, name="addPerson"),
@@ -46,4 +46,5 @@ urlpatterns = [
     path("addImage/<str:image_type>", views.addImage, name="addImage"),
     path("deleteImage/", views.deleteImage, name="deleteImage"),
     path("updateImage/<str:image_id>", views.updateImage, name="updateImage"),
+    path("statisticActivities/",views.statisticActivities, name="statisticActivities"),
 ]
