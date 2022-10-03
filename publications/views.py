@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, get_list_or_404
 from activities.models import Typesubactivity
 from publications.models import  Publication,Typepublication,Publicationdetail,Publicationauthor
 from django.core import serializers
-from django.http import JsonResponse, HttpResponseBadRequest,HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseBadRequest,HttpResponseRedirect,HttpResponse
 from datetime import date
 from django.db.models import Q
 from django.db.models import Min,Max
@@ -131,3 +131,32 @@ def multicriteriasearch(request):
         return render(request, "publications/search.html", context)
 
     return HttpResponseRedirect(reverse("publications:index"))
+
+def download_pdf_file(request, location='',filename=''):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+    }
+    import os
+    import mimetypes
+    if filename != '':
+        print(filename)
+        # Define Django project base directory
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # Define the full file path
+        filepath = BASE_DIR + '/static/pdf/'+location+'/' + filename
+        # Open the file for reading content
+        path = open(filepath, 'rb')
+        # Set the mime type
+        mime_type, _ = mimetypes.guess_type(filepath)
+        # Set the return value of the HttpResponse
+        response = HttpResponse(path, content_type=mime_type)
+        # Set the HTTP header for sending to browser
+        response['Content-Disposition'] = "attachment; filename=%s" % filename
+        # Return the response value
+        return response
+        
+        
+    else:
+        # Load the template
+        return HttpResponseRedirect(reverse("publications:index"))

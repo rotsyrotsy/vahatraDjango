@@ -6,7 +6,7 @@ from activities.models import Activity, Activityimage, Activityperson, Fieldscho
 from admin.models import Administrator
 from django.shortcuts import render
 from django.core.mail import send_mail, EmailMessage
-from django.db.models import Min, Max,Q,Count
+from django.db.models import Min, Max,Q,Count, Case, Value, When
 from sequences import get_next_value
 from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
@@ -180,6 +180,7 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
                 Q(activityinstitution__idinst__name__icontains = keyword)|
                 Q(activityperson__idperson__name__icontains = keyword)|
                 Q(activityperson__idperson__username__icontains = keyword))
+                list = list.distinct()
 
             context['keyword']=keyword
     
@@ -445,7 +446,7 @@ def updateActivity(request, activity_id=1):
             img_ids = request.POST.getlist("supprImage")
             for img_id in img_ids:
                 activityimage = Activityimage.objects.get(pk=img_id)
-                delete_file(activityimage.image, 'images/site')
+                # delete_file(activityimage.image, 'images/site')
                 activityimage.delete()
             countChange += 1
 
@@ -1266,21 +1267,6 @@ def groupByYear(queryset, limit):
     return list[ten:]
 
 
-def groupByYearAndActivity(queryset, limit):
-    qyeryset_year = queryset.annotate(year=ExtractYear('date')).values('year').annotate(count=Count('id')).values('year','count','idtypeactivity__type')
-    list=[]
-    for key, value in groupby(qyeryset_year,key=lambda x:(x['year'], x['idtypeactivity__type']) ):
-        dicti={
-            'year':key[0],
-            'count':sum(val['count'] for val in value),
-            'type':key[1]
-        }
-        list.append(dicti)
-        
-    ten = len(list)-limit
-    
-    return list
-
 def statisticActivities(request):
     
     checkIfAdmin(request)
@@ -1291,11 +1277,6 @@ def statisticActivities(request):
         "type_member": type_member,
     }
     context['global'] = Typeactivity.objects.annotate(num_activity=Count('activity'))
-    listdictionnary = []
-    activities = Activity.objects.all().order_by('date').order_by('idtypeactivity')
-    listdictionnary.append(groupByYearAndActivity(activities,5))
-    
-    context['compare']=listdictionnary
 
     if  request.method == 'POST':
         if 'idtypeactivity' in request.POST:

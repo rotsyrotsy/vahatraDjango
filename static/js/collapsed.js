@@ -47,13 +47,6 @@ function openNav(typevisit, lieu, visits) {
             
             var img = document.createElement("img");
             img.src = static+images[ii]['fields']['image'];
-
-            
-            if (ii == 0 && countIndex==0){
-              countIndex += 1;
-            }else{
-              img.style.display = "none";
-            }
             
             href.appendChild(img);
             aimg.appendChild(href);

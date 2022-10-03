@@ -13,49 +13,42 @@
             </div>
             <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                        <h4 class="card-title">Number of activities these last 5 years</h4>
-                        <canvas id="compareChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>                
-                    </div>
-                </div>
+                  <div class="card-body">
+                      <h4 class="card-title">Choose the type of activity</h4>
+                      <p class="card-description">
+                      Show the statistics
+                      </p>
+                      <form action="{% url 'admin:statisticActivities' %}" method="post">
+                          {% csrf_token %}
+                          <div class="form-group">
+                              <label>Type of activity</label>
+                              <select class="form-control" name="idtypeactivity" required>
+                                  {% if typeactivity %}
+                                      <option value="{{typeactivity.id}}">{{typeactivity.type}}</option>
+                                      {% for item in type_activity %}
+                                          {% if item.id != typeactivity.id %}
+                                          <option value="{{item.id}}">{{item.type}}</option>
+                                          {% endif %}
+                                      {% endfor %}
+                                  {% else %}
+                                      {% for item in type_activity %}
+                                          <option value="{{item.id}}">{{item.type}}</option>
+                                      {% endfor %}
+                                  {% endif %}
+                                  
+                              </select>
+                          </div>
+                          <button type="submit" class="btn btn-info mr-2">Submit</button>
+                      </form>
+                  </div>
+              </div>
             </div>
         </div>
+        
 
         {% if typeactivity %}
         <div class="row">
             
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Choose the type of activity</h4>
-                    <p class="card-description">
-                    Show the statistics
-                    </p>
-                    <form action="{% url 'admin:statisticActivities' %}" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label>Type of activity</label>
-                            <select class="form-control" name="idtypeactivity" required>
-                                {% if typeactivity %}
-                                    <option value="{{typeactivity.id}}">{{typeactivity.type}}</option>
-                                    {% for item in type_activity %}
-                                        {% if item.id != typeactivity.id %}
-                                        <option value="{{item.id}}">{{item.type}}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    {% for item in type_activity %}
-                                        <option value="{{item.id}}">{{item.type}}</option>
-                                    {% endfor %}
-                                {% endif %}
-                                
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-info mr-2">Submit</button>
-                    </form>
-                </div>
-            </div>
-          </div>
           <div class="col-lg-6 grid-margin stretch-card">
             <div class="card">
               <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
@@ -63,6 +56,7 @@
                 <canvas id="areaChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
               </div>
             </div>
+          </div>
           </div>
         {% endif %}
     </div>
@@ -80,20 +74,6 @@
     pieChart($('#pieChart'),pieData,pieLabels);
 
     
-    var compareData = [];
-    "{% for dict in compare %}"
-        var listDict = []
-        "{% for activity in dict %}"
-            var dictCompare = {};
-            dictCompare['count']="{{activity.count}}";
-            dictCompare['type']="{{activity.type}}";
-            dictCompare['year']="{{activity.year}}";
-            listDict.push(dictCompare)
-        "{% endfor %}"
-        compareData.push(listDict)
-    "{% endfor %}"
-    compareChart($('#compareChart'),compareData);
-
     "{% if typeactivity%}"
         var yearData = [];
         var yearLabels = [];

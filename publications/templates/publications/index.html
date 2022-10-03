@@ -35,7 +35,7 @@
                         <img src="{% static 'images/publication/' %}{{publication.imagefront}}" >
                         <div class="fea-info2">
                             <br>
-                            <a class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title}}", "description":"{{publication.description}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}'  href="#" title="">Read More</a>
+                            <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title}}", "description":"{{publication.description}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}'  href="#" title="">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,8 @@
     $('#titrePub').empty();
     var model = $('.contact-form-model-wrap');
     var staticpdf = $(this).attr("data-staticpdf")+"/";
-    var pub = $(this).attr("data-pub")
+    var downloadurl = $(this).attr("data-urldownload");
+    var pub = $(this).attr("data-pub");
     pub = JSON.parse(pub);
         $.ajax({
             url : "{% url 'publications:detail' %}",
@@ -162,7 +163,7 @@
             type:"GET",
             data:{ pub_id:pub.id },
             success:function(data){
-                fichepublicationretour(data,model,staticpdf,pub)
+                fichepublicationretour(data,model,staticpdf,pub,downloadurl)
             },  
             error:function(data){
                 console.log('error')
