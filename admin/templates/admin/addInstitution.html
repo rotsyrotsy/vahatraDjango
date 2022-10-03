@@ -22,6 +22,11 @@
                         {{ success }}
                     </div>
                   {% endif %}
+                  {% if warning %}
+                    <div class="alert alert-warning">
+                        {{ warning }}
+                    </div>
+                  {% endif %}
                   <button type="submit" class="btn btn-info mr-2">Submit</button>
                   <a href="{% url 'admin:index' %}" class="btn btn-light">Cancel</a>
                 </form>

@@ -156,7 +156,6 @@ def download_pdf_file(request, location='',filename=''):
         # Return the response value
         return response
         
-        
     else:
         # Load the template
         return HttpResponseRedirect(reverse("publications:index"))

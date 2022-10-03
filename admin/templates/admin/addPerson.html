@@ -2,10 +2,45 @@
 {% load static %}
 {% block content %}
 <div class="content-wrapper">
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Search person</h4>
+            <form action="{% url 'admin:addPerson' %}" method="get">
+              <div class="form-group">
+                <div class="input-group">
+                    {% if keyword %}
+                    <input type="text" class="form-control" name="keyword" placeholder="Search" value="{{keyword}}" aria-label="Search">
+                    {% else %}
+                    <input type="text" class="form-control" name="keyword" placeholder="Search" aria-label="Search">
+                    {% endif %}
+                    <div class="input-group-append">
+                      <button class="btn btn-sm btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+              </div>
+            </form>
+            <ul>
+              {% for person in persons %}
+                <li>{{person.id}} {{person.username}} {{person.name}}
+                <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deletePerson('{{person.name|escapejs}}','{{person.id}}')" >
+                  <i class="ti-trash"></i>
+                </button></li>
+              {% endfor %}
+            </ul>
+            {% if keyword and persons|length == 0 %}
+              <p class="text-danger">No result found</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row">
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
+
                 <h4 class="card-title">Add new Person</h4>
                 <p class="card-description">
                   Fill in the form
@@ -15,6 +50,7 @@
                     <div class="form-group">
                         <label for="selectTypeActivity">Title</label>
                             <select class="form-control" id="selectTypeActivity" name="title">
+                                <option value="">--</option>
                                 <option value="Pr.">Pr.</option>
                                 <option value="Dr.">Dr.</option>
                                 <option value="Ms.">Ms.</option>
@@ -34,6 +70,11 @@
                         {{ success }}
                     </div>
                   {% endif %}
+                  {% if warning %}
+                    <div class="alert alert-warning">
+                        {{ warning }}
+                    </div>
+                  {% endif %}
                   <button type="submit" class="btn btn-info mr-2">Submit</button>
                   <a href="{% url 'admin:index' %}" class="btn btn-light">Cancel</a>
                 </form>
@@ -43,4 +84,55 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete this item?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  function deletePerson(name,id){
+    $('#exampleModalLabel').text('Delete : '+name);
+
+    $('#confirmDelete').click(function() {
+    
+      $.ajax({
+              url : "{% url 'admin:deletePerson' %}",
+              dataType: 'JSON',
+              type:"POST",
+              data: {
+                  'id_person': id,
+                  'csrfmiddlewaretoken': '{{ csrf_token }}',
+              },
+              success:function(data){
+                $('#exampleModal').modal('hide');
+                location.reload(true);
+                // console.log(data['success'])
+              },
+              error:function(data){
+                  // console.log('error')
+                  // console.log(data)
+              }
+          });
+    });
+  }
+</script>
 {% endblock %}

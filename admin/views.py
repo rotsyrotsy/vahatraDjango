@@ -262,7 +262,7 @@ def addActivity(request, idtypeactivity='A1'):
 
     type = get_object_or_404(Typeactivity, pk=idtypeactivity)
     context["type"] = type
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
     context["typevisit"] = Typesubactivity.objects.all()
@@ -350,13 +350,47 @@ def addPerson(request):
         "type_activity": type_activity,
         "type_member": type_member,
     }
+
+    if request.method == "GET":
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            persons = Person.objects.filter(Q(name__icontains=keyword)|
+            Q(username__icontains = keyword))
+            persons = persons.distinct()
+            context['persons']=persons
+            context['keyword']=keyword
+            
     if request.method == 'POST':
-        person = Person(
-            title=request.POST['title'], name=request.POST['name'], username=request.POST['username'])
-        person.save()
-        context["success"] = "New person inserted successfully."
+        person = Person.objects.filter(Q(name=str(request.POST['name'])), Q(username=str(request.POST['username'])))
+        if person.count()>0:
+            context["warning"] = "This person is already registered."
+        else:
+            person = Person(name=request.POST['name'], username=request.POST['username'])
+            if request.POST['title']!="":
+                person.title = request.POST['title']
+            person.save()
+            context["success"] = "New person inserted successfully."
     return render(request, "admin/addPerson.html", context)
 
+def deletePerson(request):
+    checkIfAdmin(request)
+
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method=="POST": 
+            id_person = request.POST.get('id_person', '')
+            try:
+                person = Person.objects.get(pk=id_person)
+                person.delete()
+
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': 'Publication successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
 
 def addInstitution(request):
     checkIfAdmin(request)
@@ -367,11 +401,15 @@ def addInstitution(request):
         "type_member": type_member,
     }
     if request.method == 'POST':
-        nextId = get_next_value("institution")
-        nextId = "I"+str(nextId)
-        inst = Institution(id=nextId, name=request.POST['name'])
-        inst.save()
-        context["success"] = "New institution inserted successfully."
+        inst = Institution.objects.filter(Q(name=str(request.POST['name'])))
+        if inst.count()>0:
+            context["warning"] = "This institution is already registered."
+        else:
+            nextId = get_next_value("institution")
+            nextId = "I"+str(nextId)
+            inst = Institution(id=nextId, name=request.POST['name'])
+            inst.save()
+            context["success"] = "New institution inserted successfully."
     return render(request, "admin/addInstitution.html", context)
 
 
@@ -387,10 +425,15 @@ def addLocation(request):
         if request.POST['name'] == "" or request.POST['longitude'] == "" or request.POST['latitude'] == "":
             context["error"] = "All fields are required."
             return render(request, "admin/addLocation.html", context)
-        location = Location(
-            name=request.POST['name'], longitude=request.POST['longitude'], latitude=request.POST['latitude'])
-        location.save()
-        context["success"] = "New location inserted successfully."
+        
+        location = Location.objects.filter(Q(name=str(request.POST['name'])))
+        if location.count()>0:
+            context["warning"] = "This location is already registered."
+        else:
+            location = Location(
+                name=request.POST['name'], longitude=request.POST['longitude'], latitude=request.POST['latitude'])
+            location.save()
+            context["success"] = "New location inserted successfully."
     return render(request, "admin/addLocation.html", context)
 
 
@@ -405,7 +448,7 @@ def updateActivity(request, activity_id=1):
 
     activity = get_object_or_404(Activity, pk=activity_id)
     context["activity"] = activity
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
     context["typevisit"] = Typesubactivity.objects.all()
@@ -584,7 +627,7 @@ def addPublication(request, idtypepublication=1):
 
     type = get_object_or_404(Typepublication, pk=idtypepublication)
     context["type"] = type
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
 
     if request.method == 'POST':
 
@@ -659,7 +702,7 @@ def updatePublication(request, pub_id=1):
 
     publication = get_object_or_404(Publication, pk=pub_id)
     context["publication"] = publication
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
 
     countChange = 0
     countChangePublication = 0

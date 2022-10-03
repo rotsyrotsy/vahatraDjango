@@ -47,4 +47,5 @@ urlpatterns = [
     path("deleteImage/", views.deleteImage, name="deleteImage"),
     path("updateImage/<str:image_id>", views.updateImage, name="updateImage"),
     path("statisticActivities/",views.statisticActivities, name="statisticActivities"),
+    path("deletePerson/", views.deletePerson, name="deletePerson"),
 ]

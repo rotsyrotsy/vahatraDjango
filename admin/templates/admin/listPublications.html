@@ -42,19 +42,19 @@
                 <table class="table table-bordered table-custom">
                   <thead>
                     <tr class="text-center">
-                      <th>
+                      <th width="15%">
                         #
                       </th>
-                      <th>
+                      <th width="25%">
                         Title
                       </th>
-                      <th>
+                      <th wisth="40%">
                         Editors
                       </th>
-                      <th>
+                      <th width="10%">
                         Year
                       </th>
-                      <th>
+                      <th width="10%">
                         Actions
                       </th>
                     </tr>
@@ -73,7 +73,7 @@
                             --
                         {% endif %}
                         {% for author in  publication.publicationauthor_set.all %}
-                            {{author.idperson.name}} {{author.idperson.username}},
+                            {{author.idperson.username}} {{author.idperson.name}},
                         {% endfor %}
                       </td>
                       <td class="text-center">

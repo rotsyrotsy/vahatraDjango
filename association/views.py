@@ -7,8 +7,8 @@ from activities.models import Activity, Typesubactivity
 from publications.models import Typepublication,Publication,Publicationauthor
 from datetime import date,timedelta
 from django.urls import reverse
-from django.http import HttpResponseRedirect
-
+from django.core import serializers
+from django.http import JsonResponse,HttpResponseRedirect
 from vahatraDjango.functions import pagination
 
 
@@ -118,7 +118,27 @@ def gallery(request):
         "type_pub": type_pub,
         }
     context["typeimage"] = Imagetype.objects.all()
-    context["images"]=Image.objects.all().order_by('name')
+    allImages = Image.objects.all().order_by('name')
+    limit = 9
+    context['limit']=limit
+    context["images"]=allImages[:limit]
+    context['length']=allImages.count()
+
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'GET':
+            number = request.GET.get('number')
+            moreImg = allImages[int(number):int(number)+limit]
+            list=[]
+            for img in moreImg:
+                dict={
+                    'image':serializers.serialize('json', [img]),
+                    'type':serializers.serialize('json',[img.idtype])
+                }
+                list.append(dict)
+            return  JsonResponse({ 'moreImg':list})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+
     return render(request, "association/gallery.html",context)
 
 def searchMember(request,type_member_id,keyword=None,page=1):
