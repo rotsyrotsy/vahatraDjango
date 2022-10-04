@@ -16,6 +16,22 @@
                 </div>
                 <div class="col-12 col-xl-4">
                     <div class="align-items-end d-flex flex-column">
+
+                      <form action="{% url 'admin:listMembers' type.id %}" method="get">
+                        <div class="form-group">
+                          <div class="input-group">
+                              {% if keyword %}
+                              <input type="text" class="form-control" name="keyword" placeholder="Search" value="{{keyword}}" aria-label="Search">
+                              {% else %}
+                              <input type="text" class="form-control" name="keyword" placeholder="Search" aria-label="Search">
+                              {% endif %}
+                              <div class="input-group-append">
+                                <button class="btn btn-sm btn-primary" type="submit">Search</button>
+                              </div>
+                          </div>
+                        </div>
+                      </form>
+
                      <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
                        <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="mdi mdi-calendar"></i> Type of member
@@ -26,13 +42,7 @@
                          {% endfor %}
                        </div>
                      </div>
-                     <div class="form-group">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username">
-                          <div class="input-group-append">
-                            <button class="btn btn-sm btn-primary" type="button">Search</button>
-                          </div>
-                        </div>
+                     
                       </div>
                     </div>
                    </div>
@@ -95,6 +105,7 @@
                   </tbody>
                 </table>
               </div>
+              {% if keyword %}
                 <div class="pagination-wrap text-center">
                     <ul class="pagination">
                         {% for number in page_number %}
@@ -102,6 +113,7 @@
                         {% endfor %}
                     </ul>
                 </div>
+                {% endif %}
               </div>
               
           </div>

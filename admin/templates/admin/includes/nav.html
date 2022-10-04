@@ -45,7 +45,7 @@
         <div class="collapse" id="members">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="#"> Type of member </a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addPerson' %}"> Add a new person </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addPerson' %}"> Add New Person </a></li>
             {% for item in type_member %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listMembers' item.id %}">{{item.type|capfirst}}</a></li>
             {% endfor %}
@@ -60,7 +60,7 @@
         </a>
         <div class="collapse" id="partners">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addInstitution' %}"> Institution </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addInstitution' %}"> Add New Institution </a></li>
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listPartners' %}"> Partners </a></li>
           </ul>
         </div>

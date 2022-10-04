@@ -136,7 +136,7 @@ def reset_password(request):
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
-def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None,keyword=None):
+def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
     checkIfAdmin(request)
     context = {
         "type_publication": type_publication,
@@ -600,6 +600,21 @@ def listPublications(request, pub_id=1, page=1, year=None):
         list = Publication.objects.filter(idtype=1, date__year=year)
         context["year"] = year
 
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+        
+            try:
+                year = int(keyword)
+                list = list.filter(date__year=year)
+            except ValueError:
+                list = list.filter(Q(title__icontains=keyword)|
+                Q(publicationauthor__idperson__name__icontains = keyword)|
+                Q(publicationauthor__idperson__username__icontains = keyword))
+                list = list.distinct()
+
+            context['keyword']=keyword
+
     list = list.order_by('date')
 
     page_number=0
@@ -665,9 +680,10 @@ def addPublication(request, idtypepublication=1):
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
-                pubauth = Publicationauthor(
-                    idpublication=lastPublication, idperson=Person.objects.get(pk=values))
-                pubauth.save()
+                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                    pubauth = Publicationauthor(
+                        idpublication=lastPublication, idperson=Person.objects.get(pk=values))
+                    pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
@@ -734,9 +750,10 @@ def updatePublication(request, pub_id=1):
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
-                pubauth = Publicationauthor(
-                    idpublication=publication, idperson=Person.objects.get(pk=values))
-                pubauth.save()
+                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                    pubauth = Publicationauthor(
+                        idpublication=publication, idperson=Person.objects.get(pk=values))
+                    pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
@@ -824,6 +841,19 @@ def listMembers(request,typemember_id=2,page=1):
     context["type"] = type
 
     list = Member.objects.filter(idtypemember=typemember_id)
+
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+        
+            list = list.filter(Q(memberpostinst__iddept__name__icontains = keyword)|
+            Q(memberpostinst__idinst__name__icontains = keyword)|
+            Q(memberpostinst__idpost__name__icontains = keyword)|
+            Q(idperson__name__icontains = keyword)|
+            Q(idperson__username__icontains = keyword))
+            list = list.distinct()
+
+            context['keyword']=keyword
 
     page_number=0
     if (list.count() > 0):
@@ -1038,6 +1068,13 @@ def listPartners(request,page=1):
     }
 
     list = Partner.objects.all()
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            list = list.filter(Q(idinst__name__icontains=keyword))
+            list = list.distinct()
+            context['keyword']=keyword
+
     page_number=0
     if (list.count() > 0):
         dictpagination = pagination(page, list, 8, 'idinst__name')

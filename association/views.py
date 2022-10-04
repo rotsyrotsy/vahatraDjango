@@ -31,8 +31,8 @@ def index(request):
     upcoming_events = Activity.objects.filter(date__gte=date.today())
 
     upcoming_publications = Publication.objects.filter(date__gt=date.today())
-    new_pubs = Publication.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))
-    new_events = Activity.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))
+    new_pubs = Publication.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today())).order_by('-date')
+    new_events = Activity.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today())).order_by('-date')
     
 
     context["type_member_list"]= type_member_list
@@ -41,8 +41,8 @@ def index(request):
     context["links_list"]=links_list
     context["upcoming_events"]= upcoming_events
     context["upcoming_publications"]= upcoming_publications
-    context["new_pubs"] = new_pubs
-    context["new_events"] = new_events
+    context["new_pubs"] = new_pubs[:2]
+    context["new_events"] = new_events[:2]
 
     
     return render(request, "association/index.html", context)
