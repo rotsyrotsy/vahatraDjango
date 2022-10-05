@@ -66,14 +66,14 @@
 <section>
     <div class="gap">
         <div class="fixed-bg" style="background-image: url({% static 'images/parallax2.jpg' %});"></div>
-        <div>
+        <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>Visit Our</span>
                     <h3>Collection Room</h3>
                 </div>
             </div>
-            <div>
+            <!-- <div>
                 <div id="fancy-icon" data-left="{% static 'images/virtual-tour/fancy_nav_left.png' %}" data-right="{% static 'images/virtual-tour/fancy_nav_right.png' %}" data-close="{% static 'images/virtual-tour/fancy_close.png' %}">
                     {% if salle == "atelier" %}
                     <img src="{% static 'images/virtual-tour/atelier.jpg' %}" class="advancedpanorama" width="2642" height="375" usemap="testmap" alt="Salle de formation" />
@@ -89,7 +89,17 @@
                     </map>
                     {% endif %}
                 </div>
-            </div>
+            </div> -->
+                <div class="row justify-content-center">
+                    <div class="col-md-1 col-sm-1 col-lg-1"></div>
+                    <div class="col-md-10 col-sm-10 col-lg-10">
+                        <video width="1000" controls preload="none">
+                            <source src="{% static 'video/collection_room.mp4' %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-lg-1"></div>
+                </div>
         </div>
     </div>
 </section>
