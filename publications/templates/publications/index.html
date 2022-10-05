@@ -48,7 +48,7 @@
                         <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                         <div class="fea-info2">
                             <br>
-                            <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title}}", "description":"{{publication.description}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}'  href="#" title="">Read More</a>
+                            <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -95,8 +95,7 @@
                             <div class="sidebar-wrp">
                                 <div class="wdgt-box">
                                     <h4>Search</h4>
-                                    <form class="srch-frm" action="{% url 'publications:search'  %}" method="post">
-                                        {% csrf_token %}
+                                    <form class="srch-frm" action="{% url 'publications:search'  %}" method="get">
                                         <input type="text" name="keyword" placeholder="Search">
                                         <button type="submit" class="thm-clr"><i class="fa fa-search"></i></button>
                                     </form>

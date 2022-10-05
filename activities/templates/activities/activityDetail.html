@@ -12,7 +12,7 @@
                 <h2>{{activity.title| truncatewords:3}}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
-                    <li><a href="{% url 'activities:otherActivity' activity.idtypeactivity.id %}" title="">{{activity.idtypeactivity.type}}</a></li>
+                    <li><a href="{% url 'activities:otherActivity' activity.idtypeactivity.id activity.idtypeactivity.type %}" title="">{{activity.idtypeactivity.type}}</a></li>
                     <li>{{activity.title| truncatewords:3}}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -152,7 +152,7 @@
                                 <div class="rcnt-wrp">
                                     {% for item in new_events %}
                                     <div class="rcnt-bx">
-                                        <a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">
+                                        <a href="{% url 'activities:activityDetail' item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">
                                             
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
@@ -163,7 +163,7 @@
                                         {% endif %}
                                         </a>
                                         <div class="rcnt-inf">
-                                            <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
+                                            <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
                                             <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         </div>
                                     </div>

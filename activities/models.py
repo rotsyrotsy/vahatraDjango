@@ -11,7 +11,7 @@ class Fieldschool(models.Model):
 
 class Typesubactivity(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
-    type = models.CharField(max_length=150, blank=True, null=True)
+    type = models.CharField(max_length=150, blank=True, null=True,unique=True)
     idtypeactivity = models.ForeignKey('Typeactivity', models.DO_NOTHING, db_column='idtypeactivity')
 
     class Meta:
@@ -19,7 +19,7 @@ class Typesubactivity(models.Model):
 
 class Typeactivity(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
-    type = models.CharField(max_length=150, blank=True, null=True)
+    type = models.CharField(max_length=150, blank=True, null=True,unique=True)
 
     class Meta:
         db_table = 'typeactivity'

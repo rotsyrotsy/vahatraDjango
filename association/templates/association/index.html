@@ -64,7 +64,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Lurcifer_pardalis.JPG' %} " ></div>
+                            <div class="img"><img src="{% static 'fonts/mycollection/Lurcifer_pardalis.JPG' %}" alt="Lurcifer pardalis" title="Lurcifer pardalis" ></div>
                             <div class="pilr-info">
                                 <h4>Reptile</h4>
                                 <p>Lucifer pardalis</p>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Boophis_marojezensis_ZHM.jpg' %} " ></div>
+                            <div class="img"><img src="{% static 'fonts/mycollection/Boophis_marojezensis_ZHM.jpg' %} " alt="Boophis_marojezensis_ZHM" title="Boophis_marojezensis_ZHM"></div>
                             <div class="pilr-info">
                                 <h4>Amphibian</h4>
                                 <p>Boophis marojezensis ZHM</p>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Corythornis_madagascariensis.jpg' %} " ></div>
+                            <div class="img"><img src="{% static 'fonts/mycollection/Corythornis_madagascariensis.jpg' %} "  alt="Corythornis_madagascariensis" title="Corythornis_madagascariensis"></div>
                             <div class="pilr-info">
                                 <h4>Bird</h4>
                                 <p>Corythornis madagascariensis</p>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Miza_242.jpg' %} " ></div>
+                            <div class="img"><img src="{% static 'fonts/mycollection/Miza_242.jpg' %} "  alt="Miza_242" title="Miza_242"></div>
                             <div class="pilr-info">
                                 <h4>Mammal</h4>
                                 <p>Miza 242</p>
@@ -105,8 +105,8 @@
   </section>
   <section>
     <div class="gap top-spac120 white-grad-layer">
-        <img class="top-shp shp-img" src="{% static 'images/shp2.png' %} " alt="shp2.png">
-        <img class="botm-shp shp-img" src="{% static 'images/shp3.png' %} " alt="shp3.png">
+        <img class="top-shp shp-img" src="{% static 'images/shp2.png' %} " alt="shp2.png" title="shp2.png">
+        <img class="botm-shp shp-img" src="{% static 'images/shp3.png' %} " alt="shp3.png" title="shp3.png">
         <div class="fixed-bg" style="background-image: url({% static 'images/site/Appui_scient/DSC_1.JPG' %});"></div>
         <div class="container">
             <div class="abot-wrap">
@@ -296,9 +296,9 @@
                     {% for item in type_member_list %}
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box mt-5">
-                            <img src="{% static 'images/members/' %}{{item.image}} " style="width: 265px; height: 265px;" alt="team-img1-1.jpg">
+                            <img src="{% static 'images/members/' %}{{item.image}} " style="width: 265px; height: 265px;" alt="{{item.type}}" title="{{item.type}}">
                             <div class="team-info">
-                                <h4><a href="{% url 'association:member' item.id %}" >{{ item.type|title }}</a></h4>
+                                <h4><a href="{% url 'association:member' item.id item.type|toSlug %}" >{{ item.type|title }}</a></h4>
                                 <p>{{ item.description|truncatewords:10 }}</p>
                             </div>
                         </div>
@@ -334,7 +334,7 @@
                                             <a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">
                                                 {% if activity.activityimage_set.all %}
                                                     {% with activity.activityimage_set.all|first as image %}
-                                                    <img src="{% static 'images/site/' %}{{image.image}}" alt="{{image.image}}">
+                                                    <img src="{% static 'images/site/' %}{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
                                                     {% endwith %}
                                                 {% else %}
                                                     <img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg">
@@ -356,13 +356,13 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb" >
-                                            <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}' title="">
-                                                <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" >
+                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
+                                                <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                                             </a>
                                         </div>
                                         <div class="evnt-info">
                                             <h4>
-                                                <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}' title="">
+                                                <a  class="volume-btn"  data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type|lower|snake_case  %}"data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
                                                     {{publication.title}}
                                                 </a>
                                             </h4>
@@ -411,13 +411,13 @@
                             <div class="rcnt-wrp">
                                 {% for newpub in new_pubs %}
                                 <div class="rcnt-bx">
-                                    <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""}}"}' title="">
-                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="rcnt-img1.jpg">
+                                    <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
+                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="{{newpub.title}}" title="{{newpub.title}}">
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{newpub.idtype.type}}</small><br>
                                         <h6>
-                                            <a  class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""}}"}' title="">
+                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
                                                 {{newpub.title}}
                                             </a>
                                         </h6>
@@ -430,7 +430,7 @@
                                     <a href="{% url 'activities:activityDetail' item.idtypeactivity.type item.id %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{image.image}}" width="68" alt="{{image.image}}">
+                                            <img src="{% static 'images/site/' %}{{image.image}}" width="68" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
                                             {% endwith %}
                                         {% else %}
                                             <img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
@@ -466,7 +466,7 @@
                 <div class="testi-car-two">
                   
                     <div class="testi-itm" id="messageyearfocus">
-                        <i><img src="{% static 'images/members/' %}{{message_of_year.idmember.image}} " width="106" height="106" alt="testi-img1.jpg"></i>
+                        <i><img src="{% static 'images/members/' %}{{message_of_year.idmember.image}} " width="106" height="106" alt="message of the year" title="message of the year"></i>
                         <div class="testi-info">
                             <h4>Achille P. RASELIMANANA</h4>
              
@@ -506,7 +506,7 @@
                         <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
                             <div class="bord-box">
                                 {% with 'images/partners/'|add:partner.logo as logo %}
-                                <img src="{% static logo %}"  alt="{{partner.idinst.name}}">
+                                <img src="{% static logo %}"  alt="{{partner.idinst.name}}" title="{{partner.idinst.name}}">
                                 {% endwith %}
                                 <div class="bord-info">
                                     <h4>{{partner.idinst.name}}</h4>
@@ -536,7 +536,7 @@
                     {% for link in links_list %}
                         <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
                             <div class="bord-box">
-                                <img src="{% static 'images/partners/' %}{{link.logo}}" width="100" height="100" alt="{{link.idinst.name}}">
+                                <img src="{% static 'images/partners/' %}{{link.logo}}" width="100" height="100" alt="{{link.idinst.name}}" title="{{link.idinst.name}}">
                                 <div class="bord-info">
                                     <h4>{{link.idinst.name}}</h4>
                                     <p>{{link.description|default_if_none:""}}</p>
@@ -560,7 +560,8 @@
     $('#titrePub').empty();
     var model = $('.contact-form-model-wrap');
     var staticpdf = $(this).attr("data-staticpdf")+"/";
-    var pub = $(this).attr("data-pub")
+    var downloadurl = $(this).attr("data-urldownload");
+    var pub = $(this).attr("data-pub");
     pub = JSON.parse(pub);
         $.ajax({
             url : "{% url 'publications:detail' %}",
@@ -568,7 +569,7 @@
             type:"GET",
             data:{ pub_id:pub.id },
             success:function(data){
-                fichepublicationretour(data,model,staticpdf,pub)
+                fichepublicationretour(data,model,staticpdf,pub,downloadurl)
             },  
             error:function(data){
                 console.log('error')

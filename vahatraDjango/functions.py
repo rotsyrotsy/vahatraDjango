@@ -5,6 +5,10 @@ from django.core.files import File
 import os
 from math import ceil
 
+def toSlug(word):
+    word = word.lower().replace(" ",'-')
+    return word
+
 def renameFile(file):
     file = file.replace(" ", "_")
     unaccented_string = unidecode.unidecode(file)
