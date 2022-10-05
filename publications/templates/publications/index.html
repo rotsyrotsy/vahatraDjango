@@ -2,13 +2,26 @@
 {% load static %}
 {% load publications_extras %}
 {% block title %}{{ pub_type.type }}{% endblock %}
+
+{% block meta %}
+    {% if pub_type.id == 1 %}
+    <meta name="description" content="Malagasy Nature is a journal published by the Association Vahatra concerning aspects of the natural history of Madagascar and neighboring islands. Label:publication. Category:{{pub_type.type}}" />
+    {% endif %}
+    {% if pub_type.id == 2 %}
+    <meta name="description" content="List of books published in the series 'Guides sur la diversité biologique de Madagascar'. Label:publication. Category:{{pub_type.type}}" />
+    {% endif %}
+    {% if pub_type.id == 3 %}
+    <meta name="description" content="Here is a listing of publications that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.  These publications include papers in scientific journals, books, and chapters in books and monographs. Label:publication. Category:{{pub_type.type}}" />
+    {% endif %}
+    <meta name="keywords" content="vahatra, association, association vahatra, publications, malagasy nature, guides, book, biodiversity" />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc6">
         <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneous/Bea_291.jpg' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
-                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <h1><img src="{% static 'images/site/lettre.png' %}" alt="association vahatra" title="association vahatra"></h1>
                 <h2>{{ pub_type.type }}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
@@ -23,7 +36,7 @@
         <div class="sec-title2 text-center">
             <div class="sec-title-inner2">
                 <span>PRESENT TO YOU</span>
-                <h3>{{ pub_type.type }}</h3>
+                <h1 style="color:#d1ad3c;">{{ pub_type.type }}</h1>
             </div>
         </div>
 
@@ -32,7 +45,7 @@
                 {% for publication in publications %}
                 <div class="col-md-4 col-sm-6 col-lg-4">
                     <div class="fea-itm-img"  >
-                        <img src="{% static 'images/publication/' %}{{publication.imagefront}}" >
+                        <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                         <div class="fea-info2">
                             <br>
                             <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title}}", "description":"{{publication.description}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""}}"}'  href="#" title="">Read More</a>
