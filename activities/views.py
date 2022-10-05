@@ -121,8 +121,8 @@ def activityDetail(request,activity_type_id, activity_type,activity_id):
     if typeactivity.id=='A1':
         return redirect('activities:index')
 
-    if activity_type!=toSlug(activity.idtypeactivity.type) or activity_type_id!=toSlug(activity.idtypeactivity.id):
-        return redirect('activities:activityDetail', activity_type_id=toSlug(activity.idtypeactivity.id), activity_type=toSlug(activity.idtypeactivity.type),activity_id=activity.id)
+    if activity_type!=toSlug(activity.idtypeactivity.type) or activity_type_id!=activity.idtypeactivity.id:
+        return redirect('activities:activityDetail', activity_type_id=activity.idtypeactivity.id, activity_type=toSlug(activity.idtypeactivity.type),activity_id=activity.id)
     
 
     new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id), Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))    
