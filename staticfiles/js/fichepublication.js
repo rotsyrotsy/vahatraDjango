@@ -4,6 +4,7 @@ function fichepublicationretour(data,model,staticpdf,pub,downloadurl){
     var authors = JSON.parse(data["authors"]);
     var type = JSON.parse(data['typepublication'])[0];
     
+    downloadurl += "/";
     if (details.length == 1){
         if (details[0]['fields']['name']== null && details[0]['fields']['pdf']!== null){
             window.location.href = downloadurl+details[0]['fields']['pdf'];

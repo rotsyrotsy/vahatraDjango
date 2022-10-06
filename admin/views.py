@@ -361,11 +361,11 @@ def addPerson(request):
             context['keyword']=keyword
             
     if request.method == 'POST':
-        person = Person.objects.filter(Q(name=str(request.POST['name'])), Q(username=str(request.POST['username'])))
+        person = Person.objects.filter(Q(name=str(request.POST['name']).strip()), Q(username=str(request.POST['username']).strip()))
         if person.count()>0:
             context["warning"] = "This person is already registered."
         else:
-            person = Person(name=request.POST['name'], username=request.POST['username'])
+            person = Person(name=request.POST['name'].strip(), username=request.POST['username'].strip())
             if request.POST['title']!="":
                 person.title = request.POST['title']
             person.save()

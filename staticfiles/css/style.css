@@ -414,7 +414,7 @@ img {
   right: 0;
   bottom: 0;
 }
-.wow {visibility: hidden;}
+/* .wow {visibility: hidden;} */
 
 /*===== Cross Browser Compatibility =====*/
 i,
@@ -512,7 +512,7 @@ nav ul ul,
   border-radius: 0px;
 }
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {width: 100%;}
-.wow {visibility: hidden;}
+/* .wow {visibility: hidden;} */
 .slimScrollDiv {
   float: left;
   width: 100%;
