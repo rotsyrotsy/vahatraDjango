@@ -1,5 +1,6 @@
 {% extends "admin/base.html" %}
 {% load static %}
+{% load publications_extras %}
 {% block content %}
 <div class="content-wrapper">
     <div class="row">
@@ -67,7 +68,7 @@
                               <i class="input-helper"></i>
                             </label>
                           </div>
-                          <img src="{% static 'images/site/' %}{{img.image}}">
+                          <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|renameFile}}/{{img.image}}">
                         </div>
                         {% endfor %}
                     </div>

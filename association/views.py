@@ -10,13 +10,13 @@ from django.urls import reverse
 from django.core import serializers
 from django.http import JsonResponse,HttpResponseRedirect
 from vahatraDjango.functions import pagination, toSlug
-
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache, caches
 
 
 # Create your views here.
 type_visit = Typesubactivity.objects.all()
 type_pub = Typepublication.objects.all
-
 
 def index(request):
     context = {
@@ -43,7 +43,6 @@ def index(request):
     context["upcoming_publications"]= upcoming_publications
     context["new_pubs"] = new_pubs[:2]
     context["new_events"] = new_events[:2]
-
     
     return render(request, "association/index.html", context)
 

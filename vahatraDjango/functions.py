@@ -7,7 +7,8 @@ from math import ceil
 
 def toSlug(word):
     word = word.lower().replace(" ",'-')
-    return word
+    unaccented_string = unidecode.unidecode(word)
+    return unaccented_string
 
 def renameFile(file):
     file = file.replace(" ", "_")
@@ -30,16 +31,23 @@ def handle_uploaded_file(f, location):
     if f.content_type.split("/")[0]=="image":
         f = reduce_image_size(f)    
     f.name=renameFile(f.name)
-    with open('static/'+location+'/'+f.name, 'wb+') as destination:
+
+    path = 'static/'+location+'/'
+    isExist = os.path.exists(path)
+    if not isExist:
+        # Create a new directory because it does not exist 
+        os.makedirs(path)
+    with open(path+f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
     return f.name
 
 def delete_file(path, location):
     """ Deletes file from filesystem. """
-    path = 'static/'+location+'/'+path
-    if os.path.isfile(path):
-        os.remove(path)
+    if path is not None:
+        path = 'static/'+location+'/'+path
+        if os.path.isfile(path):
+            os.remove(path)
 
 
 def pagination(actualpage, list, item_number, orderby):
@@ -58,3 +66,12 @@ def pagination(actualpage, list, item_number, orderby):
         'page_number':page_number
     }
     return dict
+
+
+def move(source,destination):
+    import shutil
+    isExist = os.path.exists(destination)
+    if not isExist:
+        # Create a new directory because it does not exist 
+        os.makedirs(destination)
+    shutil.move(source,destination)

@@ -19326,6 +19326,38 @@ input:focus {
   outline: none;
 }
 
+@font-face {
+  font-family: 'Nunito';
+  src: url("../../fonts/Nunito/Nunito-Light.eot");
+  src: url("../../fonts/Nunito/Nunito-Light.eot?#iefix") format("embedded-opentype"), url("../../fonts/Nunito/Nunito-Light.woff2") format("woff2"), url("../../fonts/Nunito/Nunito-Light.woff") format("woff"), url("../../fonts/Nunito/Nunito-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url("../../fonts/Nunito/Nunito-Bold.eot");
+  src: url("../../fonts/Nunito/Nunito-Bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Nunito/Nunito-Bold.woff2") format("woff2"), url("../../fonts/Nunito/Nunito-Bold.woff") format("woff"), url("../../fonts/Nunito/Nunito-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url("../../fonts/Nunito/Nunito-SemiBold.eot");
+  src: url("../../fonts/Nunito/Nunito-SemiBold.eot?#iefix") format("embedded-opentype"), url("../../fonts/Nunito/Nunito-SemiBold.woff2") format("woff2"), url("../../fonts/Nunito/Nunito-SemiBold.woff") format("woff"), url("../../fonts/Nunito/Nunito-SemiBold.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url("../../fonts/Nunito/Nunito-Regular.eot");
+  src: url("../../fonts/Nunito/Nunito-Regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/Nunito/Nunito-Regular.woff2") format("woff2"), url("../../fonts/Nunito/Nunito-Regular.woff") format("woff"), url("../../fonts/Nunito/Nunito-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .bg-twitter {
   background: #4747A1;
 }
@@ -20015,6 +20047,7 @@ code {
   position: absolute;
   z-index: -1;
 }
+
 
 .performance-overview-carousel .carousel-control-prev,
 .performance-overview-carousel .carousel-control-next {
@@ -22139,6 +22172,7 @@ code {
   color: #ffffff;
 }
 
+
 .data-icon-card-secondary .background-icon i {
   z-index: 1;
   color: #ffffff;
@@ -22210,7 +22244,6 @@ code {
 .data-icon-card-light .card-title {
   color: #ffffff;
 }
-
 
 .data-icon-card-light .background-icon i {
   z-index: 1;
@@ -26860,6 +26893,9 @@ table.dataTable tbody td.select-checkbox:after {
 }
 
 /* Js-grid */
+.jsgrid .jsgrid-button {
+  background-image: url(../../images/sprites/jsgrid-icons.png);
+}
 
 .jsgrid .jsgrid-grid-header {
   border: 1px solid #CED4DA;

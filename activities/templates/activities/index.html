@@ -1,6 +1,7 @@
 {% extends "association/base.html" %}
 {% load static %}
 {% load activities_extras %}
+{% load publications_extras %}
 {% block title %}{{type_visite.type}}{% endblock %}
 {% block content %}
 <section>
@@ -66,7 +67,7 @@
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="bord-box">
                             {% if dict.image %}
-                                <img src="{% static 'images/site/' %}{{dict.image.image}}" alt="{{dict.image.image}}" alt="" >
+                                <img src="{% static 'images/site/visit/' %}{{dict.image.image}}" alt="{{dict.image.image}}" alt="" >
                             {% else %}
                                 <img src="{% static 'images/parallax2.png' %}" alt="no image" alt="">
                             {% endif %}

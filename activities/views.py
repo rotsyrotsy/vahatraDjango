@@ -95,12 +95,13 @@ def otherActivity(request,typeactivity_id='A2',typeactivity_name="conference",pa
 
     if typeactivity.id=='A1':
         return redirect('activities:index')
-
     slug = toSlug(typeactivity.type)
     if typeactivity_name!=slug:
+        print(typeactivity_name,slug)
         return redirect('activities:otherActivity', typeactivity_id=typeactivity.id, typeactivity_name=slug)
 
     list = Activity.objects.filter( Q(idtypeactivity_id = typeactivity_id),Q(date__lt=date.today())|Q(date__isnull=True))
+    
     page_number=0
     if (list.count() > 0):
         dictpagination = pagination(page, list, 6, '-date')

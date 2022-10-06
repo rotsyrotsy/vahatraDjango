@@ -207,6 +207,15 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
     return render(request, "admin/listActivities.html", context)
 
 
+# def move(request,type="SA1"):
+#     import shutil
+#     visits = Visit.objects.filter(idtypesubactivity=type)
+#     for visit in visits:
+#         for activityimage in visit.idactivity.activityimage_set.all():
+#             if activityimage.image is not None:
+#                 source = 'static/images/site/'+renameFile(visit.idactivity.idtypeactivity.type)+'/'
+#                 path = 'static/images/site/'+renameFile(visit.idactivity.idtypeactivity.type)+'/'+toSlug(visit.idtypesubactivity.type)+'/'
+#                 shutil.move(path+activityimage.image, source+activityimage.image)
 
 
 def deleteActivity(request):
@@ -220,7 +229,8 @@ def deleteActivity(request):
             try:
                 activity = Activity.objects.get(pk=id_activity)
                 for activityimage in activity.activityimage_set.all():
-                    delete_file(activityimage.image, 'images/site')
+                    if activityimage.image is not None:
+                        delete_file(activityimage.image, 'images/site/'+renameFile(activity.idtypeactivity.type))
                 activity.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
@@ -290,7 +300,7 @@ def addActivity(request, idtypeactivity='A1'):
 
         activity.save()
 
-        lastActivity = Activity.objects.last()
+        lastActivity = activity
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
@@ -306,7 +316,7 @@ def addActivity(request, idtypeactivity='A1'):
             files = request.FILES.getlist('files')
             for f in files:
                 image = Activityimage(idactivity=lastActivity)
-                image.name = handle_uploaded_file(f, 'images/site')
+                image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type))
                 image.save()
 
         if request.POST['idtypeactivity'] == 'A1':  # if activity is visit
@@ -481,7 +491,7 @@ def updateActivity(request, activity_id=1):
             files = request.FILES.getlist('files')
             for f in files:
                 activityimage = Activityimage(idactivity=activity)
-                activityimage.image = handle_uploaded_file(f, 'images/site')
+                activityimage.image = handle_uploaded_file(f, 'images/site/'+renameFile(activity.idtypeactivity.type))
                 activityimage.save()
             countChange += 1
 
@@ -489,7 +499,7 @@ def updateActivity(request, activity_id=1):
             img_ids = request.POST.getlist("supprImage")
             for img_id in img_ids:
                 activityimage = Activityimage.objects.get(pk=img_id)
-                # delete_file(activityimage.image, 'images/site')
+                delete_file(activityimage.image, 'images/site/'+renameFile(activity.idtypeactivity.type))
                 activityimage.delete()
             countChange += 1
 

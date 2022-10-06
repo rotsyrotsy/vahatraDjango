@@ -20,6 +20,8 @@ context = {
         }
 
 def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
+    
+    
     type = get_object_or_404(Typepublication, pk=typepublication_id)
     context["pub_type"]=type
 
