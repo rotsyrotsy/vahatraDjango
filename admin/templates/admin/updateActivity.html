@@ -68,7 +68,7 @@
                               <i class="input-helper"></i>
                             </label>
                           </div>
-                          <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|renameFile}}/{{img.image}}">
+                          <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{img.image}}">
                         </div>
                         {% endfor %}
                     </div>

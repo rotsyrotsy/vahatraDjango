@@ -32,7 +32,7 @@ def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
 
     publications = Publication.objects.filter(Q(idtype=typepublication_id), Q(date__lte = date.today())|Q(date__isnull=True))
     
-    context["publications"]=publications.order_by('id')
+    context["publications"]=publications.order_by('-date')
     
     
     min = Publication.objects.all().aggregate(Min('date'))

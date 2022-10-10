@@ -31,7 +31,7 @@
                                 <a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">
                                     {% if activity.activityimage_set.all %}
                                         {% with activity.activityimage_set.all|first as image %}
-                                        <img src="{% static 'images/site/' %}{{type_activity.type|renameFile}}/{{image.image}}" alt="post-img1.jpg">
+                                        <img src="{% static 'images/site/' %}{{type_activity.type|lower|renameFile}}/{{image.image}}" alt="post-img1.jpg">
                                         {% endwith %}
                                     {% else %}
                                     <img src="{% static 'images/resources/post-img1.jpg' %}" alt="post-img1.jpg">

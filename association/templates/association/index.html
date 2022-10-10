@@ -331,7 +331,7 @@
                                             <a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">
                                                 {% if activity.activityimage_set.all %}
                                                     {% with activity.activityimage_set.all|first as image %}
-                                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
+                                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
                                                     {% endwith %}
                                                 {% else %}
                                                     <img src="{% static 'images/resources/evnt-img1.jpg' %} " alt="evnt-img1.jpg">
@@ -427,7 +427,7 @@
                                     <a href="{% url 'activities:activityDetail'  item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type|renameFile}}/{{image.image}}" width="68" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
+                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
                                             {% endwith %}
                                         {% else %}
                                             <img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
