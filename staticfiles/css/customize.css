@@ -1,0 +1,304 @@
+.color-li > ul > li{
+  color:#d1ad3c;
+}
+#historic{
+    display: none;
+}
+
+#historicfocus ul li{
+  color:rgb(218, 176, 105);
+} 
+
+#messageyear{
+    display: none;
+}
+
+
+.mycaroussel-center .slick-current .fea-itm-img {
+    margin-top: 10px;
+}
+.mycaroussel-center .slick-current .fea-itm-img > img {
+    height:550px;
+    width: auto;
+}
+
+
+
+.slide-arrow{
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    background-size:cover;
+    height:45px;
+    width:30px; 
+    background-color: transparent;
+  }
+  .prev-arrow{
+    left: -40px;
+    background-image: url('prev.png');
+    background-position: right;
+  }
+  .next-arrow{
+    right: -40px;
+    background-image: url('next.png');
+    background-position: left;
+  }
+  
+  .slide-arrow-index {
+    position: absolute;
+    margin-top: -15px;
+    top: 40%;
+    background-size:cover;
+    height:45px;
+    width:30px; 
+    background-color: transparent;
+    opacity: 0.5;
+}
+
+.previous-arrow-index {
+  left: 5px;
+  background-image: url('prev.png');
+  background-position: right;
+  z-index: 1;
+}
+
+
+.next-arrow-index {
+  right: 5px;
+  background-image: url('next.png');
+  background-position: left;
+}
+
+  
+  .horizontal_dotted_line {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+  } 
+  
+  .dotted {
+    border-bottom: 1px dotted black;
+    content: '';
+    flex: 1;
+  }
+  .horizontal_dotted_line div li {
+    max-width: 500px;
+  }
+
+  
+.btn.btn-icon, .fc button.btn-icon, .btn-icon.ajax-file-upload, .swal2-modal .swal2-buttonswrapper .btn-icon.swal2-styled, .wizard > .actions a.btn-icon {
+    width: auto;
+    height: 40px;
+  }
+  
+  .btn.btn-icon-text .btn-icon-prepend, .fc button.btn-icon-text .btn-icon-prepend, .btn-icon-text.ajax-file-upload .btn-icon-prepend, .swal2-modal .swal2-buttonswrapper .btn-icon-text.swal2-styled .btn-icon-prepend, .wizard > .actions a.btn-icon-text .btn-icon-prepend {
+    margin-right: .5rem;
+  }
+  
+  .btn.btn-icon-text .btn-icon-append, .fc button.btn-icon-text .btn-icon-append, .btn-icon-text.ajax-file-upload .btn-icon-append, .swal2-modal .swal2-buttonswrapper .btn-icon-text.swal2-styled .btn-icon-append, .wizard > .actions a.btn-icon-text .btn-icon-append {
+    margin-left: .5rem;
+  }
+
+  
+.btn-inverse-info {
+    background-color: rgba(36, 138, 253, 0.2);
+    background-image: none;
+    border-color: rgba(36, 138, 253, 0);
+  }
+  
+  .btn-inverse-info:not(.btn-inverse-light) {
+    color: #248AFD;
+  }
+  
+  .btn-inverse-info:hover {
+    color: #ffffff;
+    background-color: #248AFD;
+    border-color: #248AFD;
+  }
+  
+  .btn-inverse-info.focus, .btn-inverse-info:focus {
+    box-shadow: 0 0 0 3px rgba(36, 138, 253, 0.5);
+  }
+  
+  .btn-inverse-info.disabled, .btn-inverse-info:disabled {
+    color: #248AFD;
+    background-color: transparent;
+  }
+  
+  .btn-inverse-info.active, .btn-inverse-info:active,
+  .show > .btn-inverse-info.dropdown-toggle {
+    color: #ffffff;
+    background-color: #248AFD;
+    border-color: #248AFD;
+  }
+  
+
+  
+.bord-box-custom {
+  float: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.bord-box-custom:before {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: .8;
+  content: "";
+}
+.bord-box-custom:hover:before {
+  opacity: 0;
+}
+.bord-box-custom > img {width: 100%;}
+.bord-box-custom .bord-info {
+  opacity: 1;
+  bottom: 0;
+}
+
+.bord-box-custom:hover .bord-info {
+  opacity: 0;
+}
+
+/* owl carousel in index */
+/*===== Featured Area =====*/
+.custom-featured-area-wrap {
+  float: left;
+  position: relative;
+  width: 100%;
+}
+.custom-featured-area {
+  float: left;
+  width: 100%;
+}
+.custom-featured-item {
+  float: left;
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  padding: 200px 15px;
+}
+.custom-featured-item:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.custom-featured-cap {
+  display: inline-block;
+  max-width: 50%;
+  padding:20px 0 60px 0;
+}
+.custom-featured-cap > img {
+  width: auto !important;
+  display: inline-block !important;
+}
+.custom-featured-cap > * {opacity: 1;}
+.custom-featured-cap > h3 {
+  color: #fff;
+  font-size: 35px;
+  margin-bottom: 0;
+  font-weight: 400;
+  font-family: roboto;
+}
+.custom-featured-cap > img + img,
+.custom-featured-cap > img + h1 {margin: 10px 0 0;}
+.custom-featured-cap > img + h3,
+.custom-featured-cap > h1 + h3 {margin-top: 3px;}
+.custom-featured-cap > h3 + span {margin-top: 15px;}
+.custom-featured-cap > span {
+  color: #fff;
+  display: block;
+  font-size: 22px;
+  font-weight: 300;
+}
+.custom-featured-cap > span + a {margin-top: 30px;}
+.custom-featured-area-wrap.fr-shdw {
+  -webkit-box-shadow: 0 0 20px rgba(0,0,0,.15);
+  -ms-box-shadow: 0 0 20px rgba(0,0,0,.15);
+  -o-box-shadow: 0 0 20px rgba(0,0,0,.15);
+  box-shadow: 0 0 20px rgba(0,0,0,.15);
+}
+
+
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {  
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+.ex {
+  
+  background-size: cover;
+  background-position: 50% 17%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
