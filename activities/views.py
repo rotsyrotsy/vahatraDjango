@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render, get_list_or_404
+from django.shortcuts import get_object_or_404, render, get_list_or_404,redirect
 from math import ceil
 from activities.models import Activityinstitution, Activityperson, Typeactivity, Typesubactivity, Visit,Activityimage,Location,Intervenantfieldschool,Activity
 from association.models import  Partner,Person
@@ -7,6 +7,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from datetime import date,timedelta
 from publications.models import Typepublication
 from django.db.models import Q
+from vahatraDjango.functions import toSlug,pagination
 # # Create your views here.
 
 type_visit = Typesubactivity.objects.all
@@ -16,7 +17,15 @@ context = {
         "type_pub": type_pub,
         }
 
-def index(request, typesubactivity_id='SA1'):
+def index(request, typesubactivity_id='SA1',typesubactivity_name='science-for-the-people'):
+    
+    typesubactivity = get_object_or_404(Typesubactivity, pk=typesubactivity_id)
+    slug = toSlug(typesubactivity.type)
+    if typesubactivity_name!=slug:
+        return redirect('activities:index', typesubactivity_id=typesubactivity.id, typesubactivity_name=slug)
+
+    context["type_visite"]=typesubactivity
+
     visits = get_list_or_404(Visit, Q(idtypesubactivity = typesubactivity_id), Q(idactivity__date__lt=date.today())|Q(idactivity__date__isnull=True))
     context["visits"]= visits
     
@@ -29,7 +38,7 @@ def index(request, typesubactivity_id='SA1'):
         dictionnary = {
             'location':location,
         }
-        visitLocations = location.visit_set.filter(idtypesubactivity=typesubactivity_id)
+        visitLocations = location.visit_set.filter(idtypesubactivity=typesubactivity.id)
         image = None
         for visitLocation in visitLocations:
             if visitLocation.idactivity.activityimage_set.all():
@@ -40,8 +49,6 @@ def index(request, typesubactivity_id='SA1'):
     
     context['dicts']=listImageLocation
 
-    context["type_visite"]=Typesubactivity.objects.get(pk=typesubactivity_id)
-    print( context["type_visite"].type)
     return render(request, "activities/index.html", context)
 
 def visit_by_lieu(request):
@@ -81,36 +88,48 @@ def support(request):
 def atlas(request):
     return render(request, "activities/atlas.html", context)
 
-def otherActivity(request,typeactivity_id='A2',page=1):
+def otherActivity(request,typeactivity_id='A2',typeactivity_name="conference",page=1):
     
-    page_number = Activity.objects.filter(Q(idtypeactivity_id = typeactivity_id), Q(date__lt=date.today())|Q(date__isnull=True)).count()
-    page_number = ceil(page_number/6)
+    typeactivity= get_object_or_404(Typeactivity, pk = typeactivity_id)
+    context["type_activity"] = typeactivity
 
-    if (page>page_number): page = page_number
-    elif page<1 : page = 1
-    
-    
-    page -= 1
-    activities = Activity.objects.filter( Q(idtypeactivity_id = typeactivity_id),Q(date__lt=date.today())|Q(date__isnull=True)).order_by('-date')[(page*6):((page*6)+6)]
-    
-    # if (activities.count()==0):
-    #     return customhandler404(request,'There is no activity')
-    
+    if typeactivity.id=='A1':
+        return redirect('activities:index')
+    slug = toSlug(typeactivity.type)
+    if typeactivity_name!=slug:
+        print(typeactivity_name,slug)
+        return redirect('activities:otherActivity', typeactivity_id=typeactivity.id, typeactivity_name=slug)
 
-    context["type_activity"]= Typeactivity.objects.get(pk=typeactivity_id)
-    context["activities"]= activities
+    list = Activity.objects.filter( Q(idtypeactivity_id = typeactivity_id),Q(date__lt=date.today())|Q(date__isnull=True))
+    
+    page_number=0
+    if (list.count() > 0):
+        dictpagination = pagination(page, list, 6, '-date')
+        page_number = dictpagination['page_number']
+        activities = dictpagination['list']
+        context["activities"] = activities
+
+    context["type"]= type
     context["page_number"]= range(1,page_number+1)
     return render(request, "activities/otherActivities.html", context)
 
 
-def activityDetail(request,activity_type,activity_id):
+def activityDetail(request,activity_type_id, activity_type,activity_id):
 
     activity = get_object_or_404(Activity, pk=activity_id)
+
+    typeactivity= get_object_or_404(Typeactivity,pk = activity_type_id)
+    if typeactivity.id=='A1':
+        return redirect('activities:index')
+
+    if activity_type!=toSlug(activity.idtypeactivity.type) or activity_type_id!=activity.idtypeactivity.id:
+        return redirect('activities:activityDetail', activity_type_id=activity.idtypeactivity.id, activity_type=toSlug(activity.idtypeactivity.type),activity_id=activity.id)
+    
+
     new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id), Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))    
 
     context["activity"]= activity
     context["images"]=activity.activityimage_set.all()
-    print(len(activity.activityimage_set.all()))
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)
 

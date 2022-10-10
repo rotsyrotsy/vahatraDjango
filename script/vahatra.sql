@@ -188,16 +188,219 @@ CREATE TABLE public.administrator (
 ALTER TABLE public.administrator OWNER TO postgres;
 
 --
--- Name: degree; Type: TABLE; Schema: public; Owner: postgres
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.degree (
-    id character varying(20) NOT NULL,
-    title character varying(100)
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
 );
 
 
-ALTER TABLE public.degree OWNER TO postgres;
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id bigint NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(150) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_groups (
+    id bigint NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id bigint NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
 
 --
 -- Name: department; Type: TABLE; Schema: public; Owner: postgres
@@ -551,94 +754,6 @@ ALTER SEQUENCE public.memberpostinst_id_seq OWNED BY public.memberpostinst.id;
 
 
 --
--- Name: person; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.person (
-    id bigint NOT NULL,
-    name character varying(255),
-    username character varying(200),
-    title character varying(10)
-);
-
-
-ALTER TABLE public.person OWNER TO postgres;
-
---
--- Name: post; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.post (
-    id character varying(20) NOT NULL,
-    name character varying(100)
-);
-
-
-ALTER TABLE public.post OWNER TO postgres;
-
---
--- Name: typemember; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.typemember (
-    id bigint NOT NULL,
-    type character varying(100),
-    description text
-);
-
-
-ALTER TABLE public.typemember OWNER TO postgres;
-
---
--- Name: memberviewpost; Type: VIEW; Schema: public; Owner: postgres
---
-
-CREATE VIEW public.memberviewpost AS
- SELECT m.id,
-    pers.title,
-    pers.name,
-    pers.username,
-    m.description,
-    m.mail,
-        CASE
-            WHEN (d.name IS NOT NULL) THEN (concat(p.name, ' : ', i.name, ' in ', d.name))::character varying
-            WHEN ((i.name IS NOT NULL) AND (d.name IS NULL)) THEN (concat(p.name, ' : ', i.name))::character varying
-            ELSE p.name
-        END AS post,
-    m.idtypemember,
-    m.image
-   FROM ((((((public.member m
-     JOIN public.person pers ON ((pers.id = m.idperson)))
-     JOIN public.memberpostinst m2 ON ((m2.idmember = m.id)))
-     JOIN public.post p ON (((p.id)::text = (m2.idpost)::text)))
-     LEFT JOIN public.institution i ON (((i.id)::text = (m2.idinst)::text)))
-     LEFT JOIN public.department d ON (((d.id)::text = (m2.iddept)::text)))
-     JOIN public.typemember tm ON ((tm.id = m.idtypemember)));
-
-
-ALTER TABLE public.memberviewpost OWNER TO postgres;
-
---
--- Name: memberviewposts; Type: VIEW; Schema: public; Owner: postgres
---
-
-CREATE VIEW public.memberviewposts AS
- SELECT memberviewpost.id,
-    memberviewpost.title,
-    memberviewpost.name,
-    memberviewpost.username,
-    memberviewpost.description,
-    memberviewpost.mail,
-    string_agg((memberviewpost.post)::text, ', '::text) AS posts,
-    memberviewpost.idtypemember,
-    memberviewpost.image
-   FROM public.memberviewpost
-  GROUP BY memberviewpost.id, memberviewpost.title, memberviewpost.name, memberviewpost.username, memberviewpost.description, memberviewpost.mail, memberviewpost.idtypemember, memberviewpost.image;
-
-
-ALTER TABLE public.memberviewposts OWNER TO postgres;
-
---
 -- Name: messageofyear; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -682,7 +797,8 @@ CREATE TABLE public.partner (
     description text,
     link character varying(150),
     logo character varying(150),
-    idinst character varying(20) NOT NULL
+    idinst character varying(20) NOT NULL,
+    "isLink" boolean NOT NULL
 );
 
 
@@ -710,6 +826,20 @@ ALTER SEQUENCE public.partner_id_seq OWNED BY public.partner.id;
 
 
 --
+-- Name: person; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.person (
+    id bigint NOT NULL,
+    name character varying(255),
+    username character varying(200),
+    title character varying(10)
+);
+
+
+ALTER TABLE public.person OWNER TO postgres;
+
+--
 -- Name: person_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -729,6 +859,18 @@ ALTER TABLE public.person_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.person_id_seq OWNED BY public.person.id;
 
+
+--
+-- Name: post; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.post (
+    id character varying(20) NOT NULL,
+    name character varying(100)
+);
+
+
+ALTER TABLE public.post OWNER TO postgres;
 
 --
 -- Name: publication; Type: TABLE; Schema: public; Owner: postgres
@@ -851,43 +993,6 @@ CREATE TABLE public.sequences_sequence (
 ALTER TABLE public.sequences_sequence OWNER TO postgres;
 
 --
--- Name: studentdegree; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.studentdegree (
-    id bigint NOT NULL,
-    year integer,
-    subject character varying(255),
-    mention character varying(100),
-    iddegree character varying(20) NOT NULL,
-    idmember bigint NOT NULL
-);
-
-
-ALTER TABLE public.studentdegree OWNER TO postgres;
-
---
--- Name: studentdegree_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.studentdegree_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.studentdegree_id_seq OWNER TO postgres;
-
---
--- Name: studentdegree_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.studentdegree_id_seq OWNED BY public.studentdegree.id;
-
-
---
 -- Name: typeactivity; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -898,6 +1003,20 @@ CREATE TABLE public.typeactivity (
 
 
 ALTER TABLE public.typeactivity OWNER TO postgres;
+
+--
+-- Name: typemember; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.typemember (
+    id bigint NOT NULL,
+    type character varying(100),
+    description text,
+    image character varying(255)
+);
+
+
+ALTER TABLE public.typemember OWNER TO postgres;
 
 --
 -- Name: typemember_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -1016,6 +1135,48 @@ ALTER TABLE ONLY public.activityperson ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
 -- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1114,13 +1275,6 @@ ALTER TABLE ONLY public.publicationdetail ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- Name: studentdegree id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.studentdegree ALTER COLUMN id SET DEFAULT nextval('public.studentdegree_id_seq'::regclass);
-
-
---
 -- Name: typemember id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1145,47 +1299,6 @@ ALTER TABLE ONLY public.visit ALTER COLUMN id SET DEFAULT nextval('public.visit_
 -- Data for Name: activity; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (27, 'Field Schools', NULL, '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (28, 'Field Schools', NULL, '2014-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (29, 'Field Schools', NULL, '2014-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (30, 'Field Schools', NULL, '2013-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (31, 'Field Schools', NULL, '2013-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (32, 'Field Schools', NULL, '2012-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (33, 'Field Schools', NULL, '2011-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (34, 'Field Schools', NULL, '2010-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (35, 'Field Schools', NULL, '2010-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (36, 'Field Schools', NULL, '2009-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (37, 'Field Schools', NULL, '2008-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (38, 'Field Schools', NULL, '2008-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (39, 'Field Schools', NULL, '2007-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (40, 'Field Schools', NULL, '2004-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (41, 'Field Schools', NULL, '2003-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (42, 'Field Schools', NULL, '2002-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (43, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (44, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (45, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (46, 'Field Schools', NULL, '2000-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (47, 'Field Schools', NULL, '1998-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (48, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (49, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (50, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (51, 'Field Schools', NULL, '1996-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (52, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the action of the "Ala Maiky" project of WWF. In collaboration with WWF.', '2003-02-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (53, 'Biological inventories', 'Obtaining data on terrestrial organisms to help with the management of a new marine protected area. In collaboration with WWF.', '2005-09-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (54, 'Biological inventories', 'To understand patterns of terrestrial animal distribution in this forested corridor, evaluation of remaining natural habitats, and the important of the remaining forest for the conservation of biodiversity. In collaboration with WWF and Fanamby.', '2005-11-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (55, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the extension of the Kirindy Mite National Park. In collaboration with WWF and Madagascar national Parks.', '2007-02-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (56, 'Biological inventories', 'Obtaining field data on the biological riches of identified protected areas for the extension of a humid forest of a UNESCO World Heritage site. In collaboration with UNESCO World Heritage program.', '2008-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (57, 'Biological inventories', 'Obtaining field data for a biological compensation program associated with a mining project. In collaboration with Ambatovy Project.', '2009-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (58, 'Biological inventories', 'Obtaining scientific information on the RS of Andranomena ant the Ampataka forest. In collaboration with Madagascar National Parks', '2010-03-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (59, 'Biological inventories', 'Biological exploration of the dry forest on karst of Beanka. In collaboration with the Universities of Geneva and Antananarivo.', '2011-11-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (60, 'Biological inventories', 'Biological exploration for the conception of a management and conservation plan. In collaboration with PGME-GIZ', '2011-12-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (61, 'Biological inventories', 'Exploration of the biological diversity of Bemanevika Forest. In collaboration with the Peregrine Fund.', '2013-10-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (62, 'Elevational transect in the Andohahela protected area', 'In late 2022
-the Vahatra team will redo another elevational transect in the Andohahela
-protected area in the same fashion as Marojejy and part of the The Rainforest
-of the Atsinanana.', '2022-10-15', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (63, 'Micro-endemism in Madagascar', 'A new hypothesis and model of micro-endemism in Madagascar and its application to the conservation of Malagasy biodiversity. (Presented in French.)', '2008-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (64, 'New Traversodontidae', 'Two new Traversodontidae from the Triassic of Madagascar: implications for paleoecology and the issue of endemic Malagasy terrestrial vertebrates in the Pre-Jurassic. (Presented in French.)', '2009-01-01', NULL, 'A2');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (87, 'E-book on the protected areas of madagascar and other user tools', 'In late 2015, Association Vahatra received a three-year grant from CEPF to
 conduct a large-scale review of the protected areas system of Madagascar.
 The bilingual French-English three volume book entitled Les aires protégées
@@ -1224,16 +1337,16 @@ conference formally presented the portal in Madagascar to an assortment of inter
 conference, which was followed by a reception. The event received press
 and television coverage. The final accepted report to CEPF was submitted in
 late 2021 and the first phase of the project has now been completed.', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (65, 'Geographic Information Systems', 'Geographic Information Systems at the service of conservation: case studies. (Presented in French.)', '2010-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (66, 'Effects of cyclone', 'Effects of cyclone or habitat disturbance on Varecia variegata (reproduction, feeding behavior, etc.). (Presented in French.)', '2011-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (67, 'Fragmentation and genetic diversity', 'Fragmentation of habitat and genetic diversity in space and time. (Presented in French.) ', '2011-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (68, 'Invasive alien species', 'The impact of invasive alien species on island biodiversity - What solutions? (Presented in French.) ', '2012-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (69, 'Extinct animals and ecosystems of Madagascar', 'Windows into the extraordinary extinct animals and ecosystems of Madagascar. (Presented in French.) ', '2012-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (70, 'Genetics', 'Population genetics, conservation genetics, and their applications. (Presented in French.) ', '2012-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (71, 'Genetic diversity and Genetix computer program', 'Measures of genetic diversity and application of the Genetix computer program. (Presented in French.) ', '2013-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (72, 'ArcGIS', 'ArcGIS training. (Presented in French.) ', '2014-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (73, 'High spatial resolution cloud climatology', 'High spatial resolution cloud climatology of Madagascar and implications for biodiversity conservation activities', '2015-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (83, 'Climate change', 'The intent of this project is to measure possible effects of global climatic change on certain endemic terrestrial vertebrates. This is being accomplished by revisiting three different mountains on the island intensively studied along an elevational gradient over 15 years ago and repeating the inventory methods down to very fine details, such as the same dates and placements of different types of traps. While data on the presence and absence of a given taxonomic group will be used in comparing the previous and recent inventories, the unique aspect we have added to the project is employing molecular genetic data. We will becomparing shifts in haplotypic frequencies through time and this measure may be directly correlated with global warming, pushing animals to higher altitudes to find preferable biotypes.', '2015-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (60, 'Biological inventories', 'Biological exploration for the conception of a management and conservation plan. In collaboration with PGME-GIZ', '2011-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (52, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the action of the "Ala Maiky" project of WWF. In collaboration with WWF.', '2003-02-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (53, 'Biological inventories', 'Obtaining data on terrestrial organisms to help with the management of a new marine protected area. In collaboration with WWF.', '2005-09-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (54, 'Biological inventories', 'To understand patterns of terrestrial animal distribution in this forested corridor, evaluation of remaining natural habitats, and the important of the remaining forest for the conservation of biodiversity. In collaboration with WWF and Fanamby.', '2005-11-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (55, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the extension of the Kirindy Mite National Park. In collaboration with WWF and Madagascar national Parks.', '2007-02-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (56, 'Biological inventories', 'Obtaining field data on the biological riches of identified protected areas for the extension of a humid forest of a UNESCO World Heritage site. In collaboration with UNESCO World Heritage program.', '2008-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (48, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (50, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (47, 'Field Schools', NULL, '1998-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (51, 'Field Schools', NULL, '1996-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (84, 'Transmissible diseases', 'In this project, followed viro-serological and vector populations of wild vertebrates and a quantitative assessment on a regional risk of introduction and spread of the disease are done. This is a project funded by the CRVOI (Centre for Research and Watch on emerging diseases in the Indian Ocean) Reunion and associated team from the Institut Pasteur de Madagascar (IPM). The latter has been working for several years on transmission mechanisms of many diseases. 
 The specific objectives of this project are to:
     -assess the intensity of viral circulation and circulation periods in a pilot area of Madagascar,
@@ -1248,64 +1361,111 @@ INSERT INTO public.activity (id, title, description, date, note, idtypeactivity)
     -conservation
     -impact assessment
  ', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (86, 'StopRats', 'Stoprats is a multi-partner project financed by the Secretariat of the African and Caribbean Group, led by Natural Resources Institute, University of Greenwich, United Kingdom and including countries like Namibia, Madagascar, Sierra Leone, South Africa, Swaziland , Tanzania. The general objectives of the project are to build capacity in science, in technology and innovation in the management of rodent pests and to contribute to the sustainable development of Africa and Madagascar, so that these institutions could have knowledge of the main indicators of poverty through rodent impacts on agricultural production and food security systems.
-
-Students from the Institute of Technical Science and Environment, University of Fianarantsoa, from the Animal Biology Department, University of Antananarivo, a team of environmental educators, and colleagues from the Institut Pasteur de Madagascar, provide the smooth running of the activities of this project.
-
-In 2014, fifteen scientists from the countries members of Stoprats project were in Madagascar for the field school. Then the series of investigations were conducted in the Malagasy highplands to have knowledge about the extent of damage caused by rats and the methods used to fight against these problems. Meetings with stakeholders on the problems of rats, namely, the responsible of the agriculture, breeding and health were also conducted in Fianarantsoa. Researches on diets and habitats used by the rats and endemic rodents, by using stable isotopes have been undertaken as part of this project.', '2014-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (83, 'Climate change', 'The intent of this project is to measure possible effects of global climatic change on certain endemic terrestrial vertebrates. This is being accomplished by revisiting three different mountains on the island intensively studied along an elevational gradient over 15 years ago and repeating the inventory methods down to very fine details, such as the same dates and placements of different types of traps. While data on the presence and absence of a given taxonomic group will be used in comparing the previous and recent inventories, the unique aspect we have added to the project is employing molecular genetic data. We will becomparing shifts in haplotypic frequencies through time and this measure may be directly correlated with global warming, pushing animals to higher altitudes to find preferable biotypes.', '2015-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (49, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (73, 'High spatial resolution cloud climatology', 'High spatial resolution cloud climatology of Madagascar and implications for biodiversity conservation activities', '2015-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (72, 'ArcGIS', 'ArcGIS training. (Presented in French.) ', '2014-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (71, 'Genetic diversity and Genetix computer program', 'Measures of genetic diversity and application of the Genetix computer program. (Presented in French.) ', '2013-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (69, 'Extinct animals and ecosystems of Madagascar', 'Windows into the extraordinary extinct animals and ecosystems of Madagascar. (Presented in French.) ', '2012-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (68, 'Invasive alien species', 'The impact of invasive alien species on island biodiversity - What solutions? (Presented in French.) ', '2012-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (70, 'Genetics', 'Population genetics, conservation genetics, and their applications. (Presented in French.) ', '2012-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (66, 'Effects of cyclone', 'Effects of cyclone or habitat disturbance on Varecia variegata (reproduction, feeding behavior, etc.). (Presented in French.)', '2011-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (67, 'Fragmentation and genetic diversity', 'Fragmentation of habitat and genetic diversity in space and time. (Presented in French.) ', '2011-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (65, 'Geographic Information Systems', 'Geographic Information Systems at the service of conservation: case studies. (Presented in French.)', '2010-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (91, 'Diversity and transmission dynamics of infectious agents in malagasy bats', 'The scientific objectives of this project are to characterize the diversity of
+infectious agents circulating in bat populations of northern Madagascar and
+to study the temporal dynamics of transmission, particularly within breeding
+and day-roosting colonies. Funding is based on a grant from the Fonds
+Européen de Développement Régional (FEDER). The study in collaboration
+with Dr. Camille Lebarbenchon from the Processus Infectieux en Milieu
+Insulaire Tropical (PIMIT) laboratory and associated with The University
+of La Reunion, and with a Malagasy post-doc, Riana Ramanantsalama, who
+did his PhD with Vahatra, employs samples of captured/marked/released
+bats for laboratory analysis. For each bat, samples include oral and rectal
+swabs, as well as ectoparasites.
+In the original plan for fieldwork, it was proposed that each study colony,
+including caves in Ankarana and synanthropic roost sites in buildings
+in the nearby town of Ambilobe, to be visited every 3-4 months to study
+seasonal shifts in the temporal dynamics of infection at the population level.
+Individuals of the fruit bat Rousettus madagascariensis (family Pteropodidae)
+living in the caves of Ankarana are marked with uniquely numbered rings in order to study infection dynamics at the level of individuals. With the
+lockdown of 2020, only two visits were conducted to the study sites in that
+year and we were only able to restart the fieldwork in late 2021. Because
+of all of the COVID-19 related delays, an extension of the project has been
+requested from the granting agency. We are still awaiting that decision', '2020-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (63, 'Micro-endemism in Madagascar', 'A new hypothesis and model of micro-endemism in Madagascar and its application to the conservation of Malagasy biodiversity. (Presented in French.)', '2008-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (62, 'Elevational transect in the Andohahela protected area', 'In late 2022
+the Vahatra team will redo another elevational transect in the Andohahela
+protected area in the same fashion as Marojejy and part of the The Rainforest
+of the Atsinanana.', '2022-10-15', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (6, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (5, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (11, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (7, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (8, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (9, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (10, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (74, 'Grosphus mavo', 'the remarkable diversity of the genus Grosphus simon, 1880 (scorpiones: buthidae) in southern madagascar and in particular in the region of cap sainte marie. Arachnida – Rivista Aracnologica Italiana, 27(1): 2-35.', '2020-01-01', 'endemic scorpion in the extreme south of the island', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (75, 'Haemaphysalis galidiae', 'Description of a new species of Haemaphysalis koch, 1844 (Acari: ixodidae) from the H. (Rhipistoma) asiatica subgroup, parasite of an endemic malagasy carnivoran (family eupleridae). Systematic Parasitology, 97: 591-599.', '2020-01-01', 'endemic tick known from endemic carnivora', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (76, 'Ixodes soarimalalae', 'Description of three new species of ixodes Latreille, 1795 (acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs and named after Voahangy soarimalala', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (77, 'Ixodes uilenbergi', 'Description of three new species of Ixodes latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from different species of malagasy tenrecs', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (78, 'Ixodes uncus', ' Description of three new species of ixodes Latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (79, 'Mantidactylus ambony ', ' ‘Barcode fishing’ for archival Dna from historical type material overcomes taxonomic hurdles, enabling the description of a new frog species. Scientific Reports, 10, 19109 (2020).', '2020-01-01', 'endemic to a massif in the extreme north of the island', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (80, 'Platypelis ranjomena', 'genetic variability and partial integrative revision of Platypelis frogs (microhylidae) with red flash marks from eastern madagascar. Vertebrate Zoology, 70(2): 141-156', '2020-01-01', '(endemic the central east and northeastern madagascar', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (81, 'Uroplatus fangorn', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (82, 'Uroplatus fivehy', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (58, 'Biological inventories', 'Obtaining scientific information on the RS of Andranomena ant the Ampataka forest. In collaboration with Madagascar National Parks', '2010-03-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (59, 'Biological inventories', 'Biological exploration of the dry forest on karst of Beanka. In collaboration with the Universities of Geneva and Antananarivo.', '2011-11-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (61, 'Biological inventories', 'Exploration of the biological diversity of Bemanevika Forest. In collaboration with the Peregrine Fund.', '2013-10-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (88, 'Indian house Crow eradication and invasive species surveillance', 'In the context of this project, Madagascar Fauna and Flora Group (MFG)
 in collaboration with Association Vahatra and other partners received a
 grant to eradicate the recently introduced and highly invasive Indian House
 Crow (Corvus splendens) in the Toamasina area, central eastern coast of
 Madagascar, as well as other areas the species has turned up on the island.
+
+
 The grant also included advancing different types of research associated with
 problems imposed on Madagascar’s ecosystems and the Malagasy people
 by invasive animal species. MFG was responsible for orchestrating the
 eradication of the Indian House Crow and Vahatra’s interventions focused
 on scientific aspects associated with the biology, distribution, and zoonotic diseases of the crow and House Sparrows (Passer domesticus) in and
-around Toamasina. More specifically, scientific research on invasive species
+around Toamasina.
+More specifically, scientific research on invasive species
 included projects conducted by three Master’s students from The University
 of Antananarivo and working with Vahatra scientists, all of which were
-presented in 2021. These studies included the presence and absence of Indian
+presented in 2021.
+      These studies included the presence and absence of Indian
 House Crows in all major ports on the island and population estimates (by
 Estelle Raobson Hanitrandrasana); the breeding biology and dietary regime
 of House Sparrows in the city of Toamasina (by Saholy Raolihanitrasina);
 and the diet of a quasi-invasive bat species living in human-built structures
-(by Lomeris Todilahy). As of late 2021, MFG and the project collaborators
+(by Lomeris Todilahy). 
+
+As of late 2021, MFG and the project collaborators
 have removed all of the known House Crows on Madagascar, which is a
 major accomplishment.', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (89, 'Land use in the Sava region and global health challenges', 'This project is based on a grant awarded to Duke University, with Dr.
-Charles Nunn as the Principal Investigator, in 2019 through the Ecology and
-Evolution of Infectious Diseases (EEID) program, a joint initiative between the National Institute of Health and the National Science Foundation (NSF).
-This large-scale project aims to understand the linkages between diseases
-circulating in the foothills of the Marojejy Massif across a habitat mosaic
-of native forest, agricultural areas, and near villages for which endemic and
-introduced animals may act as reservoirs and the source of transmission.
-Association Vahatra is one of the collaborating organizations focused on
-field capture of bats, endemic and introduced small mammals, and collecting
-the needed samples for the zoonotic disease analyses. Toky Randriamoria, a
-post-doc in the context of the project, is responsible for the field sampling
-and seconded by Voahangy and Steve. A new assistant, Rianja Nantenaina
-Randriamifidisoa, has been engaged to reinforce the field team. Fifaliantsoa
-Rasolobera, the previous field assistant, is now incorporated in the project
-as a PhD student and working on small mammal ecology and distribution.
-Three different field camps at the foothills of the massif, each visited during
-three different seasons for sampling in a range of habitats, have solar panels
-to provide the needed energy to run a refrigerator to keep samples at the required low temperatures. In association with a considerable range of
-collaborators studying multiple facets of local circulating zoonotic diseases
-and parasites, this research project aims to study novel methods to predict
-disease spread, particularly different infectious diseases being important
-human health concerns on Madagascar.
-Three Vahatra students from The University of Antananarivo and one
-from The University of Antsiranana are taking part in this project: Tamby
-Ranaivoson (PhD student) and Fifaliantsoa Rasolobera (PhD student,
-mentioned above) working on small mammal ecology and reproduction;
-Daniel Falimiarintsoa (Masters student) working on bat ecology and habitat
-associations on the southwestern slopes of the Marojejy Massif; and Johanna
-Rafanomezanjanahary working on bat ecology and habitat associations
-on the southwestern slopes of the Marojejy Massif; Daniel will present
-in March 2022 and Johanna presented in March 2021. Fieldwork for this
-project continues until mid-2023.', '2019-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (27, 'Field Schools', NULL, '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (28, 'Field Schools', NULL, '2014-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (29, 'Field Schools', NULL, '2014-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (40, 'Field Schools', NULL, '2004-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (41, 'Field Schools', NULL, '2003-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (42, 'Field Schools', NULL, '2002-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (43, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (44, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (45, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (46, 'Field Schools', NULL, '2000-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (64, 'New Traversodontidae', 'Two new Traversodontidae from the Triassic of Madagascar: implications for paleoecology and the issue of endemic Malagasy terrestrial vertebrates in the Pre-Jurassic. (Presented in French.)', '2009-01-01', NULL, 'A2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (30, 'Field Schools', NULL, '2013-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (31, 'Field Schools', NULL, '2013-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (32, 'Field Schools', NULL, '2012-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (33, 'Field Schools', NULL, '2011-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (34, 'Field Schools', NULL, '2010-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (57, 'Biological inventories', 'Obtaining field data for a biological compensation program associated with a mining project. In collaboration with Ambatovy Project.', '2009-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (35, 'Field Schools', NULL, '2010-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (36, 'Field Schools', NULL, '2009-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (37, 'Field Schools', NULL, '2008-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (38, 'Field Schools', NULL, '2008-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (39, 'Field Schools', NULL, '2007-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (90, 'Restauration Patrimoine mondial: Forêts humides de l’Atsinanana', 'The moist evergreen moist evergreen forests of the eastern region of
 Madagascar are home to an exceptional diversity of plants and animals and
 these ecosystems play a fundamental role in maintaining biodiversity and
@@ -1367,27 +1527,6 @@ and the scientific results will be available in the near future. In late 2022
 the Vahatra team will redo another elevational transect in the Andohahela
 protected area in the same fashion as Marojejy and part of the The Rainforest
 of the Atsinanana.', '2021-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (91, 'Diversity and transmission dynamics of infectious agents in malagasy bats', 'The scientific objectives of this project are to characterize the diversity of
-infectious agents circulating in bat populations of northern Madagascar and
-to study the temporal dynamics of transmission, particularly within breeding
-and day-roosting colonies. Funding is based on a grant from the Fonds
-Européen de Développement Régional (FEDER). The study in collaboration
-with Dr. Camille Lebarbenchon from the Processus Infectieux en Milieu
-Insulaire Tropical (PIMIT) laboratory and associated with The University
-of La Reunion, and with a Malagasy post-doc, Riana Ramanantsalama, who
-did his PhD with Vahatra, employs samples of captured/marked/released
-bats for laboratory analysis. For each bat, samples include oral and rectal
-swabs, as well as ectoparasites.
-In the original plan for fieldwork, it was proposed that each study colony,
-including caves in Ankarana and synanthropic roost sites in buildings
-in the nearby town of Ambilobe, to be visited every 3-4 months to study
-seasonal shifts in the temporal dynamics of infection at the population level.
-Individuals of the fruit bat Rousettus madagascariensis (family Pteropodidae)
-living in the caves of Ankarana are marked with uniquely numbered rings in order to study infection dynamics at the level of individuals. With the
-lockdown of 2020, only two visits were conducted to the study sites in that
-year and we were only able to restart the fieldwork in late 2021. Because
-of all of the COVID-19 related delays, an extension of the project has been
-requested from the granting agency. We are still awaiting that decision', '2020-01-01', NULL, 'A4');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (92, 'Save the rainforest sweden (Rädda Regnskog) project at Ambohitantely', 'The Réserve Spéciale d’Ambohitantely is one of the last remnant Central
 Highland montane forests on the island and it is of high priority to conserve,
 even though already notably fragmented. This fragile and vulnerable relict
@@ -1442,6 +1581,45 @@ persons). Construction is now well underway and 40 000 fires clay bricks,
 cement, iron, etc. have been delivered to the site. The building is at the edge
 of the Madagascar National Parks village complex and a short distance from
 the main forest.', '2021-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (89, 'Land use in the Sava region and global health challenges', 'This project is based on a grant awarded to Duke University, with Dr.
+Charles Nunn as the Principal Investigator, in 2019 through the Ecology and
+Evolution of Infectious Diseases (EEID) program, a joint initiative between the National Institute of Health and the National Science Foundation (NSF).
+This large-scale project aims to understand the linkages between diseases
+circulating in the foothills of the Marojejy Massif across a habitat mosaic
+of native forest, agricultural areas, and near villages for which endemic and
+introduced animals may act as reservoirs and the source of transmission.
+Association Vahatra is one of the collaborating organizations focused on
+field capture of bats, endemic and introduced small mammals, and collecting
+the needed samples for the zoonotic disease analyses. Toky Randriamoria, a
+post-doc in the context of the project, is responsible for the field sampling
+and seconded by Voahangy and Steve. A new assistant, Rianja Nantenaina
+Randriamifidisoa, has been engaged to reinforce the field team. Fifaliantsoa
+Rasolobera, the previous field assistant, is now incorporated in the project
+as a PhD student and working on small mammal ecology and distribution.
+Three different field camps at the foothills of the massif, each visited during
+three different seasons for sampling in a range of habitats, have solar panels
+to provide the needed energy to run a refrigerator to keep samples at the required low temperatures. In association with a considerable range of
+collaborators studying multiple facets of local circulating zoonotic diseases
+and parasites, this research project aims to study novel methods to predict
+disease spread, particularly different infectious diseases being important
+human health concerns on Madagascar.
+Three Vahatra students from The University of Antananarivo and one
+from The University of Antsiranana are taking part in this project: Tamby
+Ranaivoson (PhD student) and Fifaliantsoa Rasolobera (PhD student,
+mentioned above) working on small mammal ecology and reproduction;
+Daniel Falimiarintsoa (Masters student) working on bat ecology and habitat
+associations on the southwestern slopes of the Marojejy Massif; and Johanna
+Rafanomezanjanahary working on bat ecology and habitat associations
+on the southwestern slopes of the Marojejy Massif; Daniel will present
+in March 2022 and Johanna presented in March 2021. Fieldwork for this
+project continues until mid-2023.', '2019-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (86, 'StopRats', 'Stoprats is a multi-partner project financed by the Secretariat of the African and Caribbean Group, led by Natural Resources Institute, University of Greenwich, United Kingdom and including countries like Namibia, Madagascar, Sierra Leone, South Africa, Swaziland , Tanzania. The general objectives of the project are to build capacity in science, in technology and innovation in the management of rodent pests and to contribute to the sustainable development of Africa and Madagascar, so that these institutions could have knowledge of the main indicators of poverty through rodent impacts on agricultural production and food security systems.
+
+Students from the Institute of Technical Science and Environment, University of Fianarantsoa, from the Animal Biology Department, University of Antananarivo, a team of environmental educators, and colleagues from the Institut Pasteur de Madagascar, provide the smooth running of the activities of this project.
+
+In 2014, fifteen scientists from the countries members of Stoprats project were in Madagascar for the field school. Then the series of investigations were conducted in the Malagasy highplands to have knowledge about the extent of damage caused by rats and the methods used to fight against these problems. Meetings with stakeholders on the problems of rats, namely, the responsible of the agriculture, breeding and health were also conducted in Fianarantsoa. Researches on diets and habitats used by the rats and endemic rodents, by using stable isotopes have been undertaken as part of this project.', '2014-01-01', NULL, 'A4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (17, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (18, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (93, 'Developing effective rodent control strategies to reduce disease risk in ecologically and culturally diverse rural landscapes', 'The project, named REDROZ (Reduce Rodent Zoonosis), aims at reducing
 the risk from rodent-borne infections in Africa, including Madagascar, by increasing knowledge and expertise needed to develop holistic rodent
 management applicable for local conditions and at the community level.
@@ -1477,43 +1655,23 @@ researchers. A PhD student from The University of Antananarivo, Todisoa
 Radovimiandrinifarany, is integrated in this project in the context of his PhD
 thesis, and two students from The University of Fianarantsoa was taking part
 in the fieldwork in the context of capacity building.', '2021-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (1, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud : Cap Est', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (2, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (3, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (4, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (5, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (6, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (7, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (8, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (9, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (10, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (11, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (12, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (13, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (14, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (15, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (16, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (17, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (18, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (19, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (20, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (21, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (22, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (23, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (24, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (2, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (3, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (4, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (12, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (13, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (14, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (15, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (16, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (1, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud : Cap Est', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (25, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
 INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (26, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (103, 'Test field school', 'Ceci n''est qu''un test', '2022-08-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (74, 'Grosphus mavo', 'the remarkable diversity of the genus Grosphus simon, 1880 (scorpiones: buthidae) in southern madagascar and in particular in the region of cap sainte marie. Arachnida – Rivista Aracnologica Italiana, 27(1): 2-35.', '2020-01-01', 'endemic scorpion in the extreme south of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (75, 'Haemaphysalis galidiae', 'Description of a new species of Haemaphysalis koch, 1844 (Acari: ixodidae) from the H. (Rhipistoma) asiatica subgroup, parasite of an endemic malagasy carnivoran (family eupleridae). Systematic Parasitology, 97: 591-599.', '2020-01-01', 'endemic tick known from endemic carnivora', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (76, 'Ixodes soarimalalae', 'Description of three new species of ixodes Latreille, 1795 (acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs and named after Voahangy soarimalala', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (77, 'Ixodes uilenbergi', 'Description of three new species of Ixodes latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from different species of malagasy tenrecs', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (78, 'Ixodes uncus', ' Description of three new species of ixodes Latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (79, 'Mantidactylus ambony ', ' ‘Barcode fishing’ for archival Dna from historical type material overcomes taxonomic hurdles, enabling the description of a new frog species. Scientific Reports, 10, 19109 (2020).', '2020-01-01', 'endemic to a massif in the extreme north of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (80, 'Platypelis ranjomena', 'genetic variability and partial integrative revision of Platypelis frogs (microhylidae) with red flash marks from eastern madagascar. Vertebrate Zoology, 70(2): 141-156', '2020-01-01', '(endemic the central east and northeastern madagascar', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (81, 'Uroplatus fangorn', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (82, 'Uroplatus fivehy', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (99, 'Ours polaire', NULL, '2022-09-01', 'test kely fotsiny', 'A4');
 
 
 --
@@ -1530,10 +1688,116 @@ INSERT INTO public.activityimage (id, idactivity, image) VALUES (7, 58, 'andrano
 INSERT INTO public.activityimage (id, idactivity, image) VALUES (8, 59, 'beanka01.gif');
 INSERT INTO public.activityimage (id, idactivity, image) VALUES (9, 60, 'salaryeng.gif');
 INSERT INTO public.activityimage (id, idactivity, image) VALUES (10, 61, 'bemanevika01.gif');
-INSERT INTO public.activityimage (id, idactivity, image) VALUES (16, 99, 'hans-jurgen-mager-AZ31hv9kdzE-unsplash.jpg');
-INSERT INTO public.activityimage (id, idactivity, image) VALUES (25, 103, 'Amena 057.jpg');
-INSERT INTO public.activityimage (id, idactivity, image) VALUES (26, 103, 'Picture 615.jpg');
-INSERT INTO public.activityimage (id, idactivity, image) VALUES (27, 103, 'Picture 634.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (35, 90, 'DSC_0549.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (36, 90, 'DSC_0833.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (37, 92, 'IMG_20220815_153540_834.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (38, 92, 'IMG_20220818_143216_656.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (44, 89, 'DSC_0553.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (45, 89, 'DSC_2930.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (48, 93, 'Amena_035.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (50, 74, 'Grosphus-mavo.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (51, 77, 'Ixodes-uilenbergi.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (52, 75, 'Haemaphysalis-galidiae.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (53, 80, 'Platypelis_ranjomena_BTP.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (54, 81, 'Uroplatus_fangorn_MRJ_C5.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (55, 82, 'Uroplatus_fivehy_Mo_MRJ_C5.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (56, 85, 'IMG_9014.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (57, 85, 'DSC_7.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (58, 83, 'DSCN9463.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (61, 84, 'Picture_067.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (62, 84, 'Lab_054.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (63, 86, 'IMG_7685.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (70, 27, 'Tsi_003.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (71, 27, 'Tsi_369.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (72, 27, 'Tsi_405.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (73, 28, 'Tsim_142.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (74, 28, 'Tsim_243.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (75, 28, 'Tsimn_126.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (76, 29, 'Agents_avec_empaillage.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (77, 29, 'Beman_079.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (78, 30, 'DSC_0485.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (79, 31, 'DSC_0365.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (80, 32, 'DSC_0509.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (81, 32, 'DSC_0937.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (82, 33, 'Tsim_154.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (83, 33, 'Photos_482.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (84, 34, 'Lak_144.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (85, 34, 'Laka_077.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (86, 34, 'Laka_079.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (87, 35, 'Amena_027.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (88, 35, 'Amena_037.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (89, 35, 'Amna_363.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (90, 35, 'Andranomena_kids-2010.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (91, 36, 'Laka_081.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (92, 36, 'Laka_160.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (93, 37, 'AA_077.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (94, 37, 'AA_087.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (95, 37, 'AA_111.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (96, 38, 'Vahatra_d_113.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (97, 39, 'Field_School_Master_Ambohitantely_5.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (98, 40, '20190520_130444.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (99, 40, '20190526_101613.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (100, 41, 'Remplissage_des_pots_Ambohitantely_1.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (101, 42, 'Ts_101.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (102, 42, 'Ts_113.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (103, 47, 'M2-DBA_351.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (104, 47, 'mimi_016.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (105, 51, 'Tsiaf_028.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (106, 51, 'Tsiaf_227.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (107, 49, '02-Amb_091.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (108, 43, 'DSC00153.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (109, 43, 'DSC00155.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (110, 44, 'P1730746.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (111, 44, 'P1730747.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (112, 45, 'CITTES_023.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (113, 46, 'Vaha_023.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (120, 73, 'Capture2.PNG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (122, 72, 'Capture.PNG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (123, 71, 'Capture3.PNG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (124, 69, 'g5.gif');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (125, 68, 'Capture4.PNG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (127, 70, 'Lounes-Chikhi.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (128, 66, 'Capture5.PNG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (129, 67, 'Capture6.PNG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (130, 65, 'rebioma.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (131, 64, 'pala12302-fig-0003-m.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (132, 63, 'Capture7.PNG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (133, 62, 'DSC_0434.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (134, 62, 'P1730326.JPG');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (135, 6, 'betsiboka-river-26.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (137, 17, '16.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (138, 18, 'marotandrano.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (139, 19, '17.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (140, 20, '11.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (141, 21, '12.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (142, 22, '8.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (143, 23, '19.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (144, 24, '13.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (145, 2, '4.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (146, 3, '1.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (147, 4, '14.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (148, 12, '600px-Marotolana_Ambanja_033.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (149, 13, 'marovato.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (150, 14, 'img_8199.webp');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (151, 15, '6.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (152, 16, '15.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (153, 5, 'petit-village-de-manantenina.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (154, 11, 'zizanie-a-betsiaka.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (156, 7, '18.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (157, 8, '7.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (160, 9, 'ambodivoara.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (161, 10, '3.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (162, 1, '9.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (163, 25, '2.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (164, 26, '10.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (165, 91, 'bat1.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (166, 91, 'bat2.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (167, 79, 'mantidactylus_ambony.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (168, 78, 'Ixodes-uncus.jpg');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (169, 87, 'ebook1.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (170, 87, 'ebook2.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (171, 87, 'ebook3.png');
+INSERT INTO public.activityimage (id, idactivity, image) VALUES (172, 88, 'indiancrowhouse.png');
 
 
 --
@@ -1556,10 +1820,6 @@ INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (13, 91, 
 INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (14, 91, 'I28');
 INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (15, 93, 'I29');
 INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (16, 93, 'I30');
-INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (20, 99, 'I1');
-INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (21, 99, 'I33');
-INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (26, 103, 'I13');
-INSERT INTO public.activityinstitution (id, idactivity, idinst) VALUES (27, 103, 'I1');
 
 
 --
@@ -1626,9 +1886,6 @@ INSERT INTO public.activityperson (id, idactivity, idperson) VALUES (57, 82, 1);
 INSERT INTO public.activityperson (id, idactivity, idperson) VALUES (58, 82, 84);
 INSERT INTO public.activityperson (id, idactivity, idperson) VALUES (59, 82, 89);
 INSERT INTO public.activityperson (id, idactivity, idperson) VALUES (60, 82, 80);
-INSERT INTO public.activityperson (id, idactivity, idperson) VALUES (66, 99, 91);
-INSERT INTO public.activityperson (id, idactivity, idperson) VALUES (72, 103, 66);
-INSERT INTO public.activityperson (id, idactivity, idperson) VALUES (73, 103, 50);
 
 
 --
@@ -1639,7 +1896,166 @@ INSERT INTO public.administrator (id, username, mail, password) VALUES ('ADM1', 
 
 
 --
--- Data for Name: degree; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (1, 'Can add permission', 2, 'add_permission');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (2, 'Can change permission', 2, 'change_permission');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (3, 'Can delete permission', 2, 'delete_permission');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (4, 'Can view permission', 2, 'view_permission');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (5, 'Can add group', 3, 'add_group');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (6, 'Can change group', 3, 'change_group');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (7, 'Can delete group', 3, 'delete_group');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (8, 'Can view group', 3, 'view_group');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (9, 'Can add user', 4, 'add_user');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (10, 'Can change user', 4, 'change_user');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (11, 'Can delete user', 4, 'delete_user');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (12, 'Can view user', 4, 'view_user');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (13, 'Can add content type', 5, 'add_contenttype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (14, 'Can change content type', 5, 'change_contenttype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (15, 'Can delete content type', 5, 'delete_contenttype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (16, 'Can view content type', 5, 'view_contenttype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (17, 'Can add session', 6, 'add_session');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (18, 'Can change session', 6, 'change_session');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (19, 'Can delete session', 6, 'delete_session');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (20, 'Can view session', 6, 'view_session');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (21, 'Can add department', 9, 'add_department');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (22, 'Can change department', 9, 'change_department');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (23, 'Can delete department', 9, 'delete_department');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (24, 'Can view department', 9, 'view_department');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (25, 'Can add imagetype', 10, 'add_imagetype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (26, 'Can change imagetype', 10, 'change_imagetype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (27, 'Can delete imagetype', 10, 'delete_imagetype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (28, 'Can view imagetype', 10, 'view_imagetype');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (29, 'Can add institution', 11, 'add_institution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (30, 'Can change institution', 11, 'change_institution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (31, 'Can delete institution', 11, 'delete_institution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (32, 'Can view institution', 11, 'view_institution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (33, 'Can add member', 12, 'add_member');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (34, 'Can change member', 12, 'change_member');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (35, 'Can delete member', 12, 'delete_member');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (36, 'Can view member', 12, 'view_member');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (37, 'Can add person', 13, 'add_person');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (38, 'Can change person', 13, 'change_person');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (39, 'Can delete person', 13, 'delete_person');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (40, 'Can view person', 13, 'view_person');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (41, 'Can add post', 14, 'add_post');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (42, 'Can change post', 14, 'change_post');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (43, 'Can delete post', 14, 'delete_post');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (44, 'Can view post', 14, 'view_post');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (45, 'Can add typemember', 15, 'add_typemember');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (46, 'Can change typemember', 15, 'change_typemember');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (47, 'Can delete typemember', 15, 'delete_typemember');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (48, 'Can view typemember', 15, 'view_typemember');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (49, 'Can add partner', 17, 'add_partner');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (50, 'Can change partner', 17, 'change_partner');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (51, 'Can delete partner', 17, 'delete_partner');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (52, 'Can view partner', 17, 'view_partner');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (53, 'Can add messageofyear', 18, 'add_messageofyear');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (54, 'Can change messageofyear', 18, 'change_messageofyear');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (55, 'Can delete messageofyear', 18, 'delete_messageofyear');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (56, 'Can view messageofyear', 18, 'view_messageofyear');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (57, 'Can add memberpostinst', 19, 'add_memberpostinst');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (58, 'Can change memberpostinst', 19, 'change_memberpostinst');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (59, 'Can delete memberpostinst', 19, 'delete_memberpostinst');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (60, 'Can view memberpostinst', 19, 'view_memberpostinst');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (61, 'Can add image', 20, 'add_image');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (62, 'Can change image', 20, 'change_image');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (63, 'Can delete image', 20, 'delete_image');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (64, 'Can view image', 20, 'view_image');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (65, 'Can add intervenantfieldschool', 21, 'add_intervenantfieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (66, 'Can change intervenantfieldschool', 21, 'change_intervenantfieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (67, 'Can delete intervenantfieldschool', 21, 'delete_intervenantfieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (68, 'Can view intervenantfieldschool', 21, 'view_intervenantfieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (69, 'Can add activity', 22, 'add_activity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (70, 'Can change activity', 22, 'change_activity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (71, 'Can delete activity', 22, 'delete_activity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (72, 'Can view activity', 22, 'view_activity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (73, 'Can add location', 23, 'add_location');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (74, 'Can change location', 23, 'change_location');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (75, 'Can delete location', 23, 'delete_location');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (76, 'Can view location', 23, 'view_location');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (77, 'Can add typeactivity', 24, 'add_typeactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (78, 'Can change typeactivity', 24, 'change_typeactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (79, 'Can delete typeactivity', 24, 'delete_typeactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (80, 'Can view typeactivity', 24, 'view_typeactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (81, 'Can add typesubactivity', 25, 'add_typesubactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (82, 'Can change typesubactivity', 25, 'change_typesubactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (83, 'Can delete typesubactivity', 25, 'delete_typesubactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (84, 'Can view typesubactivity', 25, 'view_typesubactivity');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (85, 'Can add visit', 26, 'add_visit');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (86, 'Can change visit', 26, 'change_visit');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (87, 'Can delete visit', 26, 'delete_visit');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (88, 'Can view visit', 26, 'view_visit');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (89, 'Can add fieldschool', 27, 'add_fieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (90, 'Can change fieldschool', 27, 'change_fieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (91, 'Can delete fieldschool', 27, 'delete_fieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (92, 'Can view fieldschool', 27, 'view_fieldschool');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (93, 'Can add activityperson', 28, 'add_activityperson');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (94, 'Can change activityperson', 28, 'change_activityperson');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (95, 'Can delete activityperson', 28, 'delete_activityperson');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (96, 'Can view activityperson', 28, 'view_activityperson');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (97, 'Can add activityinstitution', 29, 'add_activityinstitution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (98, 'Can change activityinstitution', 29, 'change_activityinstitution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (99, 'Can delete activityinstitution', 29, 'delete_activityinstitution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (100, 'Can view activityinstitution', 29, 'view_activityinstitution');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (101, 'Can add activityimage', 30, 'add_activityimage');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (102, 'Can change activityimage', 30, 'change_activityimage');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (103, 'Can delete activityimage', 30, 'delete_activityimage');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (104, 'Can view activityimage', 30, 'view_activityimage');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (105, 'Can add publication', 31, 'add_publication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (106, 'Can change publication', 31, 'change_publication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (107, 'Can delete publication', 31, 'delete_publication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (108, 'Can view publication', 31, 'view_publication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (109, 'Can add typepublication', 32, 'add_typepublication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (110, 'Can change typepublication', 32, 'change_typepublication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (111, 'Can delete typepublication', 32, 'delete_typepublication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (112, 'Can view typepublication', 32, 'view_typepublication');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (113, 'Can add publicationdetail', 33, 'add_publicationdetail');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (114, 'Can change publicationdetail', 33, 'change_publicationdetail');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (115, 'Can delete publicationdetail', 33, 'delete_publicationdetail');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (116, 'Can view publicationdetail', 33, 'view_publicationdetail');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (117, 'Can add publicationauthor', 34, 'add_publicationauthor');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (118, 'Can change publicationauthor', 34, 'change_publicationauthor');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (119, 'Can delete publicationauthor', 34, 'delete_publicationauthor');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (120, 'Can view publicationauthor', 34, 'view_publicationauthor');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (121, 'Can add administrator', 35, 'add_administrator');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (122, 'Can change administrator', 35, 'change_administrator');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (123, 'Can delete administrator', 35, 'delete_administrator');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (124, 'Can view administrator', 35, 'view_administrator');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (125, 'Can add sequence', 36, 'add_sequence');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (126, 'Can change sequence', 36, 'change_sequence');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (127, 'Can delete sequence', 36, 'delete_sequence');
+INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES (128, 'Can view sequence', 36, 'view_sequence');
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES (1, 'pbkdf2_sha256$320000$RSLXVPb41yuOI4DZ10NyZx$ih4QfDBLlsw9AnvzyAMsEaMoEgvVmnWnVPhRR6LOHtY=', '2022-10-04 05:03:35.129285-01', true, 'Vahatra', '', '', 'rotsyvonimanitra@hotmail.com', true, true, '2022-09-29 10:57:53.533944-01');
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 
@@ -1696,6 +2112,7 @@ INSERT INTO public.django_content_type (id, app_label, model) VALUES (33, 'publi
 INSERT INTO public.django_content_type (id, app_label, model) VALUES (34, 'publications', 'publicationauthor');
 INSERT INTO public.django_content_type (id, app_label, model) VALUES (35, 'admin', 'administrator');
 INSERT INTO public.django_content_type (id, app_label, model) VALUES (36, 'sequences', 'sequence');
+INSERT INTO public.django_content_type (id, app_label, model) VALUES (37, 'association', 'link');
 
 
 --
@@ -1705,21 +2122,9 @@ INSERT INTO public.django_content_type (id, app_label, model) VALUES (36, 'seque
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (1, 'association', '0001_initial', '2022-08-29 07:11:05.733637-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (2, 'activities', '0001_initial', '2022-08-29 07:11:07.790085-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (3, 'contenttypes', '0001_initial', '2022-08-29 07:11:08.071015-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (4, 'auth', '0001_initial', '2022-08-29 07:11:10.463022-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (6, 'admin', '0002_logentry_remove_auto_add', '2022-08-29 07:11:10.762635-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (7, 'admin', '0003_logentry_add_action_flag_choices', '2022-08-29 07:11:10.777851-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (8, 'contenttypes', '0002_remove_content_type_name', '2022-08-29 07:11:10.812318-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (9, 'auth', '0002_alter_permission_name_max_length', '2022-08-29 07:11:10.822331-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (10, 'auth', '0003_alter_user_email_max_length', '2022-08-29 07:11:10.831307-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (11, 'auth', '0004_alter_user_username_opts', '2022-08-29 07:11:10.839815-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (12, 'auth', '0005_alter_user_last_login_null', '2022-08-29 07:11:10.853778-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (13, 'auth', '0006_require_contenttypes_0002', '2022-08-29 07:11:10.856771-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (14, 'auth', '0007_alter_validators_add_error_messages', '2022-08-29 07:11:10.866664-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (15, 'auth', '0008_alter_user_username_max_length', '2022-08-29 07:11:10.979476-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (16, 'auth', '0009_alter_user_last_name_max_length', '2022-08-29 07:11:11.012013-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (17, 'auth', '0010_alter_group_name_max_length', '2022-08-29 07:11:11.121417-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (18, 'auth', '0011_update_proxy_permissions', '2022-08-29 07:11:11.174553-01');
-INSERT INTO public.django_migrations (id, app, name, applied) VALUES (19, 'auth', '0012_alter_user_first_name_max_length', '2022-08-29 07:11:11.213908-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (20, 'publications', '0001_initial', '2022-08-29 07:11:12.113767-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (21, 'sessions', '0001_initial', '2022-08-29 07:11:12.375259-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (22, 'activities', '0002_alter_activityimage_options', '2022-08-30 08:01:23.17467-01');
@@ -1732,12 +2137,34 @@ INSERT INTO public.django_migrations (id, app, name, applied) VALUES (28, 'seque
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (29, 'activities', '0002_remove_activityimage_idimage_activityimage_image', '2022-09-05 10:11:40.730795-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (30, 'association', '0002_remove_member_idimage_member_image', '2022-09-05 10:11:40.753094-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (31, 'publications', '0002_remove_publication_idimageback_and_more', '2022-09-05 10:11:40.835872-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (32, 'activities', '0003_alter_activityimage_idactivity_and_more', '2022-09-22 13:01:50.531046-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (33, 'association', '0003_alter_image_idtype_alter_member_idperson_and_more', '2022-09-22 13:01:50.683102-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (34, 'publications', '0003_alter_publication_idtype_and_more', '2022-09-22 13:01:50.736179-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (35, 'association', '0004_delete_memberviewposts', '2022-09-22 13:02:21.593805-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (36, 'association', '0005_remove_studentdegree_iddegree_and_more', '2022-09-23 07:00:35.575703-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (37, 'association', '0006_link', '2022-09-23 10:30:08.523975-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (38, 'association', '0007_delete_link', '2022-09-23 10:34:10.626935-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (39, 'association', '0008_partner_islink', '2022-09-23 10:36:43.683195-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (40, 'association', '0009_typemember_image', '2022-09-27 12:15:56.936242-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (41, 'auth', '0001_initial', '2022-09-29 10:56:59.84501-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (42, 'auth', '0002_alter_permission_name_max_length', '2022-09-29 10:56:59.867947-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (43, 'auth', '0003_alter_user_email_max_length', '2022-09-29 10:56:59.877961-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (44, 'auth', '0004_alter_user_username_opts', '2022-09-29 10:56:59.889948-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (45, 'auth', '0005_alter_user_last_login_null', '2022-09-29 10:56:59.899958-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (46, 'auth', '0006_require_contenttypes_0002', '2022-09-29 10:56:59.903946-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (47, 'auth', '0007_alter_validators_add_error_messages', '2022-09-29 10:56:59.914882-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (48, 'auth', '0008_alter_user_username_max_length', '2022-09-29 10:57:00.001503-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (49, 'auth', '0009_alter_user_last_name_max_length', '2022-09-29 10:57:00.050651-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (50, 'auth', '0010_alter_group_name_max_length', '2022-09-29 10:57:00.071594-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (51, 'auth', '0011_update_proxy_permissions', '2022-09-29 10:57:00.098522-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (52, 'auth', '0012_alter_user_first_name_max_length', '2022-09-29 10:57:00.112485-01');
 
 
 --
 -- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('2737f5bf32vfw1nxzqf7mvbcmso1z1he', '.eJxVjEEOwiAQRe_C2pC2Ay106d4zEGBmLGrAlDbRGO-uTbrQ7X_vv5dwfl0mt1aaXUIxilYcfrfg45XyBvDi87nIWPIypyA3Re60ylNBuh139y8w-Tp93xwVMHfW2E6j0UjEVgfuo2Lr1QA22hYVACIGDrr3BIyDaaEhA03stmilWlPJjh73ND_F2Lw_wEU_7w:1ofb1j:o2w2BnQ3QnVZpoO55cHmxiJQWR6L_msGqHHq_FB5sJc', '2022-10-18 05:03:35.144161-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('14kpcie5e2pwqq9oxhsb5m321uncy3r8', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oTNBd:I9pJ7LQvaFXMosZ8QwcDx08tRyMcBYx8bAnSnCkWXBA', '2022-09-14 11:51:17.3512-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('hfcu54w1cr47257eisrdgf73qff7gwp1', 'eyJhZG1pbiI6IkFETTEifQ:1oTNCY:pJeKVLAqM4EnqOpW4I3O617Wo7aRH4k8rjVRqrglPTQ', '2022-09-14 11:52:14.51081-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('ecimiu23wfkeo4knwpfi4zxlupc1p78y', '.eJxVjMsOwiAQRf-FtSE8JXTp3m8gAzNY1IApbVJj_Hdt0oVu7zn3vFiAZR7D0mkKBdnAJDv8bhHSjeoG8Ar10nhqdZ5K5JvCd9r5uSHdT7v7Fxihj9-3N07k7MESRaW9hexJSczWGJ-ktU5ozDIqq51IqI6EThsCUAkMSqW2aKfeS6uB1keZnmwQ7w-RFj82:1oTNEB:FZULmKPFuNLgpy1VVJzJoSQ0Bu86-L173sTkDDKqyoI', '2022-09-14 11:53:55.886972-01');
@@ -1747,6 +2174,18 @@ INSERT INTO public.django_session (session_key, session_data, expire_date) VALUE
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('8cmphysp161nfty057tt5o0b3utfjl8x', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oWcC6:DoQrXHcKd0PAVbRcJSg0FoeqUAgBgc06cLSN-MVOTkw', '2022-09-23 10:29:10.122151-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('x248r8vnwq3qpd0dae7234nxevc2j7o4', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oXj8R:L7VZSA-42_uJObLJdskBqdUI0zBWZd5jAGz7D62mmy4', '2022-09-26 12:05:59.865104-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('vb3k01lu20ac92xxdbk4um9yp7wq4md0', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oXjpO:7qayWMD7B6pdGJto_dR_OMwnWahn816er7GHsJhftQs', '2022-09-26 12:50:22.756191-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('jejaz55c6r01fcx9r135jaxk7w0pm1s0', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oaWqT:Bh_KPEkvP0m9u07fUv5QRyD5RZIJlE7GAO83oWorEc8', '2022-10-04 05:35:01.787368-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('vqd1abeisgoyf75b1n6kbhq1slo3jlbb', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oaso1:qH3uGTybyILY8fORuZCN4nxrUD-jdSkpdqCj8Q8BdWM', '2022-10-05 05:01:57.011092-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('apychrj0k31l74ihmpcgnimvfy1gzlb1', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oaxEn:uE5g-htYnBWqAkeIxDLieRCnvfg6CYLyvVhCb1Q3E_I', '2022-10-05 09:45:53.62-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('1cq2lv5np93ukmarwn15tcvmy7dr5nu7', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1obFZN:hAAHPw0UYOSk7L4kyx-cQ3rZ-2sQwNoc-HPZUUK8GDw', '2022-10-06 05:20:21.045685-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('eh3iocnscbkncblo3lqs0g619uehf5xq', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1obbwr:gkGDDTitD3BQOtCy2-jpvpFdaRDDlD2Qm7IPhuqPxd8', '2022-10-07 05:14:05.286858-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('0ycb9z9h05iwu1mwn8ocoufulsoqxxoz', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oco1p:ke7TlqZj54Klukam5td_jnSoPCwdoMVOGz2YGxQCfZY', '2022-10-10 12:20:09.016281-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('161tovt27y2h62vghu2oed5qinacywwx', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1od4uV:jDmxZgbakDqkD-lHdljxpPEvAh21zD5L6i0kOriOZjE', '2022-10-11 06:21:43.851735-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('4v72axzmezrsfib02vk6nl7s3k9brs9b', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1odQb7:aJggkQBwaDR-Yc-gY5D0OXPlGoRPTRlXeTT1a83Mk-o', '2022-10-12 05:31:09.585722-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('fn8jg10zh2wtd5en1idh78l72bavpo2n', 'e30:1odsZM:nvLso5l5zO4xG6l-OXNWKmam180gfyfOl4RQ69Xw7vs', '2022-10-13 11:23:12.802829-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('122e0rym258laez4ku439m61o9l9tgdy', '.eJxVjEEOwiAQRe_C2pC2Ay106d4zEGBmLGrAlDbRGO-uTbrQ7X_vv5dwfl0mt1aaXUIxilYcfrfg45XyBvDi87nIWPIypyA3Re60ylNBuh139y8w-Tp93xwVMHfW2E6j0UjEVgfuo2Lr1QA22hYVACIGDrr3BIyDaaEhA03stmilWlPJjh73ND_F2Lw_wEU_7w:1oduEU:FUErJF9_M1qCFfwKYEewoMviekFEJoERtD-jY9c5xKg', '2022-10-13 13:09:46.273925-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('bgha628mkavmu4dznugj81utl9ftakzf', '.eJxVjEEOwiAQRe_C2pC2Ay106d4zEGBmLGrAlDbRGO-uTbrQ7X_vv5dwfl0mt1aaXUIxilYcfrfg45XyBvDi87nIWPIypyA3Re60ylNBuh139y8w-Tp93xwVMHfW2E6j0UjEVgfuo2Lr1QA22hYVACIGDrr3BIyDaaEhA03stmilWlPJjh73ND_F2Lw_wEU_7w:1oeBX8:4QlUaF5y4MlpMPHUzJCuBqUZ9bxgHhjKofYtadOCgcY', '2022-10-14 07:38:10.490087-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('z1jis79ymk6yozf23h40z1u8i6in7y98', '.eJxVjEEOwiAQRe_C2pC2Ay106d4zEGBmLGrAlDbRGO-uTbrQ7X_vv5dwfl0mt1aaXUIxilYcfrfg45XyBvDi87nIWPIypyA3Re60ylNBuh139y8w-Tp93xwVMHfW2E6j0UjEVgfuo2Lr1QA22hYVACIGDrr3BIyDaaEhA03stmilWlPJjh73ND_F2Lw_wEU_7w:1oeIaP:0qbJcVOW_MCqFFmQKTv5KZslT_ooapS0F2kKoslN7vQ', '2022-10-14 15:10:01.438384-01');
 
 
 --
@@ -1800,15 +2239,62 @@ INSERT INTO public.fieldschool (id, iddept, idinst, idvisit) VALUES (44, 'D1', '
 INSERT INTO public.fieldschool (id, iddept, idinst, idvisit) VALUES (45, 'D1', 'I2', 50);
 INSERT INTO public.fieldschool (id, iddept, idinst, idvisit) VALUES (46, 'D6', 'I9', 50);
 INSERT INTO public.fieldschool (id, iddept, idinst, idvisit) VALUES (47, 'D1', 'I2', 51);
-INSERT INTO public.fieldschool (id, iddept, idinst, idvisit) VALUES (51, 'D4', 'I2', 65);
-INSERT INTO public.fieldschool (id, iddept, idinst, idvisit) VALUES (52, 'D1', 'I2', 65);
-INSERT INTO public.fieldschool (id, iddept, idinst, idvisit) VALUES (53, NULL, 'I13', 65);
 
 
 --
 -- Data for Name: image; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.image (id, name, title, idtype) VALUES (60, 'a1.jpg', 'a1', 4);
+INSERT INTO public.image (id, name, title, idtype) VALUES (63, 'Eulemur_coronatus.JPG', 'Eulemur coronatus', 4);
+INSERT INTO public.image (id, name, title, idtype) VALUES (61, 'Avy_166.jpg', 'Avy 166', 4);
+INSERT INTO public.image (id, name, title, idtype) VALUES (62, 'Bokar_032.jpg', 'Bokar 032', 4);
+INSERT INTO public.image (id, name, title, idtype) VALUES (64, 'Alcedo_vintsioides.JPG', 'Alcedo vintsioides', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (65, 'Amena_295.jpg', 'Amena 295', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (66, 'Copsychus_albospecularis.JPG', 'Copsychus albospecularis', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (67, 'Corythornis_madagascariensis.jpg', 'Corythornis madagascariensis', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (68, 'Euryceros_prevostii.JPG', 'Euryceros prevostii', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (69, 'Monticola_sharpei_female.JPG', 'Monticola sharpei female', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (70, 'Neodrepanis_coruscans.jpg', 'Neodrepanis coruscans', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (71, 'Sahafina_176.jpg', 'Sahafina 176', 1);
+INSERT INTO public.image (id, name, title, idtype) VALUES (72, 'a2.jpg', 'a2', 2);
+INSERT INTO public.image (id, name, title, idtype) VALUES (73, 'a3.jpg', 'a3', 2);
+INSERT INTO public.image (id, name, title, idtype) VALUES (74, 'a6.jpg', 'a6', 2);
+INSERT INTO public.image (id, name, title, idtype) VALUES (75, 'Boophis_marojezensis_ZHM.jpg', 'Boophis marojezensis ZHM', 2);
+INSERT INTO public.image (id, name, title, idtype) VALUES (76, 'Furcifer_pardalis.JPG', 'Furcifer pardalis', 2);
+INSERT INTO public.image (id, name, title, idtype) VALUES (78, 'Amna_046.jpg', 'Amna 046', 3);
+INSERT INTO public.image (id, name, title, idtype) VALUES (79, 'Microgale_principula_1.JPG', 'Microgale principula 1', 3);
+INSERT INTO public.image (id, name, title, idtype) VALUES (80, 'Miza_242.jpg', 'Miza 242', 3);
+INSERT INTO public.image (id, name, title, idtype) VALUES (81, 'a7.JPG', 'a7', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (82, 'a8.JPG', 'a8', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (83, 'Amna_001.jpg', 'Amna 001', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (84, 'banniere3.jpg', 'banniere3', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (85, 'Bea_354.jpg', 'Bea 354', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (86, 'DSC_0153.JPG', 'DSC 0153', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (87, 'DSC_0702.JPG', 'DSC 0702', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (88, 'DSCN9380.JPG', 'DSCN9380', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (89, 'DSCN9463.JPG', 'DSCN9463', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (90, 'Landscape_MF_view.JPG', 'Landscape MF view', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (91, 'P1760372.JPG', 'P1760372', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (92, 'Reserve_Naturelle_Ankarana_2.JPG', 'Réserve Naturelle Ankarana 2', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (93, 'Reserve_Naturelle_Ankarana_3.JPG', 'Réserve Naturelle Ankarana 3', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (95, 'DSC_0587.JPG', 'DSC 0587', 7);
+INSERT INTO public.image (id, name, title, idtype) VALUES (96, 'IMG_4999.JPG', 'IMG 4999', 7);
+INSERT INTO public.image (id, name, title, idtype) VALUES (97, 'Photos_146.jpg', 'Photos 146', 7);
+INSERT INTO public.image (id, name, title, idtype) VALUES (98, 'Ampas_196.jpg', 'Ampas 196', 6);
+INSERT INTO public.image (id, name, title, idtype) VALUES (100, 'BB_MRT.jpg', 'BB MRT', 6);
+INSERT INTO public.image (id, name, title, idtype) VALUES (101, 'Bea_291.jpg', 'Bea 291', 6);
+INSERT INTO public.image (id, name, title, idtype) VALUES (102, 'IMG_5951.JPG', 'IMG 5951', 6);
+INSERT INTO public.image (id, name, title, idtype) VALUES (103, 'IMG_8773.JPG', 'IMG 8773', 6);
+INSERT INTO public.image (id, name, title, idtype) VALUES (104, 'Insectes_Ankarafa.jpg', 'Insectes Ankarafa', 6);
+INSERT INTO public.image (id, name, title, idtype) VALUES (105, 'MD_029.jpg', 'MD 029', 6);
+INSERT INTO public.image (id, name, title, idtype) VALUES (106, 'aaa_be_primate.JPG', 'aaa bé primate', 4);
+INSERT INTO public.image (id, name, title, idtype) VALUES (107, 'Amena_035.jpg', 'Amena 035', 7);
+INSERT INTO public.image (id, name, title, idtype) VALUES (108, 'BEA_113.jpg', 'BEA 113', 7);
+INSERT INTO public.image (id, name, title, idtype) VALUES (112, 'Beman_037.jpg', 'Beman 037', 7);
+INSERT INTO public.image (id, name, title, idtype) VALUES (113, 'IMG_1444.JPG', 'IMG 1444', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (114, 'DSC_0553.JPG', 'DSC 0553', 5);
+INSERT INTO public.image (id, name, title, idtype) VALUES (115, 'DSC_0918.JPG', 'DSC 0918', 5);
 
 
 --
@@ -1859,12 +2345,14 @@ INSERT INTO public.institution (id, name) VALUES ('I28', 'Processus Infectieux e
 INSERT INTO public.institution (id, name) VALUES ('I29', 'Global Challenges Research Fund (GCRF)');
 INSERT INTO public.institution (id, name) VALUES ('I30', 'United Kingdom Research and Innovation (UKRI)');
 INSERT INTO public.institution (id, name) VALUES ('I31', 'System of Protected Areas of Madagascar (SAPM)');
-INSERT INTO public.institution (id, name) VALUES ('I32', 'Ambatovy-Sherritt Internationa');
 INSERT INTO public.institution (id, name) VALUES ('I33', 'REBIOMA');
 INSERT INTO public.institution (id, name) VALUES ('I34', 'Tany Meva and UNESCO World Heritage program');
 INSERT INTO public.institution (id, name) VALUES ('I35', 'CITES');
 INSERT INTO public.institution (id, name) VALUES ('I36', 'Ministry of the Environment');
 INSERT INTO public.institution (id, name) VALUES ('I37', 'The Peregrine Fund');
+INSERT INTO public.institution (id, name) VALUES ('I40', 'Facebook lite');
+INSERT INTO public.institution (id, name) VALUES ('I41', 'Facebook');
+INSERT INTO public.institution (id, name) VALUES ('I32', 'Ambatovy-Sherritt International');
 
 
 --
@@ -1919,6 +2407,7 @@ INSERT INTO public.location (id, name, longitude, latitude) VALUES (47, 'Beanka'
 INSERT INTO public.location (id, name, longitude, latitude) VALUES (48, 'Andohahela', 46.7, -24.6);
 INSERT INTO public.location (id, name, longitude, latitude) VALUES (30, 'Andranomena', 44.33333, -21.46667);
 INSERT INTO public.location (id, name, longitude, latitude) VALUES (39, 'Andranomay', 47.95, -18.5);
+INSERT INTO public.location (id, name, longitude, latitude) VALUES (49, 'Botswana', 23.22740233055, -22.246415281866987);
 
 
 --
@@ -1950,6 +2439,51 @@ Vahatra since May 2016.', 7, 4, 'none.jpg');
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (8, NULL, NULL, 8, 4, 'none.jpg');
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (9, NULL, NULL, 9, 4, 'none.jpg');
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (10, NULL, NULL, 10, 4, 'none.jpg');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (25, NULL, NULL, 99, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (28, NULL, NULL, 101, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (29, NULL, NULL, 102, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (30, NULL, NULL, 103, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (31, NULL, NULL, 104, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (32, NULL, NULL, 105, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (33, NULL, NULL, 106, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (34, NULL, NULL, 107, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (35, NULL, NULL, 108, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (36, NULL, NULL, 109, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (37, NULL, NULL, 110, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (38, NULL, NULL, 111, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (39, NULL, NULL, 112, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (40, NULL, NULL, 113, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (41, NULL, NULL, 114, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (42, NULL, NULL, 115, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (43, NULL, NULL, 116, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (44, NULL, NULL, 117, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (45, NULL, NULL, 118, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (46, NULL, NULL, 119, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (47, NULL, NULL, 120, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (48, NULL, NULL, 121, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (49, NULL, NULL, 122, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (50, NULL, NULL, 123, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (51, NULL, NULL, 124, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (52, NULL, NULL, 125, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (53, NULL, NULL, 126, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (54, NULL, NULL, 127, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (55, NULL, NULL, 128, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (56, NULL, NULL, 129, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (57, NULL, NULL, 130, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (58, NULL, NULL, 131, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (59, NULL, NULL, 132, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (60, NULL, NULL, 133, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (61, NULL, NULL, 134, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (62, NULL, NULL, 135, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (63, NULL, NULL, 136, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (64, NULL, NULL, 137, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (65, NULL, NULL, 138, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (67, NULL, NULL, 140, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (68, NULL, NULL, 141, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (69, NULL, NULL, 142, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (70, NULL, NULL, 143, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (71, NULL, NULL, 144, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (72, NULL, NULL, 145, 3, NULL);
 
 
 --
@@ -2014,14 +2548,14 @@ In addition, the Madagascar Protected Areas portal is up and functioning (see ht
 -- Data for Name: partner; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (1, 'working for the creation and delimitation of new protected areas on Madagascar.', 'https://protectedareas.mg/', 'protected-areas.png', 'I31');
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (2, ' helping with the establishment of a Biodiversity Business Operational Program (BBOP)', 'https://ambatovy.com/en/', 'ambatovy.png', 'I32');
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (3, 'helping with the up-dating of a database associated with Malagasy biodiversity.', 'https://www.rebioma.org/', 'rebioma.jpg', 'I33');
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (4, 'biological evaluation and analysis of human pressures in a new UNESCO site.', 'https://tanymeva.org/', 'tanymeva.png', 'I34');
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (5, 'scientific aid in evaluating biodiversity and training of field agents.', 'https://www.parcs-madagascar.com/', 'mnp.png', 'I7');
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (6, ' helping with the compilation of data concerning Malagasy taxa.', 'https://cites.org/eng', 'cites.png', 'I35');
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (7, ' helping with the preparation of national report for the Convention on Biodiversity.', 'https://www.environnement.mg/', 'logo-medd-presidence.png', 'I36');
-INSERT INTO public.partner (id, description, link, logo, idinst) VALUES (8, 'Capacity building for conservation agents and students. This project is generously funded by Helmsley Charitable Trust (HCT)', 'https://www.peregrinefund.org/', 'peregrine.png', 'I37');
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (1, 'working for the creation and delimitation of new protected areas on Madagascar.', 'https://protectedareas.mg/', 'protected-areas.png', 'I31', false);
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (2, ' helping with the establishment of a Biodiversity Business Operational Program (BBOP)', 'https://ambatovy.com/en/', 'ambatovy.png', 'I32', false);
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (4, 'biological evaluation and analysis of human pressures in a new UNESCO site.', 'https://tanymeva.org/', 'tanymeva.png', 'I34', false);
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (5, 'scientific aid in evaluating biodiversity and training of field agents.', 'https://www.parcs-madagascar.com/', 'mnp.png', 'I7', false);
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (6, ' helping with the compilation of data concerning Malagasy taxa.', 'https://cites.org/eng', 'cites.png', 'I35', false);
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (7, ' helping with the preparation of national report for the Convention on Biodiversity.', 'https://www.environnement.mg/', 'logo-medd-presidence.png', 'I36', false);
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (8, 'Capacity building for conservation agents and students. This project is generously funded by Helmsley Charitable Trust (HCT)', 'https://www.peregrinefund.org/', 'peregrine.png', 'I37', false);
+INSERT INTO public.partner (id, description, link, logo, idinst, "isLink") VALUES (3, 'Specialist in data exploitation and tools development for the management and conservation through modeling based on scientific information on biodiversity and ecological data.', 'https://www.rebioma.org/', 'rebioma.jpg', 'I33', true);
 
 
 --
@@ -2057,7 +2591,6 @@ INSERT INTO public.person (id, name, username, title) VALUES (26, 'Rakotondratsi
 INSERT INTO public.person (id, name, username, title) VALUES (27, 'Douglas', 'Michael', 'Dr.');
 INSERT INTO public.person (id, name, username, title) VALUES (28, 'Ralison', 'J.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (29, 'Wilmé', 'L.', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (30, 'Rakotomalala', 'D.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (31, 'Gardner', 'Charlie J.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (32, 'Andrianarimisa', 'Aristide', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (33, 'Andrianjakarivelo', 'Vonjy', NULL);
@@ -2078,8 +2611,6 @@ INSERT INTO public.person (id, name, username, title) VALUES (47, 'Christidis', 
 INSERT INTO public.person (id, name, username, title) VALUES (48, 'Lourenço', 'Wilson R.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (49, 'Razafindratsita', 'Vololontiana', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (50, 'Zack', 'Steve', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (51, 'Ramasindrazana', 'Beza', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (52, 'Rajemison', 'Balisama', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (53, 'Griffiths', 'Owen', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (54, 'Barratt', 'Nicola', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (55, 'Lashaway', 'Caleb', NULL);
@@ -2108,21 +2639,300 @@ INSERT INTO public.person (id, name, username, title) VALUES (77, 'Benstead', 'J
 INSERT INTO public.person (id, name, username, title) VALUES (95, 'Rossi', 'A.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (78, 'Waeber', '', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (79, 'Apanaskevich', 'D. A.', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (80, 'Scherz', 'M. D.', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (81, 'Rasolonjatovo', 'S. M.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (82, 'Köhler', 'J.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (83, 'Rancilhac', 'L.', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (84, 'Rakotoarison', 'A.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (85, 'Ohler', 'A.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (86, 'Preick', 'M.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (87, 'Hofreiter', 'M.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (88, 'Glaw', 'F.', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (89, 'Vences', 'M.', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (90, 'Crottini', 'A.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (91, 'Andreone', 'F.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (92, 'Ratsoavina', 'F. M.', NULL);
-INSERT INTO public.person (id, name, username, title) VALUES (93, 'Vieites', 'D. R.', NULL);
 INSERT INTO public.person (id, name, username, title) VALUES (94, 'Haalitschek', 'O.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (99, 'ANDRIANAIVO ', 'Barivelo Tony David', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (118, 'RAKOTONDRAMANANA', 'Claude Fabienne', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (81, 'Rasolonjatovo', 'Safidy M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (101, 'ANDRIANASOLO', 'Rado Mampionona', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (102, 'ANDRIANIAINA', 'François Angelo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (103, 'ANDRIANOELINA FITIA', 'Lofontsiriniaina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (104, 'ANDRINIAINA RANDRENJARISON', 'Hermann Rico', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (105, 'FALIARIVOLA', 'Manoa Lahatriniaina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (106, 'INGADY', 'Malalanirina Zo Léopolla', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (107, 'KOFOKY', 'Amyot', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (108, 'MAMINIRINA', 'Claudette Patricia', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (109, 'NOROALINTSEHENO', 'Lalarivoniaina Olivà Santarni', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (110, 'RABARISON', 'Hajatiana', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (111, 'RABEARISOA', 'Pierre Angelo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (112, 'RAHARINORO', 'Njaratiana Anick', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (113, 'RAJEMISON', 'Faneva Iharantsoa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (114, 'RAKOTOARIVELO', 'Andrinajoro Rianarivola', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (115, 'RAKOTOMANGA', 'Malala Nirina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (116, 'RAKOTOMANGA', 'Manoa Gaël', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (117, 'RAKOTONANDRASANA', 'Ravo Eddy Nirina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (119, 'RAKOTOZAFY', 'Lovasoa Manuelle Sylviane', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (120, 'RAMAMONJISOA', 'Dina Lydia', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (121, 'RAMANANA', 'Tojomanana Landryh', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (122, 'RAMASINATREHINA', 'Nasolo Seheno', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (123, 'RAMASINDRAZANA', 'Beza', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (124, 'RANDRIAMAHERIJAONA', 'Sanjiarizaha', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (125, 'RANDRIAMANDIMBIHAZO', 'Rindra', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (126, 'RANDRIAMORIA', 'Toky Maheriniaina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (127, 'RANDRIANANTOANDRO', 'Njarasoa Claude Aimé', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (128, 'RAOELINJANAKOLONA', 'Nasandratra Nancia', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (129, 'RASOANORO', 'Mercia', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (130, 'RASOMA', 'Juliana', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (131, 'RATRIMONANARIVO', 'Harimalala Fanja', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (132, 'RAZAFINDRANAIVO', 'Simplice', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (133, 'ZAFINDRANORO', 'Harimpitia Haridas', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (84, 'Rakotoarison', 'Andolalao', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (80, 'Scherz', 'Mark D.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (89, 'Vences', 'Miguel', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (90, 'Crottini', 'Angelica', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (93, 'Vieites', 'David R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (134, 'Rasolobera', 'Fifaliantsoa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (135, 'Ranaivoson', 'Tamby Nasaina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (136, 'Manana', 'Christian', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (137, 'Rakotoarimalala', 'Fandresena', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (138, 'Botosemily', 'Nomenjanahary', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (140, 'Rakotoarisoa', 'Fanasina Elia', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (141, 'Rasoarimalala', 'Maminirina Sandra', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (142, 'Radovimiandrinifarany', 'Todisoa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (143, 'Razafimanantsoa', 'Tsiky Mamy', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (144, 'Razafimandimby', 'Lanjavola', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (145, 'Rasoarimanana Rajoniaina', 'Tantely', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (146, 'Radasimalala', 'Vonjisoa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (147, 'Tahinarivony', 'Jacquis A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (148, 'Pruvot', 'Yverlin Z. M', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (149, 'Rene de Roland', 'Lily-Arison', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (150, 'Rakotondratsima', 'Marius', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (151, 'Razafimanjato', 'Gilbert', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (152, 'Andriamalala', 'Tolojanahary ', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (153, 'Randrianjafiniasa', 'Donatien', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (154, 'Razafindrakoto ', 'Yvette ', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (155, 'Rabarisoa', 'Rivo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (156, 'Raolihanitrasina', 'Salohy E.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (157, 'Raobson', 'Estelle', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (158, 'Rajemison', 'Balsama', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (159, 'Todilahy', 'Lomeris J.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (161, 'Randrianarivelojosia', 'Milijaona', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (162, 'Benjara', 'Armand', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (163, 'Tortosa', 'Pablo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (164, 'Douglass', 'Kristina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (165, 'Godfrey', 'Laurie R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (166, 'Burney', 'David A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (167, 'Rasolondrainy', 'Tanambelo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (168, 'Ramiadantsoa', ' Tanjona', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (169, 'Solofondranohatra', 'Cédrique L.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (170, 'Razanatsoa', 'Estelle', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (171, 'Virah-Sawmy', 'Malika', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (172, 'Woodborne', 'Stephan', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (173, 'Callanan', 'Caitlyn', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (174, 'Gillson', 'Lindsey', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (175, 'Voarintsoa', ' Ny Riavo G.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (176, ' Ramarolahy', 'Francine Mirya', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (177, 'Rakotozandry', 'Ravoniaina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (178, 'Ranaivosoa', 'Voajanahary', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (179, 'Rasolofomanana', 'Nadia', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (180, 'Hekkala', 'Evon', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (181, 'Samonds', 'Karen E.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (182, 'Peterson', 'Faina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (183, 'Burns', 'Stephen J.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (184, 'Crowley', 'Brooke E.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (185, 'Scroxton', 'Nick', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (186, 'McGee', 'David', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (187, 'Sutherland', 'Michael R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (188, 'Rasolonjatovo', 'Harimanjaka A. M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (189, 'Muldoon', 'Kathleen', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (190, 'Rakotoarijaona', 'Mamy', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (191, 'Rahantaharivao', 'Noromamy J.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (192, 'Schwartz', 'Gary T.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (193, 'King', 'Stephen', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (194, ' Nomenjanahary', 'Eva Stela', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (195, 'Benjamin Z.', 'Freed', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (196, 'Dollar', 'Luke J.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (197, 'Randrianasy', 'Jeannot', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (198, 'Tovondrazane', 'Camille A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (199, 'Holède', 'Bin I.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (200, 'Andriatsiaronandroy', 'Ricardo R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (202, 'Razanakoto', 'Thierry', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (203, 'Rabemananjara ', 'Zo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (204, 'Ravaoherinavalona', 'Rota', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (205, 'Roger', 'Edmond', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (206, 'Rakouth', 'Bakolimalala', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (207, 'Ravaomanalina', ' Bako Harisoa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (208, 'Walesiak', 'Michał', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (209, 'Mittermeier', 'John C.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (210, 'Wright', 'Dale R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (211, 'Colyn', 'Robin', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (212, 'Gardner', 'Brett', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (213, 'Jocque', 'Merlijn', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (214, 'Kemp', 'Luke', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (215, 'Rene de Roland', 'Angelinah', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (216, 'Slootmaekers', 'Dan', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (217, 'Glos', 'Julian', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (218, 'Kasola', 'Charles', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (219, 'Atrefony', 'Florent', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (220, 'Louis', 'Fisy', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (221, 'Odilon', 'Germany Nicolas', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (222, 'Ralahinirina', 'Romialde Gabriel', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (224, 'Menjanahary', 'Tahina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (225, 'Ratovonamana', 'Yedidya R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (226, 'Lobón-Rovira', 'Javier', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (227, 'Belluardo', 'Francesco', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (228, 'Rasoazanany', 'Malalatiana', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (229, 'Rosa', 'Gonçalo M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (231, 'Razafimahatratra', 'Marius', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (232, 'Vololona', 'Judith', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (233, 'Ramamonjisoa', 'Ralalaharisoa Z.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (234, 'Rasoamanana', 'Elysée N.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (235, 'Ramavovololona', ' Perle', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (236, 'Castillon', 'Jean-Philippe', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (237, 'Rajaovelona', 'Landy R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (238, 'Rajerison', 'Minoarisoa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (240, 'Razarazafy', 'Duvivier', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (241, 'Razafimanantsoa', 'Tsiresy M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (242, 'Ravelomanantsoa', 'Ny Anjara F.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (243, 'Razafimalala', 'Fanomezantsoa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (244, 'Ranivo', 'Julie', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (245, 'Reher', 'Stephanie', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (246, 'Schoroth', 'Marie', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (247, 'Dausmann', 'Kathrin', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (248, 'Randriamanana', 'Jean P.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (249, 'Razafindramasy', 'Onjaniaina G.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (250, 'Oninjatovo', 'Radonirina H.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (251, 'Razakafamantanantsoa', 'Antso', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (252, 'Randrianarisata', 'Mandaniaina D. M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (253, 'Benjamina', 'Gaëtan S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (254, 'Raharinirina', 'Deborah', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (256, 'Jao', 'Nantenaina M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (257, 'Raharisoa', 'David M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (258, 'Rakotovao', 'Frasquita', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (259, 'Rafanoharana', 'James', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (260, 'Rasolofoniaina', 'Bako', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (261, 'Razafy', 'Prisca', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (262, 'Razafimahatratra', 'Emilienne', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (263, 'Kappeler', 'Peter M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (264, 'Rafilipo', 'Luckah A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (265, 'Fidy', 'Jean François S. N.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (266, 'Beny', 'Makboul', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (267, 'Maeder', 'Muriel N.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (268, 'Raherinjafy', 'Rogelin', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (269, 'Andriamahefa', 'Heritiana', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (273, 'Rakotomalala', 'J. E.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (274, 'Proctor', 'S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (275, 'Rakotondraparany', 'F.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (271, 'Ranirison', 'Patrick', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (272, 'Gautier', 'Laurent', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (276, 'Raharison', 'J. L.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (277, 'Cumberlidge', 'N.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (278, 'Rasamy Razanabolana', 'J.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (279, 'Ranaivoson', 'C. H.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (280, 'Randrianasolo', 'H. H.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (281, 'Sayer', 'C.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (282, 'Máiz-Tomé', 'L.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (283, 'Van Damme', 'D.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (284, 'Darwall', 'W. R. T.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (286, 'Boyer', 'S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (287, 'ANDRINIAINA', 'H. A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (288, 'Gauthier', 'N. E.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (289, 'Ravaojanahary', 'F. F.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (290, 'Sylvestre', 'M. H.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (292, 'Bamford', 'A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (293, 'Rasamimanana', 'Notahinjanahary', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (294, 'Ramahatratra', 'Edouard', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (295, 'Ranaivonasy', 'Jeannin', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (296, 'Richard', 'Alison', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (297, 'Jaonarisoa', ' Enafa', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (298, 'Youssouf Jacky', 'Ibrahim A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (299, 'Fiorentino', 'Isabella', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (300, 'Mahereza', 'Sibien', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (301, 'Sauther', 'Michelle', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (302, 'Efitiria', '', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (303, 'Rahendrimanana', 'José C.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (304, 'Randrianandrasana', 'Andry S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (305, 'Efitroarany', '', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (306, 'Rafarasoa', 'Lala S;', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (307, 'Ranarilalatiana', 'Tolotra', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (308, 'Andrianantoandro', 'Aina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (309, 'Ravaomanarivo', 'Raveloson', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (270, 'Rasoanaivo', 'Niry S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (285, 'Beaucournu', 'Jean Claude', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (310, ' Razafimahatratra', 'Bertrand', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (311, 'Bader', 'Elias', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (312, 'Acácio', 'Marta', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (313, 'Monadjem', 'Ara', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (314, 'Le Minter', 'Gildas', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (315, 'Lagadec', 'Erwan', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (316, 'Jasper', 'Louise D.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (317, 'Tovondrafale', 'Tsimihole', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (318, 'Razakamanana', 'Théodore', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (319, 'Hiroko', 'Koike', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (320, 'Rasoamiaramanana ', 'Armand', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (321, 'Vorontsova', 'Maria S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (322, 'Rakotoarisoa', 'Solofo E.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (323, 'Dittmann', 'Marie T.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (324, 'Dammhahn', 'Melanie', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (325, 'Robert', 'Vincent', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (326, 'Borkent', 'Art', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (327, 'Ramamonjisoa', 'Juliot', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (328, 'Cheke', 'Anthony S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (329, 'Rocamora', 'Gérard', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (330, ' Schoeman', 'Corrie', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (331, 'Ralisata', 'Mahefatiana', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (332, 'Wilkinson', 'David A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (333, 'Beral', 'Marina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (334, 'Dietrich', 'Muriel', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (335, 'Andriamamonjy', 'Aldus', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (336, 'Randalana', 'Roger', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (337, ' Middleton', 'Gregory J.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (338, 'Radimilahy', 'Chantal', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (339, 'Andrianaivoarivony', 'Rafolo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (340, 'Rasoarifetra', 'Bako', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (341, 'Rakotozafy', 'Lucien M. A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (342, 'Chatelain', 'Cyrille', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (343, 'Hanitrarivo', 'Mitia R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (344, 'Rakotozafy', 'Brice F. L.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (345, 'Bolliger', 'Ralph', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (346, 'Luino', 'Iacopo', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (348, 'Hanitrarivo', 'Riambola M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (349, 'Rasolofo', 'Nathalie', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (350, 'Ravelomanana', 'Andrianjaka', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (351, 'Fisher', 'Brian L.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (352, 'Randriandimbimahazo ', 'Rindra', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (353, 'Markolf', 'Matthias', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (354, 'Lührs', 'Mia-Lana', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (355, 'Thalmann', 'Urs', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (356, 'Andriaharimalala', 'Tahiana', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (357, 'Rajeriarison', 'Charlotte', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (358, 'Letsara', ' Rokiman', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (359, 'Almeda', 'Frank', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (360, 'Rakotoarison', 'Fenonirina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (362, 'Chanu', 'Lalandy', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (363, 'Goetze', ' Dethardt', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (364, 'Thorén', 'Sandra', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (365, ' Porembski', 'Stefan', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (366, 'Radespiel', 'Ute', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (367, 'Schnoell', ' Anna V.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (368, 'Sam', 'The Seing', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (369, ' Rakotonavalona ', 'Andrilalao M.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (370, 'Fatroandrianjafinonjasolomiovazo', 'Tolojanahary N. L.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (371, ' Rasoamampionona', 'Noromalala R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (373, 'Parent', 'Sara N.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (374, 'Ranarijaona', 'Hery Lisy T. ', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (375, ' Nantenaina', 'Donald A.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (376, 'Andrianasetra', 'Georges S.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (377, 'Barthélémy', 'Daniel', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (378, 'Caraglio', 'Yves', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (379, ' Edelin', 'Claude', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (380, 'Rasoma', 'Rahantavololona V. J', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (381, ' Ranivoarivelo', 'Soazara', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (382, 'Marquard', 'Matthias', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (383, 'Ramilijaona', 'Olga R.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (384, 'Rakotomalala', 'Domoina', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (385, 'Callmander', 'Martin', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (386, 'Nusbaumer', 'Louis', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (387, 'Herbert ', 'David G.', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (388, 'Vincke', 'Xavier', NULL);
+INSERT INTO public.person (id, name, username, title) VALUES (389, 'Rakotondranary', 'Jacques', NULL);
 
 
 --
@@ -2144,8 +2954,6 @@ INSERT INTO public.post (id, name) VALUES ('P13', 'docteur honoris causa');
 INSERT INTO public.post (id, name) VALUES ('P14', 'financial & administration manager');
 INSERT INTO public.post (id, name) VALUES ('P15', 'logistic coordinator');
 INSERT INTO public.post (id, name) VALUES ('P16', 'domestic help');
-INSERT INTO public.post (id, name) VALUES ('P17', 'guardians');
-INSERT INTO public.post (id, name) VALUES ('P18', 'gardeners');
 INSERT INTO public.post (id, name) VALUES ('P19', 'country director');
 INSERT INTO public.post (id, name) VALUES ('P20', 'général de corps d''armée');
 INSERT INTO public.post (id, name) VALUES ('P21', 'Center for Diplomatic and Strategic studies');
@@ -2156,6 +2964,8 @@ INSERT INTO public.post (id, name) VALUES ('P25', 'ex-general director');
 INSERT INTO public.post (id, name) VALUES ('P26', 'principal');
 INSERT INTO public.post (id, name) VALUES ('P27', 'executive director');
 INSERT INTO public.post (id, name) VALUES ('P28', 'director');
+INSERT INTO public.post (id, name) VALUES ('P17', 'guardian');
+INSERT INTO public.post (id, name) VALUES ('P18', 'gardener');
 
 
 --
@@ -2176,10 +2986,8 @@ INSERT INTO public.publication (id, title, description, date, idtype, imagefront
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (13, 'Volume 13', '', '2019-01-01', 1, 'mn13.gif', 'mn13_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (14, 'Volume 14', '', '2020-01-01', 1, 'mn14.gif', 'mn14_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (15, 'Volume 15', '', '2021-01-01', 1, 'mn15.gif', 'mn15_back.gif');
-INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (16, 'Les chauves-souris de Madagascar', '129 pp and 77 figures.', '2011-01-01', 2, 'g1.gif', 'g1_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (17, 'Les petits mammifères de Madagascar', '176 pp and 100 figures.', '2011-01-01', 2, 'g2.gif', 'g2_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (18, 'Histoire naturelle des familles et sous-familles endémiques d''oiseaux de Madagascar', 'pp 148 and 54 figures.', '2011-01-01', 2, 'g3.gif', 'g3_back.gif');
-INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (19, 'Les Carnivora de Madagascar', 'pp 158 and 73 figures.', '2012-01-01', 2, 'g4.gif', 'g1_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (20, 'Les animaux et écosystèmes de l''Holocène disparus de Madagascar', 'pp 249, 34 figures and 20 plates.', '2013-01-01', 2, 'g5.gif', 'g5_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (21, 'Les amphibiens des zones arides du Sud et de l''Ouest de Madagascar', 'pp 180 and 129 figures', '2014-01-01', 2, 'g6.gif', 'g6_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (22, 'Les amphibiens du Nord de Madagascar', 'pp 354 and 197 figures, with pictograms.', '2018-01-01', 2, 'g7.gif', 'g7_back.gif');
@@ -2189,6 +2997,8 @@ INSERT INTO public.publication (id, title, description, date, idtype, imagefront
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (26, 'Memoirs and thesis', '', '2015-01-01', 3, 'op2.gif', NULL);
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (25, 'Publications', '', '2015-01-01', 3, 'op1.gif', NULL);
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (27, 'Atlas of selected land vertebrates of Madagascar', 'While the past few decades have seen numerous publications about the extraordinary and highly endemic terrestrial vertebrate fauna of Madagascar, ranging from technical papers, to species descriptions, and field guides, no detailed mapping exercise has been completed in the form of an atlas. The purpose of this book is that, to bring together information from numerous sources and present distributional maps for a wide range of taxa, descriptive texts to interpret patterns, and, for most, habitat models (Maxent). For the different reptiles, birds, and mammals treated herein, this atlas is intended as a reference for students, researchers, naturalists, and conservationists.', '2013-01-01', 3, 'op3.jpg', 'op3_back.gif');
+INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (19, 'Les Carnivora de Madagascar', 'pp 158 and 73 figures.', '2012-01-01', 2, 'g4.gif', 'g4_back.gif');
+INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (16, 'Les chauves-souris de Madagascar', '129 pp and 77 figures.', '2011-01-01', 2, 'g1.gif', 'g1_back.gif');
 INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (3, 'Volume 3: Biodiversity, exploration, and conservation of the natural habitats associated with the Ambatovy project', 'The third volume of Malagasy Nature presents a series of studies undertaken in the Ambatovy forests, near Moramanga. These studies were made within the framework of a research on the biodiversity partially covered forest zones, exposed to the mining by the Ambatovy Project. They were done to support the project conservation program.
 
 Besides the description of the mining project conservation and ecological monitoring programmes, this Volume 3 shows the diverse biological and ecological information on various groups in particular, the invertebrates, the vertebrates, as well as the plants. It also compiles the results of the inventories of a zone near the region of Andasibe which was extensively studied for decades, in particular emphasizing the new discoveries on the flora and the fauna for these last 20 years. The new data presented in this volume show the biological importance of the studied zones. They will form basic information for the ecological and specific changes monitoring within the local biodiversity in time and in space.', '2010-01-01', 1, 'mn3.gif', NULL);
@@ -2222,6 +3032,7 @@ INSERT INTO public.publication (id, title, description, date, idtype, imagefront
 The Natural History of Madagascar provides the most comprehensive, up-to-date synthesis available of this island nation''s priceless biological treasures. Contributions by nearly three hundred world-renowned experts cover the history of scientific exploration in Madagascar, its geology and soils, climate, forest ecology, human ecology, marine and coastal ecosystems, plants, invertebrates, fishes, amphibians, reptiles, birds, and mammals. Detailed discussions of conservation efforts in Madagascar highlight several successful park reserve programs that could serve as models for other areas. Beautifully illustrated throughout, the book includes over one hundred color illustrations, with fifty color photos by nature photographer Harald Schütz, as well as more than three hundred black-and-white photographs and line drawings.
 
 The Natural History of Madagascar will be the invaluable reference for anyone interested in the Malagasy environment, from biologists and conservationists to policymakers and ecotourists. ', '2003-01-01', 3, 'nhm.jpg', NULL);
+INSERT INTO public.publication (id, title, description, date, idtype, imagefront, imageback) VALUES (39, 'Volume 16', NULL, '2022-10-01', 1, 'covmn16.gif', 'covmn16_back.gif');
 
 
 --
@@ -2234,7 +3045,6 @@ INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (3, 1,
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (4, 3, 1);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (5, 28, 1);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (6, 29, 1);
-INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (7, 30, 1);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (8, 2, 2);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (9, 4, 2);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (10, 3, 2);
@@ -2258,8 +3068,6 @@ INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (27, 4
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (28, 48, 2);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (29, 49, 2);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (30, 50, 2);
-INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (31, 51, 2);
-INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (32, 52, 2);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (33, 53, 2);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (34, 54, 2);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (35, 55, 2);
@@ -2291,6 +3099,389 @@ INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (60, 7
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (61, 4, 29);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (62, 4, 30);
 INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (63, 77, 30);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (69, 2, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (70, 3, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (71, 1, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (72, 4, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (74, 146, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (75, 147, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (76, 148, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (77, 149, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (78, 150, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (79, 151, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (80, 152, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (81, 153, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (82, 154, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (83, 155, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (84, 156, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (85, 157, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (86, 159, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (87, 129, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (88, 161, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (89, 123, 39);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (90, 24, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (91, 164, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (92, 165, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (93, 166, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (94, 167, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (95, 168, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (96, 169, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (97, 170, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (98, 171, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (99, 172, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (100, 173, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (101, 174, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (102, 175, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (103, 176, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (104, 177, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (105, 22, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (106, 178, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (107, 179, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (108, 180, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (109, 181, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (110, 182, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (111, 183, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (112, 184, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (113, 185, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (114, 186, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (115, 187, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (116, 188, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (117, 189, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (118, 190, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (119, 191, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (120, 192, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (121, 193, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (122, 194, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (123, 195, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (124, 196, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (125, 197, 15);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (126, 20, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (127, 198, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (128, 199, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (129, 200, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (130, 202, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (131, 203, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (132, 204, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (133, 205, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (134, 206, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (135, 207, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (136, 208, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (137, 209, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (138, 210, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (139, 162, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (140, 211, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (141, 212, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (142, 213, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (143, 214, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (144, 215, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (145, 216, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (146, 149, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (147, 81, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (148, 80, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (149, 84, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (150, 217, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (151, 1, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (152, 89, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (153, 218, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (154, 219, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (155, 220, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (156, 221, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (157, 222, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (158, 224, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (159, 225, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (160, 226, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (161, 227, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (162, 228, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (163, 229, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (164, 90, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (165, 151, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (166, 231, 14);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (167, 232, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (168, 233, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (169, 234, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (170, 235, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (171, 4, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (172, 236, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (173, 237, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (174, 129, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (175, 123, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (176, 238, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (177, 161, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (178, 126, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (179, 119, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (180, 240, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (181, 149, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (182, 150, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (183, 143, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (184, 151, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (185, 242, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (186, 243, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (187, 34, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (188, 244, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (189, 118, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (190, 245, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (191, 110, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (192, 246, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (193, 247, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (194, 3, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (195, 248, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (196, 249, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (197, 250, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (198, 251, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (199, 252, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (200, 253, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (201, 254, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (202, 256, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (203, 257, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (204, 258, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (205, 259, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (206, 260, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (207, 261, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (208, 32, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (209, 262, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (210, 263, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (211, 264, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (212, 265, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (213, 266, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (214, 42, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (215, 43, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (216, 267, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (217, 268, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (218, 269, 13);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (219, 147, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (220, 270, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (221, 349, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (222, 271, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (223, 205, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (224, 272, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (225, 273, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (226, 274, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (227, 11, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (228, 275, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (229, 38, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (230, 37, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (231, 277, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (232, 278, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (233, 279, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (234, 280, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (235, 281, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (236, 282, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (237, 283, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (238, 284, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (239, 104, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (240, 285, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (241, 3, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (242, 286, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (243, 4, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (244, 162, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (245, 149, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (246, 150, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (247, 32, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (248, 151, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (249, 115, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (250, 79, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (251, 109, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (252, 113, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (253, 126, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (254, 1, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (255, 287, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (256, 288, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (257, 289, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (258, 290, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (259, 2, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (260, 368, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (261, 292, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (262, 118, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (263, 34, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (264, 123, 12);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (265, 293, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (266, 15, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (267, 294, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (268, 295, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (269, 296, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (270, 297, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (271, 298, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (272, 299, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (273, 300, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (274, 301, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (275, 302, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (276, 303, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (277, 304, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (278, 305, 10);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (279, 270, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (280, 147, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (281, 271, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (282, 205, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (283, 272, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (284, 306, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (285, 307, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (286, 308, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (287, 309, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (288, 285, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (289, 104, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (290, 4, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (291, 151, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (292, 310, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (293, 153, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (294, 152, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (295, 129, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (296, 123, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (297, 158, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (298, 262, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (299, 118, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (300, 311, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (301, 312, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (302, 313, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (303, 126, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (304, 3, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (305, 314, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (306, 315, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (307, 212, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (308, 316, 9);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (309, 317, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (310, 318, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (311, 319, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (312, 320, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (313, 321, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (314, 322, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (315, 323, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (316, 324, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (317, 263, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (318, 325, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (319, 326, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (320, 123, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (321, 4, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (322, 209, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (323, 327, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (324, 149, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (325, 328, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (326, 329, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (327, 118, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (328, 330, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (329, 129, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (330, 331, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (331, 332, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (332, 333, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (333, 334, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (334, 212, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (335, 316, 8);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (336, 272, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (337, 4, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (338, 2, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (339, 335, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (340, 53, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (341, 336, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (342, 337, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (343, 338, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (344, 339, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (345, 340, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (346, 341, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (347, 342, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (348, 343, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (349, 344, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (350, 345, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (351, 346, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (352, 271, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (353, 348, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (354, 147, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (355, 205, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (356, 385, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (357, 64, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (358, 386, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (359, 349, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (360, 350, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (361, 351, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (362, 387, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (363, 352, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (364, 1, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (365, 122, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (366, 3, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (367, 133, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (368, 324, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (369, 353, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (370, 354, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (371, 355, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (372, 263, 7);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (373, 1, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (374, 2, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (375, 3, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (376, 31, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (377, 316, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (378, 330, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (379, 4, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (380, 356, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (381, 205, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (382, 357, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (383, 18, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (384, 358, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (385, 322, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (386, 359, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (387, 360, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (388, 206, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (389, 207, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (390, 293, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (391, 15, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (392, 296, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (393, 362, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (394, 363, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (395, 364, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (396, 365, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (397, 366, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (398, 123, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (399, 158, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (400, 367, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (401, 151, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (402, 368, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (403, 149, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (404, 327, 6);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (405, 22, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (406, 225, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (407, 357, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (408, 205, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (409, 18, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (410, 356, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (411, 207, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (412, 369, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (413, 206, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (414, 370, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (415, 371, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (416, 93, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (417, 89, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (418, 126, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (419, 106, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (420, 4, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (421, 133, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (422, 3, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (423, 118, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (424, 123, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (425, 31, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (426, 316, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (427, 388, 5);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (428, 181, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (429, 373, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (430, 189, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (431, 184, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (432, 165, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (433, 374, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (434, 375, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (435, 376, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (436, 377, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (437, 378, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (438, 379, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (439, 380, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (440, 381, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (441, 382, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (442, 383, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (443, 384, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (444, 1, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (445, 18, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (446, 20, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (447, 4, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (448, 225, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (449, 389, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (450, 149, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (451, 121, 4);
+INSERT INTO public.publicationauthor (id, idperson, idpublication) VALUES (452, 117, 4);
 
 
 --
@@ -2495,23 +3686,28 @@ INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (194,
 INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (195, 'Format for contributions to Malagasy Nature', 'volume15/mn15_12.pdf', 15);
 INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (196, 'Notes aux contributeurs dans Malagasy Nature', 'volume15/mn15_13.pdf', 15);
 INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (198, NULL, '2014_memoiresandthesis.pdf', 26);
-INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (199, '', 'Atlas.pdf', 27);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (199, NULL, 'Atlas.pdf', 27);
 INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (201, 'Tome II: Northern and Eastern Madagascar', 'PA book_t2.pdf', 28);
 INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (202, 'Tome III: Western and Southern Madagascar - Synthesis', 'PA book_t3.pdf', 28);
-INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (197, '', '2014_publicationeng.pdf', 25);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (197, NULL, '2014_publicationeng.pdf', 25);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (225, 'Evaluation éco-biologique de la faune et de la flore de l’Aire Protégée d’Ambohitr’Antsingy (Montagne des Français), au Nord de Madagascar', 'MN16_Chapitre_01_Raherilalao.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (226, 'Suivi de la population et sélection d’habitat du Héron crabier blanc Ardeola idae (Ardeidae) dans dix de ses zones de distribution à Madagascar', 'MN16_Chapitre_02_Pruvot.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (227, 'Tendance de la population de Passer domesticus (famille des Ploceidae), une espèce d’oiseau envahissant, dans la ville de Toamasina, Madagascar', 'MN16_Chapitre_03_Raolihanitrasina.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (228, 'Distribution spatiale de trois espèces d’oiseaux envahissants dans les villes portuaires de Madagascar', 'MN16_Chapitre_04_Raobson.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (229, 'Etude du régime alimentaire du moineau domestique Passer domesticus (famille des Passeridae) dans la ville de Toamasina, Madagascar', 'MN16_Chapitre_05_Raolihanitrasina.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (230, 'Régime alimentaire de Mops leucostigma (Chiroptera : Molossidae) dans la Station Forestière d’Ivoloina, Centre-est de Madagascar', 'MN16_Chapitre_06_Todilahy.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (231, 'Trypanosoma infection in terrestrial small mammals from the Central Highlands of Madagascar', 'MN16_Chapitre_07_Rasoanoro.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (232, 'New distribution record of the House Sparrow Passer domesticus in inland northwestern Madagascar', 'MN16_Note_01_Rene_de_Roland.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (233, 'The first nest description of Eliurus majori (Rodentia: Nesomyidae), an endemic Malagasy rodent', 'MN16_Note_02_Rakotoarisoa.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (234, 'Format for contributions to Malagasy Nature ', 'MN16_Format_fo_contributions.pdf', 39);
+INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (235, 'Notes aux contributeurs dans Malagasy Nature ', 'MN16_Notes_aux_contributeurs.pdf', 39);
 
 
 --
 -- Data for Name: sequences_sequence; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.sequences_sequence (name, last) VALUES ('institution', 38);
-
-
---
--- Data for Name: studentdegree; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
+INSERT INTO public.sequences_sequence (name, last) VALUES ('institution', 41);
 
 
 --
@@ -2519,7 +3715,6 @@ INSERT INTO public.sequences_sequence (name, last) VALUES ('institution', 38);
 --
 
 INSERT INTO public.typeactivity (id, type) VALUES ('A2', 'Conference');
-INSERT INTO public.typeactivity (id, type) VALUES ('A3', 'Research');
 INSERT INTO public.typeactivity (id, type) VALUES ('A4', 'Project');
 INSERT INTO public.typeactivity (id, type) VALUES ('A1', 'Visit');
 
@@ -2528,10 +3723,10 @@ INSERT INTO public.typeactivity (id, type) VALUES ('A1', 'Visit');
 -- Data for Name: typemember; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.typemember (id, type, description) VALUES (1, 'board of directors', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.');
-INSERT INTO public.typemember (id, type, description) VALUES (3, 'students', 'Students enrolled within the Malagasy university system, particularly in the field of biology and environmental ecology, are the principal focus of the Vahatra program to help with their advancement and capacity building. We aim at having 12-15 students working with us at any given time. Once a student has finished their degree, the place is open for another incoming student.');
-INSERT INTO public.typemember (id, type, description) VALUES (2, 'scientists', 'They are the founding members of the association.');
-INSERT INTO public.typemember (id, type, description) VALUES (4, 'staff', 'The current staff includes seven individuals');
+INSERT INTO public.typemember (id, type, description, image) VALUES (1, 'board of directors', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.', 'BEA_113.jpg');
+INSERT INTO public.typemember (id, type, description, image) VALUES (3, 'students', 'Students enrolled within the Malagasy university system, particularly in the field of biology and environmental ecology, are the principal focus of the Vahatra program to help with their advancement and capacity building. We aim at having 12-15 students working with us at any given time. Once a student has finished their degree, the place is open for another incoming student.', 'Beman_037.jpg');
+INSERT INTO public.typemember (id, type, description, image) VALUES (2, 'scientists', 'They are the founding members of the association.', 'Amena_035.jpg');
+INSERT INTO public.typemember (id, type, description, image) VALUES (4, 'staff', 'The current staff includes seven individuals', 'DSC_0587.JPG');
 
 
 --
@@ -2556,22 +3751,34 @@ INSERT INTO public.typesubactivity (id, type, idtypeactivity) VALUES ('SA1', 'sc
 -- Data for Name: visit; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (1, NULL, 1, 1, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (2, NULL, 2, 2, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (3, NULL, 3, 3, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (4, NULL, 4, 4, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (5, NULL, 5, 5, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (48, NULL, 48, 31, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (50, NULL, 50, 32, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (52, '2003-03-01', 52, 42, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (53, '2005-10-01', 53, 43, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (54, '2006-02-01', 54, 44, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (55, '2007-03-01', 55, 45, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (56, '2008-03-01', 56, 33, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (57, '2009-02-01', 57, 46, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (58, '2010-04-01', 58, 30, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (59, NULL, 59, 47, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (61, NULL, 61, 14, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (36, NULL, 36, 29, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (37, NULL, 37, 31, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (60, NULL, 60, 28, 'SA3');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (38, NULL, 38, 41, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (39, NULL, 39, 31, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (40, NULL, 40, 32, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (41, NULL, 41, 33, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (42, NULL, 42, 27, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (47, NULL, 47, 38, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (51, NULL, 51, 40, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (49, NULL, 49, 39, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (43, NULL, 43, 34, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (44, NULL, 44, 35, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (45, NULL, 45, 36, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (46, NULL, 46, 37, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (62, '2022-12-15', 62, 48, 'SA3');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (6, NULL, 6, 6, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (7, NULL, 7, 7, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (8, NULL, 8, 8, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (9, NULL, 9, 9, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (10, NULL, 10, 10, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (11, NULL, 11, 11, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (12, NULL, 12, 12, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (13, NULL, 13, 13, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (14, NULL, 14, 14, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (15, NULL, 15, 15, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (16, NULL, 16, 16, 'SA1');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (17, NULL, 17, 17, 'SA1');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (18, NULL, 18, 18, 'SA1');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (19, NULL, 19, 19, 'SA1');
@@ -2580,8 +3787,18 @@ INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (22, NULL, 22, 22, 'SA1');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (23, NULL, 23, 23, 'SA1');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (24, NULL, 24, 24, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (25, NULL, 25, 25, 'SA1');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (26, NULL, 26, 26, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (2, NULL, 2, 2, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (3, NULL, 3, 3, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (4, NULL, 4, 4, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (12, NULL, 12, 12, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (13, NULL, 13, 13, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (14, NULL, 14, 14, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (15, NULL, 15, 15, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (16, NULL, 16, 16, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (5, NULL, 5, 5, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (11, NULL, 11, 11, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (7, NULL, 7, 7, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (8, NULL, 8, 8, 'SA1');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (27, NULL, 27, 27, 'SA2');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (28, NULL, 28, 27, 'SA2');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (29, NULL, 29, 14, 'SA2');
@@ -2591,55 +3808,32 @@ INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (33, NULL, 33, 28, 'SA2');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (34, NULL, 34, 29, 'SA2');
 INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (35, NULL, 35, 30, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (36, NULL, 36, 29, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (37, NULL, 37, 31, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (38, NULL, 38, 41, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (39, NULL, 39, 31, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (40, NULL, 40, 32, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (41, NULL, 41, 33, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (42, NULL, 42, 27, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (43, NULL, 43, 34, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (44, NULL, 44, 35, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (45, NULL, 45, 36, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (46, NULL, 46, 37, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (47, NULL, 47, 38, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (48, NULL, 48, 31, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (49, NULL, 49, 39, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (50, NULL, 50, 32, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (51, NULL, 51, 40, 'SA2');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (52, '2003-03-01', 52, 42, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (53, '2005-10-01', 53, 43, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (54, '2006-02-01', 54, 44, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (55, '2007-03-01', 55, 45, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (56, '2008-03-01', 56, 33, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (57, '2009-02-01', 57, 46, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (58, '2010-04-01', 58, 30, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (59, NULL, 59, 47, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (60, NULL, 60, 28, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (61, NULL, 61, 14, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (62, '2022-11-30', 62, 48, 'SA3');
-INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (65, '2022-09-06', 103, 8, 'SA2');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (9, NULL, 9, 9, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (10, NULL, 10, 10, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (1, NULL, 1, 1, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (25, NULL, 25, 25, 'SA1');
+INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity) VALUES (26, NULL, 26, 26, 'SA1');
 
 
 --
 -- Name: activity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.activity_id_seq', 103, true);
+SELECT pg_catalog.setval('public.activity_id_seq', 106, true);
 
 
 --
 -- Name: activityimage_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.activityimage_id_seq', 27, true);
+SELECT pg_catalog.setval('public.activityimage_id_seq', 172, true);
 
 
 --
 -- Name: activityinstitution_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.activityinstitution_id_seq', 27, true);
+SELECT pg_catalog.setval('public.activityinstitution_id_seq', 28, true);
 
 
 --
@@ -2650,17 +3844,59 @@ SELECT pg_catalog.setval('public.activityperson_id_seq', 73, true);
 
 
 --
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 128, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 1, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 36, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 37, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 31, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 52, true);
 
 
 --
@@ -2674,7 +3910,7 @@ SELECT pg_catalog.setval('public.fieldschool_id_seq', 53, true);
 -- Name: image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.image_id_seq', 59, true);
+SELECT pg_catalog.setval('public.image_id_seq', 115, true);
 
 
 --
@@ -2688,21 +3924,21 @@ SELECT pg_catalog.setval('public.imagetype_id_seq', 9, true);
 -- Name: location_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.location_id_seq', 48, true);
+SELECT pg_catalog.setval('public.location_id_seq', 49, true);
 
 
 --
 -- Name: member_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.member_id_seq', 21, true);
+SELECT pg_catalog.setval('public.member_id_seq', 72, true);
 
 
 --
 -- Name: memberpostinst_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.memberpostinst_id_seq', 41, true);
+SELECT pg_catalog.setval('public.memberpostinst_id_seq', 48, true);
 
 
 --
@@ -2716,42 +3952,35 @@ SELECT pg_catalog.setval('public.messageofyear_id_seq', 1, true);
 -- Name: partner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.partner_id_seq', 8, true);
+SELECT pg_catalog.setval('public.partner_id_seq', 14, true);
 
 
 --
 -- Name: person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.person_id_seq', 97, true);
+SELECT pg_catalog.setval('public.person_id_seq', 389, true);
 
 
 --
 -- Name: publication_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publication_id_seq', 30, true);
+SELECT pg_catalog.setval('public.publication_id_seq', 39, true);
 
 
 --
 -- Name: publicationauthor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publicationauthor_id_seq', 63, true);
+SELECT pg_catalog.setval('public.publicationauthor_id_seq', 452, true);
 
 
 --
 -- Name: publicationdetail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publicationdetail_id_seq', 202, true);
-
-
---
--- Name: studentdegree_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.studentdegree_id_seq', 1, false);
+SELECT pg_catalog.setval('public.publicationdetail_id_seq', 235, true);
 
 
 --
@@ -2772,7 +4001,7 @@ SELECT pg_catalog.setval('public.typepublication_id_seq', 1, false);
 -- Name: visit_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.visit_id_seq', 65, true);
+SELECT pg_catalog.setval('public.visit_id_seq', 66, true);
 
 
 --
@@ -2824,11 +4053,99 @@ ALTER TABLE ONLY public.administrator
 
 
 --
--- Name: degree degree_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.degree
-    ADD CONSTRAINT degree_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
 
 
 --
@@ -2992,14 +4309,6 @@ ALTER TABLE ONLY public.sequences_sequence
 
 
 --
--- Name: studentdegree studentdegree_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.studentdegree
-    ADD CONSTRAINT studentdegree_pkey PRIMARY KEY (id);
-
-
---
 -- Name: typeactivity typeactivity_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3110,10 +4419,66 @@ CREATE INDEX administrator_username_2343b464_like ON public.administrator USING 
 
 
 --
--- Name: degree_id_b5c41a28_like; Type: INDEX; Schema: public; Owner: postgres
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX degree_id_b5c41a28_like ON public.degree USING btree (id varchar_pattern_ops);
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
 
 
 --
@@ -3313,27 +4678,6 @@ CREATE INDEX sequences_sequence_name_667d3102_like ON public.sequences_sequence 
 
 
 --
--- Name: studentdegree_iddegree_d1c0adc8; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX studentdegree_iddegree_d1c0adc8 ON public.studentdegree USING btree (iddegree);
-
-
---
--- Name: studentdegree_iddegree_d1c0adc8_like; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX studentdegree_iddegree_d1c0adc8_like ON public.studentdegree USING btree (iddegree varchar_pattern_ops);
-
-
---
--- Name: studentdegree_idmember_477a4423; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX studentdegree_idmember_477a4423 ON public.studentdegree USING btree (idmember);
-
-
---
 -- Name: typeactivity_id_68c15a44_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -3435,6 +4779,62 @@ ALTER TABLE ONLY public.activityperson
 
 ALTER TABLE ONLY public.activityperson
     ADD CONSTRAINT activityperson_idperson_9c78d1db_fk_person_id FOREIGN KEY (idperson) REFERENCES public.person(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3563,22 +4963,6 @@ ALTER TABLE ONLY public.publicationauthor
 
 ALTER TABLE ONLY public.publicationdetail
     ADD CONSTRAINT publicationdetail_idpublication_59d64763_fk_publication_id FOREIGN KEY (idpublication) REFERENCES public.publication(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: studentdegree studentdegree_iddegree_d1c0adc8_fk_degree_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.studentdegree
-    ADD CONSTRAINT studentdegree_iddegree_d1c0adc8_fk_degree_id FOREIGN KEY (iddegree) REFERENCES public.degree(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: studentdegree studentdegree_idmember_477a4423_fk_member_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.studentdegree
-    ADD CONSTRAINT studentdegree_idmember_477a4423_fk_member_id FOREIGN KEY (idmember) REFERENCES public.member(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

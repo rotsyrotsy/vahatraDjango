@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 from association.models import Person, Image
 
@@ -18,7 +19,7 @@ class Publication(models.Model):
 
 
 class Typepublication(models.Model):
-    type = models.CharField(max_length=100, blank=True, null=True)
+    type = models.CharField(max_length=100, blank=True, null=True, unique=True)
 
     class Meta:
         managed = True

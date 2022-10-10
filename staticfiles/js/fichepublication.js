@@ -1,12 +1,13 @@
 
-function fichepublicationretour(data,model,staticpdf,pub){
+function fichepublicationretour(data,model,staticpdf,pub,downloadurl){
     var details = JSON.parse(data["details"]);
     var authors = JSON.parse(data["authors"]);
     var type = JSON.parse(data['typepublication'])[0];
     
+    downloadurl += "/";
     if (details.length == 1){
         if (details[0]['fields']['name']== null && details[0]['fields']['pdf']!== null){
-            window.location.href = staticpdf+details[0]['fields']['pdf'];
+            window.location.href = downloadurl+details[0]['fields']['pdf'];
             return false;
         }
     }
@@ -40,7 +41,9 @@ function fichepublicationretour(data,model,staticpdf,pub){
             ul += "<div class='horizontal_dotted_line'><div><li>"+details[i]['fields']['name']+"</li></div><div class='dotted'></div></div>";
         }else{
             ul += "<div class='horizontal_dotted_line'><div><li>"+details[i]['fields']['name']+"</li></div><div class='dotted'></div>\
-            <div><a class='btn btn-inverse-info btn-icon' title='"+details[i]['fields']['name']+"' href='"+staticpdf+details[i]['fields']['pdf']+"'><i class=\"ti-printer btn-icon-append\"></i> PDF</a></div></div>";
+            <div>\
+            <a class='btn btn-inverse-info btn-icon' title='"+details[i]['fields']['name']+"' href='"+downloadurl+details[i]['fields']['pdf']+"'>\
+            <i class=\"ti-printer btn-icon-append\"></i> PDF</a></div></div>";
         }
     }
     ul += "</ul>";

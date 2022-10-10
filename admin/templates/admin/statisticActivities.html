@@ -1,0 +1,89 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                  <h4 class="card-title">Overall statistics of the activities</h4>
+                  <canvas id="pieChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                      <h4 class="card-title">Choose the type of activity</h4>
+                      <p class="card-description">
+                      Show the statistics
+                      </p>
+                      <form action="{% url 'admin:statisticActivities' %}" method="post">
+                          {% csrf_token %}
+                          <div class="form-group">
+                              <label>Type of activity</label>
+                              <select class="form-control" name="idtypeactivity" required>
+                                  {% if typeactivity %}
+                                      <option value="{{typeactivity.id}}">{{typeactivity.type}}</option>
+                                      {% for item in type_activity %}
+                                          {% if item.id != typeactivity.id %}
+                                          <option value="{{item.id}}">{{item.type}}</option>
+                                          {% endif %}
+                                      {% endfor %}
+                                  {% else %}
+                                      {% for item in type_activity %}
+                                          <option value="{{item.id}}">{{item.type}}</option>
+                                      {% endfor %}
+                                  {% endif %}
+                                  
+                              </select>
+                          </div>
+                          <button type="submit" class="btn btn-info mr-2">Submit</button>
+                      </form>
+                  </div>
+              </div>
+            </div>
+        </div>
+        
+
+        {% if typeactivity %}
+        <div class="row">
+            
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <h4 class="card-title">Number of {{typeactivity.type}} these last 10 years</h4>
+                <canvas id="areaChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+              </div>
+            </div>
+          </div>
+          </div>
+        {% endif %}
+    </div>
+     
+{% endblock content %}
+{% block js %}
+<script src="{% static 'admin/js/aa-my-chart.js' %}"></script>
+<script>
+    var pieData = [];
+    var pieLabels = [];
+    "{% for type in global %}"
+        pieData.push("{{type.num_activity}}");
+        pieLabels.push("{{type.type}}");
+    "{% endfor %}"
+    pieChart($('#pieChart'),pieData,pieLabels);
+
+    
+    "{% if typeactivity%}"
+        var yearData = [];
+        var yearLabels = [];
+        "{% for activity in peryear %}"
+            yearData.push("{{activity.count}}");
+            yearLabels.push("{{activity.year}}");
+        "{% endfor %}"
+        areaChart($('#areaChart'),yearData,yearLabels,'#activity per year');
+
+    "{% endif %}"
+</script>
+
+{% endblock %}

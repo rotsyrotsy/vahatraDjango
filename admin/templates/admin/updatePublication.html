@@ -72,7 +72,9 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    {% if publication.imageback %}
                     <img src="{% static 'images/publication/' %}{{publication.imageback}}" width="200">
+                    {% endif %}
                 </div>  
                 
                 {% if publication.publicationauthor_set.all %}
@@ -97,6 +99,7 @@
                     <span id="btncol"></span>
                   </div>
                   <div id="inputeditors"></div>
+                  <div id="addEditorPlus"></div>
 
                   <hr>
                   {% if publication.publicationdetail_set.all %}
@@ -168,6 +171,12 @@
         if (click1==0){
             button = '<a href="{% url "admin:addPerson" %}" type="button" class="btn btn-outline-success" >Add a new editor</a>';
             $('#btncol').append(button);
+            add= '<div class="form-group">\
+                    <button type="button" class="btn btn-primary"; onclick="addEditors()">\
+                        <i class="ti-plus"></i> Add editor(s)\
+                    </button>\
+                  </div>'; 
+            $('#addEditorPlus').append(add);
         }
         var select = '<div class="form-group"><label for="selectNewEditor">Editor</label>\
                         <select class="form-control" id="selectNewEditor" name="fkidperson'+click1+'">';

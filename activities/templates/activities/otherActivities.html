@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load publications_extras %}
 {% block title %}{{type_activity.type}}{% endblock %}
 {% block content %}
 <section>
@@ -27,10 +28,10 @@
                     <div class="col-md-4 col-sm-6 col-lg-4 fadeIn" data-wow-duration=".8s" data-wow-delay=".2s">
                         <div class="blog-box">
                             <div class="blog-thmb ">
-                                <a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">
+                                <a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">
                                     {% if activity.activityimage_set.all %}
                                         {% with activity.activityimage_set.all|first as image %}
-                                        <img src="{% static 'images/site/' %}{{image.image}}" alt="post-img1.jpg">
+                                        <img src="{% static 'images/site/' %}{{type_activity.type|lower|renameFile}}/{{image.image}}" alt="post-img1.jpg">
                                         {% endwith %}
                                     {% else %}
                                     <img src="{% static 'images/resources/post-img1.jpg' %}" alt="post-img1.jpg">
@@ -45,10 +46,10 @@
                                     {% endfor %}
                                     </li>
                                 </ul>
-                                <h4><a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">{{activity.title | title}}</a></h4>
+                                <h4><a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type|toSlug activity.id %}" title="">{{activity.title | title}}</a></h4>
                                 {% if activity.note %}<p>{{activity.note}}</p>{% endif %}
                                 <p><i class="fa fa-calendar-o thm-clr"></i> {{activity.date |date:"Y"}}</p>
-                                <a href="{% url 'activities:activityDetail' activity.idtypeactivity.type activity.id %}" title="">Read More</a>
+                                <a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type|toSlug activity.id %}" title="">Read More</a>
                             </div>
                         </div>
                     </div>
@@ -58,7 +59,7 @@
             <div class="pagination-wrap text-center">
                 <ul class="pagination">
                     {% for number in page_number %}
-                        <li ><a href="{% url 'activities:otherActivity' type_activity.id number %}" title="">{{number}}</a></li>
+                        <li ><a href="{% url 'activities:otherActivity' type_activity.id type_activity.type|toSlug number %}" title="">{{number}}</a></li>
                     {% endfor %}
                 </ul>
             </div>

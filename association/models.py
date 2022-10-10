@@ -39,7 +39,7 @@ class Messageofyear(models.Model):
 
 
 class Typemember(models.Model):
-    type = models.CharField(max_length=100, blank=True, null=True)
+    type = models.CharField(max_length=100, blank=True, null=True,unique=True)
     description = models.TextField(blank=True, null=True)
     image = models.CharField(max_length=255, blank=True, null=True)
 

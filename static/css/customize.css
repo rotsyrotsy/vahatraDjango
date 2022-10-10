@@ -294,3 +294,11 @@
     width: 100%;
   }
 }
+
+.ex {
+  
+  background-size: cover;
+  background-position: 50% 17%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

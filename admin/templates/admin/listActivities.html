@@ -21,9 +21,9 @@
                     <div class="form-group">
                       <div class="input-group">
                           {% if keyword %}
-                          <input type="text" class="form-control" name="keyword" placeholder="Search" aria-label="Search">
-                          {% else %}
                           <input type="text" class="form-control" name="keyword" placeholder="Search" value="{{keyword}}" aria-label="Search">
+                          {% else %}
+                          <input type="text" class="form-control" name="keyword" placeholder="Search" aria-label="Search">
                           {% endif %}
                           <div class="input-group-append">
                             <button class="btn btn-sm btn-primary" type="submit">Search</button>

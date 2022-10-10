@@ -1,14 +1,15 @@
-from django.shortcuts import get_object_or_404, render, get_list_or_404
+from django.shortcuts import get_object_or_404, render, get_list_or_404,redirect
 from activities.models import Typesubactivity
 from publications.models import  Publication,Typepublication,Publicationdetail,Publicationauthor
 from django.core import serializers
-from django.http import JsonResponse, HttpResponseBadRequest,HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseBadRequest,HttpResponseRedirect,HttpResponse
 from datetime import date
 from django.db.models import Q
 from django.db.models import Min,Max
 from django.urls import reverse
 from math import ceil
 from association.models import Person
+from vahatraDjango.functions import pagination, toSlug
 # Create your views here.
 
 type_visit = Typesubactivity.objects.all
@@ -18,11 +19,21 @@ context = {
         "type_pub": type_pub,
         }
 
-def index(request,typepublication_name='malagasy-nature', typepublication_id=1):
-    publications = Publication.objects.filter(Q(idtype=typepublication_id), Q(date__lte = date.today())|Q(date__isnull=True))
+def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
+    
+    
     type = get_object_or_404(Typepublication, pk=typepublication_id)
-    context["publications"]=publications.order_by('id')
     context["pub_type"]=type
+
+    slug = toSlug(type.type)
+    if typepublication_name!=slug:
+        return redirect('publications:index', typepublication_id=type.id, typepublication_name=slug)
+    
+
+    publications = Publication.objects.filter(Q(idtype=typepublication_id), Q(date__lte = date.today())|Q(date__isnull=True))
+    
+    context["publications"]=publications.order_by('-date')
+    
     
     min = Publication.objects.all().aggregate(Min('date'))
     max = Publication.objects.all().aggregate(Max('date'))
@@ -55,30 +66,37 @@ def search(request,keyword="",page=1):
         "type_visit" : type_visit,
         "type_pub": type_pub,
         }
-    if request.method == 'POST':
-        if request.POST['keyword']=="":
+
+    if 'keyword' in request.GET:
+        if request.GET['keyword']=="":
             return HttpResponseRedirect(reverse("publications:index"))
-        keyword = request.POST['keyword']
+        keyword = request.GET['keyword']
 
     if keyword=="":
         return HttpResponseRedirect(reverse("publications:index"))
 
-    
-    pubdetails = Publicationdetail.objects.filter(Q(name__icontains=keyword))
-    pubs = Publication.objects.filter((Q(title__icontains=keyword)|Q(description__icontains=keyword))|Q(id__in=pubdetails.values('idpublication')))
-    context['results_number']=pubs.count()
+    list=Publication.objects.all()
+    try:
+        year = int(keyword)
+        list = list.filter(date__year=year)
+    except ValueError:
+        list = list.filter(Q(title__icontains=keyword)|
+        Q(publicationdetail__name__icontains=keyword)|
+        Q(publicationauthor__idperson__name__icontains=keyword)|
+        Q(publicationauthor__idperson__username__icontains=keyword)|
+        Q(idtype__type__icontains=keyword))
 
-    page_number = pubs.count()
-    page_number = ceil(page_number/10)
+    list = list.distinct()
 
-    if (page>page_number): page = page_number
-    elif page<1 : page = 1
-    
-    page -= 1
-    if pubs.count()>0:
-        pubs = pubs.order_by('-date')[(page*10):((page*10)+10)]
+    context['results_number']=list.count()
 
-    context['pubs']=pubs
+    page_number=0
+    if (list.count() > 0):
+        dictpagination = pagination(page, list, 5, '-date')
+        page_number = dictpagination['page_number']
+        pubs = dictpagination['list']
+        context["pubs"] = pubs
+
     context['keyword']=keyword
     context["page_number"]= range(1,page_number+1)
     return render(request, "publications/search.html", context)
@@ -101,7 +119,6 @@ def multicriteriasearch(request):
             author=request.POST['author']
             pubs = pubs.filter(Q(publicationauthor__idperson__name__icontains=author)|
             Q(publicationauthor__idperson__username__icontains=author))
-            pubs = pubs.distinct()
         if request.POST['type_pub']!="":
             typepublication=request.POST['type_pub']
             pubs = pubs.filter(idtype=typepublication)
@@ -111,19 +128,16 @@ def multicriteriasearch(request):
         if 'page' in request.POST:
             page = int(request.POST['page'])
         
+        
         context['results_number']=pubs.count()
 
-        page_number = pubs.count()
-        page_number = ceil(page_number/10)
-
-        if (page>page_number): page = page_number
-        elif page<1 : page = 1
-        
-        page -= 1
-
-        if pubs.count() >0:
-            pubs = pubs.order_by('-date')[(page*10):((page*10)+10)]
-        context['pubs']=pubs
+        page_number=0
+        if (pubs.count() > 0):
+            dictpagination = pagination(page, pubs, 5, '-date')
+            page_number = dictpagination['page_number']
+            pubs = dictpagination['list']
+            context["pubs"] = pubs
+            
         context['author']=author
         context['typepublication']=typepublication
         context['year']=year
@@ -131,3 +145,32 @@ def multicriteriasearch(request):
         return render(request, "publications/search.html", context)
 
     return HttpResponseRedirect(reverse("publications:index"))
+
+def download_pdf_file(request, location='',filename=''):
+    context = {
+        "type_visit" : type_visit,
+        "type_pub": type_pub,
+    }
+    import os
+    import mimetypes
+    print(filename)
+    if filename != '':
+        print(filename)
+        # Define Django project base directory
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # Define the full file path
+        filepath = BASE_DIR + '/static/pdf/'+location+'/' + filename
+        # Open the file for reading content
+        path = open(filepath, 'rb')
+        # Set the mime type
+        mime_type, _ = mimetypes.guess_type(filepath)
+        # Set the return value of the HttpResponse
+        response = HttpResponse(path, content_type=mime_type)
+        # Set the HTTP header for sending to browser
+        response['Content-Disposition'] = "attachment; filename=%s" % filename
+        # Return the response value
+        return response
+        
+    else:
+        # Load the template
+        return redirect("publications:index")

@@ -34,19 +34,19 @@
                       <table class="table table-bordered">
                         <thead class="text-center">
                           <tr>
-                            <th>
+                            <th width="10%">
                               #
                             </th>
-                            <th>
-                              Categorie
+                            <th width="15%">
+                              Category
                             </th>
-                            <th>
+                            <th width="25%">
                               Title
                             </th>
-                            <th>
+                            <th width="40%">
                               Authors
                             </th>
-                            <th>
+                            <th width="10%">
                               Year
                             </th>
                           </tr>
@@ -54,8 +54,8 @@
                         <tbody>
                             {% for pub in pubs %}
                           <tr>
-                            <td>
-                                <a class="volume-btn" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{pub.id}}","title":"{{pub.title}}", "description":"{{pub.description}}", "imagefront":"{% static "images/publication/" %}{{pub.imagefront}}", "imageback":"{% static "images/publication/" %}{{pub.imageback|default_if_none:""}}"}'  href="#" title="">
+                            <td class="text-center">
+                                <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{pub.id}}","title":"{{pub.title|escapejs}}", "description":"{{pub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{pub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{pub.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">
                                     <img src="{% static 'images/publication/' %}{{pub.imagefront}}" width="50">
                                 </a>
                             </td>
@@ -70,7 +70,7 @@
                                     {{author.idperson.username}} {{author.idperson.name}},
                                 {% endfor %}
                             </td>
-                            <td class="text-right">
+                            <td class="text-center">
                                 {{pub.date |date:"Y"}}
                             </td>
                           </tr>
@@ -79,23 +79,27 @@
                       </table>
                     </div>
                     <div class="pagination-wrap text-center">
-                        <ul class="pagination">
-                          {% for number in page_number %}
-                            {% if keyword %}
-                                <li ><a href="{% url 'publications:search' keyword number %}" title="">{{number}}</a></li>
-                            {% else %}
-                                <form action="{% url 'publications:multicriteriasearch'%}" method="POST">
-                                  {% csrf_token %}
-                                  <input type="hidden" name="author" value="{{author}}">
-                                  <input type="hidden" name="type_pub" value="{{typepublication}}">
-                                  <input type="hidden" name="year" value="{{year}}">
-                                  <input type="hidden" name="page" value="{{number}}">
-                                  <li><input class="submit-pagination" type="submit" value="{{number}}"></li>
-                                </form>
-                                
-                            {% endif %}
-                          {% endfor %}
-                        </ul>
+                        {% if keyword %}
+                          <ul class="pagination" >
+                            {% for number in page_number %}
+                                  <li ><a href="{% url 'publications:search' keyword number %}" title="">{{number}}</a></li>
+                            {% endfor %}
+                          </ul>
+                          
+                        {% else %}
+                          <ul class="pagination" style="display:block ruby;">
+                            {% for number in page_number %}
+                              <form action="{% url 'publications:multicriteriasearch'%}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="author" value="{{author}}">
+                                <input type="hidden" name="type_pub" value="{{typepublication}}">
+                                <input type="hidden" name="year" value="{{year}}">
+                                <input type="hidden" name="page" value="{{number}}">
+                                <li><input class="submit-pagination" type="submit" value="{{number}}"></li>
+                              </form>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
                     </div>
                   </div>
         </div>
@@ -124,7 +128,8 @@
     $('#titrePub').empty();
     var model = $('.contact-form-model-wrap');
     var staticpdf = $(this).attr("data-staticpdf")+"/";
-    var pub = $(this).attr("data-pub")
+    var downloadurl = $(this).attr("data-urldownload");
+    var pub = $(this).attr("data-pub");
     pub = JSON.parse(pub);
         $.ajax({
             url : "{% url 'publications:detail' %}",
@@ -132,7 +137,7 @@
             type:"GET",
             data:{ pub_id:pub.id },
             success:function(data){
-                fichepublicationretour(data,model,staticpdf,pub)
+              fichepublicationretour(data,model,staticpdf,pub,downloadurl)
             },  
             error:function(data){
                 console.log('error')

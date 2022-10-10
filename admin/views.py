@@ -5,9 +5,8 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadReque
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.models import Administrator
 from django.shortcuts import render
-from django.contrib.auth.hashers import make_password, check_password
 from django.core.mail import send_mail, EmailMessage
-from django.db.models import Min, Max,Q
+from django.db.models import Min, Max,Q,Count, Case, Value, When
 from sequences import get_next_value
 from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
@@ -16,7 +15,10 @@ from django.core.files.images import get_image_dimensions
 from django.core.exceptions import PermissionDenied
 from vahatraDjango.collectstatic import  Command
 from vahatraDjango.functions import *
-from django.contrib.auth import authenticate,login,logout, get_user
+from django.contrib.auth import authenticate,login,logout
+from django.db.models.functions import ExtractYear
+from itertools import groupby
+from operator import itemgetter
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -134,7 +136,7 @@ def reset_password(request):
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
-def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None,keyword=None):
+def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
     checkIfAdmin(request)
     context = {
         "type_publication": type_publication,
@@ -178,6 +180,7 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
                 Q(activityinstitution__idinst__name__icontains = keyword)|
                 Q(activityperson__idperson__name__icontains = keyword)|
                 Q(activityperson__idperson__username__icontains = keyword))
+                list = list.distinct()
 
             context['keyword']=keyword
     
@@ -204,6 +207,15 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
     return render(request, "admin/listActivities.html", context)
 
 
+# def move(request,type="SA1"):
+#     import shutil
+#     visits = Visit.objects.filter(idtypesubactivity=type)
+#     for visit in visits:
+#         for activityimage in visit.idactivity.activityimage_set.all():
+#             if activityimage.image is not None:
+#                 source = 'static/images/site/'+renameFile(visit.idactivity.idtypeactivity.type)+'/'
+#                 path = 'static/images/site/'+renameFile(visit.idactivity.idtypeactivity.type)+'/'+toSlug(visit.idtypesubactivity.type)+'/'
+#                 shutil.move(path+activityimage.image, source+activityimage.image)
 
 
 def deleteActivity(request):
@@ -217,7 +229,8 @@ def deleteActivity(request):
             try:
                 activity = Activity.objects.get(pk=id_activity)
                 for activityimage in activity.activityimage_set.all():
-                    delete_file(activityimage.image, 'images/site')
+                    if activityimage.image is not None:
+                        delete_file(activityimage.image, 'images/site/'+renameFile(activity.idtypeactivity.type))
                 activity.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
@@ -259,7 +272,7 @@ def addActivity(request, idtypeactivity='A1'):
 
     type = get_object_or_404(Typeactivity, pk=idtypeactivity)
     context["type"] = type
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
     context["typevisit"] = Typesubactivity.objects.all()
@@ -287,7 +300,7 @@ def addActivity(request, idtypeactivity='A1'):
 
         activity.save()
 
-        lastActivity = Activity.objects.last()
+        lastActivity = activity
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
@@ -303,7 +316,7 @@ def addActivity(request, idtypeactivity='A1'):
             files = request.FILES.getlist('files')
             for f in files:
                 image = Activityimage(idactivity=lastActivity)
-                image.name = handle_uploaded_file(f, 'images/site')
+                image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type))
                 image.save()
 
         if request.POST['idtypeactivity'] == 'A1':  # if activity is visit
@@ -347,13 +360,47 @@ def addPerson(request):
         "type_activity": type_activity,
         "type_member": type_member,
     }
+
+    if request.method == "GET":
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            persons = Person.objects.filter(Q(name__icontains=keyword)|
+            Q(username__icontains = keyword))
+            persons = persons.distinct()
+            context['persons']=persons
+            context['keyword']=keyword
+            
     if request.method == 'POST':
-        person = Person(
-            title=request.POST['title'], name=request.POST['name'], username=request.POST['username'])
-        person.save()
-        context["success"] = "New person inserted successfully."
+        person = Person.objects.filter(Q(name=str(request.POST['name']).strip()), Q(username=str(request.POST['username']).strip()))
+        if person.count()>0:
+            context["warning"] = "This person is already registered."
+        else:
+            person = Person(name=request.POST['name'].strip(), username=request.POST['username'].strip())
+            if request.POST['title']!="":
+                person.title = request.POST['title']
+            person.save()
+            context["success"] = "New person inserted successfully."
     return render(request, "admin/addPerson.html", context)
 
+def deletePerson(request):
+    checkIfAdmin(request)
+
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method=="POST": 
+            id_person = request.POST.get('id_person', '')
+            try:
+                person = Person.objects.get(pk=id_person)
+                person.delete()
+
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': 'Publication successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
 
 def addInstitution(request):
     checkIfAdmin(request)
@@ -364,11 +411,15 @@ def addInstitution(request):
         "type_member": type_member,
     }
     if request.method == 'POST':
-        nextId = get_next_value("institution")
-        nextId = "I"+str(nextId)
-        inst = Institution(id=nextId, name=request.POST['name'])
-        inst.save()
-        context["success"] = "New institution inserted successfully."
+        inst = Institution.objects.filter(Q(name=str(request.POST['name'])))
+        if inst.count()>0:
+            context["warning"] = "This institution is already registered."
+        else:
+            nextId = get_next_value("institution")
+            nextId = "I"+str(nextId)
+            inst = Institution(id=nextId, name=request.POST['name'])
+            inst.save()
+            context["success"] = "New institution inserted successfully."
     return render(request, "admin/addInstitution.html", context)
 
 
@@ -384,10 +435,15 @@ def addLocation(request):
         if request.POST['name'] == "" or request.POST['longitude'] == "" or request.POST['latitude'] == "":
             context["error"] = "All fields are required."
             return render(request, "admin/addLocation.html", context)
-        location = Location(
-            name=request.POST['name'], longitude=request.POST['longitude'], latitude=request.POST['latitude'])
-        location.save()
-        context["success"] = "New location inserted successfully."
+        
+        location = Location.objects.filter(Q(name=str(request.POST['name'])))
+        if location.count()>0:
+            context["warning"] = "This location is already registered."
+        else:
+            location = Location(
+                name=request.POST['name'], longitude=request.POST['longitude'], latitude=request.POST['latitude'])
+            location.save()
+            context["success"] = "New location inserted successfully."
     return render(request, "admin/addLocation.html", context)
 
 
@@ -402,7 +458,7 @@ def updateActivity(request, activity_id=1):
 
     activity = get_object_or_404(Activity, pk=activity_id)
     context["activity"] = activity
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
     context["typevisit"] = Typesubactivity.objects.all()
@@ -435,7 +491,7 @@ def updateActivity(request, activity_id=1):
             files = request.FILES.getlist('files')
             for f in files:
                 activityimage = Activityimage(idactivity=activity)
-                activityimage.image = handle_uploaded_file(f, 'images/site')
+                activityimage.image = handle_uploaded_file(f, 'images/site/'+renameFile(activity.idtypeactivity.type))
                 activityimage.save()
             countChange += 1
 
@@ -443,7 +499,7 @@ def updateActivity(request, activity_id=1):
             img_ids = request.POST.getlist("supprImage")
             for img_id in img_ids:
                 activityimage = Activityimage.objects.get(pk=img_id)
-                delete_file(activityimage.image, 'images/site')
+                delete_file(activityimage.image, 'images/site/'+renameFile(activity.idtypeactivity.type))
                 activityimage.delete()
             countChange += 1
 
@@ -554,6 +610,21 @@ def listPublications(request, pub_id=1, page=1, year=None):
         list = Publication.objects.filter(idtype=1, date__year=year)
         context["year"] = year
 
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+        
+            try:
+                year = int(keyword)
+                list = list.filter(date__year=year)
+            except ValueError:
+                list = list.filter(Q(title__icontains=keyword)|
+                Q(publicationauthor__idperson__name__icontains = keyword)|
+                Q(publicationauthor__idperson__username__icontains = keyword))
+                list = list.distinct()
+
+            context['keyword']=keyword
+
     list = list.order_by('date')
 
     page_number=0
@@ -581,7 +652,7 @@ def addPublication(request, idtypepublication=1):
 
     type = get_object_or_404(Typepublication, pk=idtypepublication)
     context["type"] = type
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
 
     if request.method == 'POST':
 
@@ -619,9 +690,10 @@ def addPublication(request, idtypepublication=1):
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
-                pubauth = Publicationauthor(
-                    idpublication=lastPublication, idperson=Person.objects.get(pk=values))
-                pubauth.save()
+                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                    pubauth = Publicationauthor(
+                        idpublication=lastPublication, idperson=Person.objects.get(pk=values))
+                    pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
@@ -656,7 +728,7 @@ def updatePublication(request, pub_id=1):
 
     publication = get_object_or_404(Publication, pk=pub_id)
     context["publication"] = publication
-    context["persons"] = Person.objects.all().order_by('name')
+    context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
 
     countChange = 0
     countChangePublication = 0
@@ -688,9 +760,10 @@ def updatePublication(request, pub_id=1):
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
-                pubauth = Publicationauthor(
-                    idpublication=publication, idperson=Person.objects.get(pk=values))
-                pubauth.save()
+                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                    pubauth = Publicationauthor(
+                        idpublication=publication, idperson=Person.objects.get(pk=values))
+                    pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
@@ -778,6 +851,19 @@ def listMembers(request,typemember_id=2,page=1):
     context["type"] = type
 
     list = Member.objects.filter(idtypemember=typemember_id)
+
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+        
+            list = list.filter(Q(memberpostinst__iddept__name__icontains = keyword)|
+            Q(memberpostinst__idinst__name__icontains = keyword)|
+            Q(memberpostinst__idpost__name__icontains = keyword)|
+            Q(idperson__name__icontains = keyword)|
+            Q(idperson__username__icontains = keyword))
+            list = list.distinct()
+
+            context['keyword']=keyword
 
     page_number=0
     if (list.count() > 0):
@@ -992,6 +1078,13 @@ def listPartners(request,page=1):
     }
 
     list = Partner.objects.all()
+    if request.method == 'GET':
+        if 'keyword' in request.GET:
+            keyword = request.GET['keyword']
+            list = list.filter(Q(idinst__name__icontains=keyword))
+            list = list.distinct()
+            context['keyword']=keyword
+
     page_number=0
     if (list.count() > 0):
         dictpagination = pagination(page, list, 8, 'idinst__name')
@@ -1247,3 +1340,41 @@ def deleteImage(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
+
+# STATISTICS-------------------------
+
+def groupByYear(queryset, limit):
+    qyeryset_year = queryset.annotate(year=ExtractYear('date')).values('year').annotate(count=Count('id')).values('year','count')
+    list=[]
+    for key, value in groupby(qyeryset_year, key = itemgetter('year')):
+        dicti={
+            'year':key,
+            'count':sum(val['count'] for val in value)
+        }
+        list.append(dicti)
+        
+    ten = len(list)-limit
+    return list[ten:]
+
+
+def statisticActivities(request):
+    
+    checkIfAdmin(request)
+
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    context['global'] = Typeactivity.objects.annotate(num_activity=Count('activity'))
+
+    if  request.method == 'POST':
+        if 'idtypeactivity' in request.POST:
+            typeactivity = Typeactivity.objects.get(pk=request.POST['idtypeactivity'])
+            context['typeactivity']=typeactivity
+             
+            activities = Activity.objects.filter(idtypeactivity=typeactivity.id).order_by('date')
+            
+            context['peryear']=groupByYear(activities,10)
+            
+    return render(request, "admin/statisticActivities.html", context)

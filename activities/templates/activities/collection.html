@@ -66,61 +66,39 @@
 <section>
     <div class="gap">
         <div class="fixed-bg" style="background-image: url({% static 'images/parallax2.jpg' %});"></div>
-        <div>
+        <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>Visit Our</span>
                     <h3>Collection Room</h3>
                 </div>
             </div>
-            <div>
-                <div id="fancy-icon" data-left="{% static 'images/virtual-tour/fancy_nav_left.png' %}" data-right="{% static 'images/virtual-tour/fancy_nav_right.png' %}" data-close="{% static 'images/virtual-tour/fancy_close.png' %}">
-                    {% if salle == "atelier" %}
-                    <img src="{% static 'images/virtual-tour/atelier.jpg' %}" class="advancedpanorama" width="2642" height="375" usemap="testmap" alt="Salle de formation" />
-                    <map id="testmap" name="testmap"> 
-                    <area shape="rect" coords="543,105,699,225" href="{% url 'activities:collection' 'sculpteur'  %}" alt="vers l'atelier du sculpteur" /> 
-                    </map>
-                    {% else %}
-                    <img src="{% static 'images/virtual-tour/sculpteur.jpg' %}" class="advancedpanorama" width="2448" height="375" usemap="testmap" alt="Atelier du sculpteur" />
-                    <map id="testmap" name="testmap"> 
-                    <area shape="rect" coords="1653,72,1839,255" href="{% url 'activities:collection' 'atelier' %}" alt="vers la salle de formation"  /> 
-                    <area shape="rect" coords="2013,114,2091,210" href="{% static 'images/virtual-tour/statue1.jpg' %}" alt="statues" class="thickbox" /> 
-                    <area shape="rect" coords="1920,276,2070,351" href="{% static 'images/virtual-tour/gouges.jpg' %}" alt="gouges" class="thickbox" /> 
-                    </map>
-                    {% endif %}
+                <div class="row justify-content-center">
+                    <div class="col-md-1 col-sm-1 col-lg-1"></div>
+                    <div class="col-md-10 col-sm-10 col-lg-10">
+                        <video width="1000" controls preload="none">
+                            <source src="{% static 'video/collection_room.mp4' %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-lg-1"></div>
                 </div>
-            </div>
         </div>
     </div>
 </section>
-    
-{% endblock %}
-{% block js %}
+<section>
+    <div class="row" style="margin: -7.5px;">
+        {% for i in '012345678'|make_list %}
+        <div class="col-md-4 col-sm-4 col-lg-4" style="padding: 7.5px;">
+            <div class="prtfl-box text-center">
+                <img src="{% static 'images/collection_room/' %}{{i}}_association_vahatra.jpg" alt="{{i}}_association_vahatra.jpg" title="{{i}}_association_vahatra.jpg">
+                <div class="prtfl-info">
+                    <a href="{% static 'images/collection_room/' %}{{i}}_association_vahatra.jpg" data-fancybox="gallery" title=""><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
-<script type="text/javascript" src="{% static 'js/vt/jquery.panorama.js' %} "></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-        
-		$("img.advancedpanorama").panorama({
-	            auto_start: 0,
-			    start_position: 1527
-	    });
-	});
-</script>
-<script type="text/javascript" src="{% static 'js/vt/cvi_text_lib.js' %} "></script>
-<script type="text/javascript" src="{% static 'js/vt/jquery.advanced-panorama.js' %} "></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-	  $('.thickbox').fancybox();
-	});
-</script>
-<script>
-    
-    "{% if salle != '' %}"
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $('#fancy-icon').offset().top
-        }, 0);
-    "{% endif %}"
-        
-</script>
 {% endblock %}

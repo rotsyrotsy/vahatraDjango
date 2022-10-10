@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load publications_extras %}
 {% block title %}{{type.type}}{% endblock %}
 {% block content %}
 <section>
@@ -24,7 +25,7 @@
                 <div class="col-md-12">
                     <div class="wdgt-box" style="float:right; width:30%;">
                         <h4>Search</h4>
-                        <form class="srch-frm" action="{% url 'association:searchMember' type.id  %}" method="get">
+                        <form class="srch-frm" action="{% url 'association:member' type.id type.type|toSlug  %}" method="get">
                             {% if keyword %}
                             <input type="text" name="keyword" value="{{keyword}}" placeholder="Search">
                             {% else %}
@@ -95,9 +96,9 @@
                     <ul class="pagination">
                         {% for number in page_number %}
                         {% if keyword %}
-                        <li ><a href="{% url 'association:searchMember' type.id keyword number %}" title="">{{number}}</a></li>
+                        <li ><a href="{% url 'association:member' type.id type.type|toSlug keyword number %}" title="">{{number}}</a></li>
                         {% else %}
-                        <li ><a href="{% url 'association:member' type.id number %}" title="">{{number}}</a></li>
+                        <li ><a href="{% url 'association:member' type.id type.type|toSlug  number %}" title="">{{number}}</a></li>
                         {% endif%}
                             
                         {% endfor %}
