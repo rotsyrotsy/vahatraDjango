@@ -86,5 +86,19 @@
         </div>
     </div>
 </section>
-    
+<section>
+    <div class="row" style="margin: -7.5px;">
+        {% for i in '012345678'|make_list %}
+        <div class="col-md-4 col-sm-4 col-lg-4" style="padding: 7.5px;">
+            <div class="prtfl-box text-center">
+                <img src="{% static 'images/collection_room/' %}{{i}}_association_vahatra.jpg" alt="{{i}}_association_vahatra.jpg" title="{{i}}_association_vahatra.jpg">
+                <div class="prtfl-info">
+                    <a href="{% static 'images/collection_room/' %}{{i}}_association_vahatra.jpg" data-fancybox="gallery" title=""><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
 {% endblock %}

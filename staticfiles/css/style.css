@@ -1036,7 +1036,8 @@ header.style1.sticky-active nav > div > ul > li {color: #666;}
   margin-bottom: 0;
   color: #2a486c;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: normal;
+  font-style: italic;
 }
 .pilr-info > p {
   margin-bottom: 0;
