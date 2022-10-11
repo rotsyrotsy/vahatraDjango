@@ -1,2 +1,0 @@
-username: Vahatra
-mdp: associationvahatra2015
