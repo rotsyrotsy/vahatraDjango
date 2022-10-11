@@ -5,7 +5,7 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc5">
-        <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0918.JPG' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0918.webp' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
@@ -28,7 +28,7 @@
                     {% endfor %}
                 </ul>
                 <div class="prtfl-dta remove-ext1">
-                    <div class="row mrg15  justify-content-center" id="moreImages">
+                    <div class="row mrg15 masonry justify-content-center" id="moreImages">
                         {% for image in images %}
                         <div class="col-md-4 col-sm-6 col-lg-4 fltr-itm img{{image.idtype.id}}">
                             <div class="prtfl-box">
@@ -48,6 +48,7 @@
             </div>
     </div>
 </section>
+
 {% endblock content %}
 {% block js %}
 <script>
@@ -64,11 +65,12 @@
             data:{ number:limit },
             success:function(data){
                 moreImg = data["moreImg"];
-
                 for (let i=0; i<moreImg.length; i++){
                     img = JSON.parse(moreImg[i].image)[0]['fields'];
                     type = JSON.parse(moreImg[i].type)[0]['fields'];
-                    var div = '<div class="col-md-4 col-sm-6 col-lg-4 fltr-itm img'+type['id']+'">\
+                    idtype = moreImg[i].idtype;
+                    
+                    var div = '<div class="col-md-4 col-sm-6 col-lg-4 fltr-itm img'+idtype+'">\
                             <div class="prtfl-box">\
                                 <img class="w-100 shadow-1-strong rounded " src="{% static "images/" %}'+type['type'].toLowerCase().replace(' ','_')+'/'+img['name']+'" alt="'+img['name']+'">\
                                 <div class="prtfl-info">\

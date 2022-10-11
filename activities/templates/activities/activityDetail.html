@@ -6,7 +6,7 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.png' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.webp' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
@@ -31,7 +31,7 @@
                                 {% if images|length > 0 %}
                                     <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{images.0.image}}" width="68" alt="{{images.0.image}}">
                                 {% else %}
-                                    <img src="{% static 'images/resources/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
+                                    <img src="{% static 'images/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
                                 {% endif %}
                                 <div class="blog-detail-inf-inr">
                                     <h4>{{activity.title}}</h4>
@@ -160,7 +160,7 @@
                                             <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.image}}">
                                             {% endwith %}
                                         {% else %}
-                                            <img src="{% static 'images/resources/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
+                                            <img src="{% static 'images/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
                                         {% endif %}
                                         </a>
                                         <div class="rcnt-inf">

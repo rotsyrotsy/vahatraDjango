@@ -5,7 +5,7 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
-        <div class="fixed-bg" style="background-image: url({% static 'images/landscape/banniere3.jpg' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/landscape/banniere3.webp' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
@@ -68,7 +68,7 @@
                                 {% if member.image %}
                                 <img src="{% static 'images/members/' %}{{member.image}}" alt="{{ member.idperson.username }}">
                                 {% else %}
-                                <img src="{% static 'images/members/none.jpg' %}" alt="{{ member.idperson.username }}">
+                                <img src="{% static 'images/members/none.webp' %}" alt="{{ member.idperson.username }}">
                                 {% endif %}
                                 <div class="team-info2">
                                     <h4>{{member.idperson.title|default_if_none:""}} {{ member.idperson.username }} {{ member.idperson.name }}</h4>

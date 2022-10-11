@@ -5,7 +5,7 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.png' %});">
+        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.webp' %});">
         </div>
         <div class="container">
             <div class="page-title-wrap">
@@ -31,10 +31,10 @@
                                 <a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">
                                     {% if activity.activityimage_set.all %}
                                         {% with activity.activityimage_set.all|first as image %}
-                                        <img src="{% static 'images/site/' %}{{type_activity.type|lower|renameFile}}/{{image.image}}" alt="post-img1.jpg">
+                                        <img src="{% static 'images/site/' %}{{type_activity.type|lower|renameFile}}/{{image.image}}" alt="{{image.image}}">
                                         {% endwith %}
                                     {% else %}
-                                    <img src="{% static 'images/resources/post-img1.jpg' %}" alt="post-img1.jpg">
+                                    <img src="{% static 'images/post-img1.jpg' %}" alt="post-img1.jpg">
                                     {% endif %}
                                 </a>
                             </div>

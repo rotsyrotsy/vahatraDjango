@@ -147,7 +147,8 @@ def gallery(request):
             for img in moreImg:
                 dict={
                     'image':serializers.serialize('json', [img]),
-                    'type':serializers.serialize('json',[img.idtype])
+                    'type':serializers.serialize('json',[img.idtype]),
+                    'idtype':img.idtype.id,
                 }
                 list.append(dict)
             return  JsonResponse({ 'moreImg':list})

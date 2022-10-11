@@ -1,6 +1,8 @@
+from pathlib import Path
 import unidecode
 from io import BytesIO
 from django.core.files import File
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import os
 from math import ceil
@@ -23,23 +25,54 @@ def reduce_image_size( pic):
         img = img.convert('RGB')
     thumb_io = BytesIO()
     img.save(thumb_io, 'jpeg', quality=40)
-    new_image = File(thumb_io, name=pic.name)
-    print('final size: '+str(new_image.size))
-    return new_image
+    
+    pic_file = File(thumb_io, pic.name)
+    print('final size: '+str(pic_file.size))
+    return pic_file
+    
+    
+
+def convert_to_webp(file):
+    from PIL import Image
+
+    content_type=file.content_type.split("/")[1]
+    if content_type == "webp":
+        return file
+
+    f_object= InMemoryUploadedFile(file, 
+            'ImageField',
+            file.name,
+            content_type,
+            file.size, None)
+
+    new_file_name = str(Path(f_object._name).with_suffix('.webp'))
+    image = Image.open(f_object.file)
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+    thumb_io = BytesIO()
+    image.save(thumb_io, 'webp', optimize=True, quality = 40)
+
+    new_f_object = File(thumb_io, new_file_name)
+    
+    return new_f_object
+
 
 def handle_uploaded_file(f, location):
     if f.content_type.split("/")[0]=="image":
-        f = reduce_image_size(f)    
-    f.name=renameFile(f.name)
+        # reduce_pic = reduce_image_size(f)
+        f = convert_to_webp(f)
 
+    f.name=renameFile(f.name)
     path = 'static/'+location+'/'
     isExist = os.path.exists(path)
     if not isExist:
         # Create a new directory because it does not exist 
         os.makedirs(path)
+    
     with open(path+f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+    
     return f.name
 
 def delete_file(path, location):

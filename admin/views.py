@@ -1269,7 +1269,7 @@ def addImage(request,image_type=1):
                 image = Image(idtype=typeimage,title=titleImg)
                 path = renameFile(typeimage.type)
                 image.name = handle_uploaded_file(f, 'images/'+path)
-                image.save()
+                # image.save()
 
         context["success"] = "New photo of "+typeimage.type+" inserted successfully."
 
