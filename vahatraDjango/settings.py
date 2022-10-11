@@ -90,20 +90,20 @@ WSGI_APPLICATION = 'vahatraDjango.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": "vahatra",
-#         "USER": "postgres",
-#         "PASSWORD": "root",
-#         "HOST": "127.0.0.1",
-#         "PORT": "5432",
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.config()
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "vahatra",
+        "USER": "postgres",
+        "PASSWORD": "root",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
+    }
 }
+
+# DATABASES = {
+#     'default': dj_database_url.config()
+# }
 
 
 # Password validation
@@ -177,39 +177,40 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.office365.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.live.com'
 EMAIL_HOST_USER = "rotsyvonimanitra@hotmail.com"
 EMAIL_HOST_PASSWORD = "Poushinie"
-EMAIL_TIMEOUT = 1000
+# EMAIL_TIMEOUT = 1000
 DEFAULT_FROM_EMAIL = 'rotsyvonimanitra@hotmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
 
 django_heroku.settings(locals())
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },
-        'Django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler'
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+#         },
+#         'Django.request': {
+#             'handlers': ['mail_admins'],
+#             'level': 'ERROR',
+#             'propagate': True,
+#         },
+#     },
+# }
 
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
