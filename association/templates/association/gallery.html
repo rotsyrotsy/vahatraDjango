@@ -42,7 +42,6 @@
                         </div>        
                         {% endfor %}
                     </div>
-                    <button class="thm-btn brd-rd40" id="showMoreBtn" onclick="showMore()">Show more</button>
                 </div>
                 
             </div>
@@ -50,46 +49,3 @@
 </section>
 
 {% endblock content %}
-{% block js %}
-<script>
-    let limit = parseInt("{{limit}}");
-    
-    function showMore(){
-        if (parseInt("{{length}}")<limit+limit){
-            $('#showMoreBtn').css('display','none');
-        }
-        $.ajax({
-            url : "{% url 'association:gallery' %}",
-            dataType: 'JSON',
-            type:"GET",
-            data:{ number:limit },
-            success:function(data){
-                moreImg = data["moreImg"];
-                for (let i=0; i<moreImg.length; i++){
-                    img = JSON.parse(moreImg[i].image)[0]['fields'];
-                    type = JSON.parse(moreImg[i].type)[0]['fields'];
-                    idtype = moreImg[i].idtype;
-                    
-                    var div = '<div class="col-md-4 col-sm-6 col-lg-4 fltr-itm img'+idtype+'">\
-                            <div class="prtfl-box">\
-                                <img class="w-100 shadow-1-strong rounded " src="{% static "images/" %}'+type['type'].toLowerCase().replace(' ','_')+'/'+img['name']+'" alt="'+img['name']+'">\
-                                <div class="prtfl-info">\
-                                    <a href="{% static "images/" %}'+type['type'].toLowerCase().replace(' ','_')+'/'+img['name']+'" data-fancybox="gallery" title=""><i class="fa fa-plus"></i></a>\
-                                    <h4>'+img['title']+'</h4>\
-                                    <span>'+type['type']+'</span>\
-                                </div>\
-                            </div>\
-                        </div> ';
-                    $('#moreImages').append(div);
-                }
-                
-                limit += limit;
-            },  
-            error:function(data){
-                console.log('error')
-                console.log(data)
-            }
-        });
-    }
-</script>
-{% endblock %}

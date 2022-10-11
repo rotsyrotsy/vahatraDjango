@@ -135,7 +135,8 @@ def gallery(request):
     allImages = Image.objects.all().order_by('name')
     limit = 9
     context['limit']=limit
-    context["images"]=allImages[:limit]
+    #context["images"]=allImages[:limit]
+    context["images"]=allImages
     context['length']=allImages.count()
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
