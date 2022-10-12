@@ -126,32 +126,22 @@ def financing(request):
     return render(request, "association/financing.html",context)
 
     
-def gallery(request):
+def gallery(request,limit=9):
     context = {
         "type_visit" : type_visit,
         "type_pub": type_pub,
         }
+    limit = int(limit)
+    
     context["typeimage"] = Imagetype.objects.all()
     allImages = Image.objects.all().order_by('name')
-    limit = 9
-    context['limit']=limit
+    length = allImages.count()
+
+    if limit> length:
+        return redirect('association:gallery', limit=length)
+
     context["images"]=allImages[:limit]
     context['length']=allImages.count()
-
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    if is_ajax:
-        if request.method == 'GET':
-            number = request.GET.get('number')
-            moreImg = allImages[int(number):int(number)+limit]
-            list=[]
-            for img in moreImg:
-                dict={
-                    'image':serializers.serialize('json', [img]),
-                    'type':serializers.serialize('json',[img.idtype]),
-                    'idtype':img.idtype.id,
-                }
-                list.append(dict)
-            return  JsonResponse({ 'moreImg':list})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
+    context['limit']=limit
 
     return render(request, "association/gallery.html",context)
