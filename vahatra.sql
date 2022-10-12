@@ -44,7 +44,8 @@ CREATE TABLE public.activity (
     description text,
     date date,
     note character varying(255),
-    idtypeactivity character varying(20) NOT NULL
+    idtypeactivity character varying(20) NOT NULL,
+    slug character varying(255)
 );
 
 
@@ -1299,7 +1300,7 @@ ALTER TABLE ONLY public.visit ALTER COLUMN id SET DEFAULT nextval('public.visit_
 -- Data for Name: activity; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (87, 'E-book on the protected areas of madagascar and other user tools', 'In late 2015, Association Vahatra received a three-year grant from CEPF to
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (87, 'E-book on the protected areas of madagascar and other user tools', 'In late 2015, Association Vahatra received a three-year grant from CEPF to
 conduct a large-scale review of the protected areas system of Madagascar.
 The bilingual French-English three volume book entitled Les aires protégées
 terrestres de Madagascar : leur histoire, description et biote / Terrestrial
@@ -1336,43 +1337,43 @@ we hope to amend the project to more advanced stages. In early December
 conference formally presented the portal in Madagascar to an assortment of interested individuals physically present at Vahatra or connected via a video
 conference, which was followed by a reception. The event received press
 and television coverage. The final accepted report to CEPF was submitted in
-late 2021 and the first phase of the project has now been completed.', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (60, 'Biological inventories', 'Biological exploration for the conception of a management and conservation plan. In collaboration with PGME-GIZ', '2011-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (52, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the action of the "Ala Maiky" project of WWF. In collaboration with WWF.', '2003-02-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (53, 'Biological inventories', 'Obtaining data on terrestrial organisms to help with the management of a new marine protected area. In collaboration with WWF.', '2005-09-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (54, 'Biological inventories', 'To understand patterns of terrestrial animal distribution in this forested corridor, evaluation of remaining natural habitats, and the important of the remaining forest for the conservation of biodiversity. In collaboration with WWF and Fanamby.', '2005-11-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (55, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the extension of the Kirindy Mite National Park. In collaboration with WWF and Madagascar national Parks.', '2007-02-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (56, 'Biological inventories', 'Obtaining field data on the biological riches of identified protected areas for the extension of a humid forest of a UNESCO World Heritage site. In collaboration with UNESCO World Heritage program.', '2008-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (48, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (50, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (47, 'Field Schools', NULL, '1998-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (51, 'Field Schools', NULL, '1996-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (84, 'Transmissible diseases', 'In this project, followed viro-serological and vector populations of wild vertebrates and a quantitative assessment on a regional risk of introduction and spread of the disease are done. This is a project funded by the CRVOI (Centre for Research and Watch on emerging diseases in the Indian Ocean) Reunion and associated team from the Institut Pasteur de Madagascar (IPM). The latter has been working for several years on transmission mechanisms of many diseases. 
+late 2021 and the first phase of the project has now been completed.', '2015-01-01', NULL, 'A4', 'project/e-book-on-the-protected-areas-of-madagascar-and-other-user-tools-87');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (60, 'Biological inventories', 'Biological exploration for the conception of a management and conservation plan. In collaboration with PGME-GIZ', '2011-01-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-60');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (52, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the action of the "Ala Maiky" project of WWF. In collaboration with WWF.', '2003-02-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-52');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (53, 'Biological inventories', 'Obtaining data on terrestrial organisms to help with the management of a new marine protected area. In collaboration with WWF.', '2005-09-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-53');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (54, 'Biological inventories', 'To understand patterns of terrestrial animal distribution in this forested corridor, evaluation of remaining natural habitats, and the important of the remaining forest for the conservation of biodiversity. In collaboration with WWF and Fanamby.', '2005-11-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-54');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (55, 'Biological inventories', 'Obtaining field data on terrestrial vertebrates for the extension of the Kirindy Mite National Park. In collaboration with WWF and Madagascar national Parks.', '2007-02-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-55');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (56, 'Biological inventories', 'Obtaining field data on the biological riches of identified protected areas for the extension of a humid forest of a UNESCO World Heritage site. In collaboration with UNESCO World Heritage program.', '2008-01-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-56');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (83, 'Climate change', 'The intent of this project is to measure possible effects of global climatic change on certain endemic terrestrial vertebrates. This is being accomplished by revisiting three different mountains on the island intensively studied along an elevational gradient over 15 years ago and repeating the inventory methods down to very fine details, such as the same dates and placements of different types of traps. While data on the presence and absence of a given taxonomic group will be used in comparing the previous and recent inventories, the unique aspect we have added to the project is employing molecular genetic data. We will becomparing shifts in haplotypic frequencies through time and this measure may be directly correlated with global warming, pushing animals to higher altitudes to find preferable biotypes.', '2015-01-01', NULL, 'A4', 'project/climate-change-83');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (49, 'Field Schools', NULL, '1997-01-01', NULL, 'A1', 'visit/field-school/field-schools-49');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (66, 'Effects of cyclone on Varecia variegata', 'Effects of cyclone or habitat disturbance on Varecia variegata (reproduction, feeding behavior, etc.). (Presented in French.)', '2011-01-01', NULL, 'A2', 'conference/effects-of-cyclone-on-varecia-variegata-66');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (70, 'Genetics  and applications', 'Population genetics, conservation genetics, and their applications. (Presented in French.) ', '2012-01-01', NULL, 'A2', 'conference/genetics-and-applications-70');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (69, 'Extinct animals and ecosystems of Madagascar', 'Windows into the extraordinary extinct animals and ecosystems of Madagascar. (Presented in French.) ', '2012-01-01', NULL, 'A2', 'conference/extinct-animals-and-ecosystems-of-madagascar-69');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (67, 'Fragmentation and genetic diversity', 'Fragmentation of habitat and genetic diversity in space and time. (Presented in French.) ', '2011-01-01', NULL, 'A2', 'conference/fragmentation-and-genetic-diversity-67');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (73, 'High spatial resolution cloud climatology', 'High spatial resolution cloud climatology of Madagascar and implications for biodiversity conservation activities', '2015-01-01', NULL, 'A2', 'conference/high-spatial-resolution-cloud-climatology-73');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (48, 'Field Schools', NULL, '1997-01-01', NULL, 'A1', 'visit/field-school/field-schools-48');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (72, 'ArcGIS', 'ArcGIS training. (Presented in French.) ', '2014-01-01', NULL, 'A2', 'conference/arcgis-72');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (50, 'Field Schools', NULL, '1997-01-01', NULL, 'A1', 'visit/field-school/field-schools-50');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (71, 'Genetic diversity and Genetix computer program', 'Measures of genetic diversity and application of the Genetix computer program. (Presented in French.) ', '2013-01-01', NULL, 'A2', 'conference/genetic-diversity-and-genetix-computer-program-71');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (47, 'Field Schools', NULL, '1998-01-01', NULL, 'A1', 'visit/field-school/field-schools-47');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (51, 'Field Schools', NULL, '1996-01-01', NULL, 'A1', 'visit/field-school/field-schools-51');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (84, 'Transmissible diseases', 'In this project, followed viro-serological and vector populations of wild vertebrates and a quantitative assessment on a regional risk of introduction and spread of the disease are done. This is a project funded by the CRVOI (Centre for Research and Watch on emerging diseases in the Indian Ocean) Reunion and associated team from the Institut Pasteur de Madagascar (IPM). The latter has been working for several years on transmission mechanisms of many diseases. 
 The specific objectives of this project are to:
     -assess the intensity of viral circulation and circulation periods in a pilot area of Madagascar,
     -identify potential wild reservoirs of the virus in Madagascar,
     -establish an epidemiological assessment in Madagascar,
     -identify the various potential modes of introduction and transmission in Madagascar, and assess the risk of endemicity of the disease.
-', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (85, 'Conservation biology', 'Vahatra is also interested in different types of research involving:
+', '2015-01-01', NULL, 'A4', 'project/transmissible-diseases-84');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (85, 'Conservation biology', 'Vahatra is also interested in different types of research involving:
     -vertebrates taxonomy and phylogeny
     -vertebrates biogeography
     -ecology and biology
     -conservation
     -impact assessment
- ', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (83, 'Climate change', 'The intent of this project is to measure possible effects of global climatic change on certain endemic terrestrial vertebrates. This is being accomplished by revisiting three different mountains on the island intensively studied along an elevational gradient over 15 years ago and repeating the inventory methods down to very fine details, such as the same dates and placements of different types of traps. While data on the presence and absence of a given taxonomic group will be used in comparing the previous and recent inventories, the unique aspect we have added to the project is employing molecular genetic data. We will becomparing shifts in haplotypic frequencies through time and this measure may be directly correlated with global warming, pushing animals to higher altitudes to find preferable biotypes.', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (49, 'Field Schools', NULL, '1997-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (73, 'High spatial resolution cloud climatology', 'High spatial resolution cloud climatology of Madagascar and implications for biodiversity conservation activities', '2015-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (72, 'ArcGIS', 'ArcGIS training. (Presented in French.) ', '2014-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (71, 'Genetic diversity and Genetix computer program', 'Measures of genetic diversity and application of the Genetix computer program. (Presented in French.) ', '2013-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (69, 'Extinct animals and ecosystems of Madagascar', 'Windows into the extraordinary extinct animals and ecosystems of Madagascar. (Presented in French.) ', '2012-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (68, 'Invasive alien species', 'The impact of invasive alien species on island biodiversity - What solutions? (Presented in French.) ', '2012-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (70, 'Genetics', 'Population genetics, conservation genetics, and their applications. (Presented in French.) ', '2012-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (66, 'Effects of cyclone', 'Effects of cyclone or habitat disturbance on Varecia variegata (reproduction, feeding behavior, etc.). (Presented in French.)', '2011-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (67, 'Fragmentation and genetic diversity', 'Fragmentation of habitat and genetic diversity in space and time. (Presented in French.) ', '2011-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (65, 'Geographic Information Systems', 'Geographic Information Systems at the service of conservation: case studies. (Presented in French.)', '2010-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (91, 'Diversity and transmission dynamics of infectious agents in malagasy bats', 'The scientific objectives of this project are to characterize the diversity of
+ ', '2015-01-01', NULL, 'A4', 'project/conservation-biology-85');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (65, 'Geographic Information Systems In Conservation', 'Geographic Information Systems at the service of conservation: case studies. (Presented in French.)', '2010-01-01', NULL, 'A2', 'conference/geographic-information-systems-in-conservation-65');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (68, 'Solution for invasive alien species', 'The impact of invasive alien species on island biodiversity - What solutions? (Presented in French.) ', '2012-01-01', NULL, 'A2', 'conference/solution-for-invasive-alien-species-68');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (91, 'Diversity and transmission dynamics of infectious agents in malagasy bats', 'The scientific objectives of this project are to characterize the diversity of
 infectious agents circulating in bat populations of northern Madagascar and
 to study the temporal dynamics of transmission, particularly within breeding
 and day-roosting colonies. Funding is based on a grant from the Fonds
@@ -1392,32 +1393,34 @@ living in the caves of Ankarana are marked with uniquely numbered rings in order
 lockdown of 2020, only two visits were conducted to the study sites in that
 year and we were only able to restart the fieldwork in late 2021. Because
 of all of the COVID-19 related delays, an extension of the project has been
-requested from the granting agency. We are still awaiting that decision', '2020-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (63, 'Micro-endemism in Madagascar', 'A new hypothesis and model of micro-endemism in Madagascar and its application to the conservation of Malagasy biodiversity. (Presented in French.)', '2008-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (62, 'Elevational transect in the Andohahela protected area', 'In late 2022
+requested from the granting agency. We are still awaiting that decision', '2020-01-01', NULL, 'A4', 'project/diversity-and-transmission-dynamics-of-infectious-agents-in-malagasy-bats-91');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (7, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-7');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (8, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-8');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (62, 'Elevational transect in the Andohahela protected area', 'In late 2022
 the Vahatra team will redo another elevational transect in the Andohahela
 protected area in the same fashion as Marojejy and part of the The Rainforest
-of the Atsinanana.', '2022-10-15', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (6, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (5, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (11, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (7, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (8, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (9, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (10, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (74, 'Grosphus mavo', 'the remarkable diversity of the genus Grosphus simon, 1880 (scorpiones: buthidae) in southern madagascar and in particular in the region of cap sainte marie. Arachnida – Rivista Aracnologica Italiana, 27(1): 2-35.', '2020-01-01', 'endemic scorpion in the extreme south of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (75, 'Haemaphysalis galidiae', 'Description of a new species of Haemaphysalis koch, 1844 (Acari: ixodidae) from the H. (Rhipistoma) asiatica subgroup, parasite of an endemic malagasy carnivoran (family eupleridae). Systematic Parasitology, 97: 591-599.', '2020-01-01', 'endemic tick known from endemic carnivora', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (76, 'Ixodes soarimalalae', 'Description of three new species of ixodes Latreille, 1795 (acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs and named after Voahangy soarimalala', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (77, 'Ixodes uilenbergi', 'Description of three new species of Ixodes latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from different species of malagasy tenrecs', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (78, 'Ixodes uncus', ' Description of three new species of ixodes Latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (79, 'Mantidactylus ambony ', ' ‘Barcode fishing’ for archival Dna from historical type material overcomes taxonomic hurdles, enabling the description of a new frog species. Scientific Reports, 10, 19109 (2020).', '2020-01-01', 'endemic to a massif in the extreme north of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (80, 'Platypelis ranjomena', 'genetic variability and partial integrative revision of Platypelis frogs (microhylidae) with red flash marks from eastern madagascar. Vertebrate Zoology, 70(2): 141-156', '2020-01-01', '(endemic the central east and northeastern madagascar', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (81, 'Uroplatus fangorn', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (82, 'Uroplatus fivehy', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (58, 'Biological inventories', 'Obtaining scientific information on the RS of Andranomena ant the Ampataka forest. In collaboration with Madagascar National Parks', '2010-03-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (59, 'Biological inventories', 'Biological exploration of the dry forest on karst of Beanka. In collaboration with the Universities of Geneva and Antananarivo.', '2011-11-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (61, 'Biological inventories', 'Exploration of the biological diversity of Bemanevika Forest. In collaboration with the Peregrine Fund.', '2013-10-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (88, 'Indian house Crow eradication and invasive species surveillance', 'In the context of this project, Madagascar Fauna and Flora Group (MFG)
+of the Atsinanana.', '2022-10-15', NULL, 'A1', 'visit/biological-inventories/elevational-transect-in-the-andohahela-protected-area-62');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (63, 'Micro-endemism in Madagascar', 'A new hypothesis and model of micro-endemism in Madagascar and its application to the conservation of Malagasy biodiversity. (Presented in French.)', '2008-01-01', NULL, 'A2', 'conference/micro-endemism-in-madagascar-63');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (9, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-9');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (10, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-10');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (76, 'Ixodes soarimalalae', 'Description of three new species of ixodes Latreille, 1795 (acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs and named after Voahangy soarimalala', 'A4', 'project/ixodes-soarimalalae-76');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (77, 'Ixodes uilenbergi', 'Description of three new species of Ixodes latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637.', '2020-01-01', 'endemic tick known from different species of malagasy tenrecs', 'A4', 'project/ixodes-uilenbergi-77');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (78, 'Ixodes uncus', ' Description of three new species of ixodes Latreille, 1795 (Acari: ixodidae), parasites of tenrecs (Afrotheria: tenrecidae) on madagascar. Systematic Parasitology, 97: 623-637', '2020-01-01', 'endemic tick known from malagasy shrew tenrecs', 'A4', 'project/ixodes-uncus-78');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (79, 'Mantidactylus ambony ', ' ‘Barcode fishing’ for archival Dna from historical type material overcomes taxonomic hurdles, enabling the description of a new frog species. Scientific Reports, 10, 19109 (2020).', '2020-01-01', 'endemic to a massif in the extreme north of the island', 'A4', 'project/mantidactylus-ambony-79');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (80, 'Platypelis ranjomena', 'genetic variability and partial integrative revision of Platypelis frogs (microhylidae) with red flash marks from eastern madagascar. Vertebrate Zoology, 70(2): 141-156', '2020-01-01', '(endemic the central east and northeastern madagascar', 'A4', 'project/platypelis-ranjomena-80');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (6, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-6');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (5, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-5');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (11, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-11');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (74, 'Grosphus mavo', 'the remarkable diversity of the genus Grosphus simon, 1880 (scorpiones: buthidae) in southern madagascar and in particular in the region of cap sainte marie. Arachnida – Rivista Aracnologica Italiana, 27(1): 2-35.', '2020-01-01', 'endemic scorpion in the extreme south of the island', 'A4', 'project/grosphus-mavo-74');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (75, 'Haemaphysalis galidiae', 'Description of a new species of Haemaphysalis koch, 1844 (Acari: ixodidae) from the H. (Rhipistoma) asiatica subgroup, parasite of an endemic malagasy carnivoran (family eupleridae). Systematic Parasitology, 97: 591-599.', '2020-01-01', 'endemic tick known from endemic carnivora', 'A4', 'project/haemaphysalis-galidiae-75');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (81, 'Uroplatus fangorn', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4', 'project/uroplatus-fangorn-81');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (82, 'Uroplatus fivehy', 'towards completion of species inventory of smallsized leaf-tailed geckos: two new species of Uroplatus from northern madagascar. Zootaxa, 4892(2): 251-275.', '2020-01-01', 'endemic gecko to a massif in the north of the island', 'A4', 'project/uroplatus-fivehy-82');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (58, 'Biological inventories', 'Obtaining scientific information on the RS of Andranomena ant the Ampataka forest. In collaboration with Madagascar National Parks', '2010-03-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-58');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (59, 'Biological inventories', 'Biological exploration of the dry forest on karst of Beanka. In collaboration with the Universities of Geneva and Antananarivo.', '2011-11-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-59');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (61, 'Biological inventories', 'Exploration of the biological diversity of Bemanevika Forest. In collaboration with the Peregrine Fund.', '2013-10-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-61');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (28, 'Field Schools', NULL, '2014-01-01', NULL, 'A1', 'visit/field-school/field-schools-28');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (29, 'Field Schools', NULL, '2014-01-01', NULL, 'A1', 'visit/field-school/field-schools-29');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (88, 'Indian house Crow eradication and invasive species surveillance', 'In the context of this project, Madagascar Fauna and Flora Group (MFG)
 in collaboration with Association Vahatra and other partners received a
 grant to eradicate the recently introduced and highly invasive Indian House
 Crow (Corvus splendens) in the Toamasina area, central eastern coast of
@@ -1443,30 +1446,28 @@ and the diet of a quasi-invasive bat species living in human-built structures
 
 As of late 2021, MFG and the project collaborators
 have removed all of the known House Crows on Madagascar, which is a
-major accomplishment.', '2015-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (27, 'Field Schools', NULL, '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (28, 'Field Schools', NULL, '2014-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (29, 'Field Schools', NULL, '2014-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (40, 'Field Schools', NULL, '2004-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (41, 'Field Schools', NULL, '2003-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (42, 'Field Schools', NULL, '2002-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (43, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (44, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (45, 'Field Schools', NULL, '2001-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (46, 'Field Schools', NULL, '2000-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (64, 'New Traversodontidae', 'Two new Traversodontidae from the Triassic of Madagascar: implications for paleoecology and the issue of endemic Malagasy terrestrial vertebrates in the Pre-Jurassic. (Presented in French.)', '2009-01-01', NULL, 'A2');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (30, 'Field Schools', NULL, '2013-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (31, 'Field Schools', NULL, '2013-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (32, 'Field Schools', NULL, '2012-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (33, 'Field Schools', NULL, '2011-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (34, 'Field Schools', NULL, '2010-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (57, 'Biological inventories', 'Obtaining field data for a biological compensation program associated with a mining project. In collaboration with Ambatovy Project.', '2009-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (35, 'Field Schools', NULL, '2010-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (36, 'Field Schools', NULL, '2009-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (37, 'Field Schools', NULL, '2008-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (38, 'Field Schools', NULL, '2008-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (39, 'Field Schools', NULL, '2007-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (90, 'Restauration Patrimoine mondial: Forêts humides de l’Atsinanana', 'The moist evergreen moist evergreen forests of the eastern region of
+major accomplishment.', '2015-01-01', NULL, 'A4', 'project/indian-house-crow-eradication-and-invasive-species-surveillance-88');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (27, 'Field Schools', NULL, '2015-01-01', NULL, 'A1', 'visit/field-school/field-schools-27');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (40, 'Field Schools', NULL, '2004-01-01', NULL, 'A1', 'visit/field-school/field-schools-40');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (41, 'Field Schools', NULL, '2003-01-01', NULL, 'A1', 'visit/field-school/field-schools-41');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (42, 'Field Schools', NULL, '2002-01-01', NULL, 'A1', 'visit/field-school/field-schools-42');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (43, 'Field Schools', NULL, '2001-01-01', NULL, 'A1', 'visit/field-school/field-schools-43');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (44, 'Field Schools', NULL, '2001-01-01', NULL, 'A1', 'visit/field-school/field-schools-44');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (45, 'Field Schools', NULL, '2001-01-01', NULL, 'A1', 'visit/field-school/field-schools-45');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (46, 'Field Schools', NULL, '2000-01-01', NULL, 'A1', 'visit/field-school/field-schools-46');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (30, 'Field Schools', NULL, '2013-01-01', NULL, 'A1', 'visit/field-school/field-schools-30');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (31, 'Field Schools', NULL, '2013-01-01', NULL, 'A1', 'visit/field-school/field-schools-31');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (32, 'Field Schools', NULL, '2012-01-01', NULL, 'A1', 'visit/field-school/field-schools-32');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (64, 'New Traversodontidae from the Triassic of Madagascar', 'Two new Traversodontidae from the Triassic of Madagascar: implications for paleoecology and the issue of endemic Malagasy terrestrial vertebrates in the Pre-Jurassic. (Presented in French.)', '2009-01-01', NULL, 'A2', 'conference/new-traversodontidae-from-the-triassic-of-madagascar-64');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (33, 'Field Schools', NULL, '2011-01-01', NULL, 'A1', 'visit/field-school/field-schools-33');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (34, 'Field Schools', NULL, '2010-01-01', NULL, 'A1', 'visit/field-school/field-schools-34');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (57, 'Biological inventories', 'Obtaining field data for a biological compensation program associated with a mining project. In collaboration with Ambatovy Project.', '2009-01-01', NULL, 'A1', 'visit/biological-inventories/biological-inventories-57');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (35, 'Field Schools', NULL, '2010-01-01', NULL, 'A1', 'visit/field-school/field-schools-35');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (36, 'Field Schools', NULL, '2009-01-01', NULL, 'A1', 'visit/field-school/field-schools-36');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (37, 'Field Schools', NULL, '2008-01-01', NULL, 'A1', 'visit/field-school/field-schools-37');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (38, 'Field Schools', NULL, '2008-01-01', NULL, 'A1', 'visit/field-school/field-schools-38');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (39, 'Field Schools', NULL, '2007-01-01', NULL, 'A1', 'visit/field-school/field-schools-39');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (90, 'Restauration Patrimoine mondial: Forêts humides de l’Atsinanana', 'The moist evergreen moist evergreen forests of the eastern region of
 Madagascar are home to an exceptional diversity of plants and animals and
 these ecosystems play a fundamental role in maintaining biodiversity and
 ecological processes. Their integration some years back within UNESCO’s
@@ -1526,8 +1527,8 @@ of analyzing data to understand patterns of possible change through time
 and the scientific results will be available in the near future. In late 2022
 the Vahatra team will redo another elevational transect in the Andohahela
 protected area in the same fashion as Marojejy and part of the The Rainforest
-of the Atsinanana.', '2021-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (92, 'Save the rainforest sweden (Rädda Regnskog) project at Ambohitantely', 'The Réserve Spéciale d’Ambohitantely is one of the last remnant Central
+of the Atsinanana.', '2021-01-01', NULL, 'A4', 'project/restauration-patrimoine-mondial-forets-humides-de-latsinanana-90');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (92, 'Save the rainforest sweden (Rädda Regnskog) project at Ambohitantely', 'The Réserve Spéciale d’Ambohitantely is one of the last remnant Central
 Highland montane forests on the island and it is of high priority to conserve,
 even though already notably fragmented. This fragile and vulnerable relict
 forest is home to rich and unique biodiversity from the invertebrate to the
@@ -1580,8 +1581,8 @@ of 14 x 5 m with three rooms (kitchen, lab, and large room/dormitory for 8
 persons). Construction is now well underway and 40 000 fires clay bricks,
 cement, iron, etc. have been delivered to the site. The building is at the edge
 of the Madagascar National Parks village complex and a short distance from
-the main forest.', '2021-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (89, 'Land use in the Sava region and global health challenges', 'This project is based on a grant awarded to Duke University, with Dr.
+the main forest.', '2021-01-01', NULL, 'A4', 'project/save-the-rainforest-sweden-radda-regnskog-project-at-ambohitantely-92');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (89, 'Land use in the Sava region and global health challenges', 'This project is based on a grant awarded to Duke University, with Dr.
 Charles Nunn as the Principal Investigator, in 2019 through the Ecology and
 Evolution of Infectious Diseases (EEID) program, a joint initiative between the National Institute of Health and the National Science Foundation (NSF).
 This large-scale project aims to understand the linkages between diseases
@@ -1612,15 +1613,22 @@ associations on the southwestern slopes of the Marojejy Massif; and Johanna
 Rafanomezanjanahary working on bat ecology and habitat associations
 on the southwestern slopes of the Marojejy Massif; Daniel will present
 in March 2022 and Johanna presented in March 2021. Fieldwork for this
-project continues until mid-2023.', '2019-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (86, 'StopRats', 'Stoprats is a multi-partner project financed by the Secretariat of the African and Caribbean Group, led by Natural Resources Institute, University of Greenwich, United Kingdom and including countries like Namibia, Madagascar, Sierra Leone, South Africa, Swaziland , Tanzania. The general objectives of the project are to build capacity in science, in technology and innovation in the management of rodent pests and to contribute to the sustainable development of Africa and Madagascar, so that these institutions could have knowledge of the main indicators of poverty through rodent impacts on agricultural production and food security systems.
+project continues until mid-2023.', '2019-01-01', NULL, 'A4', 'project/land-use-in-the-sava-region-and-global-health-challenges-89');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (86, 'StopRats', 'Stoprats is a multi-partner project financed by the Secretariat of the African and Caribbean Group, led by Natural Resources Institute, University of Greenwich, United Kingdom and including countries like Namibia, Madagascar, Sierra Leone, South Africa, Swaziland , Tanzania. The general objectives of the project are to build capacity in science, in technology and innovation in the management of rodent pests and to contribute to the sustainable development of Africa and Madagascar, so that these institutions could have knowledge of the main indicators of poverty through rodent impacts on agricultural production and food security systems.
 
 Students from the Institute of Technical Science and Environment, University of Fianarantsoa, from the Animal Biology Department, University of Antananarivo, a team of environmental educators, and colleagues from the Institut Pasteur de Madagascar, provide the smooth running of the activities of this project.
 
-In 2014, fifteen scientists from the countries members of Stoprats project were in Madagascar for the field school. Then the series of investigations were conducted in the Malagasy highplands to have knowledge about the extent of damage caused by rats and the methods used to fight against these problems. Meetings with stakeholders on the problems of rats, namely, the responsible of the agriculture, breeding and health were also conducted in Fianarantsoa. Researches on diets and habitats used by the rats and endemic rodents, by using stable isotopes have been undertaken as part of this project.', '2014-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (17, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (18, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (93, 'Developing effective rodent control strategies to reduce disease risk in ecologically and culturally diverse rural landscapes', 'The project, named REDROZ (Reduce Rodent Zoonosis), aims at reducing
+In 2014, fifteen scientists from the countries members of Stoprats project were in Madagascar for the field school. Then the series of investigations were conducted in the Malagasy highplands to have knowledge about the extent of damage caused by rats and the methods used to fight against these problems. Meetings with stakeholders on the problems of rats, namely, the responsible of the agriculture, breeding and health were also conducted in Fianarantsoa. Researches on diets and habitats used by the rats and endemic rodents, by using stable isotopes have been undertaken as part of this project.', '2014-01-01', NULL, 'A4', 'project/stoprats-86');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (13, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-13');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (14, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-14');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (15, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-15');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (16, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-16');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (1, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud : Cap Est', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-1');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (25, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-25');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (26, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-26');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (17, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-17');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (18, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-18');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (93, 'Developing effective rodent control strategies to reduce disease risk in ecologically and culturally diverse rural landscapes', 'The project, named REDROZ (Reduce Rodent Zoonosis), aims at reducing
 the risk from rodent-borne infections in Africa, including Madagascar, by increasing knowledge and expertise needed to develop holistic rodent
 management applicable for local conditions and at the community level.
 Research is designed to answer whether sustainable community-based
@@ -1654,24 +1662,17 @@ to facilitate cross-country comparisons and high-level training to early career
 researchers. A PhD student from The University of Antananarivo, Todisoa
 Radovimiandrinifarany, is integrated in this project in the context of his PhD
 thesis, and two students from The University of Fianarantsoa was taking part
-in the fieldwork in the context of capacity building.', '2021-01-01', NULL, 'A4');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (19, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (20, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (21, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (22, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (23, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (24, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (2, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (3, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (4, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (12, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (13, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (14, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (15, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (16, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (1, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud : Cap Est', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (25, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
-INSERT INTO public.activity (id, title, description, date, note, idtypeactivity) VALUES (26, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1');
+in the fieldwork in the context of capacity building.', '2021-01-01', NULL, 'A4', 'project/developing-effective-rodent-control-strategies-to-reduce-disease-risk-in-ecologically-and-culturally-diverse-rural-landscapes-93');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (19, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-19');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (20, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-20');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (21, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-21');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (22, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-22');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (23, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-23');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (24, 'Visit villages', 'In the immediate vicinity of the RS de Marotandrano and of the PN de Sahamalaza', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-24');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (2, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-2');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (3, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-3');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (4, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-4');
+INSERT INTO public.activity (id, title, description, date, note, idtypeactivity, slug) VALUES (12, 'Visit villages', 'In the immediate vicinity of PN de Marojejy and the RS d’Anjanaharibe-Sud', '2015-01-01', NULL, 'A1', 'visit/science-for-the-people/visit-villages-12');
 
 
 --
@@ -2049,7 +2050,7 @@ INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES 
 -- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES (1, 'pbkdf2_sha256$320000$RSLXVPb41yuOI4DZ10NyZx$ih4QfDBLlsw9AnvzyAMsEaMoEgvVmnWnVPhRR6LOHtY=', '2022-10-11 09:39:15.741305-01', true, 'Vahatra', '', '', 'rotsyvonimanitra@hotmail.com', true, true, '2022-09-29 10:57:53.533944-01');
+INSERT INTO public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES (1, 'pbkdf2_sha256$320000$RSLXVPb41yuOI4DZ10NyZx$ih4QfDBLlsw9AnvzyAMsEaMoEgvVmnWnVPhRR6LOHtY=', '2022-10-12 10:14:47.994952-01', true, 'Vahatra', '', '', 'rotsyvonimanitra@hotmail.com', true, true, '2022-09-29 10:57:53.533944-01');
 
 
 --
@@ -2170,6 +2171,7 @@ INSERT INTO public.django_migrations (id, app, name, applied) VALUES (56, 'webp_
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (57, 'webp_converter', '0002_auto_20191202_1616', '2022-10-11 09:55:02.728547-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (58, 'webp_converter', '0003_auto_20191202_1621', '2022-10-11 09:55:02.735101-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (59, 'webp_converter', '0004_alter_webpimage_id', '2022-10-11 09:55:02.969952-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (60, 'activities', '0005_activity_slug', '2022-10-12 10:15:42.989877-01');
 
 
 --
@@ -2186,6 +2188,7 @@ INSERT INTO public.django_session (session_key, session_data, expire_date) VALUE
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('ut0aminiilzm855kxqvakbc4ft2k26t0', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oTibY:Pt1Gr9vZlB8rKpnLIA6OEBOd8cvkTEj4l6DHzkALoSY', '2022-09-15 10:43:28.654859-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('2nof388b567gs16fxg9petgvgiakmw33', '.eJxVjEEOwiAQRe_C2pC2Ay106d4zEGBmLGrAlDbRGO-uTbrQ7X_vv5dwfl0mt1aaXUIxilYcfrfg45XyBvDi87nIWPIypyA3Re60ylNBuh139y8w-Tp93xwVMHfW2E6j0UjEVgfuo2Lr1QA22hYVACIGDrr3BIyDaaEhA03stmilWlPJjh73ND_F2Lw_wEU_7w:1oiCfL:FAAIn5oOcq_CAf-6RK2-AOD6-sjBr-gtFKk7EnOx_gI', '2022-10-25 09:39:15.848007-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('8dwwyzau63hurcsvm3bakofkwvsgnfe2', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oVYOl:HEP9aok1qcCDJIZOW3Wp1MzXnWZMEzpYFzBZeAoJoMk', '2022-09-20 12:13:51.675972-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('yvidjh1sdkei7nplpny6ifs9lywxap3o', '.eJxVjEEOwiAQRe_C2pDCQAsu3XsGAsyMVA0kpV0Z765NutDtf-_9lwhxW0vYOi1hRnEWSpx-txTzg-oO8B7rrcnc6rrMSe6KPGiX14b0vBzu30GJvXxrzgaYtXdeW3QWidjbxGM27KOZwGev0AAgYuJkx0jAODkFAzkYshbvDwgWOLI:1oiZhI:ghF_a0mhb3yoB4m1mlR1sX9L6Aj1YtNNIp87nBUPJJk', '2022-10-26 10:14:48.714807-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('8cmphysp161nfty057tt5o0b3utfjl8x', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oWcC6:DoQrXHcKd0PAVbRcJSg0FoeqUAgBgc06cLSN-MVOTkw', '2022-09-23 10:29:10.122151-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('x248r8vnwq3qpd0dae7234nxevc2j7o4', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oXj8R:L7VZSA-42_uJObLJdskBqdUI0zBWZd5jAGz7D62mmy4', '2022-09-26 12:05:59.865104-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('vb3k01lu20ac92xxdbk4um9yp7wq4md0', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oXjpO:7qayWMD7B6pdGJto_dR_OMwnWahn816er7GHsJhftQs', '2022-09-26 12:50:22.756191-01');
@@ -3835,7 +3838,7 @@ INSERT INTO public.visit (id, dateend, idactivity, idlocation, idtypesubactivity
 -- Name: activity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.activity_id_seq', 113, true);
+SELECT pg_catalog.setval('public.activity_id_seq', 115, true);
 
 
 --
@@ -3912,7 +3915,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 38, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 59, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 60, true);
 
 
 --
@@ -4017,7 +4020,7 @@ SELECT pg_catalog.setval('public.typepublication_id_seq', 1, false);
 -- Name: visit_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.visit_id_seq', 66, true);
+SELECT pg_catalog.setval('public.visit_id_seq', 67, true);
 
 
 --
@@ -4408,6 +4411,20 @@ CREATE INDEX activity_idtypeactivity_8153ff68 ON public.activity USING btree (id
 --
 
 CREATE INDEX activity_idtypeactivity_8153ff68_like ON public.activity USING btree (idtypeactivity varchar_pattern_ops);
+
+
+--
+-- Name: activity_slug_67fd3e44; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX activity_slug_67fd3e44 ON public.activity USING btree (slug);
+
+
+--
+-- Name: activity_slug_67fd3e44_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX activity_slug_67fd3e44_like ON public.activity USING btree (slug varchar_pattern_ops);
 
 
 --
