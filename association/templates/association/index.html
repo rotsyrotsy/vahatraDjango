@@ -328,7 +328,7 @@
                                     <div class="evnt-box">
                                         <div class="evnt-thmb">
                                             
-                                            <a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">
+                                            <a href="{% url 'activities:activityDetail' activity.slug %}" title="">
                                                 {% if activity.activityimage_set.all %}
                                                     {% with activity.activityimage_set.all|first as image %}
                                                     <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
@@ -339,7 +339,7 @@
                                             </a>
                                         </div>
                                         <div class="evnt-info">
-                                            <h4><a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">{{activity.title | title}}</a></h4>
+                                            <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">{{activity.title | title}}</a></h4>
                                             <ul class="pst-mta">
                                                 <li class="thm-clr">{{activity.date}}</li>
                                                 <li>{{activity.idtypeactivity.type}}</li>
@@ -424,7 +424,7 @@
                                 {% endfor %}
                                 {% for item in new_events %}
                                 <div class="rcnt-bx">
-                                    <a href="{% url 'activities:activityDetail'  item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">
+                                    <a href="{% url 'activities:activityDetail' item.slug %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
                                             <img src="{% static 'images/site/' %}{{item.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
@@ -435,7 +435,7 @@
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{item.idtypeactivity.type}}</small><br>
-                                        <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
+                                        <h6><a href="{% url 'activities:activityDetail' item.slug %}" title="">{{item.title }} </a></h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         
                                     </div>

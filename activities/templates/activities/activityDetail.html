@@ -3,13 +3,21 @@
 {% load activities_extras %}
 {% load publications_extras %}
 {% block title %}{{activity.title}}{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="{{activity.description| truncatewords:30}}. Category:{{activity.idtypeactivity.type}}. Year:{{activity.date|date:'Y'}}" />
+    <meta name="keywords" content="vahatra, association, association vahatra, {{activity.idtypeactivity.type}},{{activity.date|date:'Y'}}, activity" />
+{% endblock %}
+
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
         <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.webp' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
-                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <div style="margin-bottom: 10px;text-align: center;">
+                    <img src="{% static 'images/site/lettre.png' %}" alt="lettre.png" style="opacity: 0.9;">
+                </div>
                 <h2>{{activity.title| truncatewords:3}}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
@@ -34,7 +42,7 @@
                                     <img src="{% static 'images/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
                                 {% endif %}
                                 <div class="blog-detail-inf-inr">
-                                    <h4>{{activity.title}}</h4>
+                                    <h1 style="padding: 10px 0px 5px 0;font-weight: 600; font-size: 1.5rem;">{{activity.title}}</h1>
                                     <ul class="pst-mta">
                                         <li><i class="fa fa-calendar-o thm-clr"></i>{{activity.date |date:"Y"}}</li>
                                         {% if activity.activityperson_set.all  %}
@@ -153,7 +161,7 @@
                                 <div class="rcnt-wrp">
                                     {% for item in new_events %}
                                     <div class="rcnt-bx">
-                                        <a href="{% url 'activities:activityDetail' item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">
+                                        <a href="{% url 'activities:activityDetail' item.slug %}" title="">
                                             
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
@@ -164,7 +172,7 @@
                                         {% endif %}
                                         </a>
                                         <div class="rcnt-inf">
-                                            <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
+                                            <h6><a href="{% url 'activities:activityDetail' item.slug %}" title="">{{item.title }} </a></h6>
                                             <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         </div>
                                     </div>

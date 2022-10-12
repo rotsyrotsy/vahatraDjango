@@ -1,4 +1,5 @@
 from pathlib import Path
+from activities.models import Activity
 import unidecode
 from io import BytesIO
 from django.core.files import File
@@ -6,8 +7,23 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import os
 from math import ceil
+from django.utils.text import slugify
+ 
+def unique_slug_generator(instance: Activity, new_slug = None):
+    if new_slug is not None:
+        slug = slugify(new_slug)
+    else:
+        strToSlug = slugify(str(instance.idtypeactivity.type))
+        if instance.visit_set.all().count()>0:
+            visit = instance.visit_set.get()
+            strToSlug += "/"+slugify(str(visit.idtypesubactivity.type))
+        strToSlug += "/"+slugify(instance.title)+"-"+str(instance.id)
+        slug = strToSlug
+
+    return slug
 
 def toSlug(word):
+    word = word.strip()
     word = word.lower().replace(" ",'-')
     unaccented_string = unidecode.unidecode(word)
     return unaccented_string

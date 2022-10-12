@@ -30,6 +30,7 @@ class Activity(models.Model):
     description = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
     note = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length = 255, null = True, blank = True)
 
     class Meta:
         db_table = 'activity'

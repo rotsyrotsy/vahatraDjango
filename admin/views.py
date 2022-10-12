@@ -244,7 +244,7 @@ def setAttributeByRequestParams(request,params,model):
     i = 0
     for value in values:
         if value != "":
-            setattr(model, params[i], value)
+            setattr(model, params[i], value.strip())
         i += 1
 
 def updateAttributeByRequestParams(request,params,model):
@@ -255,11 +255,13 @@ def updateAttributeByRequestParams(request,params,model):
         if value != str(getattr(model, params[i])):
             if value == "":
                 value = None
+            else:
+                value = value.strip()
             setattr(model, params[i], value)
             countChange += 1
         i += 1
     return countChange
-        
+
 def addActivity(request, idtypeactivity='A1'):
     checkIfAdmin(request)
 
@@ -299,7 +301,9 @@ def addActivity(request, idtypeactivity='A1'):
 
         activity.save()
 
-        lastActivity = activity
+        lastActivity = Activity.objects.last()
+
+
         data = request.POST.items()
         for keys, values in data:
             if 'fkidperson' in keys:
@@ -345,6 +349,10 @@ def addActivity(request, idtypeactivity='A1'):
                         setattr(fs, 'iddept',
                                 Department.objects.get(pk=valueDept))
                     fs.save()
+            
+            
+        lastActivity.slug = unique_slug_generator(lastActivity)
+        lastActivity.save()
 
         context["success"] = "New "+typeactivity.type+" inserted successfully."
 
@@ -480,10 +488,15 @@ def updateActivity(request, activity_id=1):
 
         params = ['title', 'description', 'date', 'note']
         countChangeActivity += updateAttributeByRequestParams(request,params, activity)
-    
+
+        if activity.slug is not None and request.POST['slug']!=activity.slug:
+            activity.slug = unique_slug_generator(activity,request.POST['slug'])
+        else :
+            activity.slug = unique_slug_generator(activity)
+        
         if countChangeActivity > 0:
             countChange += 1
-            activity.save()
+            # activity.save()
             context["activity"] = activity
 
         if request.FILES:
