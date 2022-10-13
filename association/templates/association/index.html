@@ -293,6 +293,7 @@
                     {% for item in type_member_list %}
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box mt-5">
+                            
                             <img src="{% static 'images/members/' %}{{item.image}} " style="width: 265px; height: 265px;" alt="{{item.type}}" title="{{item.type}}">
                             <div class="team-info">
                                 <h4><a href="{% url 'association:member' item.id item.type|toSlug %}" >{{ item.type|title }}</a></h4>
@@ -409,7 +410,7 @@
                                 {% for newpub in new_pubs %}
                                 <div class="rcnt-bx">
                                     <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
-                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="{{newpub.title}}" title="{{newpub.title}}">
+                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68" height="auto" alt="{{newpub.title}}" title="{{newpub.title}}">
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{newpub.idtype.type}}</small><br>
@@ -427,10 +428,10 @@
                                     <a href="{% url 'activities:activityDetail' item.slug %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
+                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" height="auto" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
                                             {% endwith %}
                                         {% else %}
-                                            <img src="{% static 'images/evnt-img1.jpg' %}" width="68"  alt="rcnt-img1.webp">
+                                            <img src="{% static 'images/evnt-img1.jpg' %}" width="68" height="auto"  alt="rcnt-img1.webp">
                                         {% endif %}
                                     </a>
                                     <div class="rcnt-inf">
@@ -551,6 +552,7 @@
 </div>
   {% endblock content %}
 {% block js%}
+<script src="{% static 'js/fichepublication.js' %}"></script>
 <script>
     $('.volume-btn').on('click', function () {
     $('#content').empty();

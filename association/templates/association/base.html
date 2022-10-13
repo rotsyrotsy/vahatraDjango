@@ -67,10 +67,10 @@
                 <li><a href="#" title="Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a></li>
                 <li><a href="#" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>                   
             </ul>
-            <form class="rspn-srch">
-                <input type="text" placeholder="Enter Your Keyword" />
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            <div class="rspn-srch">
+                <input id="keywordToFind" type="text" placeholder="Enter Your Keyword" />
+                <button onclick="FF(this)" id="keywordToFindBtn" type="submit"><i class="fa fa-search"></i></button>
+            </div>
         </div>
         <div class="lg-mn">
             <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img  width="60" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div>
@@ -145,21 +145,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'js/perfectscrollbar.min.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/graingert-wow/1.1.3/wow.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/circliful/1.2.1/js/jquery.circliful.min.js"></script>
 <script src="{% static 'js/custom-scripts.js' %}"></script>
 <script src="{% static 'js/customize.js' %}"></script>
-<script src="{% static 'js/collapsed.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList"></script>
 
-<script src="{% static 'js/fichepublication.js' %}"></script>
+<script>
+    function FF($this){
+        var val = $this.previousElementSibling.value;
+        if(val == ''){
+            console.log('no input');
+        }else{
+            find(val);
+        }
+    }
 
-
-
-
+    var input = document.getElementById("keywordToFind");
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("keywordToFindBtn").click();
+        }
+    }); 
+</script>
 {% block js %}
 {% endblock %}
 </body>

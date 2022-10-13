@@ -10,8 +10,8 @@ from django.urls import reverse
 from django.core import serializers
 from django.http import JsonResponse,HttpResponseRedirect
 from vahatraDjango.functions import pagination, toSlug
-from django.views.decorators.cache import cache_page
-from django.core.cache import cache, caches
+# from django.views.decorators.cache import cache_page
+# from django.core.cache import cache, caches
 
 
 # Create your views here.
