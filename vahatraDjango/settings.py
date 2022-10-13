@@ -177,13 +177,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.live.com'
-EMAIL_HOST_USER = "rotsyvonimanitra@hotmail.com"
-EMAIL_HOST_PASSWORD = "Poushinie"
-# EMAIL_TIMEOUT = 1000
-DEFAULT_FROM_EMAIL = 'rotsyvonimanitra@hotmail.com'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD =  os.getenv('SENDGRID_API_KEY')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = os.getenv('FROM_EMAIL', default='noreply@gmail.com')
+
 
 django_heroku.settings(locals())
 

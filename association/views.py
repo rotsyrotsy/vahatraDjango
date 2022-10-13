@@ -1,7 +1,7 @@
 from math import ceil
 from django.shortcuts import get_object_or_404, render,redirect
 from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner,Person
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.db.models import Q
 from activities.models import Activity, Typesubactivity
 from publications.models import Typepublication,Publication,Publicationauthor
@@ -12,7 +12,7 @@ from django.http import JsonResponse,HttpResponseRedirect
 from vahatraDjango.functions import pagination, toSlug
 # from django.views.decorators.cache import cache_page
 # from django.core.cache import cache, caches
-
+from django.conf import settings
 
 # Create your views here.
 type_visit = Typesubactivity.objects.all()
@@ -96,7 +96,6 @@ def contact(request):
         "type_visit" : type_visit,
         "type_pub": type_pub,
         }
-
     if request.method == "POST":
         message_name = request.POST['message-name']
         message_phone = request.POST['message-phone']
@@ -104,19 +103,30 @@ def contact(request):
         message_subject = request.POST['message-subject']
         message_content = request.POST['message-content']
 
-        send_mail(
-            message_subject, # subject
-            message_content, #content
-            message_email, #from email
-            ['rafa.rotsy@gmail.com'], # to
+        # send_mail(
+        #     message_subject, # subject
+        #     message_content, #content
+        #     message_email, #from email
+        #     ['rafa.rotsy@gmail.com'], # to
+        # )
+        send_mail('Subject here', 'Here is the message.', 'rotsyvonimanitra@hotmail.com', ['rafa.rotsy@gmail.com'], fail_silently=False)
+        email_message = EmailMessage(
+            'subject',
+            'message',
+            settings.DEFAULT_FROM_EMAIL,
+            ['rafa.rotsy@gmail.com'],
+            reply_to=['rotsyvonimanitra@hotmail.com'],
         )
+        email_message.send()
+
         context["message_name"]= message_name
         return render(request, "association/contact.html",context)
     else:
         if request.method == 'GET' and 'email' in request.GET:
             email = request.GET["email"]
             context["email"]= email
-        return render(request, "association/contact.html",context)
+    
+    return render(request, "association/contact.html",context)
 
 def financing(request):
     context = {

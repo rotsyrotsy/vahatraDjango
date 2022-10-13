@@ -2050,7 +2050,7 @@ INSERT INTO public.auth_permission (id, name, content_type_id, codename) VALUES 
 -- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES (1, 'pbkdf2_sha256$320000$RSLXVPb41yuOI4DZ10NyZx$ih4QfDBLlsw9AnvzyAMsEaMoEgvVmnWnVPhRR6LOHtY=', '2022-10-12 10:14:47.994952-01', true, 'Vahatra', '', '', 'rotsyvonimanitra@hotmail.com', true, true, '2022-09-29 10:57:53.533944-01');
+INSERT INTO public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES (1, 'pbkdf2_sha256$320000$RSLXVPb41yuOI4DZ10NyZx$ih4QfDBLlsw9AnvzyAMsEaMoEgvVmnWnVPhRR6LOHtY=', '2022-10-13 05:14:22.461952-01', true, 'Vahatra', '', '', 'rotsyvonimanitra@hotmail.com', true, true, '2022-09-29 10:57:53.533944-01');
 
 
 --
@@ -2188,8 +2188,8 @@ INSERT INTO public.django_session (session_key, session_data, expire_date) VALUE
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('ut0aminiilzm855kxqvakbc4ft2k26t0', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oTibY:Pt1Gr9vZlB8rKpnLIA6OEBOd8cvkTEj4l6DHzkALoSY', '2022-09-15 10:43:28.654859-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('2nof388b567gs16fxg9petgvgiakmw33', '.eJxVjEEOwiAQRe_C2pC2Ay106d4zEGBmLGrAlDbRGO-uTbrQ7X_vv5dwfl0mt1aaXUIxilYcfrfg45XyBvDi87nIWPIypyA3Re60ylNBuh139y8w-Tp93xwVMHfW2E6j0UjEVgfuo2Lr1QA22hYVACIGDrr3BIyDaaEhA03stmilWlPJjh73ND_F2Lw_wEU_7w:1oiCfL:FAAIn5oOcq_CAf-6RK2-AOD6-sjBr-gtFKk7EnOx_gI', '2022-10-25 09:39:15.848007-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('8dwwyzau63hurcsvm3bakofkwvsgnfe2', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oVYOl:HEP9aok1qcCDJIZOW3Wp1MzXnWZMEzpYFzBZeAoJoMk', '2022-09-20 12:13:51.675972-01');
-INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('yvidjh1sdkei7nplpny6ifs9lywxap3o', '.eJxVjEEOwiAQRe_C2pDCQAsu3XsGAsyMVA0kpV0Z765NutDtf-_9lwhxW0vYOi1hRnEWSpx-txTzg-oO8B7rrcnc6rrMSe6KPGiX14b0vBzu30GJvXxrzgaYtXdeW3QWidjbxGM27KOZwGev0AAgYuJkx0jAODkFAzkYshbvDwgWOLI:1oiZhI:ghF_a0mhb3yoB4m1mlR1sX9L6Aj1YtNNIp87nBUPJJk', '2022-10-26 10:14:48.714807-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('8cmphysp161nfty057tt5o0b3utfjl8x', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oWcC6:DoQrXHcKd0PAVbRcJSg0FoeqUAgBgc06cLSN-MVOTkw', '2022-09-23 10:29:10.122151-01');
+INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('yvidjh1sdkei7nplpny6ifs9lywxap3o', '.eJxVjEEOwiAQRe_C2pC2Ay106d4zEGBmLGrAlDbRGO-uTbrQ7X_vv5dwfl0mt1aaXUIxilYcfrfg45XyBvDi87nIWPIypyA3Re60ylNBuh139y8w-Tp93xwVMHfW2E6j0UjEVgfuo2Lr1QA22hYVACIGDrr3BIyDaaEhA03stmilWlPJjh73ND_F2Lw_wEU_7w:1oirU6:hf4xefdMymleP4typtXvNH4X8i0rxQmsIBRr286eLmI', '2022-10-27 05:14:22.560804-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('x248r8vnwq3qpd0dae7234nxevc2j7o4', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oXj8R:L7VZSA-42_uJObLJdskBqdUI0zBWZd5jAGz7D62mmy4', '2022-09-26 12:05:59.865104-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('vb3k01lu20ac92xxdbk4um9yp7wq4md0', 'eyJfc2Vzc2lvbl9leHBpcnkiOjB9:1oXjpO:7qayWMD7B6pdGJto_dR_OMwnWahn816er7GHsJhftQs', '2022-09-26 12:50:22.756191-01');
 INSERT INTO public.django_session (session_key, session_data, expire_date) VALUES ('jejaz55c6r01fcx9r135jaxk7w0pm1s0', 'eyJfc2Vzc2lvbl9leHBpcnkiOjAsImFkbWluIjoiQURNMSJ9:1oaWqT:Bh_KPEkvP0m9u07fUv5QRyD5RZIJlE7GAO83oWorEc8', '2022-10-04 05:35:01.787368-01');
@@ -2432,31 +2432,6 @@ INSERT INTO public.location (id, name, longitude, latitude) VALUES (49, 'Botswan
 -- Data for Name: member; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (1, 'raselimananaachille@gmail.com', 'Founding member. His fields of interest include herpetology, including systematics, biogeography, ecology and biological evaluation as well as study of environmental impact. Responsible for courses on reptiles and amphibians biology for second year students as well as biogeography, ecological monitoring and ecomorphology for master level students.', 1, 2, 'achille.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (2, 'jraherilalao@gmail.com', 'Founding member. She has interests in ornithology including biology, ecology, systematics, biogeography, biological evaluation, and the study of environmental impact. Responsible for teaching of bird biology for second year students as well as evolutionary biology and biodiversity evaluation, especially terrestrial vertebrates for master level students.', 2, 2, 'marie_jeanne.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (3, 'voahangysoarimalala@gmail.com', 'Founding member. Her research interests include mammals, especially small mammals and carnivores which includes systematics, biogeography, ecology, biological evaluation and environmental impact study. Responsible for teaching ecology and animal systematics for first and second year students; biodiversity conservation and valorisation for third year students.', 3, 2, 'voahangy.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (4, 'sgoodman@fieldmuseum.org', ' Founding member. His fields of research interests include several domains such as mammals, bats and birds. He is particularly interested in biology, ecology, systematics, biogeography, paleoecology, etc.', 4, 2, 'steve.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (11, NULL, 'He is actually retired', 11, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (12, NULL, NULL, 12, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (13, NULL, 'He is actually retired', 13, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (14, NULL, NULL, 14, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (15, NULL, NULL, 15, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (16, NULL, NULL, 16, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (17, NULL, NULL, 17, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (18, NULL, NULL, 18, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (19, NULL, NULL, 19, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (20, NULL, NULL, 20, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (21, NULL, NULL, 21, 1, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (5, 'msraharinirina@gmail.com', 'Sabrina joined the association in October 2015.', 5, 4, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (6, NULL, ' Ledada
-started working with the ETP some 29 years ago and transferred to
-Vahatra in October 2007. He has helped organize logistics for hundreds
-of field missions to some of the remotest areas on Madagascar.', 6, 4, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (7, NULL, 'She has worked with
-Vahatra since May 2016.', 7, 4, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (8, NULL, NULL, 8, 4, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (9, NULL, NULL, 9, 4, 'none.jpg');
-INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (10, NULL, NULL, 10, 4, 'none.jpg');
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (25, NULL, NULL, 99, 3, NULL);
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (28, NULL, NULL, 101, 3, NULL);
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (29, NULL, NULL, 102, 3, NULL);
@@ -2502,6 +2477,31 @@ INSERT INTO public.member (id, mail, description, idperson, idtypemember, image)
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (70, NULL, NULL, 143, 3, NULL);
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (71, NULL, NULL, 144, 3, NULL);
 INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (72, NULL, NULL, 145, 3, NULL);
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (1, 'raselimananaachille@gmail.com', 'Founding member. His fields of interest include herpetology, including systematics, biogeography, ecology and biological evaluation as well as study of environmental impact. Responsible for courses on reptiles and amphibians biology for second year students as well as biogeography, ecological monitoring and ecomorphology for master level students.', 1, 2, 'achille.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (2, 'jraherilalao@gmail.com', 'Founding member. She has interests in ornithology including biology, ecology, systematics, biogeography, biological evaluation, and the study of environmental impact. Responsible for teaching of bird biology for second year students as well as evolutionary biology and biodiversity evaluation, especially terrestrial vertebrates for master level students.', 2, 2, 'marie_jeanne.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (11, NULL, 'He is actually retired', 11, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (12, NULL, NULL, 12, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (3, 'voahangysoarimalala@gmail.com', 'Founding member. Her research interests include mammals, especially small mammals and carnivores which includes systematics, biogeography, ecology, biological evaluation and environmental impact study. Responsible for teaching ecology and animal systematics for first and second year students; biodiversity conservation and valorisation for third year students.', 3, 2, 'voahangy.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (4, 'sgoodman@fieldmuseum.org', ' Founding member. His fields of research interests include several domains such as mammals, bats and birds. He is particularly interested in biology, ecology, systematics, biogeography, paleoecology, etc.', 4, 2, 'steve.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (13, NULL, 'He is actually retired', 13, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (14, NULL, NULL, 14, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (15, NULL, NULL, 15, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (16, NULL, NULL, 16, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (17, NULL, NULL, 17, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (18, NULL, NULL, 18, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (19, NULL, NULL, 19, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (20, NULL, NULL, 20, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (21, NULL, NULL, 21, 1, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (5, 'msraharinirina@gmail.com', 'Sabrina joined the association in October 2015.', 5, 4, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (6, NULL, ' Ledada
+started working with the ETP some 29 years ago and transferred to
+Vahatra in October 2007. He has helped organize logistics for hundreds
+of field missions to some of the remotest areas on Madagascar.', 6, 4, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (7, NULL, 'She has worked with
+Vahatra since May 2016.', 7, 4, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (8, NULL, NULL, 8, 4, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (9, NULL, NULL, 9, 4, 'none.webp');
+INSERT INTO public.member (id, mail, description, idperson, idtypemember, image) VALUES (10, NULL, NULL, 10, 4, 'none.webp');
 
 
 --
@@ -3742,10 +3742,10 @@ INSERT INTO public.typeactivity (id, type) VALUES ('A1', 'Visit');
 -- Data for Name: typemember; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.typemember (id, type, description, image) VALUES (1, 'board of directors', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.', 'BEA_113.jpg');
-INSERT INTO public.typemember (id, type, description, image) VALUES (3, 'students', 'Students enrolled within the Malagasy university system, particularly in the field of biology and environmental ecology, are the principal focus of the Vahatra program to help with their advancement and capacity building. We aim at having 12-15 students working with us at any given time. Once a student has finished their degree, the place is open for another incoming student.', 'Beman_037.jpg');
-INSERT INTO public.typemember (id, type, description, image) VALUES (2, 'scientists', 'They are the founding members of the association.', 'Amena_035.jpg');
-INSERT INTO public.typemember (id, type, description, image) VALUES (4, 'staff', 'The current staff includes seven individuals', 'DSC_0587.JPG');
+INSERT INTO public.typemember (id, type, description, image) VALUES (1, 'board of directors', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.', 'BEA_113.webp');
+INSERT INTO public.typemember (id, type, description, image) VALUES (3, 'students', 'Students enrolled within the Malagasy university system, particularly in the field of biology and environmental ecology, are the principal focus of the Vahatra program to help with their advancement and capacity building. We aim at having 12-15 students working with us at any given time. Once a student has finished their degree, the place is open for another incoming student.', 'Beman_037.webp');
+INSERT INTO public.typemember (id, type, description, image) VALUES (2, 'scientists', 'They are the founding members of the association.', 'Amena_035.webp');
+INSERT INTO public.typemember (id, type, description, image) VALUES (4, 'staff', 'The current staff includes seven individuals', 'DSC_0587.webp');
 
 
 --

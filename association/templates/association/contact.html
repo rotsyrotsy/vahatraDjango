@@ -112,6 +112,8 @@
 {% endblock content %}
 
 {% block js %}
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
+
 <script>
     var img = "{% static 'images/map-icon.png' %}";
     var map = new ol.Map({
