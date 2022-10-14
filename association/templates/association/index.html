@@ -66,7 +66,7 @@
                         <div class="plr-box">
                             <div class="img"><img src="{% static 'fonts/mycollection/Lurcifer_pardalis.webp' %}" alt="Lurcifer pardalis" title="Lurcifer pardalis" ></div>
                             <div class="pilr-info">
-                                <h4>Lucifer<br>Pardalis</h4>
+                                <h4>Furcifer<br>pardalis</h4>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                             <div class="img"><img src="{% static 'fonts/mycollection/Boophis_marojezensis_ZHM.webp' %} " alt="Boophis_marojezensis_ZHM" title="Boophis_marojezensis_ZHM"></div>
                             <div class="pilr-info">
                                 
-                                <h4>Boophis <br>Marojezensis ZHM</h4>
+                                <h4>Boophis <br>marojezensis</h4>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         <div class="plr-box">
                             <div class="img"><img src="{% static 'fonts/mycollection/Corythornis_madagascariensis.webp' %} "  alt="Corythornis_madagascariensis" title="Corythornis_madagascariensis"></div>
                             <div class="pilr-info">
-                                <h4>Corythornis <br>Madagascariensis</h4>
+                                <h4>Corythornis <br>madagascariensis</h4>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <div class="plr-box">
                             <div class="img"><img src="{% static 'fonts/mycollection/Miza_242.webp' %} "  alt="Miza_242" title="Miza_242"></div>
                             <div class="pilr-info">
-                                <h4>Miza 242</h4>
+                                <h4>Elirus <br>tanala</h4>
                             </div>
                         </div>
                     </div>
@@ -277,15 +277,15 @@
     </div>
   </section>
   <div >
-  <section>
-    <div class="gap top-spac60 white-layer opc9">
+    <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
+        <div class="gap top-spac60 white-layer opc9">
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>Our Team</span>
                     <h3>Members of the organization </h3>
                 </div>
-                <p>The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable. </p>
+                <p  style="color: #000;" >The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable. </p>
             </div>
             <div class="team-wrap text-center remove-ext5">
                 <div class="row mycaroussel-simple mrg">
@@ -308,13 +308,11 @@
         </div>
     </div>
   </section>
-  <section>
-    <div class="gap top-spac120 gray-layer opc95 pb-5" >
-        <img class="top-shp shp-img" src="{% static 'images/shp40.png' %} " alt="shp4.png">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.webp' %});"></div>
+  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
+    <div class="gap top-spac120 gray-layer opc9 pb-5" style="background: rgba(255,255,255,.7)" >
         <div class="container">
             <div class="evnt-pry-wrap">
-                <div class="row">
+                <div class="row ">
                     <div class="col-md-8 col-sm-12 col-lg-8">
                         <div class="sec-title">
                             <div class="sec-title-inner">
@@ -488,67 +486,6 @@
         </div>
     </div>
   </section>
-  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
-    <div class="gap no-gap">
-        <div class="container">
-            <div class="sec-title style2 text-center">
-                <div class="sec-title-inner">
-                    <span>Our </span>
-                    <h3>Partners</h3>
-                </div>
-                <p style="color: #000;">Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain.</p>
-            </div>
-            <div class="bord-wrap">
-                <div class="row mrg mycaroussel-partner" data-length="{{partner_list|length}}">
-                    {% for partner in partner_list %}
-                        <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
-                            <div class="bord-box">
-                                {% with 'images/partners/'|add:partner.logo as logo %}
-                                <img src="{% static logo %}"  alt="{{partner.idinst.name}}" title="{{partner.idinst.name}}">
-                                {% endwith %}
-                                <div class="bord-info">
-                                    <h4>{{partner.idinst.name}}</h4>
-                                    <p>{{partner.description|default_if_none:""}}</p>
-                                    <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</section>
-<section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
-    <div class="gap">
-        <div class="container">
-            <div class="sec-title style2 text-center">
-                <div class="sec-title-inner">
-                    <span>Our </span>
-                    <h3>Links</h3>
-                </div>
-            </div>
-            <div class="bord-wrap">
-                <div class="row mrg" data-length="{{links_list|length}}">
-                    {% for link in links_list %}
-                        <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
-                            <div class="bord-box">
-                                <img src="{% static 'images/partners/' %}{{link.logo}}" width="100" height="100" alt="{{link.idinst.name}}" title="{{link.idinst.name}}">
-                                <div class="bord-info">
-                                    <h4>{{link.idinst.name}}</h4>
-                                    <p>{{link.description|default_if_none:""}}</p>
-                                    <span><a href="{{link.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</section>
 </div>
   {% endblock content %}
 {% block js%}

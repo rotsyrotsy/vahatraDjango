@@ -1,18 +1,20 @@
 from math import ceil
 from django.shortcuts import get_object_or_404, render,redirect
 from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner,Person
-from django.core.mail import send_mail,EmailMessage
 from django.db.models import Q
 from activities.models import Activity, Typesubactivity
 from publications.models import Typepublication,Publication,Publicationauthor
 from datetime import date,timedelta
-from django.urls import reverse
 from django.core import serializers
 from django.http import JsonResponse,HttpResponseRedirect
-from vahatraDjango.functions import pagination, toSlug
+from vahatraDjango.functions import   pagination, toSlug
 # from django.views.decorators.cache import cache_page
 # from django.core.cache import cache, caches
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+import imaplib, time
+
+
 
 # Create your views here.
 type_visit = Typesubactivity.objects.all()
@@ -103,21 +105,30 @@ def contact(request):
         message_subject = request.POST['message-subject']
         message_content = request.POST['message-content']
 
-        # send_mail(
-        #     message_subject, # subject
-        #     message_content, #content
-        #     message_email, #from email
-        #     ['rafa.rotsy@gmail.com'], # to
-        # )
-        send_mail('Subject here', 'Here is the message.', 'rotsyvonimanitra@hotmail.com', ['rafa.rotsy@gmail.com'], fail_silently=False)
-        email_message = EmailMessage(
-            'subject',
-            'message',
-            settings.DEFAULT_FROM_EMAIL,
-            ['rafa.rotsy@gmail.com'],
-            reply_to=['rotsyvonimanitra@hotmail.com'],
-        )
-        email_message.send()
+        
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to = [message_email]
+        text_content = 'Thank you, we have received your email and will answer soon.Here is your message:'+message_content+'.'
+        html_content = '<p>Bonjour '+message_name+',</p>\
+            <p>Merci, nous avons bien reçu votre mail et un responsable va vous répondre bientôt.</p>\
+                <p>Voici votre message:<br> <strong>"'+message_content+'"</strong></p>\
+                    <p>Cordialement,</p>\
+                    <span style="color:#d1ad3c;font-style:italic;">Association Vahatra<br>\
+                    associatvahatra@moov.mg<br>\
+                    20 22 277 55</span>'
+        msg = EmailMultiAlternatives(message_subject, text_content, from_email, to)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+
+        # messageSent = EmailMultiAlternatives(message_subject, message_content, message_email, [from_email])
+        messageSent = str(msg.message())
+
+        imap = imaplib.IMAP4_SSL(settings.EMAIL_HOST, 993)
+        imap.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+        imap.append('INBOX.Sent', '\\Seen', imaplib.Time2Internaldate(time.time()), messageSent.encode())
+        imap.logout()
+
 
         context["message_name"]= message_name
         return render(request, "association/contact.html",context)

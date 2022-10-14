@@ -302,3 +302,11 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+.testi-itm-custom {
+  float: left;
+  width: 100%;
+  position: relative;
+  padding: 78px 30px 35px;
+  background: rgba(255,255,255,.7);
+}

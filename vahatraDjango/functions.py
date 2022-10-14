@@ -8,7 +8,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import os
 from math import ceil
 from django.utils.text import slugify
- 
+
 def unique_slug_generator(instance: Activity, new_slug = None):
     if new_slug is not None:
         slug = slugify(new_slug)
