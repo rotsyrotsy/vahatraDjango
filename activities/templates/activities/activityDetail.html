@@ -21,7 +21,7 @@
                 <h2>{{activity.title| truncatewords:3}}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
-                    <li><a href="{% url 'activities:otherActivity' activity.idtypeactivity.id activity.idtypeactivity.type %}" title="">{{activity.idtypeactivity.type}}</a></li>
+                    <li><a href="{% url 'activities:index' activity.idtypeactivity.id activity.idtypeactivity.type %}" title="">{{activity.idtypeactivity.type}}</a></li>
                     <li>{{activity.title| truncatewords:3}}</li>
                 </ul>
             </div><!-- Page Title Wrap -->

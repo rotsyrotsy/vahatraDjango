@@ -59,7 +59,12 @@
             <div class="pagination-wrap text-center">
                 <ul class="pagination">
                     {% for number in page_number %}
-                        <li ><a href="{% url 'activities:otherActivity' type_activity.id type_activity.type|toSlug number %}" title="">{{number}}</a></li>
+                        {% if type_subactivity %}
+                        <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id type_subactivity.type|toSlug number %}" title="">{{number}}</a></li>
+                        {% else %}
+                        <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug number %}" title="">{{number}}</a></li>
+                        {% endif %}
+                        
                     {% endfor %}
                 </ul>
             </div>

@@ -10,46 +10,68 @@ from django.db.models import Q
 from vahatraDjango.functions import toSlug,pagination
 # # Create your views here.
 
-type_visit = Typesubactivity.objects.all
-type_pub = Typepublication.objects.all
-context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
+type_pub = Typepublication.objects.all().order_by("id")
+
+def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_id=None,typesubactivity_name=None,page=1):
+    context = {
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
+    typeactivity= get_object_or_404(Typeactivity, pk = typeactivity_id)
+    context["type_activity"] = typeactivity
+        
+    slug = toSlug(typeactivity.type)
+    if typeactivity_name!=slug:
+        return redirect('activities:index', typeactivity_id=typeactivity.id, typeactivity_name=slug,typesubactivity_id=typesubactivity_id,typesubactivity_name=typesubactivity_name)
+    thelist = [] 
 
-def index(request, typesubactivity_id='SA1',typesubactivity_name='science-for-the-people'):
+    if typesubactivity_id:
+        typesubactivity = get_object_or_404(Typesubactivity, pk=typesubactivity_id)
+        slug = toSlug(typesubactivity.type)
+        if typesubactivity_name!=slug:
+            return redirect('activities:index',typeactivity_id=typeactivity.id, typeactivity_name=typeactivity.type, typesubactivity_id=typesubactivity.id, typesubactivity_name=slug)
+        
+        context["type_subactivity"]=typesubactivity
+
+        if typeactivity.id == 'A1': # IF THE ACTIVITY IS A VISIT
+            visits = get_list_or_404(Visit, Q(idactivity__idtypesubactivity = typesubactivity_id), Q(idactivity__date__lt=date.today())|Q(idactivity__date__isnull=True))
+            context["visits"]= visits
+            
+            locations= list(map(lambda x: x.idlocation, visits)) #locations of visit
+            locations=list(dict.fromkeys(locations)) #remove duplicates
+            context['locations']=locations.sort(key=lambda x: x.name, reverse=False)
+
+            listImageLocation = []
+            for location in locations:
+                dictionnary = {
+                    'location':location,
+                }
+                visitLocations = location.visit_set.filter(idactivity__idtypesubactivity=typesubactivity.id)
+                image = None
+                for visitLocation in visitLocations:
+                    if visitLocation.idactivity.activityimage_set.all():
+                        image = visitLocation.idactivity.activityimage_set.all()[0]
+                        break
+                dictionnary['image']=image
+                listImageLocation.append(dictionnary)
+            
+            context['dicts']=listImageLocation
+            return render(request, "activities/index.html", context)
+        else:
+            thelist = Activity.objects.filter( Q(idtypeactivity_id = typeactivity.id),Q(date__lt=date.today())|Q(date__isnull=True), Q(idtypesubactivity_id=typesubactivity.id))
+    else:
+        thelist = Activity.objects.filter( Q(idtypeactivity_id = typeactivity.id),Q(date__lt=date.today())|Q(date__isnull=True))
     
-    typesubactivity = get_object_or_404(Typesubactivity, pk=typesubactivity_id)
-    slug = toSlug(typesubactivity.type)
-    if typesubactivity_name!=slug:
-        return redirect('activities:index', typesubactivity_id=typesubactivity.id, typesubactivity_name=slug)
+    page_number=0
+    if (thelist.count() > 0):
+        dictpagination = pagination(page, thelist, 6, '-date')
+        page_number = dictpagination['page_number']
+        activities = dictpagination['list']
+        context["activities"] = activities
 
-    context["type_visite"]=typesubactivity
-
-    visits = get_list_or_404(Visit, Q(idtypesubactivity = typesubactivity_id), Q(idactivity__date__lt=date.today())|Q(idactivity__date__isnull=True))
-    context["visits"]= visits
-    
-    locations= list(map(lambda x: x.idlocation, visits)) #locations of visit
-    locations=list(dict.fromkeys(locations)) #remove duplicates
-    context['locations']=locations.sort(key=lambda x: x.name, reverse=False)
-
-    listImageLocation = []
-    for location in locations:
-        dictionnary = {
-            'location':location,
-        }
-        visitLocations = location.visit_set.filter(idtypesubactivity=typesubactivity.id)
-        image = None
-        for visitLocation in visitLocations:
-            if visitLocation.idactivity.activityimage_set.all():
-                image = visitLocation.idactivity.activityimage_set.all()[0]
-                break
-        dictionnary['image']=image
-        listImageLocation.append(dictionnary)
-    
-    context['dicts']=listImageLocation
-
-    return render(request, "activities/index.html", context)
+    context["page_number"]= range(1,page_number+1)
+    return render(request, "activities/otherActivities.html", context)
 
 def visit_by_lieu(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
@@ -61,7 +83,7 @@ def visit_by_lieu(request):
            
             lieu_id = request.GET.get('lieu_id','')
             id_visit_type = request.GET.get('id_visit_type','')
-            visits = get_list_or_404(Visit, idlocation=lieu_id, idtypesubactivity=id_visit_type)
+            visits = get_list_or_404(Visit, idlocation=lieu_id, idactivity__idtypesubactivity=id_visit_type)
             lieu = get_object_or_404(Location, pk = lieu_id)
             
             for visit in visits:
@@ -80,41 +102,28 @@ def visit_by_lieu(request):
         return HttpResponseBadRequest('Invalid request')
 
 def support(request):
+    context = {
+        "types_activity": type_activity,
+        "types_pub": type_pub,
+        }
     partner_list = Partner.objects.filter(isLink=False)
     context["partner_list"]= partner_list
     
     return render(request, "activities/support.html", context)
 
 def atlas(request):
+    context = {
+        "types_activity": type_activity,
+        "types_pub": type_pub,
+        }
     return render(request, "activities/atlas.html", context)
-
-def otherActivity(request,typeactivity_id='A2',typeactivity_name="conference",page=1):
-    
-    typeactivity= get_object_or_404(Typeactivity, pk = typeactivity_id)
-    context["type_activity"] = typeactivity
-
-    if typeactivity.id=='A1':
-        return redirect('activities:index')
-    slug = toSlug(typeactivity.type)
-    if typeactivity_name!=slug:
-        print(typeactivity_name,slug)
-        return redirect('activities:otherActivity', typeactivity_id=typeactivity.id, typeactivity_name=slug)
-
-    list = Activity.objects.filter( Q(idtypeactivity_id = typeactivity_id),Q(date__lt=date.today())|Q(date__isnull=True))
-    
-    page_number=0
-    if (list.count() > 0):
-        dictpagination = pagination(page, list, 6, '-date')
-        page_number = dictpagination['page_number']
-        activities = dictpagination['list']
-        context["activities"] = activities
-
-    context["type"]= type
-    context["page_number"]= range(1,page_number+1)
-    return render(request, "activities/otherActivities.html", context)
 
 
 def activityDetail(request,slug):
+    context = {
+        "types_activity": type_activity,
+        "types_pub": type_pub,
+        }
 
     activity = get_object_or_404(Activity, slug = slug)
 
@@ -130,6 +139,10 @@ def activityDetail(request,slug):
     return render(request, "activities/activityDetail.html", context)
 
 def collection(request,salle=''):
+    context = {
+        "types_activity": type_activity,
+        "types_pub": type_pub,
+        }
     context['salle']=salle
     return render(request, "activities/collection.html",context)
 

@@ -31,13 +31,13 @@ class Activity(models.Model):
     date = models.DateField(blank=True, null=True)
     note = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(max_length = 255, null = True, blank = True)
+    idtypesubactivity = models.ForeignKey('Typesubactivity', models.DO_NOTHING, db_column='idtypesubactivity', null=True)
 
     class Meta:
         db_table = 'activity'
 
 class Visit(models.Model):
     idactivity = models.ForeignKey('Activity', db_column='idactivity',on_delete =models.CASCADE)
-    idtypesubactivity = models.ForeignKey('Typesubactivity', models.DO_NOTHING, db_column='idtypesubactivity')
     idlocation = models.ForeignKey('Location', models.DO_NOTHING, db_column='idlocation')
     dateend = models.DateField(blank=True, null=True)
 

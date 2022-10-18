@@ -2,7 +2,7 @@ from math import ceil
 from django.shortcuts import get_object_or_404, render,redirect
 from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner,Person
 from django.db.models import Q
-from activities.models import Activity, Typesubactivity
+from activities.models import Activity, Typeactivity, Typesubactivity
 from publications.models import Typepublication,Publication,Publicationauthor
 from datetime import date,timedelta
 from django.core import serializers
@@ -17,13 +17,13 @@ import imaplib, time
 
 
 # Create your views here.
-type_visit = Typesubactivity.objects.all()
-type_pub = Typepublication.objects.all
+type_pub = Typepublication.objects.all().order_by("id")
+type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
 
 def index(request):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     type_member_list = Typemember.objects.all
     partner_list = Partner.objects.filter(isLink=False)
@@ -50,8 +50,8 @@ def index(request):
 
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     type = get_object_or_404(Typemember, pk = type_member_id)
 
@@ -95,8 +95,8 @@ def member(request,type_member_name=None, type_member_id=None,keyword=None, page
 
 def contact(request):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     if request.method == "POST":
         message_name = request.POST['message-name']
@@ -121,14 +121,13 @@ def contact(request):
         msg.send()
 
 
-        # messageSent = EmailMultiAlternatives(message_subject, message_content, message_email, [from_email])
         messageSent = str(msg.message())
 
+        ## IMAPLIB DE SENDGRID NE MARCHE PAS
         imap = imaplib.IMAP4_SSL(settings.EMAIL_HOST, 993)
         imap.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
         imap.append('INBOX.Sent', '\\Seen', imaplib.Time2Internaldate(time.time()), messageSent.encode())
         imap.logout()
-
 
         context["message_name"]= message_name
         return render(request, "association/contact.html",context)
@@ -141,16 +140,16 @@ def contact(request):
 
 def financing(request):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     return render(request, "association/financing.html",context)
 
     
 def gallery(request,limit=9):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     limit = int(limit)
     

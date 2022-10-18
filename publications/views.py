@@ -1,5 +1,5 @@
-from django.shortcuts import get_object_or_404, render, get_list_or_404,redirect
-from activities.models import Typesubactivity
+from django.shortcuts import get_object_or_404, render, redirect
+from activities.models import Typeactivity
 from publications.models import  Publication,Typepublication,Publicationdetail,Publicationauthor
 from django.core import serializers
 from django.http import JsonResponse, HttpResponseBadRequest,HttpResponseRedirect,HttpResponse
@@ -7,21 +7,18 @@ from datetime import date
 from django.db.models import Q
 from django.db.models import Min,Max
 from django.urls import reverse
-from math import ceil
 from association.models import Person
 from vahatraDjango.functions import pagination, toSlug
 # Create your views here.
 
-type_visit = Typesubactivity.objects.all
-type_pub = Typepublication.objects.all
-context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
-        }
+type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
+type_pub = Typepublication.objects.all().order_by("id")
 
 def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
-    
-    
+    context = {
+        "types_activity": type_activity,
+        "types_pub": type_pub,
+        }
     type = get_object_or_404(Typepublication, pk=typepublication_id)
     context["pub_type"]=type
 
@@ -63,8 +60,8 @@ def detail(request):
 
 def search(request,keyword="",page=1):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
 
     if 'keyword' in request.GET:
@@ -105,10 +102,9 @@ def search(request,keyword="",page=1):
 
 def multicriteriasearch(request):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
-
     page = 1
     if request.method == 'POST':
         author=""
@@ -147,10 +143,6 @@ def multicriteriasearch(request):
     return HttpResponseRedirect(reverse("publications:index"))
 
 def download_pdf_file(request, location='',filename=''):
-    context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
-    }
     import os
     import mimetypes
     print(filename)

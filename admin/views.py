@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadReque
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.models import Administrator
 from django.shortcuts import render
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.db.models import Min, Max,Q,Count, Case, Value, When
 from sequences import get_next_value
 from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
@@ -18,6 +18,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.db.models.functions import ExtractYear
 from itertools import groupby
 from operator import itemgetter
+from django.conf import settings
+from django.contrib.auth.models import User
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -67,71 +69,71 @@ def my_logout(request):
         pass
     return render(request, "admin/login.html", {"message": "You're logged out"})
 
+def reset_password_verify(request):
+    admin = None
+    if request.method == 'POST':
+        if 'code' in request.POST:
+            checkCode = str(request.POST["checkCode"])
+            code = str(request.POST["code"])
+            if code == checkCode:
+                return render(request, "admin/reset_password.html", {"message":"Now, enter a new password"})
+            else:
+                return render(
+                    request,
+                    "admin/reset_password_verify.html",
+                    {
+                        "checkCode" : checkCode,
+                        "error_message": "Your code is invalidate.",
+                    },
+                )
 
-# def login(request):
-#     if request.method == 'POST':
-#         try:
-#             # encryptedpassword=make_password(request.POST['password'])
-#             # print(encryptedpassword)
-#             # checkpassword=check_password(request.POST['password'], encryptedpassword)
-#             # print(checkpassword)
-#             # data = Administrator(id='ADM2',username=request.POST["username"],password=encryptedpassword)
-#             # data.save()
-#             admin = Administrator.objects.get(
-#                 username=request.POST["username"])
-#             if check_password(request.POST['password'], admin.password) == False:
-#                 raise Administrator.DoesNotExist
-#         except (KeyError, Administrator.DoesNotExist):
-#             return render(
-#                 request,
-#                 "admin/login.html",
-#                 {
-#                     "error_message": "Verify your username and password.",
-#                 },
-#             )
-#         else:
-#             if len(request.POST.getlist("remember_me")) == 0:
-#                 request.session.set_expiry(0)
-#             request.session['admin'] = admin.id
-#             return HttpResponseRedirect(reverse("admin:index"))
-#     else:
-#         return render(request, "admin/login.html")
+        if "mail" in request.POST:
+            try:
+                admin = User.objects.get(email = request.POST["mail"])
+                request.session['admin_account_id']=admin.id
+            except (KeyError, User.DoesNotExist):
+                return render(
+                    request,
+                    "admin/reset_password_verify.html",
+                    {
+                        "error_message": "There is no account related to this email. Verify your input.",
+                    },
+                )
+            else:
+                
+                ## GENERATE CODE 
+                checkCode = get_random_code(6)
+                
+                from_email = settings.DEFAULT_FROM_EMAIL
+                to = [admin.email]
+                text_content = 'Changement de mot de passe administrateur'
+                html_content = '<p>Bonjour,</p>\
+                    <p>Voici votre code de confirmation de changement de mot de passe: \
+                        <strong>'+checkCode+'</strong></p>\
+                            <span style="color:#d1ad3c;font-style:italic;">Association Vahatra<br>\
+                            associatvahatra@moov.mg<br>\
+                            20 22 277 55</span>'
+                msg = EmailMultiAlternatives('Changement de mot de passe de Vahatra', text_content, from_email, to)
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
 
 
-# def logout(request):
-#     try:
-#         del request.session['admin']
-#     except KeyError:
-#         pass
-#     return render(request, "admin/login.html", {"message": "You're logged out"})
+                return render(request, "admin/reset_password_verify.html", {"message": "Check your mail and enter the code we've sent to you.", "checkCode":checkCode})
+    return render(request, "admin/reset_password_verify.html")
 
 
 def reset_password(request):
     if request.method == 'POST':
+        admin = User.objects.get(pk = request.session['admin_account_id'])
+        admin.set_password(str(request.POST["password"]))
+        admin.save()
         try:
-            admin = Administrator.objects.get(mail=request.POST["mail"])
-        except (KeyError, Administrator.DoesNotExist):
-            return render(
-                request,
-                "admin/reset_password.html",
-                {
-                    "error_message": "There is no account related to this email. Verify your input.",
-                },
-            )
-        else:
-            print(admin.mail)
-            # email = EmailMessage('Test', 'Test', to=['rafa.rotsy@gmail.com'])
-            # email.send()
-            send_mail(
-                'Password reset',
-                'Here is the code to enable you resetting your administrator password: "TEST" ',
-                'rotsyvonimanitra@hotmail.com',
-                ['rafa.rotsy@gmail.com'],
-                fail_silently=False,
-            )
-            return render(request, "admin/reset_password.html", {"message": "We have sent you an email to change your password."})
-    else:
-        return render(request, "admin/reset_password.html")
+            del request.session['admin_account_id']
+        except KeyError:
+            pass
+        return render(request, "admin/login.html",{"message":"Your password has been changed successfully."})
+    return render(request, "admin/reset_password_verify.html")
+
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 

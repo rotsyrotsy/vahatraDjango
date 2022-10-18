@@ -8,6 +8,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 import os
 from math import ceil
 from django.utils.text import slugify
+import random
+import string
 
 def unique_slug_generator(instance: Activity, new_slug = None):
     if new_slug is not None:
@@ -124,3 +126,9 @@ def move(source,destination):
         # Create a new directory because it does not exist 
         os.makedirs(destination)
     shutil.move(source,destination)
+
+def get_random_code(length):
+    # choose from all lowercase letter
+    letters = string.ascii_uppercase+string.digits
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str

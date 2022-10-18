@@ -4,11 +4,12 @@ from . import views
 app_name = "activities"
 urlpatterns = [
     path("", views.index, name="index"),
-    path("visit/<str:typesubactivity_id>/<str:typesubactivity_name>", views.index, name="index"),
-    path("visit/lieu", views.visit_by_lieu, name="visit_by_lieu"),
+    path("list/<str:typeactivity_id>/<str:typeactivity_name>", views.index, name="index"),
+    path("list/<str:typeactivity_id>/<str:typeactivity_name>/<str:typesubactivity_id>/<str:typesubactivity_name>", views.index, name="index"),
+    path("list/<str:typeactivity_id>/<str:typeactivity_name>/page-<int:page>", views.index, name="index"),
+    path("list/<str:typeactivity_id>/<str:typeactivity_name>/<str:typesubactivity_id>/<str:typesubactivity_name>/page-<int:page>", views.index, name="index"),
+    path("lieu", views.visit_by_lieu, name="visit_by_lieu"),
     path("support", views.support, name="support"),
-    path("<str:typeactivity_id>/<str:typeactivity_name>s", views.otherActivity, name="otherActivity"),
-    path("<str:typeactivity_id>/<str:typeactivity_name>s/page-<int:page>", views.otherActivity, name="otherActivity"),
     path("collection-room", views.collection, name="collection"),
     path("ajaxActivityDetail", views.ajaxActivityDetail, name="ajaxActivityDetail"),
     path("atlas", views.atlas, name="atlas"),
