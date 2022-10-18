@@ -34,11 +34,18 @@
 
                   <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
                     <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="mdi mdi-calendar"></i> Sort of type
+                     <i class="mdi mdi-calendar"></i> 
+                     {% if subactivity %}
+                        {{subactivity.type}}
+                     {% else %}
+                        Sort of type
+                     {% endif %}
+                     
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2" style="">
-                      {% for subactivity in type.typesubactivity_set.all %}
-                        <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity.id 1%}">{{subactivity.type}}</a>
+                      <a class="dropdown-item" href="{% url 'admin:listActivities' type.id 1%}">all</a>
+                      {% for item in type.typesubactivity_set.all %}
+                        <a class="dropdown-item" href="{% url 'admin:listActivities' type.id item.id 1%}">{{item.type}}</a>
                       {% endfor %}
                     </div>
                   </div>
@@ -54,10 +61,10 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2" style="">
                       
-                        {% if subactivity_id %}
-                          <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity_id 1 %}">all</a>
+                        {% if subactivity %}
+                          <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity.id 1 %}">all</a>
                           {% for i in years %}
-                            <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity_id i 1 %}">{{i}}</a>
+                            <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity.id i 1 %}">{{i}}</a>
                           {% endfor %}
                         {% else %}
                           <a class="dropdown-item" href="{% url 'admin:listActivities' type.id %}">all</a>
@@ -148,13 +155,13 @@
                 <div class="pagination-wrap text-center">
                     <ul class="pagination">
                         {% for number in page_number %}
-                            {% if subactivity_id %}
+                            {% if subactivity %}
                               {% if year %}
-                                <li ><a href="{% url 'admin:listActivities' type.id subactivity_id year number %}" title="">{{number}}</a></li>
+                                <li ><a href="{% url 'admin:listActivities' type.id subactivity.id year number %}" title="">{{number}}</a></li>
                               {% else %}
-                                <li ><a href="{% url 'admin:listActivities' type.id subactivity_id number %}" title="">{{number}}</a></li>
+                                <li ><a href="{% url 'admin:listActivities' type.id subactivity.id number %}" title="">{{number}}</a></li>
                               {% endif %}
-                            {% elif not subactivity_id and year %}
+                            {% elif not subactivity and year %}
                               <li ><a href="{% url 'admin:listActivities' type.id year number %}" title="">{{number}}</a></li>
                             {% else %}
                               <li ><a href="{% url 'admin:listActivities' type.id number %}" title="">{{number}}</a></li>

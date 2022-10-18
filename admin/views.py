@@ -150,18 +150,16 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
 
     list = Activity.objects.filter(idtypeactivity_id=activity_id)
     if subactivity_id is not None:
-        idactivity_list = Visit.objects.filter(
-            idtypesubactivity=subactivity_id).values('idactivity')
-
+        subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)
         if year is not None:
             list = Activity.objects.filter(
-                idtypeactivity_id=activity_id, pk__in=idactivity_list, date__year=year)
+                idtypeactivity_id=type.id, idtypesubactivity_id = subactivity.id, date__year=year)
             context["year"] = year
         else:
             list = Activity.objects.filter(
-                idtypeactivity_id=activity_id, pk__in=idactivity_list)
+                idtypeactivity_id=type.id, idtypesubactivity_id = subactivity.id)
 
-        context["subactivity_id"] = subactivity_id
+        context["subactivity"] = subactivity
     else:
         if year is not None:
             list = Activity.objects.filter(
@@ -254,7 +252,7 @@ def updateAttributeByRequestParams(request,params,model):
     values = [request.POST.get(p) for p in params]
     i = 0
     for value in values:
-        if value != str(getattr(model, params[i])):
+        if getattr(model, params[i]) is None or value != str(getattr(model, params[i])):
             if value == "":
                 value = None
             else:
@@ -278,8 +276,9 @@ def addActivity(request, idtypeactivity='A1'):
     context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
-    context["typevisit"] = Typesubactivity.objects.all()
     context["locations"] = Location.objects.all().order_by('name')
+    context["type_subactivity"] = type.typesubactivity_set.all().order_by('type')
+    
 
     if request.method == 'POST':
         if request.POST['idtypeactivity'] == "" or request.POST['title'] == "":
@@ -289,6 +288,11 @@ def addActivity(request, idtypeactivity='A1'):
         typeactivity = Typeactivity.objects.get(
             pk=request.POST['idtypeactivity'])
         context["type"] = typeactivity
+        
+        typesubactivity=None
+        if 'idtypesubactivity' in request.POST:
+            typesubactivity = Typesubactivity.objects.get(pk=request.POST['idtypesubactivity'])
+
 
         if request.POST['idtypeactivity'] == 'A1':
             if request.POST['idlocation'] == "" or request.POST['idtypesubactivity'] == "":
@@ -296,10 +300,12 @@ def addActivity(request, idtypeactivity='A1'):
                 return render(request, "admin/addActivity.html", context)
 
         activity = Activity(idtypeactivity=typeactivity,
-                            title=request.POST['title'])
+                            title=request.POST['title'],
+                            idtypesubactivity = typesubactivity)
 
         names = ['description', 'date', 'note']
         setAttributeByRequestParams(request,names, activity)
+        
 
         activity.save()
 
@@ -308,14 +314,15 @@ def addActivity(request, idtypeactivity='A1'):
 
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                actpers = Activityperson(
-                    idactivity=lastActivity, idperson=Person.objects.get(pk=values))
-                actpers.save()
-            if 'fkidinst' in keys:
-                actpers = Activityinstitution(
-                    idactivity=lastActivity, idinst=Institution.objects.get(pk=values))
-                actpers.save()
+            if values!="":
+                if 'fkidperson' in keys:
+                    actpers = Activityperson(
+                        idactivity=lastActivity, idperson=Person.objects.get(pk=values))
+                    actpers.save()
+                if 'fkidinst' in keys:
+                    actpers = Activityinstitution(
+                        idactivity=lastActivity, idinst=Institution.objects.get(pk=values))
+                    actpers.save()
 
         if request.FILES:
             files = request.FILES.getlist('files')
@@ -326,11 +333,11 @@ def addActivity(request, idtypeactivity='A1'):
 
         if request.POST['idtypeactivity'] == 'A1':  # if activity is visit
             visit = Visit(idactivity=lastActivity, idlocation=Location.objects.get(
-                pk=request.POST['idlocation']), idtypesubactivity=Typesubactivity.objects.get(pk=request.POST['idtypesubactivity']))
+                pk=request.POST['idlocation']))
             if (request.POST['dateend'] != ""):
                 visit.dateend = request.POST['dateend']
             visit.save()
-            if request.POST['idtypesubactivity'] == 'SA2':  # if field school
+            if visit.idactivity.idtypesubactivity.id == 'SA2':  # if field school
                 fsnumber = 0
                 data = request.POST.items()
                 for keys, values in data:
@@ -343,11 +350,9 @@ def addActivity(request, idtypeactivity='A1'):
                     valueInst = request.POST.get('fsidinst'+str(i))
                     valueDept = request.POST.get('fsiddept'+str(i))
                     if valueInst != "":
-                        print('fsidinst'+str(i)+" = "+valueInst)
                         setattr(fs, 'idinst',
                                 Institution.objects.get(pk=valueInst))
                     if valueDept != "":
-                        print('fsiddept'+str(i)+" = "+valueDept)
                         setattr(fs, 'iddept',
                                 Department.objects.get(pk=valueDept))
                     fs.save()
@@ -470,23 +475,29 @@ def updateActivity(request, activity_id=1):
     context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
-    context["typevisit"] = Typesubactivity.objects.all()
     context["locations"] = Location.objects.all().order_by('name')
+    context["type_subactivity"] = activity.idtypeactivity.typesubactivity_set.all().order_by('type')
 
     visit = None
-    if activity.idtypeactivity.id == 'A1':
+    if activity.visit_set.all():
         visit = activity.visit_set.get()
         context['visit'] = visit
-        if visit.idtypesubactivity.id == 'SA2':
+        if visit.fieldschool_set.all():
             context['fieldschool'] = visit.fieldschool_set.all()
 
     countChange = 0
     countChangeActivity = 0
     if request.method == 'POST':
-        if request.POST['idtypeactivity'] != activity.idtypeactivity.id:
+        if activity.idtypeactivity is None or request.POST['idtypeactivity'] != activity.idtypeactivity.id :
             activity.idtypeactivity = Typeactivity.objects.get(
                 pk=request.POST['idtypeactivity'])
             countChangeActivity += 1
+
+        if 'idtypesubactivity' in request.POST:
+            if activity.idtypesubactivity is None or request.POST['idtypesubactivity'] != activity.idtypesubactivity.id  :
+                activity.idtypesubactivity = Typesubactivity.objects.get(
+                    pk=request.POST['idtypesubactivity'])
+                countChangeActivity += 1
 
         params = ['title', 'description', 'date', 'note']
         countChangeActivity += updateAttributeByRequestParams(request,params, activity)
@@ -498,7 +509,7 @@ def updateActivity(request, activity_id=1):
         
         if countChangeActivity > 0:
             countChange += 1
-            # activity.save()
+            activity.save()
             context["activity"] = activity
 
         if request.FILES:
@@ -539,29 +550,24 @@ def updateActivity(request, activity_id=1):
 
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                actpers = Activityperson(
-                    idactivity=activity, idperson=Person.objects.get(pk=values))
-                actpers.save()
-            if 'fkidinst' in keys:
-                actpers = Activityinstitution(
-                    idactivity=activity, idinst=Institution.objects.get(pk=values))
-                actpers.save()
+            if values!="":
+                if 'fkidperson' in keys:
+                    actpers = Activityperson(
+                        idactivity=activity, idperson=Person.objects.get(pk=values))
+                    actpers.save()
+                if 'fkidinst' in keys:
+                    actpers = Activityinstitution(
+                        idactivity=activity, idinst=Institution.objects.get(pk=values))
+                    actpers.save()
 
         if 'visit' in context:
-            if request.POST['idtypesubactivity'] != str(visit.idtypesubactivity.id):
-                visit.idtypesubactivity = Typesubactivity.objects.get(
-                    pk=request.POST['idtypesubactivity'])
-                countChangeVisit += 1
-                countChange += 1
-
-            if request.POST['idlocation'] != str(visit.idlocation.id):
+            if visit.idlocation is None or request.POST['idlocation'] != str(visit.idlocation.id) :
                 visit.idlocation = Location.objects.get(
                     pk=request.POST['idlocation'])
                 countChangeVisit += 1
                 countChange += 1
 
-            if request.POST['dateend'] != str(visit.dateend):
+            if visit.dateend is None or request.POST['dateend'] != str(visit.dateend) :
                 dateend = request.POST['dateend']
                 if request.POST['dateend'] == "":
                     dateend = None
@@ -573,8 +579,9 @@ def updateActivity(request, activity_id=1):
                 fsnumber = 0
                 data = request.POST.items()
                 for keys, values in data:
-                    if 'fsidinst' in keys or 'fsiddept' in keys:
-                        fsnumber += 1
+                    if values!="":
+                        if 'fsidinst' in keys or 'fsiddept' in keys:
+                            fsnumber += 1
 
                 fsnumber = int(fsnumber/2)
                 for i in range(0, fsnumber):
@@ -703,13 +710,14 @@ def addPublication(request, idtypepublication=1):
         fkarticlenumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
-                    pubauth = Publicationauthor(
-                        idpublication=lastPublication, idperson=Person.objects.get(pk=values))
-                    pubauth.save()
-            if 'fknamearticle' in keys:
-                fkarticlenumber += 1
+            if values !="":
+                if 'fkidperson' in keys:
+                    if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                        pubauth = Publicationauthor(
+                            idpublication=lastPublication, idperson=Person.objects.get(pk=values))
+                        pubauth.save()
+                if 'fknamearticle' in keys:
+                    fkarticlenumber += 1
 
         for i in range(0, fkarticlenumber):
             pd = Publicationdetail(idpublication=lastPublication)
@@ -747,7 +755,7 @@ def updatePublication(request, pub_id=1):
     countChange = 0
     countChangePublication = 0
     if request.method == 'POST':
-        if request.POST['idtype'] != str(publication.idtype.id):
+        if publication.idtype is None or request.POST['idtype'] != str(publication.idtype.id) :
             publication.idtype = Typepublication.objects.get(
                 pk=request.POST['idtype'])
             countChangePublication += 1
@@ -773,13 +781,14 @@ def updatePublication(request, pub_id=1):
         fkarticlenumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
-                    pubauth = Publicationauthor(
-                        idpublication=publication, idperson=Person.objects.get(pk=values))
-                    pubauth.save()
-            if 'fknamearticle' in keys:
-                fkarticlenumber += 1
+            if values!="":
+                if 'fkidperson' in keys:
+                    if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                        pubauth = Publicationauthor(
+                            idpublication=publication, idperson=Person.objects.get(pk=values))
+                        pubauth.save()
+                if 'fknamearticle' in keys:
+                    fkarticlenumber += 1
 
         for i in range(0, fkarticlenumber):
             pd = Publicationdetail(idpublication=publication)
@@ -947,8 +956,9 @@ def addMember(request,typemember_id=1):
         fkmembernumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkpost' in keys:
-                fkmembernumber += 1
+            if values!="":
+                if 'fkpost' in keys:
+                    fkmembernumber += 1
 
         for i in range(0, fkmembernumber):
             mip = Memberpostinst(idmember=lastMember)
@@ -990,7 +1000,7 @@ def updateMember(request,member_id=None):
     countChange = 0
     countChangeMember = 0
     if request.method == 'POST':
-        if request.POST['idtypemember'] != str(member.idtypemember.id):
+        if member.idtypemember is None or request.POST['idtypemember'] != str(member.idtypemember.id) :
             member.idtypemember = Typemember.objects.get(
                 pk=request.POST['idtypemember'])
             countChangeMember += 1
@@ -1030,8 +1040,9 @@ def updateMember(request,member_id=None):
         fkmembernumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkpost' in keys:
-                fkmembernumber += 1
+            if values!="":
+                if 'fkpost' in keys:
+                    fkmembernumber += 1
 
         for i in range(0, fkmembernumber):
             mip = Memberpostinst(idmember=member)
@@ -1307,7 +1318,7 @@ def updateImage(request,image_id=1):
 
     countChange = 0
     if request.method == 'POST':
-        if request.POST['idtype'] != str(image.idtype.id):
+        if image.idtype is None or request.POST['idtype'] != str(image.idtype.id) :
             image.idtype = Imagetype.objects.get(pk=request.POST['idtype'])
             countChange += 1
 
