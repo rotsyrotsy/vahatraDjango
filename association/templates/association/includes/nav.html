@@ -18,16 +18,16 @@
                 {% endif %}
             {% endfor %}
             
-            <li><a href="{% url 'activities:support' %}" title="">Pedagogic and scientific support</a></li>
-            <li><a href="{% url 'activities:collection' %}" title="">Collection room</a></li>
-            <li><a href="{% url 'activities:atlas' %}" title="">Database & Atlas</a></li>
+            <li><a href="{% url 'activities:support' %}" title="">{% trans "Pedagogic and scientific support" %}</a></li>
+            <li><a href="{% url 'activities:collection' %}" title="">{% trans "Collection room" %}</a></li>
+            <li><a href="{% url 'activities:atlas' %}" title="">{% trans "Database & Atlas" %}</a></li>
         </ul>
     </li>
     
     <li class="menu-item-has-children"><a href="#" title="">{% trans "Projects and grants" %}</a>
         <ul>
-            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA6' 'grant' %}" title="">Grant</a></li>
-            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA7' 'scientific research'|toSlug %}" title="">Scientific research</a></li>
+            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA6' 'grant' %}" title="">{% trans "Grant" %}</a></li>
+            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA7' 'scientific research'|toSlug %}" title="">{% trans "Scientific research" %}</a></li>
         </ul>
     </li>
 
@@ -41,8 +41,8 @@
 
     <li class="menu-item-has-children"><a href="#" title="">{% trans "About" %}</a>
         <ul>
-        <li><a href="{% url 'association:gallery' %}" title="">Our gallery</a></li>
-        <li><a href="{% url 'association:financing' %}" title="">Financing</a></li>
+        <li><a href="{% url 'association:gallery' %}" title="">{% trans "Our gallery" %}</a></li>
+        <li><a href="{% url 'association:financing' %}" title="">{% trans "Financing" %}</a></li>
         </ul>
     </li>
 

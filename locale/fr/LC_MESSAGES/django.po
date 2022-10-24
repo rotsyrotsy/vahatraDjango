@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-28 08:54+0300\n"
+"POT-Creation-Date: 2022-10-24 11:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,42 +18,70 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\association\models.py:90
-msgid "title"
-msgstr "titre"
-
-#: .\association\models.py:93
-msgid "description"
-msgstr "description"
-
-#: .\association\models.py:95
-msgid "posts"
-msgstr "postes"
-
-#: .\association\templates\association\includes\nav.html:3
+#: .\association\templates\association\includes\nav.html:4
 msgid "Home"
 msgstr "Accueil"
 
-#: .\association\templates\association\includes\nav.html:4
+#: .\association\templates\association\includes\nav.html:5
 msgid "Activities"
 msgstr "Activités"
 
-#: .\association\templates\association\includes\nav.html:18
-msgid "Projects"
+#: .\association\templates\association\includes\nav.html:21
+msgid "Pedagogic and scientific support"
+msgstr "Appui pédagogique et scientifique"
+
+#: .\association\templates\association\includes\nav.html:22
+msgid "Collection room"
+msgstr "Salle de collection"
+
+#: .\association\templates\association\includes\nav.html:23
+msgid "Database & Atlas"
+msgstr "Base de données & Atlas"
+
+#: .\association\templates\association\includes\nav.html:27
+msgid "Projects and grants"
 msgstr "Projets"
 
-#: .\association\templates\association\includes\nav.html:36
+#: .\association\templates\association\includes\nav.html:29
+msgid "Grant"
+msgstr "Subvention"
+
+#: .\association\templates\association\includes\nav.html:30
+msgid "Scientific research"
+msgstr "Recherche scientifique"
+
+#: .\association\templates\association\includes\nav.html:42
 msgid "About"
 msgstr "A propos"
 
-#: .\vahatraDjango\settings.py:126
+#: .\association\templates\association\includes\nav.html:44
+msgid "Our gallery"
+msgstr "Notre gallerie"
+
+#: .\association\templates\association\includes\nav.html:45
+msgid "Financing"
+msgstr "Financement"
+
+#: .\association\templates\association\index.html:67
+msgid "Association Vahatra works on reptiles, amphibians ,birds and small mammals that are especially endemic to Madagascar"
+msgstr "L'Association Vahatra travaille sur les reptiles, amphibiens ,oiseaux et petits mammifères qui sont particulièrement endémiques de Madagascar"
+
+#: .\vahatraDjango\settings.py:143
 msgid "English"
 msgstr "Anglais"
 
-#: .\vahatraDjango\settings.py:127
+#: .\vahatraDjango\settings.py:144
 msgid "French"
 msgstr "Français"
 
-#: .\vahatraDjango\urls.py:22
-msgid "admin/"
-msgstr ""
+#~ msgid "title"
+#~ msgstr "titre"
+
+#~ msgid "description"
+#~ msgstr "description"
+
+#~ msgid "posts"
+#~ msgstr "postes"
+
+#~ msgid "Projects"
+#~ msgstr "Projets"

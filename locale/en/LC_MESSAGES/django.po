@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-28 08:54+0300\n"
+"POT-Creation-Date: 2022-10-24 11:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,42 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\association\models.py:90
-msgid "title"
-msgstr ""
-
-#: .\association\models.py:93
-msgid "description"
-msgstr ""
-
-#: .\association\models.py:95
-msgid "posts"
-msgstr ""
-
-#: .\association\templates\association\includes\nav.html:3
+#: .\association\templates\association\includes\nav.html:4
 msgid "Home"
 msgstr ""
 
-#: .\association\templates\association\includes\nav.html:4
+#: .\association\templates\association\includes\nav.html:5
 msgid "Activities"
 msgstr ""
 
-#: .\association\templates\association\includes\nav.html:18
-msgid "Projects"
+#: .\association\templates\association\includes\nav.html:27
+msgid "Projects and grants"
 msgstr ""
 
-#: .\association\templates\association\includes\nav.html:36
+#: .\association\templates\association\includes\nav.html:42
 msgid "About"
 msgstr ""
 
-#: .\vahatraDjango\settings.py:126
+#: .\vahatraDjango\settings.py:143
 msgid "English"
 msgstr ""
 
-#: .\vahatraDjango\settings.py:127
+#: .\vahatraDjango\settings.py:144
 msgid "French"
-msgstr ""
-
-#: .\vahatraDjango\urls.py:22
-msgid "admin/"
 msgstr ""

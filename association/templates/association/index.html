@@ -1,4 +1,5 @@
 {% extends "association/base.html" %}
+{% load i18n %}
 {% load static %}
 {% load publications_extras %}
 {% block title %}Home{% endblock %}
@@ -62,7 +63,9 @@
         <div class="container">
             <div class="plrs-wrap text-center remove-ext5">
                 <div class="sec-title text-center" style="margin-bottom: 50px;">
-                    <p>Association Vahatra works on reptiles, amphibians , birds and small mammals that are especially endemic to Madagascar</p>
+                    <p>
+                        {% trans "Association Vahatra works on reptiles, amphibians ,birds and small mammals that are especially endemic to Madagascar" %}
+                    </p>
                 </div>
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-lg-3">
