@@ -41,23 +41,37 @@
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>Our Members</span>
-                    <h3>{{type.name|title}}</h3>
+                    <h3>{{type.type|title}}</h3>
                 </div>
             </div>
             <div >
                 <p>{{ type.description}}</p>
-                <ul>
-                    {% for member in members %}
-                        <li>{{member.idperson.name}} {{member.idperson.username}}</li>
-                    {%endfor%}
-                </ul>
+                <div class="row">
+                    <div class="col-md-8">
+                        <ul>
+                            {% for member in members %}
+                                <li>{{member.idperson.name}} {{member.idperson.username}}</li>
+                            {%endfor%}
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    {% with type.image|split:"," as imgs %}
+                        {% for img in imgs|slice:"1:" %}
+                            <div class="col-md-4">
+                                <img src="{% static 'images/members/' %}{{img}}" alt="{{img}}" style="width: 500px; height:250px; object-fit: cover;"> 
+                            </div>
+                        {% endfor %}
+                    {% endwith %}
+                </div>
             </div>
             {% else %}
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>Our Members</span>
-                    <h3>{{type.name|title}}</h3>
+                    <h3>{{type.type|title}}</h3>
                 </div>
+                
                 <p>{{ type.description}}</p>
             </div>
             <div class="team-wrap2 text-center remove-ext3">
@@ -90,7 +104,15 @@
                         </div>
                         {% endfor %}
                 </div>
-                
+                <div class="row justify-content-center pt-5">
+                    {% with type.image|split:"," as imgs %}
+                        {% for img in imgs %}
+                            <div class="col-md-4">
+                                <img src="{% static 'images/members/' %}{{img}}" alt="{{img}}" style="width: 500px; height:250px; object-fit: cover;"> 
+                            </div>
+                        {% endfor %}
+                    {% endwith %}
+                </div>
             {% endif %}
                 <div class="pagination-wrap text-center">
                     <ul class="pagination">
@@ -104,6 +126,8 @@
                         {% endfor %}
                     </ul>
                 </div>
+
+                
             </div><!-- Team Wrap -->
         </div>
     </div>

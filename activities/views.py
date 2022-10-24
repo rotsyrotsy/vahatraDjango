@@ -6,14 +6,16 @@ from django.core import serializers
 from django.http import JsonResponse, HttpResponseBadRequest
 from datetime import date,timedelta
 from publications.models import Typepublication
-from django.db.models import Q
+from django.db.models import Q,Min,Max
 from vahatraDjango.functions import toSlug,pagination
 # # Create your views here.
 
 type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
 type_pub = Typepublication.objects.all().order_by("id")
 
-def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_id=None,typesubactivity_name=None,page=1):
+
+
+def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_id=None,typesubactivity_name=None,max=None,min=None, page=1):
     context = {
         "types_activity": type_activity,
         "types_pub": type_pub,
@@ -25,6 +27,7 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
     if typeactivity_name!=slug:
         return redirect('activities:index', typeactivity_id=typeactivity.id, typeactivity_name=slug,typesubactivity_id=typesubactivity_id,typesubactivity_name=typesubactivity_name)
     thelist = [] 
+    thelist = Activity.objects.filter( Q(idtypeactivity_id = typeactivity.id),Q(date__lte=date.today())|Q(date__isnull=True))
 
     if typesubactivity_id:
         typesubactivity = get_object_or_404(Typesubactivity, pk=typesubactivity_id)
@@ -35,7 +38,7 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
         context["type_subactivity"]=typesubactivity
 
         if typeactivity.id == 'A1': # IF THE ACTIVITY IS A VISIT
-            visits = get_list_or_404(Visit, Q(idactivity__idtypesubactivity = typesubactivity_id), Q(idactivity__date__lt=date.today())|Q(idactivity__date__isnull=True))
+            visits = get_list_or_404(Visit, Q(idactivity__idtypesubactivity = typesubactivity_id), Q(idactivity__date__lte=date.today())|Q(idactivity__date__isnull=True))
             context["visits"]= visits
             
             locations= list(map(lambda x: x.idlocation, visits)) #locations of visit
@@ -59,10 +62,22 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
             context['dicts']=listImageLocation
             return render(request, "activities/index.html", context)
         else:
-            thelist = Activity.objects.filter( Q(idtypeactivity_id = typeactivity.id),Q(date__lt=date.today())|Q(date__isnull=True), Q(idtypesubactivity_id=typesubactivity.id))
-    else:
-        thelist = Activity.objects.filter( Q(idtypeactivity_id = typeactivity.id),Q(date__lt=date.today())|Q(date__isnull=True))
+            thelist = thelist.filter(Q(idtypesubactivity_id=typesubactivity.id))
     
+    limit=3
+    minactivity = thelist.aggregate(Min('date'))['date__min'].year
+    maxactivity = thelist.aggregate(Max('date'))['date__max'].year
+
+    if not max and not min:
+        max = maxactivity
+        min = max-limit
+    else:
+        context['minfilter']=min
+        context['maxfilter']=max
+        
+    thelist = thelist.filter(Q(date__year__gte = min),
+    Q(date__year__lte = max))
+
     page_number=0
     if (thelist.count() > 0):
         dictpagination = pagination(page, thelist, 6, '-date')
@@ -71,6 +86,27 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
         context["activities"] = activities
 
     context["page_number"]= range(1,page_number+1)
+
+    filter=[]
+    
+    i = maxactivity
+    while i>=minactivity:
+        if i-limit<minactivity:
+            dict={
+                'max':i,
+                'min':minactivity
+            }
+            filter.append(dict)
+            break
+        dict={
+            'max':i,
+            'min':i-limit
+        }
+        filter.append(dict)
+
+        i-=limit+1
+    
+    context['filter_year']=filter
     return render(request, "activities/otherActivities.html", context)
 
 def visit_by_lieu(request):
@@ -131,7 +167,11 @@ def activityDetail(request,slug):
     if typeactivity.id=='A1':
         return redirect('activities:index')
 
-    new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id), Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today()))    
+    new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id),
+    Q(idtypesubactivity = activity.idtypesubactivity_id),
+    Q(date__month__gte = (date.today()-timedelta(days=100)).month), 
+    Q(date__lte = date.today()),
+    Q(date__year__gte = (date.today()-timedelta(days=100)).year)).order_by('-date')  
 
     context["activity"]= activity
     context["images"]=activity.activityimage_set.all()

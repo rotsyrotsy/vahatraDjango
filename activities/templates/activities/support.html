@@ -36,7 +36,7 @@
                                     {% for i in '67'|make_list %}
                                     <div class="col-md-6 col-sm-6 col-lg-6">
                                         <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
-                                        <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" width="500">
+                                        <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:360px;object-fit: cover;">
                                         </a>
                                     </div>
                                     {% endfor %}
@@ -62,7 +62,7 @@
             {% for i in '012345'|make_list %}
             <div class="col-md-4 col-sm-4 col-lg-4">
                 <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
-                    <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp">
+                    <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:350px;object-fit: cover;">
                 </a>
             </div>
             {% endfor %}

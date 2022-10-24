@@ -24,7 +24,12 @@
         </ul>
     </li>
     
-    <li class="menu-item"><a href="{% url 'activities:index' 'A4' 'project' %}" title="">{% trans "Projects and grants" %}</a></li>
+    <li class="menu-item-has-children"><a href="#" title="">{% trans "Projects and grants" %}</a>
+        <ul>
+            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA6' 'grant' %}" title="">Grant</a></li>
+            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA7' 'scientific research'|toSlug %}" title="">Scientific research</a></li>
+        </ul>
+    </li>
 
     <li class="menu-item-has-children"><a href="#" title="">Publications</a>
         <ul>

@@ -22,7 +22,26 @@
 <section>
     <div class="gap">
         <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="wdgt-box" style="float:right; width:30%;">
+                        <h4>Filter activities by year</h4>
+                        <select onchange="location = this.value;">
+                            <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' %}">
+                                    All
+                            </option>
+                            {% for range in filter_year %}
+                            <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' range.max range.min %}">
+                                    {{range.max}} - {{range.min}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="blog-wrap remove-ext7">
+                
+
                 <div class="row mrg40">
                     {% for activity in activities %}
                     <div class="col-md-4 col-sm-6 col-lg-4 fadeIn" data-wow-duration=".8s" data-wow-delay=".2s">
@@ -46,7 +65,13 @@
                                     {% endfor %}
                                     </li>
                                 </ul>
-                                <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">{{activity.title | title}}</a></h4>
+                                <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">
+                                    {% if activity.idtypesubactivity.id == 'SA7' %}
+                                        <span class="font-italic" >{{activity.title | title}}</span>
+                                    {% else %}
+                                        {{activity.title | title}}
+                                    {% endif %}
+                                </a></h4>
                                 {% if activity.note %}<p>{{activity.note}}</p>{% endif %}
                                 <p><i class="fa fa-calendar-o thm-clr"></i> {{activity.date |date:"Y"}}</p>
                                 <a href="{% url 'activities:activityDetail' activity.slug %}" title="">Read More</a>
@@ -60,9 +85,20 @@
                 <ul class="pagination">
                     {% for number in page_number %}
                         {% if type_subactivity %}
-                        <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id type_subactivity.type|toSlug number %}" title="">{{number}}</a></li>
+                            {% if maxfilter and minfilter %}
+                            <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id type_subactivity.type|toSlug maxfilter minfilter number %}" title="">{{number}}</a></li>
+                            {% else %}
+                            <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id type_subactivity.type|toSlug number %}" title="">{{number}}</a></li>
+                            {% endif %}
+
                         {% else %}
-                        <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug number %}" title="">{{number}}</a></li>
+                        
+                            {% if maxfilter and minfilter %}
+                            <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug maxfilter minfilter number %}" title="">{{number}}</a></li>
+                            {% else %}
+                            <li ><a href="{% url 'activities:index' type_activity.id type_activity.type|toSlug number %}" title="">{{number}}</a></li>
+                            {% endif %}
+                        
                         {% endif %}
                         
                     {% endfor %}

@@ -61,6 +61,9 @@
         <div class="lft-shp shp-lyr"></div>
         <div class="container">
             <div class="plrs-wrap text-center remove-ext5">
+                <div class="sec-title text-center" style="margin-bottom: 50px;">
+                    <p>Association Vahatra works on reptiles, amphibians , birds and small mammals that are especially endemic to Madagascar</p>
+                </div>
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
@@ -219,7 +222,7 @@
     </div>
   </section>
   <section>
-    <div class="gap top-spac170 bottom-spac170 black-layer2 opc5">
+    <div class="gap top-spac170 bottom-spac170 black-layer2 opc5" >
         <img class="top-shp shp-img" src="{% static 'images/shp4.png' %} " alt="shp4.png">
         <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0553.webp' %});"></div>
         <div class="container">
@@ -292,8 +295,7 @@
                     {% for item in type_member_list %}
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box mt-5">
-                            
-                            <img src="{% static 'images/members/' %}{{item.image}} " style="width: 265px; height: 265px;" alt="{{item.type}}" title="{{item.type}}">
+                            <img src="{% static 'images/members/' %}{{item.image|split:','|first}} " style="width: 265px; height: 265px; object-fit: cover;" alt="{{item.type}}" title="{{item.type}}">
                             <div class="team-info">
                                 <h4><a href="{% url 'association:member' item.id item.type|toSlug %}" >{{ item.type|title }}</a></h4>
                                 <p>{{ item.description|truncatewords:10 }}</p>
@@ -337,7 +339,9 @@
                                             </a>
                                         </div>
                                         <div class="evnt-info">
-                                            <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">{{activity.title | title}}</a></h4>
+                                            <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">
+                                                {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | title}}</span>{% else %}{{activity.title | title}}{% endif %}
+                                            </a></h4>
                                             <ul class="pst-mta">
                                                 <li class="thm-clr">{{activity.date}}</li>
                                                 <li>{{activity.idtypeactivity.type}}</li>
@@ -433,7 +437,9 @@
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{item.idtypeactivity.type}}</small><br>
-                                        <h6><a href="{% url 'activities:activityDetail' item.slug %}" title="">{{item.title }} </a></h6>
+                                        <h6><a href="{% url 'activities:activityDetail' item.slug %}" title="">
+                                            {%if item.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{item.title | title}}</span>{% else %}{{item.title | title}}{% endif %}
+                                            </a></h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         
                                     </div>

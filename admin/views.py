@@ -716,24 +716,24 @@ def addPublication(request, idtypepublication=1):
                         pubauth = Publicationauthor(
                             idpublication=lastPublication, idperson=Person.objects.get(pk=values))
                         pubauth.save()
-                if 'fknamearticle' in keys:
-                    fkarticlenumber += 1
+            if 'fknamearticle' in keys:
+                fkarticlenumber += 1
 
         for i in range(0, fkarticlenumber):
             pd = Publicationdetail(idpublication=lastPublication)
             name = request.POST.get('fknamearticle'+str(i))
 
-            if name != "":
-                pd.name = name
+            if name == "":
+                name=None
+            pd.name = name
 
             if request.FILES:
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
                 
-
                     pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type))
 
-            if pd.name is not None and pd.pdf is not None:
+            if  pd.pdf is not None:
                 pd.save()
 
     return render(request, "admin/addPublication.html", context)
@@ -787,21 +787,22 @@ def updatePublication(request, pub_id=1):
                         pubauth = Publicationauthor(
                             idpublication=publication, idperson=Person.objects.get(pk=values))
                         pubauth.save()
-                if 'fknamearticle' in keys:
-                    fkarticlenumber += 1
+            if 'fknamearticle' in keys:
+                fkarticlenumber += 1
 
         for i in range(0, fkarticlenumber):
             pd = Publicationdetail(idpublication=publication)
             name = request.POST.get('fknamearticle'+str(i))
-            if name != "":
-                pd.name = name
+            if name == "":
+                name=None
+            pd.name = name
 
             if request.FILES:
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
                     pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(publication.idtype.type))
 
-            if pd.name is not None and pd.pdf is not None:
+            if  pd.pdf is not None:
                 pd.save()
 
         # UPDATE PUBLICATION ITEMS
@@ -1022,6 +1023,7 @@ def updateMember(request,member_id=None):
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
                 w,h = get_image_dimensions(imageFile)
+                print(w,h)
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
                     return render(request, "admin/updateMember.html", context)
@@ -1283,6 +1285,7 @@ def addImage(request,image_type=1):
 
         typeimage = Imagetype.objects.get(pk=request.POST['idtype'])
         context["imagetype"] = typeimage
+        
 
 
         if not request.FILES:
@@ -1295,7 +1298,7 @@ def addImage(request,image_type=1):
                 image = Image(idtype=typeimage,title=titleImg)
                 path = renameFile(typeimage.type)
                 image.name = handle_uploaded_file(f, 'images/'+path)
-                # image.save()
+                image.save()
 
         context["success"] = "New photo of "+typeimage.type+" inserted successfully."
 
