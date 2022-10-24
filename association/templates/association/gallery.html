@@ -1,7 +1,8 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load publications_extras %}
-{% block title %}Gallery{% endblock %}
+{% block title %}{% trans "Gallery" %}{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc5">
@@ -9,10 +10,10 @@
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
-                <h2>Gallery</h2>
+                <h2>{% trans "Gallery" %}</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
-                    <li>Gallery</li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
+                    <li>{% trans "Gallery" %}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
         </div>
@@ -22,7 +23,7 @@
     <div class="gap">
             <div class="prtfl-wrap text-center">
                 <ul class="fltr-lnks">
-                    <li class="active"><a data-filter="*" href="#">All</a></li>
+                    <li class="active"><a data-filter="*" href="#">{% trans "All" %}</a></li>
                     {% for item in typeimage %}
                     <li><a data-filter=".img{{item.id}}" href="#">{{item.type}}</a></li>
                     {% endfor %}
@@ -44,7 +45,7 @@
                         </div>        
                         {% endfor %}
                     </div>
-                    <a href="{% url 'association:gallery' limit|add:9 %}" class="thm-btn brd-rd40" id="showMoreBtn">Show more</a>
+                    <a href="{% url 'association:gallery' limit|add:9 %}" class="thm-btn brd-rd40" id="showMoreBtn">{% trans "Show more" %}</a>
                 </div>
                 
             </div>

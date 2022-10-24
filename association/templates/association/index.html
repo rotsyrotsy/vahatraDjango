@@ -4,6 +4,7 @@
 {% load publications_extras %}
 {% block title %}Home{% endblock %}
 {% block content %}
+{% translate "Show more" as showmore %}
 <section>
     <div class="gap no-gap">
         <img class="botm-shp shp-img" src="{% static 'images/shp1.png' %}" alt="shp1.png">
@@ -118,12 +119,12 @@
                         <div class="abot-sec">
                             <div class="sec-title">
                                 <div class="sec-title-inner">
-                                    <span>About</span>
-                                    <h3>Our Challenge</h3>
+                                    <span>{% trans "About" %}</span>
+                                    <h3>{% trans "Our Challenge" %}</h3>
                                 </div>
                             </div>
                             <p>
-                              For Vahatra, the challenge is to be profoundly implicated in the conservation and management of Madagascar’s extraordinary biodiversity based on advancing young Malagasy scientists and genuine collaborations with governmental and non-governmental organizations.  In this regards, the association conducts biological inventories and field research to obtain up-to-date biodiversity information, as well as working closely with university graduate students.
+                            {% trans "For Vahatra, the challenge is to be profoundly implicated in the conservation and management of Madagascar’s extraordinary biodiversity based on advancing young Malagasy scientists and genuine collaborations with governmental and non-governmental organizations.  In this regards, the association conducts biological inventories and field research to obtain up-to-date biodiversity information, as well as working closely with university graduate students." %}
                             </p>
                         </div>
                     </div>
@@ -138,8 +139,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Conserve biodiversity</span>
-                    <h3>Our Missions</h3>
+                    <span>{% trans "Conserve biodiversity" %}</span>
+                    <h3>{% trans "Our Missions" %}</h3>
                 </div>
             </div>
             <div class="serv-wrap">
@@ -147,14 +148,13 @@
                     <div class="col-md-4 col-sm-12 col-lg-4">
                         <div class="srv-tl">
                           <h3>
-                              “To develop an educational and research program focused on the
+                              “{% trans "To develop an educational and research program focused on the" %}
                           </h3>
-                           <h2><span>biodiversity</span></h2> 
+                           <h2><span>{% trans "biodiversity"  %}</span></h2> 
                            <h3>
-                              of the terrestrial fauna of Madagascar and the advancement of national field scientists properly trained in the modern aspects of conservation biology. 
-                              These steps are paramount to allow this island nation to properly 
+                            {% trans "of the terrestrial fauna of Madagascar and the advancement of national field scientists properly trained in the modern aspects of conservation biology. These steps are paramount to allow this island nation to properly" %}
                            </h3>
-                           <h2>protect its unique biotic resources.</h2> <h3>”</h3> 
+                           <h2>{% trans "protect its unique biotic resources." %}</h2> <h3>”</h3> 
                           
                         </div>
                     </div>
@@ -166,8 +166,8 @@
                                         
                                         <img src="{% static 'fonts/mycollection/001.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Expand Knowledge</h4>
-                                            <p>To expand knowledge on the biodiversity and natural history of Madagascar</p>
+                                            <h4>{% trans "Expand Knowledge" %}</h4>
+                                            <p>{% trans "To expand knowledge on the biodiversity and natural history of Madagascar" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -175,8 +175,8 @@
                                     <div class="serv-box">
                                         <img src="{% static 'fonts/mycollection/002.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Educate</h4>
-                                            <p>To educate and advance future generations of Malagasy scientists working in the domain of conservation biology</p>
+                                            <h4>{% trans "Educate" %}"</h4>
+                                            <p>{% trans "To educate and advance future generations of Malagasy scientists working in the domain of conservation biology" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -184,8 +184,8 @@
                                     <div class="serv-box">
                                         <img src="{% static 'fonts/mycollection/003.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Exchange</h4>
-                                            <p>To help with the exchange of scientific information and experiences between national and international specialists</p>
+                                            <h4>{% trans "Exchange" %}</h4>
+                                            <p>{% trans "To help with the exchange of scientific information and experiences between national and international specialists" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -193,8 +193,8 @@
                                     <div class="serv-box">
                                         <img src="{% static 'fonts/mycollection/004.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Reinforce Collaborations</h4>
-                                            <p>To help reinforce collaborations between national and international institutions and NGOs in fields associated with the environment and conservation</p>
+                                            <h4>{% trans "Reinforce Collaborations" %}</h4>
+                                            <p>{% trans "To help reinforce collaborations between national and international institutions and NGOs in fields associated with the environment and conservation" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -202,8 +202,8 @@
                                   <div class="serv-box">
                                     <img src="{% static 'fonts/mycollection/005.png' %} " alt="">
                                     <div class="serv-info">
-                                          <h4>Advance Expertise and Knowledge</h4>
-                                          <p>To advance expertise and knowledge associated with environmental impact studies and to follow aspects of the evolution of the island’s natural landscapes</p>
+                                          <h4>{% trans "Advance Expertise and Knowledge" %}</h4>
+                                          <p>{% trans "To advance expertise and knowledge associated with environmental impact studies and to follow aspects of the evolution of the island’s natural landscapes" %}</p>
                                       </div>
                                   </div>
                               </div>
@@ -211,8 +211,8 @@
                                   <div class="serv-box">
                                     <img src="{% static 'fonts/mycollection/006.png' %} " >
                                       <div class="serv-info">
-                                          <h4>Provide Advice</h4>
-                                          <p>To provide solid scientific advice to managers of natural resources and protected areas associated with the conservation of Madagascar’s biodiversity</p>
+                                          <h4>{% trans "Provide Advice" %}</h4>
+                                          <p>{% trans "To provide solid scientific advice to managers of natural resources and protected areas associated with the conservation of Madagascar’s biodiversity" %}</p>
                                       </div>
                                   </div>
                               </div>
@@ -236,43 +236,43 @@
   
                           <div class="sec-title">
                               <div class="sec-title-inner">
-                                  <span>A Few Words About Us,</span>
-                                  <h3>Historical Perspective.</h3>
+                                  <span>{% trans "A Few Words About Us," %}</span>
+                                  <h3>{% trans "Historical Perspective." %}</h3>
                               </div>
                           </div>
   
-                          <p>Vahatra is a legally registered International Association of the island nation of Madagascar. The word “vahatra” means “grass-roots” in Malagasy, the national language of the island. The mission of Vahatra is two fold:</p>
+                          <p>{% trans "Vahatra is a legally registered International Association of the island nation of Madagascar. The word “vahatra” means “grass-roots” in Malagasy, the national language of the island. The mission of Vahatra is two fold:" %}</p>
                           <ul>
-                              <li>To contribute to the amelioration of information on the biodiversity of Madagascar, particularly the terrestrial fauna, with the intention of progressing aspects of conservation</li>
-                              <li>To advance a practical program in ecology and conservation biology for young Malagasy naturalists and graduate students in biology.</li>
+                              <li>{% trans "To contribute to the amelioration of information on the biodiversity of Madagascar, particularly the terrestrial fauna, with the intention of progressing aspects of conservation" %}</li>
+                              <li>{% trans "To advance a practical program in ecology and conservation biology for young Malagasy naturalists and graduate students in biology." %}</li>
                           </ul>
   
   
                           <div class="suprt-sec" id="historic">
                               <br>
                               <p>
-                                  This association evolved in a natural manner from a WWF-Madagascar project known as “The Ecology Training Program” (ETP), for which the principal philosophy was the development and reinforcement of capacity for Malagasy nationals in ecology and conservation biology. The ETP was initiated in 1991 to advance young Malagasy graduate students working in these domains.  The program has also had a major positive impact on the expansion of knowledge of the island’s unique and highly endemic biota.  It is not an exaggeration to state that the ETP was a driving force for the development of human capital on Madagascar in the fields of evolutionary biology and on the ecology and diversity of the Malagasy animal fauna. Further, with the availability of more scientifically viable data on the island’s biota, decisions associated with conservation, including the identification of new protected areas, are well supported; the ETP played a critical role  in this regard. 
+                                {% trans "This association evolved in a natural manner from a WWF-Madagascar project known as “The Ecology Training Program” (ETP), for which the principal philosophy was the development and reinforcement of capacity for Malagasy nationals in ecology and conservation biology. The ETP was initiated in 1991 to advance young Malagasy graduate students working in these domains.  The program has also had a major positive impact on the expansion of knowledge of the island’s unique and highly endemic biota.  It is not an exaggeration to state that the ETP was a driving force for the development of human capital on Madagascar in the fields of evolutionary biology and on the ecology and diversity of the Malagasy animal fauna. Further, with the availability of more scientifically viable data on the island’s biota, decisions associated with conservation, including the identification of new protected areas, are well supported; the ETP played a critical role  in this regard. " %}
                               </p>
                               <br>
                               <p>
-                                  In 2007, at the moment that Vahatra became independent of WWF, the ETP had helped advance over 75 Malagasy graduate students earning higher degrees within the national university system in the fields of zoology, ecology or conservation biology and more than 250 students being trained in conservation science in the form of university courses or field schools. In addition, data obtain during ETP field inventories at over 400 sites  resulted in the discovery of nearly 50 new species of birds, mammals, reptiles, and amphibians, and the publication of nearly 500 scientific articles. This work was critical in the prioritization of conservation strategies associated with the island’s protected area system.
+                                {% trans "In 2007, at the moment that Vahatra became independent of WWF, the ETP had helped advance over 75 Malagasy graduate students earning higher degrees within the national university system in the fields of zoology, ecology or conservation biology and more than 250 students being trained in conservation science in the form of university courses or field schools. In addition, data obtain during ETP field inventories at over 400 sites  resulted in the discovery of nearly 50 new species of birds, mammals, reptiles, and amphibians, and the publication of nearly 500 scientific articles. This work was critical in the prioritization of conservation strategies associated with the island’s protected area system." %}
                               </p>
                               <br>
                               <p>
-                                  Given on one hand that the objectives of conservation and management of biodiversity and, on the other hand, few Malagasy nationals with in-depth knowledge of their island’s biodiversity, ETP become a primary vehicle for the education of national scientists with the necessary foundation to make important contributions to biology and the future of conservation efforts of their country. The overwhelming majority  of ETP graduates have gone on and obtained prominent posts in the governmental and non-governmental sectors and many retain a strong professional interest in conservation biology, including research and teaching.
+                                {% trans "Given on one hand that the objectives of conservation and management of biodiversity and, on the other hand, few Malagasy nationals with in-depth knowledge of their island’s biodiversity, ETP become a primary vehicle for the education of national scientists with the necessary foundation to make important contributions to biology and the future of conservation efforts of their country. The overwhelming majority  of ETP graduates have gone on and obtained prominent posts in the governmental and non-governmental sectors and many retain a strong professional interest in conservation biology, including research and teaching." %}
                               </p>
                               <br>
                               <p>
-                                  To ensure the continuity of this success, we believed that the next logical step in the evolution of the ETP was for it to become an independent organization, led by its graduates, creating visionary scientific programs within a Malagasy construct.  To meet this aim, the ETP was turned over to the  Association Vahatra in September 2007. A group of former ETP Ph.D. graduates, who are now part of the Malagasy university system, direct Vahatra, which in part continues the basic mandates of the ETP -- to advance Malagasy conservation biologists and research on the island’s biota.  Further, Vahatra has launched several new programs, which include, for example, a greater understanding of the impacts of climatic change on vertebrates living in montane portions of the island.
+                                {% trans "To ensure the continuity of this success, we believed that the next logical step in the evolution of the ETP was for it to become an independent organization, led by its graduates, creating visionary scientific programs within a Malagasy construct.  To meet this aim, the ETP was turned over to the  Association Vahatra in September 2007. A group of former ETP Ph.D. graduates, who are now part of the Malagasy university system, direct Vahatra, which in part continues the basic mandates of the ETP -- to advance Malagasy conservation biologists and research on the island’s biota.  Further, Vahatra has launched several new programs, which include, for example, a greater understanding of the impacts of climatic change on vertebrates living in montane portions of the island." %}
                               </p>
                               <br>
                                   <strong style="color: white;">
-                                      The ETP, as it was previously known, has now become the <span style="color:#d1ad3c;">independent organization Association Vahatra</span>.  Vahatra has been quickly  recognized by governmental and non-governmental organizations, as one of the primary groups to promote high quality scientific research  in the domains of evolutionary and conservation biology and ecology.
+                                    {% trans "The ETP, as it was previously known, has now become the" %} <span style="color:#d1ad3c;">{% trans "independent organization Association Vahatra" %}</span>.  {% trans "Vahatra has been quickly  recognized by governmental and non-governmental organizations, as one of the primary groups to promote high quality scientific research  in the domains of evolutionary and conservation biology and ecology." %}
                                   </strong>
                           </div>
                           
                           <br>
-                          <button class="show-more-btn thm-btn brd-rd40" data-id="historic" data-focus="historicfocus">Show more</button>
+                          <button class="show-more-btn thm-btn brd-rd40" data-id="historic" data-focus="historicfocus">{{showmore}}</button>
   
                         </div>
                     </div>
@@ -287,10 +287,10 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Our Team</span>
-                    <h3>Members of the organization </h3>
+                    <span>{% trans "Our Team" %} </span>
+                    <h3>{% trans "Members of the organization " %} </h3>
                 </div>
-                <p  style="color: #000;" >The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable. </p>
+                <p  style="color: #000;" >{% trans "The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable." %} </p>
             </div>
             <div class="team-wrap text-center remove-ext5">
                 <div class="row mycaroussel-simple mrg">
@@ -320,9 +320,9 @@
                     <div class="col-md-8 col-sm-12 col-lg-8">
                         <div class="sec-title">
                             <div class="sec-title-inner">
-                                <h3><span>Upcoming</span> Events</h3>
+                                <h3><span>{% trans "Upcoming" %}</span> {% trans "Events" %}</h3>
                             </div>
-                            <p>Let us introduce to you what's comming soon.</p>
+                            <p>{% trans "Let us introduce to you what's comming soon." %}</p>
                         </div>
                         <div class="evnt-wrap remove-ext5">
                             <div class="row mrg20">
@@ -343,7 +343,7 @@
                                         </div>
                                         <div class="evnt-info">
                                             <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">
-                                                {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | title}}</span>{% else %}{{activity.title | title}}{% endif %}
+                                                {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst}}</span>{% else %}{{activity.title | title}}{% endif %}
                                             </a></h4>
                                             <ul class="pst-mta">
                                                 <li class="thm-clr">{{activity.date}}</li>
@@ -406,7 +406,7 @@
                     <div class="col-md-4 col-sm-12 col-lg-4">
                         <div class="sec-title">
                             <div class="sec-title-inner">
-                                <h3>Recent <span>Activities</span></h3>
+                                <h3>{% trans "Recent" %} <span>{% trans "Activities" %}</span></h3>
                             </div>
                         </div>
                         <div class="wdgt-box-overflow">
@@ -441,7 +441,7 @@
                                     <div class="rcnt-inf">
                                         <small>{{item.idtypeactivity.type}}</small><br>
                                         <h6><a href="{% url 'activities:activityDetail' item.slug %}" title="">
-                                            {%if item.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{item.title | title}}</span>{% else %}{{item.title | title}}{% endif %}
+                                            {%if item.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{item.title | capfirst}}</span>{% else %}{{item.title | title}}{% endif %}
                                             </a></h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         
@@ -461,8 +461,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>A message from</span>
-                    <h3>The President of Vahatra</h3>
+                    <span>{% trans "A message from" %}</span>
+                    <h3>{% trans "The President of Vahatra" %}</h3>
                 </div>
             </div>
             <div class="testi-wrap text-center">
@@ -484,7 +484,7 @@
                
                               <i>"</i></p>
                               <p>
-                                  <button class="show-more-btn thm-btn brd-rd40" data-id="messageyear" data-focus="messageyearfocus">Show more</button>
+                                  <button class="show-more-btn thm-btn brd-rd40" data-id="messageyear" data-focus="messageyearfocus">{{showmore}}</button>
                               </p>
                         </div>
                     </div>

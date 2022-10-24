@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% translate "Contact Us" as contactus %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -53,7 +55,7 @@
             <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img src="{% static 'images/logo.png' %}" alt="logo.png"></a></div>
             <nav>
                 <div>
-                    <a class="thm-btn brd-rd40" href="{% url 'association:contact' %}" title="">Contact Us</a>
+                    <a class="thm-btn brd-rd40" href="{% url 'association:contact' %}" title="">{{contactus}}</a>
                     {% include 'association/includes/nav.html' %}
                 </div>
             </nav>
@@ -96,7 +98,7 @@
                         <div class="col-md-4 col-sm-12 col-lg-4">
                             <div class="wdgt-box">
                                 <center><div class="logo"><a href="#" title="Logo"><img width="150" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div></center>
-                                <p>Vahatra's challenge, objectives and mission are mainly based on its history; and the members are doing their best to achieve these objectives.</p>
+                                <p>{% trans "Vahatra's challenge, objectives and mission are mainly based on its history; and the members are doing their best to achieve these objectives." %}</p>
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-12 col-lg-8">
@@ -106,7 +108,7 @@
                                 </div>
                                 <div class="col-md-7 col-sm-7 col-lg-7">
                                     <div class="wdgt-box">
-                                        <h4>Contact Us</h4>
+                                        <h4>{{contactus}}</h4>
                                         <ul class="cont-lst">
                                             <li><i class="flaticon-location-pin"></i>Association Vahatra, B.P. 3972, Antananarivo 101, Madagascar</li>
                                             <li><i class="flaticon-call"></i>+261 20 22 277 55</li>

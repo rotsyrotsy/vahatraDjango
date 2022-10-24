@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load publications_extras %}
 {% block title %}{{type.type}}{% endblock %}
 {% block content %}
@@ -9,9 +10,9 @@
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
-                <h2>Team</h2>
+                <h2>{% trans "Members" %}</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
                     <li>{{type.type|title}}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -24,12 +25,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="wdgt-box" style="float:right; width:30%;">
-                        <h4>Search</h4>
+                        <h4>{% trans "Search" %}</h4>
                         <form class="srch-frm" action="{% url 'association:member' type.id type.type|toSlug  %}" method="get">
                             {% if keyword %}
-                            <input type="text" name="keyword" value="{{keyword}}" placeholder="Search">
+                            <input type="text" name="keyword" value="{{keyword}}" placeholder="{% trans 'Search' %}">
                             {% else %}
-                            <input type="text" name="keyword" placeholder="Search">
+                            <input type="text" name="keyword" placeholder="{% trans 'Search' %}">
                             {% endif %}
                             <button type="submit" class="thm-clr"><i class="fa fa-search"></i></button>
                         </form>
@@ -40,7 +41,7 @@
             {% if type.id == 3 %}
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Our Members</span>
+                    <span>{% trans "Our Members" %}</span>
                     <h3>{{type.type|title}}</h3>
                 </div>
             </div>
@@ -68,7 +69,7 @@
             {% else %}
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Our Members</span>
+                    <span>{% trans "Our Members" %}</span>
                     <h3>{{type.type|title}}</h3>
                 </div>
                 

@@ -67,7 +67,7 @@
                                 </ul>
                                 <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">
                                     {% if activity.idtypesubactivity.id == 'SA7' %}
-                                        <span class="font-italic" >{{activity.title | title}}</span>
+                                        <span class="font-italic" >{{activity.title | capfirst}}</span>
                                     {% else %}
                                         {{activity.title | title}}
                                     {% endif %}

@@ -1,6 +1,5 @@
 {% extends "association/base.html" %}
 {% load static %}
-{% load activities_extras %}
 {% load publications_extras %}
 {% block title %}{{activity.title}}{% endblock %}
 
@@ -19,13 +18,13 @@
                     <img src="{% static 'images/site/lettre.png' %}" alt="lettre.png" style="opacity: 0.9;">
                 </div>
                 <h2>
-                    {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | title|truncatewords:3}}</span>{% else %}{{activity.title | title|truncatewords:3}}{% endif %}
+                    {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst|truncatewords:3}}</span>{% else %}{{activity.title | title|truncatewords:3}}{% endif %}
                     </h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">Home</a></li>
                     <li><a href="{% url 'activities:index' activity.idtypeactivity.id activity.idtypeactivity.type %}" title="">{{activity.idtypeactivity.type}}</a></li>
                     <li>
-                        {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | title|truncatewords:3}}</span>{% else %}{{activity.title | title|truncatewords:3}}{% endif %}
+                        {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst|truncatewords:3}}</span>{% else %}{{activity.title | title|truncatewords:3}}{% endif %}
                         </li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -47,7 +46,7 @@
                                 {% endif %}
                                 <div class="blog-detail-inf-inr">
                                     <h1 style="padding: 10px 0px 5px 0;font-weight: 600; font-size: 1.5rem;">
-                                        {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | title}}</span>{% else %}{{activity.title | title}}{% endif %}
+                                        {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst}}</span>{% else %}{{activity.title | title}}{% endif %}
                                     </h1>
                                     <ul class="pst-mta">
                                         <li><i class="fa fa-calendar-o thm-clr"></i>{{activity.date |date:"Y"}}</li>

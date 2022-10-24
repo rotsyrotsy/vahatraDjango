@@ -38,12 +38,11 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
         context["type_subactivity"]=typesubactivity
 
         if typeactivity.id == 'A1': # IF THE ACTIVITY IS A VISIT
-            visits = get_list_or_404(Visit, Q(idactivity__idtypesubactivity = typesubactivity_id), Q(idactivity__date__lte=date.today())|Q(idactivity__date__isnull=True))
+            visits = Visit.objects.filter(Q(idactivity__idtypesubactivity = typesubactivity_id), Q(idactivity__date__lte=date.today())|Q(idactivity__date__isnull=True))
             context["visits"]= visits
             
-            locations= list(map(lambda x: x.idlocation, visits)) #locations of visit
-            locations=list(dict.fromkeys(locations)) #remove duplicates
-            context['locations']=locations.sort(key=lambda x: x.name, reverse=False)
+            locations = Location.objects.filter(id__in=visits.values('idlocation')).distinct().order_by("name")
+            context['locations']=locations
 
             listImageLocation = []
             for location in locations:
