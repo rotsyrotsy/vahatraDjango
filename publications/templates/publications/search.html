@@ -1,7 +1,8 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load publications_extras %}
-{% block title %}Search{% endblock %}
+{% block title %}{% trans "Search" %}{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc6">
@@ -9,11 +10,11 @@
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
-                <h2>Search</h2>
+                <h2>{% trans "Search" %}</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
                     <li><a href="{% url 'publications:index' %}" title="">Publications</a></li>
-                    <li>Search</li>
+                    <li>{% trans "Search" %}</li>
                 </ul>
                 
             </div><!-- Page Title Wrap -->
@@ -25,8 +26,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Publication Searching</span>
-                    <h3>Results ({{results_number}}) </h3>
+                    <span>{% trans "Publication Searching" %}</span>
+                    <h3>{% trans "Results" %} ({{results_number}}) </h3>
                 </div>
             </div>
             <div>
@@ -38,16 +39,16 @@
                               #
                             </th>
                             <th width="15%">
-                              Category
+                              {% trans "Category" %}
                             </th>
                             <th width="25%">
-                              Title
+                              {% trans "Title" %}
                             </th>
                             <th width="40%">
-                              Authors
+                              {% trans "Authors" %}
                             </th>
                             <th width="10%">
-                              Year
+                              {% trans "Year" %}
                             </th>
                           </tr>
                         </thead>

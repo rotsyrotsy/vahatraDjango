@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load publications_extras %}
 {% block title %}{{activity.title}}{% endblock %}
 
@@ -82,7 +83,7 @@
                                 {% endif %}
                                 {% if activity.activityinstitution_set.all or activity.activityperson_set.all %}
                                 <p>
-                                    <strong>Our collaborators</strong>
+                                    <strong>{% trans "Our collaborators" %}</strong>
                                     <ul>
                                         {% for partner in activity.activityinstitution_set.all %}
                                         <li>{{partner.idinst.name}}</li>
@@ -94,16 +95,9 @@
                                 </p>
                                 {% endif %}
 
-                                <blockquote class="brd-rd5"><p><i class="fa fa-quote-left thm-clr"></i>Because Madagascar has been an island for tens of millions of years, many of the plants and animals that live there are found nowhere else.</p></blockquote>
+                                <blockquote class="brd-rd5"><p><i class="fa fa-quote-left thm-clr"></i>{% trans "Because Madagascar has been an island for tens of millions of years, many of the plants and animals that live there are found nowhere else." %}</p></blockquote>
                                 
                                 <div class="pst-shr-tgs">
-                                    <div class="team-scl float-left">
-                                        <span>Share This:</span>
-                                        <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-                                        <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
-                                        <a href="#" title="Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
-                                        <a href="#" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a>
-                                    </div>
                                     <div class="tag-clouds float-right">
                                         <span>Tags:</span>
                                         <a href="#" title="">Association Vahatra</a>, <a href="#" title="">{{ activity.idtypeactivity.type }} </a>, <a href="#" title="">{{activity.date | date:"Y"}}</a>
@@ -117,7 +111,7 @@
                         <div class="sidebar-wrp">
                             
                             <div class="wdgt-box">
-                                <h4>Recent {{activity.idtypeactivity.type|title}}s</h4>
+                                <h4>{% trans "Recent" %} {{activity.idtypeactivity.type|title}}s</h4>
                                 <div class="rcnt-wrp">
                                     {% for item in new_events %}
                                     <div class="rcnt-bx">

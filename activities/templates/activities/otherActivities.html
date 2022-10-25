@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load publications_extras %}
 {% block title %}{{type_activity.type}}{% endblock %}
 {% block content %}
@@ -12,7 +13,7 @@
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
                 <h2>{{type_activity.type}}</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
                     <li>{{type_activity.type}}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -25,10 +26,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="wdgt-box" style="float:right; width:30%;">
-                        <h4>Filter activities by year</h4>
+                        <h4>{% trans "Filter activities by year" %}</h4>
                         <select onchange="location = this.value;">
                             <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' %}">
-                                    All
+                                {% trans "All" %}
                             </option>
                             {% for range in filter_year %}
                             <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' range.max range.min %}">

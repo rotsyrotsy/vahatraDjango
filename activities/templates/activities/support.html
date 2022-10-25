@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% block title %}Supports{% endblock %}
 {% block content %}
 <section>
@@ -11,7 +12,7 @@
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
                 <h2>Supports</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
                     <li>Supports</li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -28,10 +29,10 @@
                         <div >
                             <div class="sec-title style2 text-center">
                                 <div class="sec-title-inner">
-                                    <h3>Pedagogic support </h3>
+                                    <h3>{% trans "Pedagogic support" %} </h3>
                                 </div>
                             </div>
-                                <p>Members of Vahatra contribute to the education of numerous students working for their higher degrees in the national university system. These individuals are amongst the future scientific leaders of the country, many of which are trained in conservation biology and biodiversity science.</p>
+                                <p>{% trans "Members of Vahatra contribute to the education of numerous students working for their higher degrees in the national university system. These individuals are amongst the future scientific leaders of the country, many of which are trained in conservation biology and biodiversity science." %}</p>
                                 <div class="row m-3">
                                     {% for i in '67'|make_list %}
                                     <div class="col-md-6 col-sm-6 col-lg-6">
@@ -41,7 +42,8 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-                                <p><strong> Vahatra staff members present courses and help guide students at the following universities:</strong></p>
+                                {% blocktrans %}
+                                <p><strong>Vahatra staff members present courses and help guide students at the following universities:</strong></p>
 
                                 <ul>
                                     <li>Department of Animal Biology, University of Antananarivo</li>
@@ -50,7 +52,8 @@
                                     <li>Department of Animal Biology, University of Toliara</li>
                                 </ul>
                                 <p>Further, Vahatra staff members have been committee members for Master’s and PhD theses at universities in the USA, France (including La Réunion), Finland, and South Africa. </p>
-                        </div>
+                                {% endblocktrans %}
+                            </div>
                     </div>
                 </div>
             </div><!-- History Wrap -->
@@ -73,9 +76,9 @@
         <div class="container">
             <div class="sec-title style2 text-center">
                 <div class="sec-title-inner">
-                    <h3>Scientific support</h3>
+                    <h3>{% trans "Scientific support" %}</h3>
                 </div>
-                <p>Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain.</p>
+                <p>{% trans "Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain." %}</p>
             </div>
             <div class="bord-wrap">
                 <div class="row mrg">
@@ -107,12 +110,12 @@
             <div class="newsletter-wrap2 text-center">
                 <div class="newsletter-inner">
                     <div class="nwsltr-title2 text-center">
-                        <h3>Become One Of Our Partners</h3>
-                        <span>Contact us to get more informations about the processes</span>
+                        <h3>{% trans "Become One Of Our Partners" %}</h3>
+                        <span>{% trans "Contact us to get more informations about the processes" %}</span>
                     </div>
                     <form action="{% url 'association:contact' %}" method="GET">
-                        <input type="email" name="email" placeholder="Your Email">
-                        <button class="thm-btn" type="submit">Subscribe</button>
+                        <input type="email" name="email" placeholder="Email">
+                        <button class="thm-btn" type="submit">{% trans "Send" %}</button>
                     </form>
                 </div>
             </div>

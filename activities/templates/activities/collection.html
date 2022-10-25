@@ -1,6 +1,7 @@
 {% extends "association/base.html" %}
 {% load static %}
-{% block title %}Collection room{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Collection room" %}{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
@@ -9,10 +10,10 @@
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
-                <h2>Collection room</h2>
+                <h2>{% trans "Collection room" %}</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
-                    <li>Collection room</li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
+                    <li>{% trans "Collection room" %}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
         </div>
@@ -25,24 +26,26 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <h3>Collection room</h3>
+                    <h3>{% trans "Collection room" %}</h3>
                 </div>
             </div>
             <div class="serv-wrap text-justify">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="remove-ext9 color-li">
+                            {% blocktrans %}
                             <p>The collection room of the Department of Animal Biology, University of Antananarivo, holds a collection of 60,000 specimens of animals.  This material has been collected in different parts of Madagascar since 1990, by Malagasy students and researchers, as well as partners of the Department associated with overseas institutions. Most of these specimens have been cataloged according to international standards, using the acronym UADBA (“Université d’Antananarivo, Département de Biologie Animale”).  The museum collection includes mostly different taxonomic groups of Malagasy vertebrates including fish, amphibians, reptiles, birds and mammals.  Besides the fluid preserved specimens (formaldehyde and ethanol), there are also skin and skeleton specimens.  Holotypes and paratypes of recently described new species are also housed in this collection room. There are also some invertebrate specimens.</p>
                             <p>
                                 The Association Vahatra works closely with the Department of Animal Biology to improve the management of the collection room by providing technical, logistical and material support in order to:
                             </p>
-                            <ul>
+                            <ul >
                                 <li >enriching the museum collections</li>
                                 <li>providing technical aspects of identification and taxonomic updates</li>
                                 <li>improving curatorial conditions to ensure the proper maintenance of specimens (alcohol, insecticides, jars, etc.)</li>
                                 <li>modernizing the system of cataloging and registration based on international standards</li>
                                 <li>improving the collection management system to establish a simple yet rigorous management structure (curator)</li>
                             </ul>
+                            {% endblocktrans %}
                         </div>
                     </div>
                 </div>
@@ -55,9 +58,9 @@
         <div class="container">
             
             <div class="suprt-prgrs style2 text-center">
-                <div class="suprt-prg" id="suprt-prg-invertebrates"></div>
-                <div class="suprt-prg" id="suprt-prg-vertebrates"></div>
-                <div class="suprt-prg" id="suprt-prg-newspecies"></div>
+                <div class="suprt-prg" id="suprt-prg-invertebrates" data-lang="{% trans 'Invertebrates' %}"></div>
+                <div class="suprt-prg" id="suprt-prg-vertebrates" data-lang="{% trans 'Vertebrates' %}"></div>
+                <div class="suprt-prg" id="suprt-prg-newspecies" data-lang="{% trans 'New Species' %}"></div>
             </div>
             
         </div>
@@ -69,8 +72,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Visit Our</span>
-                    <h3>Collection Room</h3>
+                    <span>{% trans "Visit Our" %}</span>
+                    <h3>{% trans "Collection Room" %}</h3>
                 </div>
             </div>
                 <div class="row justify-content-center">

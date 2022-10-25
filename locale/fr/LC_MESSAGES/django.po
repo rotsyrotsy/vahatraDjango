@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-24 16:43+0300\n"
+"POT-Creation-Date: 2022-10-25 11:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,26 +18,428 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: .\activities\templates\activities\activityDetail.html:86
+msgid "Our collaborators"
+msgstr "Nos Collaborateurs"
+
+#: .\activities\templates\activities\activityDetail.html:98
+msgid ""
+"Because Madagascar has been an island for tens of millions of years, many of "
+"the plants and animals that live there are found nowhere else."
+msgstr ""
+"Parce que Madagascar a vécu des dizaines de millions d'années, la majorité "
+"de sa faune et sa flore ne peuvent être trouvées n'importe où ailleurs."
+
+#: .\activities\templates\activities\activityDetail.html:114
+#: .\association\templates\association\index.html:409
+msgid "Recent"
+msgstr "Récent"
+
+#: .\activities\templates\activities\atlas.html:15
+#: .\activities\templates\activities\collection.html:15
+#: .\activities\templates\activities\index.html:16
+#: .\activities\templates\activities\otherActivities.html:16
+#: .\activities\templates\activities\support.html:15
+#: .\association\templates\association\contact.html:14
+#: .\association\templates\association\financing.html:14
+#: .\association\templates\association\gallery.html:15
+#: .\association\templates\association\includes\nav.html:6
+#: .\association\templates\association\members.html:15
+#: .\publications\templates\publications\index.html:28
+msgid "Home"
+msgstr "Accueil"
+
+#: .\activities\templates\activities\atlas.html:34
+#: .\association\templates\association\includes\nav.html:25
+msgid "Database & Atlas"
+msgstr "Base de données & Atlas"
+
+#: .\activities\templates\activities\atlas.html:35
+msgid "Atlas of selected land vertebrates of Madagascar"
+msgstr "Atlas d'une sélection de vertébrés terrestres de Madagascar"
+
+#: .\activities\templates\activities\atlas.html:36
+msgid ""
+" Over the past 20 years, members of the Association Vahatra collected \n"
+"                                considerable data on terrestrial vertebrates "
+"of Madagascar, \n"
+"                                based on fieldwork and museum studies. To "
+"contribute to better \n"
+"                                management and conservation of Malagasy "
+"biodiversity from sound scientific basis,\n"
+"                                 the Association has initiated a project on "
+"an atlas of vertebrates from Madagascar \n"
+"                                 in parallel with the development of a "
+"database on Malagasy biodiversity accessible to \n"
+"                                 the public and various users. </p><br>\n"
+"                            <p>This project is implemented in collaboration "
+"with <strong><a href=\"https://www.rebioma.org/\" target=\"_blank\">REBIOMA</"
+"a></strong>\n"
+"                                , given that the scientific founding members "
+"of the Association Vahatra \n"
+"                                are part of \" Board authority members\" of "
+"the database managed by <strong><a href=\"https://www.rebioma.org/\" target="
+"\"_blank\">REBIOMA</a></strong>\n"
+"                                , as they are specialists of Malagasy "
+"biodiversity.\n"
+"                            </p><br>\n"
+"                            <p>While the past few decades have seen numerous "
+"publications about the extraordinary and highly endemic terrestrial "
+"vertebrate fauna of Madagascar, ranging from technical papers, to species "
+"descriptions, and field guides, no detailed mapping exercise has been "
+"completed in the form of an atlas.  The purpose of this new book is that, to "
+"bring together information from numerous sources and present distributional "
+"maps for a wide range of taxa,\n"
+"                                 descriptive texts to interpret patterns, "
+"and, for most, habitat models (Maxent).  For the different reptiles, birds, "
+"and mammals treated herein, this atlas is intended as a reference for "
+"students, researchers, naturalists, and conservationists.</p>\n"
+"                                 "
+msgstr ""
+" Au cours des 20 dernières années, les membres de l’Association Vahatra ont "
+"recueilli \n"
+" des données considérables sur les vertébrés terrestres de Madagascar, \n"
+"  sur la base de travaux sur le terrain et des études muséologiques. Afin de "
+"contribuer à une meilleure gestion et à la conservation durable de la "
+"biodiversité malgache sur des bases scientifiques solides à partir de ces "
+"données, l’Association a initié un projet d’atlas de vertébrés de Madagascar "
+"en parallèle avec l’élaboration d’une base de données sur la biodiversité "
+"malgache accessible au public et aux usagers. </p> <p>Ce projet est mise en "
+"oeuvre en collaboration avec <strong><a href=\"https://www.rebioma.org/\" "
+"target=\"_blank\">REBIOMA</a></strong> , étant donné que les membres "
+"fondateurs scientifiques de l’Association Vahatra, qui sont des spécialistes "
+"de la biodiversité malgache, font partie des « Board authority members » de "
+"la base de données gérée par <strong><a href=\"https://www.rebioma.org/\" "
+"target=\"_blank\">REBIOMA</a></strong>\n"
+"</p><br><p>Alors que ces dernières décennies ont été marquées par de "
+"nombreuses publications sur la faune de vertébrés terrestres extraordinaires "
+"et hautement endémiques de Madagascar, allant des documents techniques, des "
+"descriptions d’espèces aux guides de terrain, aucune analyse cartographique "
+"détaillée n’a été faite sous la forme d’un atlas. L’objectif de ce nouveau "
+"livre est de rassembler les informations issues de nombreuses sources et de "
+"présenter des cartes de distribution d’une grande variété de taxons, des "
+"textes descriptifs pour l’interprétation des modèles et pour la plupart, des "
+"modèles d’habitats des espèces (Maxent). Pour les reptiles, oiseaux et "
+"mammifères considérés ici, cet atlas est destiné à servir de référence pour "
+"les étudiants, les chercheurs, les naturalistes et les conservationnistes.</"
+"p>"
+
+#: .\activities\templates\activities\collection.html:4
+#: .\activities\templates\activities\collection.html:13
+#: .\activities\templates\activities\collection.html:16
+#: .\activities\templates\activities\collection.html:29
+#: .\association\templates\association\includes\nav.html:24
+msgid "Collection room"
+msgstr "Salle de collection"
+
+#: .\activities\templates\activities\collection.html:36
+msgid ""
+"\n"
+"                            <p>The collection room of the Department of "
+"Animal Biology, University of Antananarivo, holds a collection of 60,000 "
+"specimens of animals.  This material has been collected in different parts "
+"of Madagascar since 1990, by Malagasy students and researchers, as well as "
+"partners of the Department associated with overseas institutions. Most of "
+"these specimens have been cataloged according to international standards, "
+"using the acronym UADBA (“Université d’Antananarivo, Département de Biologie "
+"Animale”).  The museum collection includes mostly different taxonomic groups "
+"of Malagasy vertebrates including fish, amphibians, reptiles, birds and "
+"mammals.  Besides the fluid preserved specimens (formaldehyde and ethanol), "
+"there are also skin and skeleton specimens.  Holotypes and paratypes of "
+"recently described new species are also housed in this collection room. "
+"There are also some invertebrate specimens.</p>\n"
+"                            <p>\n"
+"                                The Association Vahatra works closely with "
+"the Department of Animal Biology to improve the management of the collection "
+"room by providing technical, logistical and material support in order to:\n"
+"                            </p>\n"
+"                            <ul >\n"
+"                                <li >enriching the museum collections</li>\n"
+"                                <li>providing technical aspects of "
+"identification and taxonomic updates</li>\n"
+"                                <li>improving curatorial conditions to "
+"ensure the proper maintenance of specimens (alcohol, insecticides, jars, "
+"etc.)</li>\n"
+"                                <li>modernizing the system of cataloging and "
+"registration based on international standards</li>\n"
+"                                <li>improving the collection management "
+"system to establish a simple yet rigorous management structure (curator)</"
+"li>\n"
+"                            </ul>\n"
+"                            "
+msgstr ""
+"\n"
+"<p>La salle de collection scientifique du Département de Biologie Animale, "
+"Université d’Antananarivo, consiste en une collection d’animaux. Elle compte "
+"actuellement plus de 60 000 spécimens collectés dans différents endroits de "
+"Madagascar depuis 1990, par des étudiants et chercheurs malgaches et des "
+"partenaires étrangers du Département. Une grande partie de cette collection "
+"est déjà cataloguée suivant la norme internationale avec l’acronyme « UADBA "
+"» (Université d’Antananarivo, Département de Biologie Animale). Cette "
+"collection muséologique comprend différents groupes taxonomiques de "
+"vertébrés de Madagascar incluant les poissons, les amphibiens, les reptiles, "
+"les oiseaux et les mammifères. Outre les spécimens conservés en liquide "
+"(formaldéhyde et éthanol), il y a également des spécimens en peau et des "
+"squelettes. La collection dispose aussi d’échantillons des types (paratype "
+"et holotype) des nouvelles espèces récemment décrites. Il y a aussi des "
+"spécimens d’invertébrés. </p><p>L’Association Vahatra travaille en étroite "
+"collaboration avec le Département de Biologie Animale pour améliorer la "
+"gestion de la salle de collection en donnant des appuis techniques, "
+"logistiques et matériels afin :</p>\n"
+"                            <ul >                                <li "
+">d’enrichir les spécimens de références de la salle de collection (muséum)</"
+"li>\n"
+"                                <li>de fournir des aspects techniques pour "
+"l’identification et la mise à jour taxonomique</li>\n"
+"                                <li>d’améliorer les matériels et les "
+"équipements de stockage et de conservation pour assurer la maintenance des "
+"spécimens (alcool, insecticides, bocaux, etc.)</li>\n"
+"                                <li>de moderniser le système de catalogage "
+"et d’enregistrement suivant la norme internationale</li>\n"
+"                                <li>d’améliorer le système de gestion de la "
+"collection pour mettre en place une structure de gestion simple mais "
+"rigoureuse (conservateur)</li>\n"
+"                            </ul>\n"
+"                            "
+
+#: .\activities\templates\activities\collection.html:61
+msgid "Invertebrates"
+msgstr "Invertébrés"
+
+#: .\activities\templates\activities\collection.html:62
+msgid "Vertebrates"
+msgstr "Vertébrés"
+
+#: .\activities\templates\activities\collection.html:63
+msgid "New Species"
+msgstr "Nouvelles Espèces"
+
+#: .\activities\templates\activities\collection.html:75
+msgid "Visit Our"
+msgstr "Visitez Notre"
+
+#: .\activities\templates\activities\collection.html:76
+msgid "Collection Room"
+msgstr "Salle de collection"
+
+#: .\activities\templates\activities\index.html:30
+msgid "About the"
+msgstr "A propos"
+
+#: .\activities\templates\activities\index.html:33
+msgid ""
+"\n"
+"                                <p>Wide dissemination of information on "
+"biodiversity and its relationship to human well-being, listening and use of "
+"knowledge and perception of local natural resource is a spearhead to better "
+"engage the different social strata in a correct biodiversity management and "
+"conservation. It is from this perspective and to return to the source that "
+"the Association Vahatra promoted a new project entitled \"Science for the "
+"People\" was designed and implemented in the northwest and northeast of "
+"Madagascar. The goal is to share scientific data on biodiversity and "
+"ecosystems that surround them to the local population and explain the "
+"interest generated by these resources to humanity, and on the other side to "
+"start understanding to how these local populations understand this natural "
+"heritage.</p>\n"
+"                                <strong>Activities conducted</strong>\n"
+"                                <ul>\n"
+"                                    <li>Training of students through visits "
+"to schools and villages.</li>\n"
+"                                    <li>Educational games.</li>\n"
+"                                    <li>Screening of documentary films.</"
+"li>\n"
+"                                    <li>Exchanges and discussions with "
+"adults.</li>\n"
+"                                    <li>Distribution of printed materials "
+"and school kits (t-shirts, books, magazines such as Vintsy and brochures.</"
+"li>\n"
+"                                </ul>\n"
+"                                "
+msgstr ""
+"\n"
+"<p>Une large diffusion des informations sur la biodiversité et sa relation "
+"avec le bien-être humain, l’écoute et la valorisation des connaissances et "
+"de la perception locales de cette ressource naturelle constituent un fer de "
+"lance pour mieux engager les différentes couches sociales dans la bonne "
+"gestion et la conservation de cette diversité biologique. C’est dans cette "
+"optique et pour retourner à la source les données que l’Association Vahatra "
+"a lancé un défi de sensibilisation à différents niveaux des populations "
+"riveraines des aires naturelles de conservation. Un projet intitulé « "
+"Sciences pour le peuple » a été alors conçu et mis en œuvre dans la partie "
+"nord-ouest et nord-est de Madagascar. L’objectif est de partager d’une "
+"manière accessible à la population locale les données scientifiques sur la "
+"biodiversité et les écosystèmes qui les entourent et d’expliquer les "
+"intérêts générés par ces ressources à travers les services qu’elles offrent "
+"à l’humanité, et de l’autre côté de se mettre à l’écoute de la compréhension "
+"que la population locale a de ce patrimoine naturel. </p>\n"
+"                                <strong>Activités effectuées</strong>\n"
+"                                <ul>\n"
+"                                    <li>Formation des élèves à travers des "
+"visites des écoles et des villages.</li>\n"
+"                                    <li>Jeux éducatifs.</li>\n"
+"                                    <li>Projection de films documentaires.</"
+"li>\n"
+"                                    <li>Echanges et discussions avec des "
+"adultes.</li>\n"
+"                                    <li>Distribution de supports imprimés et "
+"de kit scolaires (Tee-Shirts, livres comme Vintsy et Série de guides et "
+"dépliants).</li>\n"
+"                                </ul>\n"
+"                                "
+
+#: .\activities\templates\activities\index.html:46
+msgid ""
+"<p>Over the course of the past 18 years, the ETP and now <span>Vahatra</"
+"span> have conducted field schools on a nearly yearly basis for young "
+"graduate students enrolled in both national and foreign university systems "
+"(Antananarivo, Mahajanga, Toliara, and KwaZulu Natal in South Africa). In "
+"most cases, these field trips and associated biological inventories are the "
+"first contact these students have with researchers, field techniques, and "
+"forest-dwelling animals. During these field schools, which normally last "
+"10-14 days, the participating students form small groups and rotate every "
+"few days between the different disciplines represented. Hence, they are "
+"exposed to a wide range of ideas, instruction, and practical aspects that "
+"will help them during their own graduate studies. Further, while in the "
+"field, the participating researchers, mostly composed of professional "
+"Malagasy scientists, present seminars to form a clear bridge between "
+"theoretical facets presented in university classrooms and practical aspects "
+"of obtaining field data.</p>"
+msgstr ""
+"<p>ETP, au cours des 18 dernières années, et Vahatra actuellement, ont "
+"effectué des « Field schools » presque tous les ans pour les jeunes "
+"étudiants malgaches inscrits dans le système universitaire national et "
+"étranger (Antananarivo, Mahajanga, Toliara, KwaZulu Natal - Afrique du Sud). "
+"Dans la plupart des cas, ces sorties sont pour les étudiants, le premier "
+"contact avec les chercheurs, les organismes vivant dans les forêts et les "
+"techniques de terrain. Au cours d'un « Field school », qui dure normallement "
+"10 à 14 jours, les étudiants forment des petits groupes et effectuent une "
+"rotation entre les diverses disciplines présentées. Ils sont exposés à un "
+"large éventail d'idées, d’instruction et de concepts pratiques qui leur "
+"seront très utiles pour leurs études. En outre, alors qu’ils sont encore sur "
+"le terrain, les chercheurs professionnels présentent des séminaires pour "
+"mettre en relation les aspects théoriques présentés à l’université et les "
+"aspects pratiques pour collecter les données sur le terrain.</p>"
+
+#: .\activities\templates\activities\index.html:49
+msgid ""
+"<p>Over the past 18 years, over 430 sites have been the subjects of multi-"
+"disciplinary biological inventories by the former ETP group and more "
+"recently by Vahatra scientists. Here are a few examples of some of the "
+"localities visited and the context of the project.  In numerous cases, "
+"multiple sites were surveyed at a given locality</p>"
+msgstr ""
+"<p>Au cours des 18 dernières années, plus de 430 sites ont fait l'objet "
+"d’inventaires biologiques multi-disciplinaires par le groupe de l'ancien "
+"ETP, et plus récemment par les scientifiques de Vahatra. Voici quelques "
+"exemples des localités visitées et du contexte de chaque projet. Dans de "
+"nombreux cas, plusieurs sites ont été inventoriés dans une localité donnée.</"
+"p>"
+
+#: .\activities\templates\activities\otherActivities.html:29
+msgid "Filter activities by year"
+msgstr "Filtrer les activités par année"
+
+#: .\activities\templates\activities\otherActivities.html:32
+#: .\association\templates\association\gallery.html:26
+msgid "All"
+msgstr "Tous"
+
+#: .\activities\templates\activities\support.html:32
+msgid "Pedagogic support"
+msgstr "Appui pédagogique"
+
+#: .\activities\templates\activities\support.html:35
+msgid ""
+"Members of Vahatra contribute to the education of numerous students working "
+"for their higher degrees in the national university system. These "
+"individuals are amongst the future scientific leaders of the country, many "
+"of which are trained in conservation biology and biodiversity science."
+msgstr ""
+"Les membres de Vahatra contribuent à la formation de nombreux étudiants "
+"travaillant pour leur DEA et leur doctorat dans le système universitaire "
+"national. Ces étudiants feront partie des futurs leaders scientifiques du "
+"pays. Une grande partie sont formés dans les domaines de la biologie de "
+"conservation et de la science de la biodiversité."
+
+#: .\activities\templates\activities\support.html:45
+msgid ""
+"\n"
+"                                <p><strong>Vahatra staff members present "
+"courses and help guide students at the following universities:</strong></p>\n"
+"\n"
+"                                <ul>\n"
+"                                    <li>Department of Animal Biology, "
+"University of Antananarivo</li>\n"
+"                                    <li>Institut des Sciences et Techniques "
+"de l’Environnement (ISTE), University of Fianarantsoa</li>\n"
+"                                    <li>Department of Animal Biology, "
+"University of Mahajanga</li>\n"
+"                                    <li>Department of Animal Biology, "
+"University of Toliara</li>\n"
+"                                </ul>\n"
+"                                <p>Further, Vahatra staff members have been "
+"committee members for Master’s and PhD theses at universities in the USA, "
+"France (including La Réunion), Finland, and South Africa. </p>\n"
+"                                "
+msgstr ""
+"\n"
+"<p><strong>Plusieurs membres de Vahatra enseignent dans les universités "
+"suivantes :</strong></p>\n"
+"\n"
+"                                <ul>\n"
+"                                    <li>Department of Animal Biology, "
+"University of Antananarivo</li>\n"
+"                                    <li>Institut des Sciences et Techniques "
+"de l’Environnement (ISTE), University of Fianarantsoa</li>\n"
+"                                    <li>Department of Animal Biology, "
+"University of Mahajanga</li>\n"
+"                                    <li>Department of Animal Biology, "
+"University of Toliara</li>\n"
+"                                </ul>\n"
+"                                <p>En outre, les membres de Vahatra ont été "
+"membres de commissions de mémoires de maîtrise et de thèses de doctorat dans "
+"des universités aux Etats-Unis, en France (y compris La Réunion), en "
+"Finlande et en Afrique du Sud. </p>\n"
+"                                "
+
+#: .\activities\templates\activities\support.html:79
+msgid "Scientific support"
+msgstr "Appui scientifique"
+
+#: .\activities\templates\activities\support.html:81
+msgid ""
+"Vahatra participates in helping with the reinforcement of conservation "
+"biology on Madagascar by actively collaborating with different organizations "
+"working or associated with this domain."
+msgstr ""
+"Vahatra participe activement au renforcement de la conservation de la "
+"biodiversité à Madagascar en collaborant étroitement avec les diverses "
+"institutions oeuvrant dans ou associées à ce domaine."
+
+#: .\activities\templates\activities\support.html:113
+msgid "Become One Of Our Partners"
+msgstr "Devenez Un De Nos Partenaires"
+
+#: .\activities\templates\activities\support.html:114
+msgid "Contact us to get more informations about the processes"
+msgstr "Contactez-nous pour avoir plus d'information"
+
+#: .\activities\templates\activities\support.html:118
+msgid "Send"
+msgstr "Envoyer"
+
 #: .\association\templates\association\base.html:3
 #: .\association\templates\association\contact.html:96
 msgid "Contact Us"
 msgstr "Contactez-Nous"
 
-#: .\association\templates\association\base.html:101
+#: .\association\templates\association\base.html:100
 msgid ""
 "Vahatra's challenge, objectives and mission are mainly based on its history; "
 "and the members are doing their best to achieve these objectives."
 msgstr ""
 "Les défi, objectifs et mission de Vahatra sont basé sur son histoire et les "
 "membres font en sorte de les réaliser."
-
-#: .\association\templates\association\contact.html:14
-#: .\association\templates\association\financing.html:14
-#: .\association\templates\association\gallery.html:15
-#: .\association\templates\association\includes\nav.html:4
-#: .\association\templates\association\members.html:15
-msgid "Home"
-msgstr "Accueil"
 
 #: .\association\templates\association\contact.html:26
 msgid "Get information"
@@ -86,7 +488,7 @@ msgstr "Nous avons bien reçu votre email et vous repondrons bientôt..."
 #: .\association\templates\association\financing.html:4
 #: .\association\templates\association\financing.html:12
 #: .\association\templates\association\financing.html:15
-#: .\association\templates\association\includes\nav.html:45
+#: .\association\templates\association\includes\nav.html:47
 msgid "Financing"
 msgstr "Financement"
 
@@ -189,50 +591,38 @@ msgstr "(pour les requêtes en anglais)"
 msgid "Gallery"
 msgstr "Galerie"
 
-#: .\association\templates\association\gallery.html:26
-msgid "All"
-msgstr "Tous"
-
 #: .\association\templates\association\gallery.html:48
 #: .\association\templates\association\index.html:7
 msgid "Show more"
 msgstr "Voir plus"
 
-#: .\association\templates\association\includes\nav.html:5
+#: .\association\templates\association\includes\nav.html:7
 #: .\association\templates\association\index.html:409
 msgid "Activities"
 msgstr "Activités"
 
-#: .\association\templates\association\includes\nav.html:21
+#: .\association\templates\association\includes\nav.html:23
 msgid "Pedagogic and scientific support"
 msgstr "Appui pédagogique et scientifique"
 
-#: .\association\templates\association\includes\nav.html:22
-msgid "Collection room"
-msgstr "Salle de collection"
-
-#: .\association\templates\association\includes\nav.html:23
-msgid "Database & Atlas"
-msgstr "Base de données & Atlas"
-
-#: .\association\templates\association\includes\nav.html:27
+#: .\association\templates\association\includes\nav.html:29
 msgid "Projects and grants"
 msgstr "Projets"
 
-#: .\association\templates\association\includes\nav.html:29
+#: .\association\templates\association\includes\nav.html:31
 msgid "Grant"
 msgstr "Subvention"
 
-#: .\association\templates\association\includes\nav.html:30
+#: .\association\templates\association\includes\nav.html:32
 msgid "Scientific research"
 msgstr "Recherche scientifique"
 
-#: .\association\templates\association\includes\nav.html:42
+#: .\association\templates\association\includes\nav.html:44
 #: .\association\templates\association\index.html:122
 msgid "About"
 msgstr "A propos"
 
-#: .\association\templates\association\includes\nav.html:44
+#: .\association\templates\association\includes\nav.html:46
 msgid "Our gallery"
 msgstr "Notre galerie"
 
@@ -574,10 +964,6 @@ msgstr "Evénements"
 msgid "Let us introduce to you what's comming soon."
 msgstr "Les événements à venir."
 
-#: .\association\templates\association\index.html:409
-msgid "Recent"
-msgstr "Récent"
-
 #: .\association\templates\association\index.html:464
 msgid "A message from"
 msgstr "Un message"
@@ -593,14 +979,226 @@ msgstr "Membres"
 #: .\association\templates\association\members.html:28
 #: .\association\templates\association\members.html:31
 #: .\association\templates\association\members.html:33
+#: .\publications\templates\publications\index.html:104
+#: .\publications\templates\publications\index.html:106
+#: .\publications\templates\publications\index.html:139
 msgid "Search"
 msgstr "Recherche"
 
 #: .\association\templates\association\members.html:44
 #: .\association\templates\association\members.html:72
-
 msgid "Our Members"
 msgstr "Les membres"
+
+#: .\publications\templates\publications\index.html:9
+msgid ""
+"Malagasy Nature is a journal published by the Association Vahatra concerning "
+"aspects of the natural history of Madagascar and neighboring islands. Label:"
+"publication. Category"
+msgstr ""
+"Malagasy Nature est une revue publiée par l'Association Vahatra concernant "
+"certains aspects de l'histoire naturelle de Madagascar et des îles voisines. "
+"Catégorie"
+
+#: .\publications\templates\publications\index.html:12
+msgid ""
+"List of books published in the series « Guides sur la diversité biologique "
+"de Madagascar ». Label:publication. Category"
+msgstr ""
+"Liste des livres publiés dans la série « Guides sur la diversité biologique "
+"de Madagascar ». Label: publication. Catégorie"
+
+#: .\publications\templates\publications\index.html:15
+msgid ""
+"Here is a listing of publications that have resulted from the Ecology "
+"Training Program of WWF-Madagascar and in more recent years from the "
+"independent Vahatra program.  These publications include papers in "
+"scientific journals, books, and chapters in books and monographs. Label:"
+"publication. Category"
+msgstr ""
+"Vous trouverez ici une liste des publications résultant de l’ETP du WWF à "
+"Madagascar et des dernières années depuis l’indépendance de Vahatra. Il "
+"s'agit notamment de documents dans des revues scientifiques, de livres et de "
+"chapitres dans des livres et dans des monographies.Label:publication. "
+"Catégorie"
+
+#: .\publications\templates\publications\index.html:39
+msgid "PRESENT TO YOU"
+msgstr "VOUS PRESENTE"
+
+#: .\publications\templates\publications\index.html:66
+msgid ""
+"\n"
+"                                <p>During the French colonial period in "
+"Madagascar a journal was produced and entitled, Naturaliste Malgache. This "
+"journal served the important function of disseminating to the world "
+"scientific community information on the natural history of Madagascar and "
+"surrounding islands.  The intention with this new review, <strong>Malagasy "
+"Nature</strong>,is to follow this example and publish articles, in both "
+"English and French, at high scientific and international standards. This "
+"journal allows Malagasy scientists to return information to the scientific "
+"world, rather than only being on the receiving end. We consider this a very "
+"important professional step for the Malagasy scientific community. "
+"<strong>Malagasy Nature</strong> also guarantees the local availability of "
+"the results of ecological and biological research conducted on the island, "
+"as in many cases such articles published in foreign scientific journals are "
+"not repatriated or difficult to access from Madagascar.</p>\n"
+"                                <br><p><strong>Malagasy Nature</strong> is a "
+"journal published by the Association Vahatra concerning aspects of the "
+"natural history of Madagascar and neighboring islands (Comores, Mascarenes, "
+"and Seychelles). The journal publishes original scientific contributions in "
+"English and French concerning animals, plants, ecology, conservation, "
+"biogeography, systematics, and paleontology. To date ten volumes have "
+"appeared, all now available online.</p>\n"
+"                                <ul>\n"
+"                                    <li>First volume (2008) : Monograph "
+"dedicated to different aspects of the dry forests of Madagascar.</li>\n"
+"                                    <li>Second volume (2009) : Contains "
+"articles concerning a variety of different topics. </li>\n"
+"                                    <li>Third volume (2010) : Monograph "
+"dedicated to the Ambatovy-Analamay region</li>\n"
+"                                    <li>Fourth (2010), Fifth (2011) and the "
+"Sixth (2012) volumes cover different topics</li>\n"
+"                                    <li>Volume 7 (2013) : Dedicated to a "
+"monograph on the Beanka Forest (Maintirano)</li>\n"
+"                                    <li>Volume 8 (2014) and Volume 9 (2015), "
+"are regular issues of the journal</li>\n"
+"                                    <li>Volume 10 (2016): A monograph "
+"dedicated to Bezà Mahafaly</li>\n"
+"                                    <li>Volume 11 (2017): A monograph "
+"dedicated to the Nosy Ankao island group</li>\n"
+"                                    <li>Volume 12 (2017), Volume 13 (2019), "
+"and Volume 14 (2020) contain papers on a variety of subjects</li>\n"
+"                                    <li>Volume 15 (2021) : Special issue "
+"dedicated to advances in the field of paleosciences by Malagasy researchers "
+"and students.</li>\n"
+"                                    <li>Volume 16 (2022) : Contains papers "
+"on a variety of subjects..</li>\n"
+"                                </ul>\n"
+"                                <p>The editors of <strong>Malagasy Nature</"
+"strong> are Marie Jeanne Raherilalao and Steven M. Goodman. The associated "
+"editors include Achille P. Raselimanana and Voahangy Soarimalala.  An "
+"editorial committee has been set up with reasearchers from numerous "
+"disciplines, often with Francophone-Anglophone counterparts and include "
+"Henri-Pierre Aberlenc (France), Franco Andreone (Italy), Christopher "
+"Birkinshaw (Madagascar), David Burney (USA), Jean-Marc Duplantier (France), "
+"Roger Edmond (Madagascar), Brian Fisher (USA), John Flynn (USA), Jörg "
+"Ganzhorn (Germany), Frank Hawkins (USA), Olivier Langrand (USA), Wilson "
+"Lourenço (France), Chantal Radimilahy (Madagascar), Daniel Rakotondravony "
+"(Madagascar), Jeanne Rasamy (Madagascar), Joelisoa Ratsirarson (Madagascar), "
+"Vincent Robert (France), Manuel Ruedi (Switzerland), Melanie L. J. Stiassny "
+"(USA), Peter Taylor (South Africa), Miguel Vences (Germany), and Henry "
+"Wright (USA).</p>\n"
+"                                <hr>\n"
+"                                "
+msgstr ""
+"\n"
+"                                <p>Au cours de la période coloniale française à Madagascar, un journal intitulé Naturaliste Malgache fut produit. Ce journal  avait  comme fonction importante de diffuser des informations sur l'histoire naturelle de Madagascar et des îles environnantes à la communauté scientifique mondiale. L’objectif avec cette nouvelle revue <strong>Malagasy "
+"Nature</strong>,est de suivre cet exemple et de publier des articles scientifiques aux normes internationales. Les articles sont en français ou en anglais. Cette revue permettra à des scientifiques malgaches de partager des informations au monde scientifique et c’est une étape très importante pour les professionnels malgaches de la communauté scientifique."
+"<strong>Malagasy Nature</strong> garantit également la disponibilité locale des résultats de la recherche biologique et écologique sur l'île car les articles publiés dans des revues scientifiques étrangers ne sont pas rapatriés à Madagascar ou sont difficiles d’accès à partir de Madagascar.</p>\n"
+"                                <br><p><strong>Malagasy Nature</strong> "
+"est une revue publiée par l'Association Vahatra concernant certains aspects de l'histoire naturelle de Madagascar et des îles voisines (Comores, Mascareignes et Seychelles). La revue publie des contributions scientifiques originales en anglais et en français concernant les animaux, les plantes, l'écologie, la conservation, la biogéographie, systématique et la paléontologie. À ce jour, dix  volumes ont paru et sont tous disponible en ligne. </p>\n"
+"                                <ul>\n"
+"                                    <li>Premier volume (2008) : Monographie consacrée à différents aspects des forêts sèches de Madagascar..</li>\n"
+"                                    <li>Deuxième volume (2009) : Contient des articles concernant une variété de sujets différents. </li>\n"
+"                                    <li>Troisième volume (2010) : Monographie sur la région d’Ambatovy-Analamay</li>\n"
+"                                    <li>Quatrième (2010), Cinquième (2011) et le"
+"Sixième (2012) volumes traitent de divers sujets</li>\n"
+"                                    <li>Volume 7 (2013) : Monographie sur la forêt de Beanka (Maintirano)</li>\n"
+"                                    <li>Volume 8 (2014) et le Volume 9 (2015), "
+"sont des volumes réguliers de Malagasy Nature</li>\n"
+"                                    <li>Volume 10 (2016): Monographie dédié à Bezà Mahafaly</li>\n"
+"                                    <li>Volume 11 (2017):  Monographie sur le groupe des îles de Nosy Ankao</li>\n"
+"                                    <li>Volume 12 (2017), Volume 13 (2019), "
+"and Volume 14 (2020) traitent de divers sujets</li>\n"
+"                                    <li>Volume 15 (2021) : Numéro spécial consacré aux avancées dans le domaine des paléosciences par les chercheurs et étudiants malgaches.</li>\n"
+"                                   <li>Volume 16 (2022) : Contient des articles sur une variété de sujets..</li>\n"
+"                                </ul>\n"
+"                                <p>Les éditeurs de <strong>Malagasy Nature</"
+"strong> sont Marie Jeanne Raherilalao et Steven M. Goodman. Les éditeurs associés sont Achille P. Raselimanana and Voahangy Soarimalala."
+" Un comité éditorial a été érigé avec des chercheurs spécialisés dans diverses disciplines, souvent avec des homologues francophone-anglophone. Les membres de ce comité sont "
+"Henri-Pierre Aberlenc (France), Franco Andreone (Italy), Christopher "
+"Birkinshaw (Madagascar), David Burney (USA), Jean-Marc Duplantier (France), "
+"Roger Edmond (Madagascar), Brian Fisher (USA), John Flynn (USA), Jörg "
+"Ganzhorn (Germany), Frank Hawkins (USA), Olivier Langrand (USA), Wilson "
+"Lourenço (France), Chantal Radimilahy (Madagascar), Daniel Rakotondravony "
+"(Madagascar), Jeanne Rasamy (Madagascar), Joelisoa Ratsirarson (Madagascar), "
+"Vincent Robert (France), Manuel Ruedi (Switzerland), Melanie L. J. Stiassny "
+"(USA), Peter Taylor (South Africa), Miguel Vences (Germany), and Henry "
+"Wright (USA).</p>\n"
+"                                <hr>\n"
+"                                "
+
+#: .\publications\templates\publications\index.html:85
+msgid ""
+"Here is the information on formatting papers for submission to Malagasy "
+"Nature"
+msgstr ""
+"Pour accéder aux informations sur la mise en forme des documents à soumettre "
+"à Malagasy Nature, télécharger ici le fichier pdf. "
+
+#: .\publications\templates\publications\index.html:86
+msgid "For information specifically about the journal, please contact"
+msgstr "Pour des renseignements spécifiques sur le journal, contacter"
+
+#: .\publications\templates\publications\index.html:90
+msgid ""
+"\n"
+"                                <p>List of books published in the series "
+"\"Guides sur la diversité biologique de Madagascar\"</p>\n"
+"                                <hr>\n"
+"                                <p>For information on how to obtain copies "
+"of these books, please send a message to  <a href=\"mailto:"
+"malagasynature@gmail.com\">malagasynature@gmail.com</a> or write to "
+"<strong>Association Vahatra, BP 3972, Antananarivo 101, Madagascar</strong>. "
+"</p>\n"
+"                            "
+msgstr ""
+"\n"
+"                                <p>Liste des livres publiés dans la série « "
+"Guides sur la diversité biologique de Madagascar » :</p>\n"
+"                                <hr>\n"
+"                                <p>Pour plus d'informations pour l'obtention "
+"d'exemplaires de ces livres, veuillez écrire à  <a href=\"mailto:"
+"malagasynature@gmail.com\">malagasynature@gmail.com</a> ou à "
+"<strong>Association Vahatra, BP 3972, Antananarivo 101, Madagascar</strong>. "
+"</p>\n"
+"                            "
+
+#: .\publications\templates\publications\index.html:97
+msgid ""
+"As researchers dedicated to the advancement of knowledge and science "
+"concerning Madagascar and surrounding islands in particular, Vahatra places "
+"emphasis on the dissemination of research results to our local colleagues "
+"and the scientific world at large.  Further, to help with the advancement of "
+"scientific careers and Malagasy science we strongly encourage students "
+"working with us to publish the results of their work. Here is a listing of "
+"publications that have resulted from the Ecology Training Program of WWF-"
+"Madagascar and in more recent years from the independent Vahatra program.  "
+"These publications include papers in scientific journals, books, and "
+"chapters in books and monographs. You can find here the “Mémoires” and "
+"thesis that have resulted from the Ecology Training Program of WWF-"
+"Madagascar and in more recent years from the independent Vahatra program."
+msgstr ""
+"En tant que chercheurs dévoués à l'avancement des connaissances "
+"scientifiques concernant surtout Madagascar, Vahatra met l'accent sur la "
+"diffusion des résultats de la recherche à ses collègues et au monde "
+"scientifique en général. En outre, pour aider à la promotion des carrières "
+"scientifiques et de la science Malgache, nous encourageons vivement les "
+"étudiants à travailler avec nous de publier les résultats de leurs travaux. "
+"Vous trouverez ici une liste des publications résultant de l’ETP du WWF à "
+"Madagascar et des dernières années depuis l’indépendance de Vahatra. Il "
+"s'agit notamment de documents dans des revues scientifiques, de livres et de "
+"chapitres dans des livres et dans des monographies. Par ailleurs, ici vous "
+"trouverez une liste des mémoires et thèses dans le même cadre."
+
+#: .\publications\templates\publications\index.html:120
+msgid "Multicriteria Search"
+msgstr "Recherche multicritère"
+
+#: .\publications\templates\publications\index.html:123
+msgid "Author"
+msgstr "Auteur"
 
 #: .\vahatraDjango\settings.py:143
 msgid "English"
