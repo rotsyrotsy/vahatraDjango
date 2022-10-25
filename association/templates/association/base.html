@@ -51,11 +51,10 @@
         </div><!-- Color Picker -->
       </div><!-- Side Panel -->
       <header class="style1">
-        <div class="container">
+        <div class="container" style="max-width: 1300px;">
             <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img src="{% static 'images/logo.png' %}" alt="logo.png"></a></div>
             <nav>
                 <div>
-                    <a class="thm-btn brd-rd40" href="{% url 'association:contact' %}" title="">{{contactus}}</a>
                     {% include 'association/includes/nav.html' %}
                 </div>
             </nav>

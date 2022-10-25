@@ -1,7 +1,8 @@
 from django import template
 
 from vahatraDjango.functions import renameFile, toSlug
-
+from django.urls import resolve, reverse
+from django.utils import translation
 register = template.Library()
 
 
@@ -67,6 +68,27 @@ def truncatesmart(value, limit="0,80"):
 
     # Join the words and return
     return ' '.join(words)
+
+
+@register.simple_tag(takes_context=True)
+def change_lang(context, lang=None, *args, **kwargs):
+    """
+    Get active page's url by a specified language
+    Usage: {% change_lang 'en' %}
+    """
+
+    path = context['request'].path
+    url_parts = resolve(path)
+
+    url = path
+    cur_language = translation.get_language()
+    try:
+        translation.activate(lang)
+        url = reverse(url_parts.view_name, kwargs=url_parts.kwargs)
+    finally:
+        translation.activate(cur_language)
+
+    return "%s" % url
 
 register.filter('truncatesmart',truncatesmart)
 register.filter('float_comma_to_dot',float_comma_to_dot)

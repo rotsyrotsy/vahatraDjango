@@ -558,6 +558,7 @@ nav > div ul {
   float: left;
   width: 100%; 
 }
+
 nav > div > ul {
   display: inline-block;
   width: auto;

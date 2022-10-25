@@ -1,5 +1,7 @@
 {% load i18n %}
 {% load publications_extras %}
+{% get_available_languages as languages %}
+<a class="thm-btn brd-rd40" href="{% url 'association:contact' %}" title="">{{contactus}}</a>
 <ul>
     <li class="menu-item"><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
     <li class="menu-item-has-children"><a href="{% url 'activities:index' %}" title="">{% trans "Activities" %}</a>
@@ -45,5 +47,19 @@
         <li><a href="{% url 'association:financing' %}" title="">{% trans "Financing" %}</a></li>
         </ul>
     </li>
+    
+    {% get_available_languages as LANGUAGES %}
+
+    {% get_current_language as LANGUAGE_CODE %}
+    <li class="menu-item-has-children"><a href="#" alt="{{ LANGUAGE_CODE }}" title="{{ LANGUAGE_CODE }}">{{ LANGUAGE_CODE }}</a>
+        
+        <ul>
+            {% for code,lang in LANGUAGES %}
+            <li><a href="{% change_lang code %}" alt="{{ code }}" title="{{ code }}">{{ lang }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    
+    
 
 </ul>
