@@ -9,7 +9,7 @@ class TypeactivityTranslationOptions(TranslationOptions):
     fields = ('type',)
 
 class ActivityTranslationOptions (TranslationOptions):
-    fields = ('title','description','note','slug',)
+    fields = ('title','description','note',)
 
 translator.register(Activity,ActivityTranslationOptions)
 translator.register(Typesubactivity,TypesubactivityTranslationOptions)
