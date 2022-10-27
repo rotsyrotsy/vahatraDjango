@@ -1,7 +1,8 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load publications_extras %}
-{% block title %}Gallery{% endblock %}
+{% block title %}{% trans "Gallery" %}{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc5">
@@ -9,10 +10,10 @@
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
-                <h2>Gallery</h2>
+                <h2>{% trans "Gallery" %}</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
-                    <li>Gallery</li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
+                    <li>{% trans "Gallery" %}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
         </div>
@@ -22,7 +23,7 @@
     <div class="gap">
             <div class="prtfl-wrap text-center">
                 <ul class="fltr-lnks">
-                    <li class="active"><a data-filter="*" href="#">All</a></li>
+                    <li class="active"><a data-filter="*" href="#">{% trans "All" %}</a></li>
                     {% for item in typeimage %}
                     <li><a data-filter=".img{{item.id}}" href="#">{{item.type}}</a></li>
                     {% endfor %}
@@ -32,16 +33,19 @@
                         {% for image in images %}
                         <div class="col-md-4 col-sm-6 col-lg-4 fltr-itm img{{image.idtype.id}}">
                             <div class="prtfl-box">
-                                <img class="w-100 shadow-1-strong rounded " src="{% static 'images/' %}{{ image.idtype.type|lower|snake_case }}/{{image.name}}" alt="{{image.title}}" title="{{image.title}}">
+                                <img class="w-100 shadow-1-strong rounded" src="{% static 'images/' %}{{ image.idtype.type_en|lower|snake_case }}/{{image.name}}" alt="{{image.title}}" title="{{image.title}}">
                                 <div class="prtfl-info">
-                                    <a href="{% static 'images/' %}{{ image.idtype.type|lower|snake_case }}/{{image.name}}" data-fancybox="gallery" title=""><i class="fa fa-plus"></i></a>
-                                    <h4>{{image.title}}</h4>
+                                    <a href="{% static 'images/' %}{{ image.idtype.type_en|lower|snake_case }}/{{image.name}}" data-fancybox="gallery" title=""><i class="fa fa-plus"></i></a>
+                                    {% if image.idtype.id == 1 or image.idtype.id == 2 or image.idtype.id == 3 or image.idtype.id == 4 %}
+                                    <h4 class="font-italic">{{image.title}}</h4>
+                                    {% endif %}
                                     <span>{{image.idtype.type}}</span>
                                 </div>
                             </div>
                         </div>        
                         {% endfor %}
                     </div>
+                    <a href="{% url 'association:gallery' limit|add:9 %}" class="thm-btn brd-rd40" id="showMoreBtn">{% trans "Show more" %}</a>
                 </div>
                 
             </div>
@@ -49,3 +53,22 @@
 </section>
 
 {% endblock content %}
+{% block js %}
+<script>
+
+    $(document).ready(function () {
+        if (parseInt("{{length}}")<=parseInt("{{images|length}}")){
+            $('#showMoreBtn').css('display','none');
+        }
+        
+        var n = 1
+        if ("{{limit}}">9){
+            var n = "{{limit|add:-9}}";
+        }
+        $('html, body').animate({
+            scrollTop:  $("#moreImages > div:nth-child("+n+")").offset().top -100
+        }, 0);
+    });
+
+</script>
+{% endblock %}

@@ -1,27 +1,28 @@
 from math import ceil
 from django.shortcuts import get_object_or_404, render,redirect
 from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner,Person
-from django.core.mail import send_mail
 from django.db.models import Q
-from activities.models import Activity, Typesubactivity
+from activities.models import Activity, Typeactivity, Typesubactivity
 from publications.models import Typepublication,Publication,Publicationauthor
 from datetime import date,timedelta
-from django.urls import reverse
 from django.core import serializers
 from django.http import JsonResponse,HttpResponseRedirect
-from vahatraDjango.functions import pagination, toSlug
-from django.views.decorators.cache import cache_page
-from django.core.cache import cache, caches
+from vahatraDjango.functions import   pagination, toSlug
+# from django.views.decorators.cache import cache_page
+# from django.core.cache import cache, caches
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+import imaplib, time
 
 
 # Create your views here.
-type_visit = Typesubactivity.objects.all()
-type_pub = Typepublication.objects.all
+type_pub = Typepublication.objects.all().order_by("id")
+type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
 
 def index(request):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     type_member_list = Typemember.objects.all
     partner_list = Partner.objects.filter(isLink=False)
@@ -31,8 +32,10 @@ def index(request):
     upcoming_events = Activity.objects.filter(date__gte=date.today())
 
     upcoming_publications = Publication.objects.filter(date__gt=date.today())
-    new_pubs = Publication.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today())).order_by('-date')
-    new_events = Activity.objects.filter( Q(date__year__gte = (date.today()-timedelta(days=365)).year) & Q(date__lte = date.today())).order_by('-date')
+    new_pubs = Publication.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month),Q(date__year__gte = (date.today()-timedelta(days=100)).year), Q(date__lte = date.today())).order_by('-date')
+    new_events = Activity.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month), 
+    Q(date__lte = date.today()),
+    Q(date__year__gte = (date.today()-timedelta(days=100)).year)).order_by('-date')
     
 
     context["type_member_list"]= type_member_list
@@ -41,15 +44,15 @@ def index(request):
     context["links_list"]=links_list
     context["upcoming_events"]= upcoming_events
     context["upcoming_publications"]= upcoming_publications
-    context["new_pubs"] = new_pubs[:2]
-    context["new_events"] = new_events[:2]
+    context["new_pubs"] = new_pubs
+    context["new_events"] = new_events
     
     return render(request, "association/index.html", context)
 
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     type = get_object_or_404(Typemember, pk = type_member_id)
 
@@ -93,10 +96,9 @@ def member(request,type_member_name=None, type_member_id=None,keyword=None, page
 
 def contact(request):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
-
     if request.method == "POST":
         message_name = request.POST['message-name']
         message_phone = request.POST['message-phone']
@@ -104,55 +106,63 @@ def contact(request):
         message_subject = request.POST['message-subject']
         message_content = request.POST['message-content']
 
-        send_mail(
-            message_subject, # subject
-            message_content, #content
-            message_email, #from email
-            ['rafa.rotsy@gmail.com'], # to
-        )
+        
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to = [message_email]
+        text_content = 'Thank you, we have received  your email and will answer soon.Here is your message:'+message_content+'.'
+        html_content = '<p>Bonjour '+message_name+',</p>\
+            <p>Merci, nous avons bien reçu votre mail et un responsable va vous répondre bientôt.</p>\
+                <p>Voici votre message:<br> <strong>"'+message_content+'"</strong></p>\
+                    <p>Cordialement,</p>\
+                    <span style="color:#d1ad3c;font-style:italic;">Association Vahatra<br>\
+                    associatvahatra@moov.mg<br>\
+                    20 22 277 55</span>'
+        msg = EmailMultiAlternatives(message_subject, text_content, from_email, to)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+
+        messageSent = str(msg.message())
+
+        ## IMAPLIB DE SENDGRID NE MARCHE PAS
+        imap = imaplib.IMAP4_SSL(settings.EMAIL_HOST, 993)
+        imap.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+        imap.append('INBOX.Sent', '\\Seen', imaplib.Time2Internaldate(time.time()), messageSent.encode())
+        imap.logout()
+
         context["message_name"]= message_name
         return render(request, "association/contact.html",context)
     else:
         if request.method == 'GET' and 'email' in request.GET:
             email = request.GET["email"]
             context["email"]= email
-        return render(request, "association/contact.html",context)
+    
+    return render(request, "association/contact.html",context)
 
 def financing(request):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
     return render(request, "association/financing.html",context)
 
     
-def gallery(request):
+def gallery(request,limit=9):
     context = {
-        "type_visit" : type_visit,
-        "type_pub": type_pub,
+        "types_activity": type_activity,
+        "types_pub": type_pub,
         }
+    limit = int(limit)
+    
     context["typeimage"] = Imagetype.objects.all()
     allImages = Image.objects.all().order_by('name')
-    limit = 9
-    context['limit']=limit
-    #context["images"]=allImages[:limit]
-    context["images"]=allImages
-    context['length']=allImages.count()
+    length = allImages.count()
 
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    if is_ajax:
-        if request.method == 'GET':
-            number = request.GET.get('number')
-            moreImg = allImages[int(number):int(number)+limit]
-            list=[]
-            for img in moreImg:
-                dict={
-                    'image':serializers.serialize('json', [img]),
-                    'type':serializers.serialize('json',[img.idtype]),
-                    'idtype':img.idtype.id,
-                }
-                list.append(dict)
-            return  JsonResponse({ 'moreImg':list})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
+    if limit> length:
+        return redirect('association:gallery', limit=length)
+
+    context["images"]=allImages[:limit]
+    context['length']=allImages.count()
+    context['limit']=limit
 
     return render(request, "association/gallery.html",context)

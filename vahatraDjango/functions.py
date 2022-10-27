@@ -1,4 +1,5 @@
 from pathlib import Path
+from activities.models import Activity
 import unidecode
 from io import BytesIO
 from django.core.files import File
@@ -6,8 +7,25 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import os
 from math import ceil
+from django.utils.text import slugify
+import random
+import string
+
+def unique_slug_generator(instance: Activity, new_slug = None):
+    if new_slug is not None:
+        new_slug.split("/")
+        slug = "/".join(slugify(el) for el in new_slug.split("/"))
+    else:
+        strToSlug = slugify(str(instance.idtypeactivity.type))
+        if instance.idtypesubactivity:
+            strToSlug += "/"+slugify(str(instance.idtypesubactivity.type))
+        strToSlug += "/"+slugify(instance.title)+"-"+str(instance.id)
+        slug = strToSlug
+
+    return slug
 
 def toSlug(word):
+    word = word.strip()
     word = word.lower().replace(" ",'-')
     unaccented_string = unidecode.unidecode(word)
     return unaccented_string
@@ -16,21 +34,6 @@ def renameFile(file):
     file = file.replace(" ", "_")
     unaccented_string = unidecode.unidecode(file)
     return unaccented_string
-
-def reduce_image_size( pic):
-    from PIL import Image
-    print('initial size: '+str(pic.size))
-    img = Image.open(pic)
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
-    thumb_io = BytesIO()
-    img.save(thumb_io, 'jpeg', quality=40)
-    
-    pic_file = File(thumb_io, pic.name)
-    print('final size: '+str(pic_file.size))
-    return pic_file
-    
-    
 
 def convert_to_webp(file):
     from PIL import Image
@@ -47,6 +50,7 @@ def convert_to_webp(file):
 
     new_file_name = str(Path(f_object._name).with_suffix('.webp'))
     image = Image.open(f_object.file)
+    # image = image.rotate(-90)
     if image.mode != 'RGB':
         image = image.convert('RGB')
     thumb_io = BytesIO()
@@ -59,7 +63,6 @@ def convert_to_webp(file):
 
 def handle_uploaded_file(f, location):
     if f.content_type.split("/")[0]=="image":
-        # reduce_pic = reduce_image_size(f)
         f = convert_to_webp(f)
 
     f.name=renameFile(f.name)
@@ -108,3 +111,9 @@ def move(source,destination):
         # Create a new directory because it does not exist 
         os.makedirs(destination)
     shutil.move(source,destination)
+
+def get_random_code(length):
+    # choose from all lowercase letter
+    letters = string.ascii_uppercase+string.digits
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str

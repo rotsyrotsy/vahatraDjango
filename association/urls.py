@@ -15,4 +15,5 @@ urlpatterns = [
     path("contact", views.contact, name="contact"),
     path("financing", views.financing, name="financing"),
     path("gallery", views.gallery, name="gallery"),
+    path("gallery/show-more-<str:limit>", views.gallery, name="gallery"),
 ]

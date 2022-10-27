@@ -1,5 +1,6 @@
 from django.db import models
 from association.models import Department, Institution,  Person, Image
+from django.utils import timezone
 
 class Fieldschool(models.Model):
     idvisit = models.ForeignKey('Visit', db_column='idvisit',on_delete =models.CASCADE)
@@ -28,15 +29,16 @@ class Activity(models.Model):
     idtypeactivity = models.ForeignKey('Typeactivity', models.DO_NOTHING, db_column='idtypeactivity')
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    date = models.DateField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True,default=timezone.now())
     note = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length = 255, null = True, blank = True)
+    idtypesubactivity = models.ForeignKey('Typesubactivity', models.DO_NOTHING, db_column='idtypesubactivity', null=True)
 
     class Meta:
         db_table = 'activity'
 
 class Visit(models.Model):
     idactivity = models.ForeignKey('Activity', db_column='idactivity',on_delete =models.CASCADE)
-    idtypesubactivity = models.ForeignKey('Typesubactivity', models.DO_NOTHING, db_column='idtypesubactivity')
     idlocation = models.ForeignKey('Location', models.DO_NOTHING, db_column='idlocation')
     dateend = models.DateField(blank=True, null=True)
 

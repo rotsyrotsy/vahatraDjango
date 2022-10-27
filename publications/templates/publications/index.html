@@ -1,19 +1,20 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load publications_extras %}
 {% block title %}{{ pub_type.type }}{% endblock %}
 
 {% block meta %}
     {% if pub_type.id == 1 %}
-    <meta name="description" content="Malagasy Nature is a journal published by the Association Vahatra concerning aspects of the natural history of Madagascar and neighboring islands. Label:publication. Category:{{pub_type.type}}" />
+    <meta name="description" content="{% trans 'Malagasy Nature is a journal published by the Association Vahatra concerning aspects of the natural history of Madagascar and neighboring islands. Label:publication. Category' %}:{{pub_type.type}}" />
     {% endif %}
     {% if pub_type.id == 2 %}
-    <meta name="description" content="List of books published in the series 'Guides sur la diversité biologique de Madagascar'. Label:publication. Category:{{pub_type.type}}" />
+    <meta name="description" content="{% trans 'List of books published in the series « Guides sur la diversité biologique de Madagascar ». Label:publication. Category' %}:{{pub_type.type}}" />
     {% endif %}
     {% if pub_type.id == 3 %}
-    <meta name="description" content="Here is a listing of publications that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.  These publications include papers in scientific journals, books, and chapters in books and monographs. Label:publication. Category:{{pub_type.type}}" />
+    <meta name="description" content="{% trans 'Here is a listing of publications that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.  These publications include papers in scientific journals, books, and chapters in books and monographs. Label:publication. Category' %}:{{pub_type.type}}" />
     {% endif %}
-    <meta name="keywords" content="vahatra, association, association vahatra, publications, malagasy nature, guides, book, biodiversity" />
+    <meta name="keywords" content='Vahatra, association, association vahatra, publications, malagasy nature, guides, book, biodiversity'  />
 {% endblock %}
 {% block content %}
 <section>
@@ -24,7 +25,7 @@
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="association vahatra" title="association vahatra"></h1>
                 <h2>{{ pub_type.type }}</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
                     <li>{{ pub_type.type }}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -35,7 +36,7 @@
     <div class="gap three-block-section">
         <div class="sec-title2 text-center">
             <div class="sec-title-inner2">
-                <span>PRESENT TO YOU</span>
+                <span>{% trans "PRESENT TO YOU" %}</span>
                 <h1 style="color:#d1ad3c;">{{ pub_type.type }}</h1>
             </div>
         </div>
@@ -48,7 +49,7 @@
                         <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                         <div class="fea-info2">
                             <br>
-                            <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">Read More</a>
+                            <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -62,6 +63,7 @@
                     <div class="row">
                         <div class="col-md-9 col-sm-12 col-lg-9">
                             {% if pub_type.id == 1 %}
+                            {% blocktrans %}
                                 <p>During the French colonial period in Madagascar a journal was produced and entitled, Naturaliste Malgache. This journal served the important function of disseminating to the world scientific community information on the natural history of Madagascar and surrounding islands.  The intention with this new review, <strong>Malagasy Nature</strong>,is to follow this example and publish articles, in both English and French, at high scientific and international standards. This journal allows Malagasy scientists to return information to the scientific world, rather than only being on the receiving end. We consider this a very important professional step for the Malagasy scientific community. <strong>Malagasy Nature</strong> also guarantees the local availability of the results of ecological and biological research conducted on the island, as in many cases such articles published in foreign scientific journals are not repatriated or difficult to access from Madagascar.</p>
                                 <br><p><strong>Malagasy Nature</strong> is a journal published by the Association Vahatra concerning aspects of the natural history of Madagascar and neighboring islands (Comores, Mascarenes, and Seychelles). The journal publishes original scientific contributions in English and French concerning animals, plants, ecology, conservation, biogeography, systematics, and paleontology. To date ten volumes have appeared, all now available online.</p>
                                 <ul>
@@ -75,28 +77,33 @@
                                     <li>Volume 11 (2017): A monograph dedicated to the Nosy Ankao island group</li>
                                     <li>Volume 12 (2017), Volume 13 (2019), and Volume 14 (2020) contain papers on a variety of subjects</li>
                                     <li>Volume 15 (2021) : Special issue dedicated to advances in the field of paleosciences by Malagasy researchers and students.</li>
+                                    <li>Volume 16 (2022) : Contains papers on a variety of subjects..</li>
                                 </ul>
                                 <p>The editors of <strong>Malagasy Nature</strong> are Marie Jeanne Raherilalao and Steven M. Goodman. The associated editors include Achille P. Raselimanana and Voahangy Soarimalala.  An editorial committee has been set up with reasearchers from numerous disciplines, often with Francophone-Anglophone counterparts and include Henri-Pierre Aberlenc (France), Franco Andreone (Italy), Christopher Birkinshaw (Madagascar), David Burney (USA), Jean-Marc Duplantier (France), Roger Edmond (Madagascar), Brian Fisher (USA), John Flynn (USA), Jörg Ganzhorn (Germany), Frank Hawkins (USA), Olivier Langrand (USA), Wilson Lourenço (France), Chantal Radimilahy (Madagascar), Daniel Rakotondravony (Madagascar), Jeanne Rasamy (Madagascar), Joelisoa Ratsirarson (Madagascar), Vincent Robert (France), Manuel Ruedi (Switzerland), Melanie L. J. Stiassny (USA), Peter Taylor (South Africa), Miguel Vences (Germany), and Henry Wright (USA).</p>
                                 <hr>
-                                <p><a href="{% static 'pdf/submission_to_Malagasy_Nature.pdf' %}" style="color: blue;">Here is the information on formatting papers for submission to Malagasy Nature.</a></p>
-                                <p>For information specifically about the journal, please contact <a href="mailto:malagasynature@gmail.com">malagasynature@gmail.com</a>.</p>
+                                {% endblocktrans %}
+                                <p><a href="{% static 'pdf/submission_to_Malagasy_Nature.pdf' %}" style="color: blue;">{% trans "Here is the information on formatting papers for submission to Malagasy Nature" %}.</a></p>
+                                <p>{% trans "For information specifically about the journal, please contact" %} <a href="mailto:malagasynature@gmail.com">malagasynature@gmail.com</a>.</p>
+                            
                             {% endif %}
                             {% if pub_type.id == 2 %}
+                            {% blocktrans %}
                                 <p>List of books published in the series "Guides sur la diversité biologique de Madagascar"</p>
                                 <hr>
                                 <p>For information on how to obtain copies of these books, please send a message to  <a href="mailto:malagasynature@gmail.com">malagasynature@gmail.com</a> or write to <strong>Association Vahatra, BP 3972, Antananarivo 101, Madagascar</strong>. </p>
+                            {% endblocktrans %}
                             {% endif %}
                             {% if pub_type.id == 3 %}
-                                <p>As researchers dedicated to the advancement of knowledge and science concerning Madagascar and surrounding islands in particular, Vahatra places emphasis on the dissemination of research results to our local colleagues and the scientific world at large.  Further, to help with the advancement of scientific careers and Malagasy science we strongly encourage students working with us to publish the results of their work. Here is a listing of publications that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.  These publications include papers in scientific journals, books, and chapters in books and monographs. You can find here the “Mémoires” and thesis that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.</p>
+                                <p>{% trans "As researchers dedicated to the advancement of knowledge and science concerning Madagascar and surrounding islands in particular, Vahatra places emphasis on the dissemination of research results to our local colleagues and the scientific world at large.  Further, to help with the advancement of scientific careers and Malagasy science we strongly encourage students working with us to publish the results of their work. Here is a listing of publications that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program.  These publications include papers in scientific journals, books, and chapters in books and monographs. You can find here the “Mémoires” and thesis that have resulted from the Ecology Training Program of WWF-Madagascar and in more recent years from the independent Vahatra program." %}</p>
                             {% endif %}
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-lg-3">
                             <div class="sidebar-wrp">
                                 <div class="wdgt-box">
-                                    <h4>Search</h4>
+                                    <h4>{% trans "Search" %}</h4>
                                     <form class="srch-frm" action="{% url 'publications:search'  %}" method="get">
-                                        <input type="text" name="keyword" placeholder="Search">
+                                        <input type="text" name="keyword" placeholder="{% trans 'Search' %}">
                                         <button type="submit" class="thm-clr"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
@@ -110,10 +117,10 @@
                                     </ul>
                                 </div>
                                 <div class="wdgt-box">
-                                    <h4>Multicriteria Search</h4>
+                                    <h4>{% trans "Multicriteria Search" %}</h4>
                                         <form action="{% url 'publications:multicriteriasearch'  %}" method="post">
                                             {% csrf_token %}
-                                            <input type="text" class="form-control" name="author" placeholder="Author">
+                                            <input type="text" class="form-control" name="author" placeholder="{% trans 'Author' %}">
                                             <select class="form-control mb-2"  name="year">
                                                 <option value="" selected="selected">Year</option>
                                                 {% for year in years %}
@@ -129,7 +136,7 @@
                                             <br>
                                             <button class="thm-btn btn-block" type="submit"> 
                                                 <i class="fa fa-search"></i>                                                   
-                                                Search
+                                                {% trans "Search" %}
                                             </button>
                                             
                                         </form>
@@ -160,6 +167,8 @@
 {% endblock %}
 
 {% block js%}
+<script src="{% static 'js/fichepublication.js' %}"></script>
+
 <script>
     $('.volume-btn').on('click', function () {
     $('#content').empty();

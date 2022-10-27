@@ -1,54 +1,59 @@
 {% extends "association/base.html" %}
+{% load i18n %}
 {% load static %}
 {% load publications_extras %}
-{% block title %}Home{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
 {% block content %}
+{% translate "Show more" as showmore %}
 <section>
-    <div class="gap no-gap">
+    <div class="gap no-gap opc5">
         <img class="botm-shp shp-img" src="{% static 'images/shp1.png' %}" alt="shp1.png">
         <div class="custom-featured-area-wrap text-center">
             <div class="custom-featured-area mycaroussel-index">
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.webp' %});background-position:50% 70%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.webp' %});background-position:50% 90%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/avifauna/Amena_295.webp' %});">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
+
                     </div>
                 </div>
                 
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/Bea_354.webp' %});">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/banniere3.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
-                <div class="custom-featured-item" style="background-image: url({% static 'images/site/field_school/Field_School_Master_Ambohitantely_5.webp' %});background-position:50% 37%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/site/conference/DSC_2357_2019.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
+
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/avifauna/Sahafina_176.webp' %});">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
+
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/IMG_1444.webp' %});">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/primate/a1.webp' %}); background-position:50% 15%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
             </div>
@@ -66,7 +71,7 @@
                         <div class="plr-box">
                             <div class="img"><img src="{% static 'fonts/mycollection/Lurcifer_pardalis.webp' %}" alt="Lurcifer pardalis" title="Lurcifer pardalis" ></div>
                             <div class="pilr-info">
-                                <h4>Lucifer<br>Pardalis</h4>
+                                <h4>Furcifer<br>pardalis</h4>
                             </div>
                         </div>
                     </div>
@@ -75,7 +80,7 @@
                             <div class="img"><img src="{% static 'fonts/mycollection/Boophis_marojezensis_ZHM.webp' %} " alt="Boophis_marojezensis_ZHM" title="Boophis_marojezensis_ZHM"></div>
                             <div class="pilr-info">
                                 
-                                <h4>Boophis <br>Marojezensis ZHM</h4>
+                                <h4>Boophis <br>marojezensis</h4>
                             </div>
                         </div>
                     </div>
@@ -83,7 +88,7 @@
                         <div class="plr-box">
                             <div class="img"><img src="{% static 'fonts/mycollection/Corythornis_madagascariensis.webp' %} "  alt="Corythornis_madagascariensis" title="Corythornis_madagascariensis"></div>
                             <div class="pilr-info">
-                                <h4>Corythornis <br>Madagascariensis</h4>
+                                <h4>Corythornis <br>madagascariensis</h4>
                             </div>
                         </div>
                     </div>
@@ -91,7 +96,7 @@
                         <div class="plr-box">
                             <div class="img"><img src="{% static 'fonts/mycollection/Miza_242.webp' %} "  alt="Miza_242" title="Miza_242"></div>
                             <div class="pilr-info">
-                                <h4>Miza 242</h4>
+                                <h4>Elirus <br>tanala</h4>
                             </div>
                         </div>
                     </div>
@@ -112,12 +117,12 @@
                         <div class="abot-sec">
                             <div class="sec-title">
                                 <div class="sec-title-inner">
-                                    <span>About</span>
-                                    <h3>Our Challenge</h3>
+                                    <span>{% trans "About" %}</span>
+                                    <h3>{% trans "Our Challenge" %}</h3>
                                 </div>
                             </div>
                             <p>
-                              For Vahatra, the challenge is to be profoundly implicated in the conservation and management of Madagascar’s extraordinary biodiversity based on advancing young Malagasy scientists and genuine collaborations with governmental and non-governmental organizations.  In this regards, the association conducts biological inventories and field research to obtain up-to-date biodiversity information, as well as working closely with university graduate students.
+                            {% trans "For Vahatra, the challenge is to be profoundly implicated in the conservation and management of Madagascar’s extraordinary biodiversity based on advancing young Malagasy scientists and genuine collaborations with governmental and non-governmental organizations.  In this regards, the association conducts biological inventories and field research to obtain up-to-date biodiversity information, as well as working closely with university graduate students." %}
                             </p>
                         </div>
                     </div>
@@ -132,8 +137,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Conserve biodiversity</span>
-                    <h3>Our Missions</h3>
+                    <span>{% trans "Conserve biodiversity" %}</span>
+                    <h3>{% trans "Our Missions" %}</h3>
                 </div>
             </div>
             <div class="serv-wrap">
@@ -141,14 +146,13 @@
                     <div class="col-md-4 col-sm-12 col-lg-4">
                         <div class="srv-tl">
                           <h3>
-                              “To develop an educational and research program focused on the
+                              “{% trans "To develop an educational and research program focused on the" %}
                           </h3>
-                           <h2><span>biodiversity</span></h2> 
+                           <h2><span>{% trans "biodiversity"  %}</span></h2> 
                            <h3>
-                              of the terrestrial fauna of Madagascar and the advancement of national field scientists properly trained in the modern aspects of conservation biology. 
-                              These steps are paramount to allow this island nation to properly 
+                            {% trans "of the terrestrial fauna of Madagascar and the advancement of national field scientists properly trained in the modern aspects of conservation biology. These steps are paramount to allow this island nation to properly" %}
                            </h3>
-                           <h2>protect its unique biotic resources.</h2> <h3>”</h3> 
+                           <h2>{% trans "protect its unique biotic resources." %}</h2> <h3>”</h3> 
                           
                         </div>
                     </div>
@@ -160,8 +164,8 @@
                                         
                                         <img src="{% static 'fonts/mycollection/001.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Expand Knowledge</h4>
-                                            <p>To expand knowledge on the biodiversity and natural history of Madagascar</p>
+                                            <h4>{% trans "Expand Knowledge" %}</h4>
+                                            <p>{% trans "To expand knowledge on the biodiversity and natural history of Madagascar" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -169,8 +173,8 @@
                                     <div class="serv-box">
                                         <img src="{% static 'fonts/mycollection/002.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Educate</h4>
-                                            <p>To educate and advance future generations of Malagasy scientists working in the domain of conservation biology</p>
+                                            <h4>{% trans "Educate" %}"</h4>
+                                            <p>{% trans "To educate and advance future generations of Malagasy scientists working in the domain of conservation biology" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -178,8 +182,8 @@
                                     <div class="serv-box">
                                         <img src="{% static 'fonts/mycollection/003.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Exchange</h4>
-                                            <p>To help with the exchange of scientific information and experiences between national and international specialists</p>
+                                            <h4>{% trans "Exchange" %}</h4>
+                                            <p>{% trans "To help with the exchange of scientific information and experiences between national and international specialists" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -187,8 +191,8 @@
                                     <div class="serv-box">
                                         <img src="{% static 'fonts/mycollection/004.png' %} " >
                                         <div class="serv-info">
-                                            <h4>Reinforce Collaborations</h4>
-                                            <p>To help reinforce collaborations between national and international institutions and NGOs in fields associated with the environment and conservation</p>
+                                            <h4>{% trans "Reinforce Collaborations" %}</h4>
+                                            <p>{% trans "To help reinforce collaborations between national and international institutions and NGOs in fields associated with the environment and conservation" %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -196,8 +200,8 @@
                                   <div class="serv-box">
                                     <img src="{% static 'fonts/mycollection/005.png' %} " alt="">
                                     <div class="serv-info">
-                                          <h4>Advance Expertise and Knowledge</h4>
-                                          <p>To advance expertise and knowledge associated with environmental impact studies and to follow aspects of the evolution of the island’s natural landscapes</p>
+                                          <h4>{% trans "Advance Expertise and Knowledge" %}</h4>
+                                          <p>{% trans "To advance expertise and knowledge associated with environmental impact studies and to follow aspects of the evolution of the island’s natural landscapes" %}</p>
                                       </div>
                                   </div>
                               </div>
@@ -205,8 +209,8 @@
                                   <div class="serv-box">
                                     <img src="{% static 'fonts/mycollection/006.png' %} " >
                                       <div class="serv-info">
-                                          <h4>Provide Advice</h4>
-                                          <p>To provide solid scientific advice to managers of natural resources and protected areas associated with the conservation of Madagascar’s biodiversity</p>
+                                          <h4>{% trans "Provide Advice" %}</h4>
+                                          <p>{% trans "To provide solid scientific advice to managers of natural resources and protected areas associated with the conservation of Madagascar’s biodiversity" %}</p>
                                       </div>
                                   </div>
                               </div>
@@ -219,9 +223,8 @@
     </div>
   </section>
   <section>
-    <div class="gap top-spac170 bottom-spac170 black-layer2 opc5">
+    <div class="gap top-spac170 bottom-spac170 black-layer2 opc5" >
         <img class="top-shp shp-img" src="{% static 'images/shp4.png' %} " alt="shp4.png">
-        <img class="botm-shp shp-img" src="{% static 'images/shp50.png' %} " alt="shp5.png">
         <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0553.webp' %});"></div>
         <div class="container">
             <div class="suprt-wrap">
@@ -231,43 +234,43 @@
   
                           <div class="sec-title">
                               <div class="sec-title-inner">
-                                  <span>A Few Words About Us,</span>
-                                  <h3>Historical Perspective.</h3>
+                                  <span>{% trans "A Few Words About Us," %}</span>
+                                  <h3>{% trans "Historical Perspective." %}</h3>
                               </div>
                           </div>
   
-                          <p>Vahatra is a legally registered International Association of the island nation of Madagascar. The word “vahatra” means “grass-roots” in Malagasy, the national language of the island. The mission of Vahatra is two fold:</p>
+                          <p>{% trans "Vahatra is a legally registered International Association of the island nation of Madagascar. The word “vahatra” means “grass-roots” in Malagasy, the national language of the island. The mission of Vahatra is two fold:" %}</p>
                           <ul>
-                              <li>To contribute to the amelioration of information on the biodiversity of Madagascar, particularly the terrestrial fauna, with the intention of progressing aspects of conservation</li>
-                              <li>To advance a practical program in ecology and conservation biology for young Malagasy naturalists and graduate students in biology.</li>
+                              <li>{% trans "To contribute to the amelioration of information on the biodiversity of Madagascar, particularly the terrestrial fauna, with the intention of progressing aspects of conservation" %}</li>
+                              <li>{% trans "To advance a practical program in ecology and conservation biology for young Malagasy naturalists and graduate students in biology." %}</li>
                           </ul>
   
   
                           <div class="suprt-sec" id="historic">
                               <br>
                               <p>
-                                  This association evolved in a natural manner from a WWF-Madagascar project known as “The Ecology Training Program” (ETP), for which the principal philosophy was the development and reinforcement of capacity for Malagasy nationals in ecology and conservation biology. The ETP was initiated in 1991 to advance young Malagasy graduate students working in these domains.  The program has also had a major positive impact on the expansion of knowledge of the island’s unique and highly endemic biota.  It is not an exaggeration to state that the ETP was a driving force for the development of human capital on Madagascar in the fields of evolutionary biology and on the ecology and diversity of the Malagasy animal fauna. Further, with the availability of more scientifically viable data on the island’s biota, decisions associated with conservation, including the identification of new protected areas, are well supported; the ETP played a critical role  in this regard. 
+                                {% trans "This association evolved in a natural manner from a WWF-Madagascar project known as “The Ecology Training Program” (ETP), for which the principal philosophy was the development and reinforcement of capacity for Malagasy nationals in ecology and conservation biology. The ETP was initiated in 1991 to advance young Malagasy graduate students working in these domains.  The program has also had a major positive impact on the expansion of knowledge of the island’s unique and highly endemic biota.  It is not an exaggeration to state that the ETP was a driving force for the development of human capital on Madagascar in the fields of evolutionary biology and on the ecology and diversity of the Malagasy animal fauna. Further, with the availability of more scientifically viable data on the island’s biota, decisions associated with conservation, including the identification of new protected areas, are well supported; the ETP played a critical role  in this regard. " %}
                               </p>
                               <br>
                               <p>
-                                  In 2007, at the moment that Vahatra became independent of WWF, the ETP had helped advance over 75 Malagasy graduate students earning higher degrees within the national university system in the fields of zoology, ecology or conservation biology and more than 250 students being trained in conservation science in the form of university courses or field schools. In addition, data obtain during ETP field inventories at over 400 sites  resulted in the discovery of nearly 50 new species of birds, mammals, reptiles, and amphibians, and the publication of nearly 500 scientific articles. This work was critical in the prioritization of conservation strategies associated with the island’s protected area system.
+                                {% trans "In 2007, at the moment that Vahatra became independent of WWF, the ETP had helped advance over 75 Malagasy graduate students earning higher degrees within the national university system in the fields of zoology, ecology or conservation biology and more than 250 students being trained in conservation science in the form of university courses or field schools. In addition, data obtain during ETP field inventories at over 400 sites  resulted in the discovery of nearly 50 new species of birds, mammals, reptiles, and amphibians, and the publication of nearly 500 scientific articles. This work was critical in the prioritization of conservation strategies associated with the island’s protected area system." %}
                               </p>
                               <br>
                               <p>
-                                  Given on one hand that the objectives of conservation and management of biodiversity and, on the other hand, few Malagasy nationals with in-depth knowledge of their island’s biodiversity, ETP become a primary vehicle for the education of national scientists with the necessary foundation to make important contributions to biology and the future of conservation efforts of their country. The overwhelming majority  of ETP graduates have gone on and obtained prominent posts in the governmental and non-governmental sectors and many retain a strong professional interest in conservation biology, including research and teaching.
+                                {% trans "Given on one hand that the objectives of conservation and management of biodiversity and, on the other hand, few Malagasy nationals with in-depth knowledge of their island’s biodiversity, ETP become a primary vehicle for the education of national scientists with the necessary foundation to make important contributions to biology and the future of conservation efforts of their country. The overwhelming majority  of ETP graduates have gone on and obtained prominent posts in the governmental and non-governmental sectors and many retain a strong professional interest in conservation biology, including research and teaching." %}
                               </p>
                               <br>
                               <p>
-                                  To ensure the continuity of this success, we believed that the next logical step in the evolution of the ETP was for it to become an independent organization, led by its graduates, creating visionary scientific programs within a Malagasy construct.  To meet this aim, the ETP was turned over to the  Association Vahatra in September 2007. A group of former ETP Ph.D. graduates, who are now part of the Malagasy university system, direct Vahatra, which in part continues the basic mandates of the ETP -- to advance Malagasy conservation biologists and research on the island’s biota.  Further, Vahatra has launched several new programs, which include, for example, a greater understanding of the impacts of climatic change on vertebrates living in montane portions of the island.
+                                {% trans "To ensure the continuity of this success, we believed that the next logical step in the evolution of the ETP was for it to become an independent organization, led by its graduates, creating visionary scientific programs within a Malagasy construct.  To meet this aim, the ETP was turned over to the  Association Vahatra in September 2007. A group of former ETP Ph.D. graduates, who are now part of the Malagasy university system, direct Vahatra, which in part continues the basic mandates of the ETP -- to advance Malagasy conservation biologists and research on the island’s biota.  Further, Vahatra has launched several new programs, which include, for example, a greater understanding of the impacts of climatic change on vertebrates living in montane portions of the island." %}
                               </p>
                               <br>
                                   <strong style="color: white;">
-                                      The ETP, as it was previously known, has now become the <span style="color:#d1ad3c;">independent organization Association Vahatra</span>.  Vahatra has been quickly  recognized by governmental and non-governmental organizations, as one of the primary groups to promote high quality scientific research  in the domains of evolutionary and conservation biology and ecology.
+                                    {% trans "The ETP, as it was previously known, has now become the" %} <span style="color:#d1ad3c;">{% trans "independent organization Association Vahatra" %}</span>.  {% trans "Vahatra has been quickly  recognized by governmental and non-governmental organizations, as one of the primary groups to promote high quality scientific research  in the domains of evolutionary and conservation biology and ecology." %}
                                   </strong>
                           </div>
                           
                           <br>
-                          <button class="show-more-btn thm-btn brd-rd40" data-id="historic" data-focus="historicfocus">Show more</button>
+                          <button class="show-more-btn thm-btn brd-rd40" data-id="historic" data-focus="historicfocus">{{showmore}}</button>
   
                         </div>
                     </div>
@@ -277,15 +280,15 @@
     </div>
   </section>
   <div >
-  <section>
-    <div class="gap top-spac60 white-layer opc9">
+    <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
+        <div class="gap top-spac60 white-layer opc9">
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Our Team</span>
-                    <h3>Members of the organization </h3>
+                    <span>{% trans "Our Team" %} </span>
+                    <h3>{% trans "Members of the organization " %} </h3>
                 </div>
-                <p>The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable. </p>
+                <p  style="color: #000;" >{% trans "The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable." %} </p>
             </div>
             <div class="team-wrap text-center remove-ext5">
                 <div class="row mycaroussel-simple mrg">
@@ -293,9 +296,9 @@
                     {% for item in type_member_list %}
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box mt-5">
-                            <img src="{% static 'images/members/' %}{{item.image}} " style="width: 265px; height: 265px;" alt="{{item.type}}" title="{{item.type}}">
+                            <img src="{% static 'images/members/' %}{{item.image|split:','|first}} " style="width: 265px; height: 265px; object-fit: cover;" alt="{{item.type}}" title="{{item.type}}">
                             <div class="team-info">
-                                <h4><a href="{% url 'association:member' item.id item.type|toSlug %}" >{{ item.type|title }}</a></h4>
+                                <h4><a href="{% url 'association:member' item.id item.type_en|toSlug %}" >{{ item.type|title }}</a></h4>
                                 <p>{{ item.description|truncatewords:10 }}</p>
                             </div>
                         </div>
@@ -307,19 +310,17 @@
         </div>
     </div>
   </section>
-  <section>
-    <div class="gap top-spac120 gray-layer opc95 pb-5" >
-        <img class="top-shp shp-img" src="{% static 'images/shp40.png' %} " alt="shp4.png">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.webp' %});"></div>
+  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
+    <div class="gap top-spac120 gray-layer opc9 pb-5" style="background: rgba(255,255,255,.7)" >
         <div class="container">
             <div class="evnt-pry-wrap">
-                <div class="row">
+                <div class="row ">
                     <div class="col-md-8 col-sm-12 col-lg-8">
                         <div class="sec-title">
                             <div class="sec-title-inner">
-                                <h3><span>Upcoming</span> Events</h3>
+                                <h3><span>{% trans "Upcoming" %}</span> {% trans "Events" %}</h3>
                             </div>
-                            <p>Let us introduce to you what's comming soon.</p>
+                            <p>{% trans "Let us introduce to you what's comming soon." %}</p>
                         </div>
                         <div class="evnt-wrap remove-ext5">
                             <div class="row mrg20">
@@ -328,10 +329,10 @@
                                     <div class="evnt-box">
                                         <div class="evnt-thmb">
                                             
-                                            <a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">
+                                            <a href="{% url 'activities:activityDetail' activity.slug %}" title="">
                                                 {% if activity.activityimage_set.all %}
                                                     {% with activity.activityimage_set.all|first as image %}
-                                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
+                                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
                                                     {% endwith %}
                                                 {% else %}
                                                     <img src="{% static 'images/evnt-img1.jpg' %} " alt="evnt-img1.webp">
@@ -339,7 +340,9 @@
                                             </a>
                                         </div>
                                         <div class="evnt-info">
-                                            <h4><a href="{% url 'activities:activityDetail' activity.idtypeactivity.id activity.idtypeactivity.type activity.id %}" title="">{{activity.title | title}}</a></h4>
+                                            <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">
+                                                {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst}}</span>{% else %}{{activity.title | title}}{% endif %}
+                                            </a></h4>
                                             <ul class="pst-mta">
                                                 <li class="thm-clr">{{activity.date}}</li>
                                                 <li>{{activity.idtypeactivity.type}}</li>
@@ -353,13 +356,13 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb" >
-                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
+                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
                                                 <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                                             </a>
                                         </div>
                                         <div class="evnt-info">
                                             <h4>
-                                                <a  class="volume-btn"  data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type|lower|snake_case  %}"data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
+                                                <a  class="volume-btn"  data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}"data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
                                                     {{publication.title}}
                                                 </a>
                                             </h4>
@@ -401,20 +404,20 @@
                     <div class="col-md-4 col-sm-12 col-lg-4">
                         <div class="sec-title">
                             <div class="sec-title-inner">
-                                <h3>Recent <span>Activities</span></h3>
+                                <h3>{% trans "Recent" %} <span>{% trans "Activities" %}</span></h3>
                             </div>
                         </div>
                         <div class="wdgt-box-overflow">
                             <div class="rcnt-wrp">
                                 {% for newpub in new_pubs %}
                                 <div class="rcnt-bx">
-                                    <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
-                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68"  alt="{{newpub.title}}" title="{{newpub.title}}">
+                                    <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
+                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68" height="auto" alt="{{newpub.title}}" title="{{newpub.title}}">
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{newpub.idtype.type}}</small><br>
                                         <h6>
-                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
+                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
                                                 {{newpub.title}}
                                             </a>
                                         </h6>
@@ -424,18 +427,20 @@
                                 {% endfor %}
                                 {% for item in new_events %}
                                 <div class="rcnt-bx">
-                                    <a href="{% url 'activities:activityDetail'  item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">
+                                    <a href="{% url 'activities:activityDetail' item.slug %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
+                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" width="68" height="auto" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
                                             {% endwith %}
                                         {% else %}
-                                            <img src="{% static 'images/evnt-img1.jpg' %}" width="68"  alt="rcnt-img1.webp">
+                                            <img src="{% static 'images/evnt-img1.jpg' %}" width="68" height="auto"  alt="rcnt-img1.webp">
                                         {% endif %}
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{item.idtypeactivity.type}}</small><br>
-                                        <h6><a href="{% url 'activities:activityDetail' item.idtypeactivity.id item.idtypeactivity.type item.id %}" title="">{{item.title }} </a></h6>
+                                        <h6><a href="{% url 'activities:activityDetail' item.slug %}" title="">
+                                            {%if item.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{item.title | capfirst}}</span>{% else %}{{item.title | title}}{% endif %}
+                                            </a></h6>
                                         <span class="thm-clr"><i class="fa fa-calendar-o"></i>{{item.date|date:"Y"}}</span>
                                         
                                     </div>
@@ -454,8 +459,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>A message from</span>
-                    <h3>The President of Vahatra</h3>
+                    <span>{% trans "A message from" %}</span>
+                    <h3 style="color: #ffe8a0;">{% trans "The President of Vahatra" %}</h3>
                 </div>
             </div>
             <div class="testi-wrap text-center">
@@ -469,15 +474,17 @@
              
                             <p>
                               <i>"</i>
-                              {{ message_of_year.description | slice:":234" }}
+                              {{message_of_year.description|linebreakcustom|first}}
                                                                                     
                             <span id="messageyear">
-                                {{ message_of_year.description | slice:"234:" }}
+                                {% for line in message_of_year.description|linebreakcustom|slice:"1:" %}
+                                    {{ line }}
+                                    {% endfor %}
                             </span>     
                
                               <i>"</i></p>
                               <p>
-                                  <button class="show-more-btn thm-btn brd-rd40" data-id="messageyear" data-focus="messageyearfocus">Show more</button>
+                                  <button class="show-more-btn thm-btn brd-rd40" data-id="messageyear" data-focus="messageyearfocus">{{showmore}}</button>
                               </p>
                         </div>
                     </div>
@@ -487,70 +494,10 @@
         </div>
     </div>
   </section>
-  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
-    <div class="gap no-gap">
-        <div class="container">
-            <div class="sec-title style2 text-center">
-                <div class="sec-title-inner">
-                    <span>Our </span>
-                    <h3>Partners</h3>
-                </div>
-                <p style="color: #000;">Vahatra participates in helping with the reinforcement of conservation biology on Madagascar by actively collaborating with different organizations working or associated with this domain.</p>
-            </div>
-            <div class="bord-wrap">
-                <div class="row mrg mycaroussel-partner" data-length="{{partner_list|length}}">
-                    {% for partner in partner_list %}
-                        <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
-                            <div class="bord-box">
-                                {% with 'images/partners/'|add:partner.logo as logo %}
-                                <img src="{% static logo %}"  alt="{{partner.idinst.name}}" title="{{partner.idinst.name}}">
-                                {% endwith %}
-                                <div class="bord-info">
-                                    <h4>{{partner.idinst.name}}</h4>
-                                    <p>{{partner.description|default_if_none:""}}</p>
-                                    <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</section>
-<section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
-    <div class="gap">
-        <div class="container">
-            <div class="sec-title style2 text-center">
-                <div class="sec-title-inner">
-                    <span>Our </span>
-                    <h3>Links</h3>
-                </div>
-            </div>
-            <div class="bord-wrap">
-                <div class="row mrg" data-length="{{links_list|length}}">
-                    {% for link in links_list %}
-                        <div class="col-md-3 col-sm-6 col-lg-3" style="padding: 0; ">
-                            <div class="bord-box">
-                                <img src="{% static 'images/partners/' %}{{link.logo}}" width="100" height="100" alt="{{link.idinst.name}}" title="{{link.idinst.name}}">
-                                <div class="bord-info">
-                                    <h4>{{link.idinst.name}}</h4>
-                                    <p>{{link.description|default_if_none:""}}</p>
-                                    <span><a href="{{link.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-            
-        </div>
-    </div>
-</section>
 </div>
   {% endblock content %}
 {% block js%}
+<script src="{% static 'js/fichepublication.js' %}"></script>
 <script>
     $('.volume-btn').on('click', function () {
     $('#content').empty();

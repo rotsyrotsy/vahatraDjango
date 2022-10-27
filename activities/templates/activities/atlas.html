@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% block title %}Atlas{% endblock %}
 {% block content %}
 <section>
@@ -11,7 +12,7 @@
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
                 <h2>Atlas</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
                     <li>Atlas</li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -30,15 +31,15 @@
                     </div>
                     <div class="col-md-6 col-sm-12 col-lg-6">
                         <div class="hstry-desc">
-                            <span>Database & Atlas</span>
-                            <h2>Atlas of selected land vertebrates of Madagascar</h2>
-                            <p>Over the past 20 years, members of the Association Vahatra collected 
+                            <span>{% trans "Database & Atlas" %}</span>
+                            <h2>{% trans "Atlas of selected land vertebrates of Madagascar" %}</h2>
+                            <p>{% blocktrans %} Over the past 20 years, members of the Association Vahatra collected 
                                 considerable data on terrestrial vertebrates of Madagascar, 
                                 based on fieldwork and museum studies. To contribute to better 
                                 management and conservation of Malagasy biodiversity from sound scientific basis,
                                  the Association has initiated a project on an atlas of vertebrates from Madagascar 
                                  in parallel with the development of a database on Malagasy biodiversity accessible to 
-                                 the public and various users.</p><br>
+                                 the public and various users. </p><br>
                             <p>This project is implemented in collaboration with <strong><a href="https://www.rebioma.org/" target="_blank">REBIOMA</a></strong>
                                 , given that the scientific founding members of the Association Vahatra 
                                 are part of " Board authority members" of the database managed by <strong><a href="https://www.rebioma.org/" target="_blank">REBIOMA</a></strong>
@@ -46,6 +47,7 @@
                             </p><br>
                             <p>While the past few decades have seen numerous publications about the extraordinary and highly endemic terrestrial vertebrate fauna of Madagascar, ranging from technical papers, to species descriptions, and field guides, no detailed mapping exercise has been completed in the form of an atlas.  The purpose of this new book is that, to bring together information from numerous sources and present distributional maps for a wide range of taxa,
                                  descriptive texts to interpret patterns, and, for most, habitat models (Maxent).  For the different reptiles, birds, and mammals treated herein, this atlas is intended as a reference for students, researchers, naturalists, and conservationists.</p>
+                                 {% endblocktrans %}
                             
                         </div>
                     </div>

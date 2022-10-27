@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadReque
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.models import Administrator
 from django.shortcuts import render
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.db.models import Min, Max,Q,Count, Case, Value, When
 from sequences import get_next_value
 from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
@@ -18,6 +18,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.db.models.functions import ExtractYear
 from itertools import groupby
 from operator import itemgetter
+from django.conf import settings
+from django.contrib.auth.models import User
 
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
@@ -67,71 +69,71 @@ def my_logout(request):
         pass
     return render(request, "admin/login.html", {"message": "You're logged out"})
 
+def reset_password_verify(request):
+    admin = None
+    if request.method == 'POST':
+        if 'code' in request.POST:
+            checkCode = str(request.POST["checkCode"])
+            code = str(request.POST["code"])
+            if code == checkCode:
+                return render(request, "admin/reset_password.html", {"message":"Now, enter a new password"})
+            else:
+                return render(
+                    request,
+                    "admin/reset_password_verify.html",
+                    {
+                        "checkCode" : checkCode,
+                        "error_message": "Your code is invalidate.",
+                    },
+                )
 
-# def login(request):
-#     if request.method == 'POST':
-#         try:
-#             # encryptedpassword=make_password(request.POST['password'])
-#             # print(encryptedpassword)
-#             # checkpassword=check_password(request.POST['password'], encryptedpassword)
-#             # print(checkpassword)
-#             # data = Administrator(id='ADM2',username=request.POST["username"],password=encryptedpassword)
-#             # data.save()
-#             admin = Administrator.objects.get(
-#                 username=request.POST["username"])
-#             if check_password(request.POST['password'], admin.password) == False:
-#                 raise Administrator.DoesNotExist
-#         except (KeyError, Administrator.DoesNotExist):
-#             return render(
-#                 request,
-#                 "admin/login.html",
-#                 {
-#                     "error_message": "Verify your username and password.",
-#                 },
-#             )
-#         else:
-#             if len(request.POST.getlist("remember_me")) == 0:
-#                 request.session.set_expiry(0)
-#             request.session['admin'] = admin.id
-#             return HttpResponseRedirect(reverse("admin:index"))
-#     else:
-#         return render(request, "admin/login.html")
+        if "mail" in request.POST:
+            try:
+                admin = User.objects.get(email = request.POST["mail"])
+                request.session['admin_account_id']=admin.id
+            except (KeyError, User.DoesNotExist):
+                return render(
+                    request,
+                    "admin/reset_password_verify.html",
+                    {
+                        "error_message": "There is no account related to this email. Verify your input.",
+                    },
+                )
+            else:
+                
+                ## GENERATE CODE 
+                checkCode = get_random_code(6)
+                
+                from_email = settings.DEFAULT_FROM_EMAIL
+                to = [admin.email]
+                text_content = 'Changement de mot de passe administrateur'
+                html_content = '<p>Bonjour,</p>\
+                    <p>Voici votre code de confirmation de changement de mot de passe: \
+                        <strong>'+checkCode+'</strong></p>\
+                            <span style="color:#d1ad3c;font-style:italic;">Association Vahatra<br>\
+                            associatvahatra@moov.mg<br>\
+                            20 22 277 55</span>'
+                msg = EmailMultiAlternatives('Changement de mot de passe de Vahatra', text_content, from_email, to)
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
 
 
-# def logout(request):
-#     try:
-#         del request.session['admin']
-#     except KeyError:
-#         pass
-#     return render(request, "admin/login.html", {"message": "You're logged out"})
+                return render(request, "admin/reset_password_verify.html", {"message": "Check your mail and enter the code we've sent to you.", "checkCode":checkCode})
+    return render(request, "admin/reset_password_verify.html")
 
 
 def reset_password(request):
     if request.method == 'POST':
+        admin = User.objects.get(pk = request.session['admin_account_id'])
+        admin.set_password(str(request.POST["password"]))
+        admin.save()
         try:
-            admin = Administrator.objects.get(mail=request.POST["mail"])
-        except (KeyError, Administrator.DoesNotExist):
-            return render(
-                request,
-                "admin/reset_password.html",
-                {
-                    "error_message": "There is no account related to this email. Verify your input.",
-                },
-            )
-        else:
-            print(admin.mail)
-            # email = EmailMessage('Test', 'Test', to=['rafa.rotsy@gmail.com'])
-            # email.send()
-            send_mail(
-                'Password reset',
-                'Here is the code to enable you resetting your administrator password: "TEST" ',
-                'rotsyvonimanitra@hotmail.com',
-                ['rafa.rotsy@gmail.com'],
-                fail_silently=False,
-            )
-            return render(request, "admin/reset_password.html", {"message": "We have sent you an email to change your password."})
-    else:
-        return render(request, "admin/reset_password.html")
+            del request.session['admin_account_id']
+        except KeyError:
+            pass
+        return render(request, "admin/login.html",{"message":"Your password has been changed successfully."})
+    return render(request, "admin/reset_password_verify.html")
+
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
@@ -148,18 +150,16 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
 
     list = Activity.objects.filter(idtypeactivity_id=activity_id)
     if subactivity_id is not None:
-        idactivity_list = Visit.objects.filter(
-            idtypesubactivity=subactivity_id).values('idactivity')
-
+        subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)
         if year is not None:
             list = Activity.objects.filter(
-                idtypeactivity_id=activity_id, pk__in=idactivity_list, date__year=year)
+                idtypeactivity_id=type.id, idtypesubactivity_id = subactivity.id, date__year=year)
             context["year"] = year
         else:
             list = Activity.objects.filter(
-                idtypeactivity_id=activity_id, pk__in=idactivity_list)
+                idtypeactivity_id=type.id, idtypesubactivity_id = subactivity.id)
 
-        context["subactivity_id"] = subactivity_id
+        context["subactivity"] = subactivity
     else:
         if year is not None:
             list = Activity.objects.filter(
@@ -244,7 +244,7 @@ def setAttributeByRequestParams(request,params,model):
     i = 0
     for value in values:
         if value != "":
-            setattr(model, params[i], value)
+            setattr(model, params[i], value.strip())
         i += 1
 
 def updateAttributeByRequestParams(request,params,model):
@@ -252,14 +252,16 @@ def updateAttributeByRequestParams(request,params,model):
     values = [request.POST.get(p) for p in params]
     i = 0
     for value in values:
-        if value != str(getattr(model, params[i])):
-            if value == "":
-                value = None
-            setattr(model, params[i], value)
-            countChange += 1
+        # if getattr(model, params[i]) is None or value != str(getattr(model, params[i])):
+        if value == "":
+            value = None
+        else:
+            value = value.strip()
+        setattr(model, params[i], value)
+        countChange += 1
         i += 1
     return countChange
-        
+
 def addActivity(request, idtypeactivity='A1'):
     checkIfAdmin(request)
 
@@ -274,8 +276,9 @@ def addActivity(request, idtypeactivity='A1'):
     context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
-    context["typevisit"] = Typesubactivity.objects.all()
     context["locations"] = Location.objects.all().order_by('name')
+    context["type_subactivity"] = type.typesubactivity_set.all().order_by('type')
+    
 
     if request.method == 'POST':
         if request.POST['idtypeactivity'] == "" or request.POST['title'] == "":
@@ -285,6 +288,11 @@ def addActivity(request, idtypeactivity='A1'):
         typeactivity = Typeactivity.objects.get(
             pk=request.POST['idtypeactivity'])
         context["type"] = typeactivity
+        
+        typesubactivity=None
+        if 'idtypesubactivity' in request.POST:
+            typesubactivity = Typesubactivity.objects.get(pk=request.POST['idtypesubactivity'])
+
 
         if request.POST['idtypeactivity'] == 'A1':
             if request.POST['idlocation'] == "" or request.POST['idtypesubactivity'] == "":
@@ -292,39 +300,44 @@ def addActivity(request, idtypeactivity='A1'):
                 return render(request, "admin/addActivity.html", context)
 
         activity = Activity(idtypeactivity=typeactivity,
-                            title=request.POST['title'])
+                            title=request.POST['title'],
+                            idtypesubactivity = typesubactivity)
 
         names = ['description', 'date', 'note']
         setAttributeByRequestParams(request,names, activity)
+        
 
         activity.save()
 
-        lastActivity = activity
+        lastActivity = Activity.objects.last()
+
+
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                actpers = Activityperson(
-                    idactivity=lastActivity, idperson=Person.objects.get(pk=values))
-                actpers.save()
-            if 'fkidinst' in keys:
-                actpers = Activityinstitution(
-                    idactivity=lastActivity, idinst=Institution.objects.get(pk=values))
-                actpers.save()
+            if values!="":
+                if 'fkidperson' in keys:
+                    actpers = Activityperson(
+                        idactivity=lastActivity, idperson=Person.objects.get(pk=values))
+                    actpers.save()
+                if 'fkidinst' in keys:
+                    actpers = Activityinstitution(
+                        idactivity=lastActivity, idinst=Institution.objects.get(pk=values))
+                    actpers.save()
 
         if request.FILES:
             files = request.FILES.getlist('files')
             for f in files:
                 image = Activityimage(idactivity=lastActivity)
-                image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type))
+                image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type_en))
                 image.save()
 
         if request.POST['idtypeactivity'] == 'A1':  # if activity is visit
             visit = Visit(idactivity=lastActivity, idlocation=Location.objects.get(
-                pk=request.POST['idlocation']), idtypesubactivity=Typesubactivity.objects.get(pk=request.POST['idtypesubactivity']))
+                pk=request.POST['idlocation']))
             if (request.POST['dateend'] != ""):
                 visit.dateend = request.POST['dateend']
             visit.save()
-            if request.POST['idtypesubactivity'] == 'SA2':  # if field school
+            if visit.idactivity.idtypesubactivity.id == 'SA2':  # if field school
                 fsnumber = 0
                 data = request.POST.items()
                 for keys, values in data:
@@ -337,14 +350,16 @@ def addActivity(request, idtypeactivity='A1'):
                     valueInst = request.POST.get('fsidinst'+str(i))
                     valueDept = request.POST.get('fsiddept'+str(i))
                     if valueInst != "":
-                        print('fsidinst'+str(i)+" = "+valueInst)
                         setattr(fs, 'idinst',
                                 Institution.objects.get(pk=valueInst))
                     if valueDept != "":
-                        print('fsiddept'+str(i)+" = "+valueDept)
                         setattr(fs, 'iddept',
                                 Department.objects.get(pk=valueDept))
                     fs.save()
+            
+            
+        lastActivity.slug = unique_slug_generator(lastActivity)
+        lastActivity.save()
 
         context["success"] = "New "+typeactivity.type+" inserted successfully."
 
@@ -460,27 +475,40 @@ def updateActivity(request, activity_id=1):
     context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
     context["institutions"] = Institution.objects.all().order_by('name')
     context["departments"] = Department.objects.all().order_by('name')
-    context["typevisit"] = Typesubactivity.objects.all()
     context["locations"] = Location.objects.all().order_by('name')
+    context["type_subactivity"] = activity.idtypeactivity.typesubactivity_set.all().order_by('type')
 
     visit = None
-    if activity.idtypeactivity.id == 'A1':
+    if activity.visit_set.all():
         visit = activity.visit_set.get()
         context['visit'] = visit
-        if visit.idtypesubactivity.id == 'SA2':
+        if visit.fieldschool_set.all():
             context['fieldschool'] = visit.fieldschool_set.all()
 
     countChange = 0
     countChangeActivity = 0
     if request.method == 'POST':
-        if request.POST['idtypeactivity'] != activity.idtypeactivity.id:
+        if activity.idtypeactivity is None or request.POST['idtypeactivity'] != activity.idtypeactivity.id :
             activity.idtypeactivity = Typeactivity.objects.get(
                 pk=request.POST['idtypeactivity'])
             countChangeActivity += 1
 
+        if 'idtypesubactivity' in request.POST:
+            if activity.idtypesubactivity is None or request.POST['idtypesubactivity'] != activity.idtypesubactivity.id  :
+                activity.idtypesubactivity = Typesubactivity.objects.get(
+                    pk=request.POST['idtypesubactivity'])
+                countChangeActivity += 1
+
         params = ['title', 'description', 'date', 'note']
         countChangeActivity += updateAttributeByRequestParams(request,params, activity)
-    
+
+        if activity.slug is not None and request.POST['slug']!=activity.slug:
+            activity.slug = unique_slug_generator(activity,request.POST['slug'])
+            countChangeActivity += 1
+        else :
+            activity.slug = unique_slug_generator(activity)
+            countChangeActivity += 1
+        
         if countChangeActivity > 0:
             countChange += 1
             activity.save()
@@ -490,7 +518,7 @@ def updateActivity(request, activity_id=1):
             files = request.FILES.getlist('files')
             for f in files:
                 activityimage = Activityimage(idactivity=activity)
-                activityimage.image = handle_uploaded_file(f, 'images/site/'+renameFile(activity.idtypeactivity.type))
+                activityimage.image = handle_uploaded_file(f, 'images/site/'+renameFile(activity.idtypeactivity.type_en))
                 activityimage.save()
             countChange += 1
 
@@ -524,29 +552,24 @@ def updateActivity(request, activity_id=1):
 
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                actpers = Activityperson(
-                    idactivity=activity, idperson=Person.objects.get(pk=values))
-                actpers.save()
-            if 'fkidinst' in keys:
-                actpers = Activityinstitution(
-                    idactivity=activity, idinst=Institution.objects.get(pk=values))
-                actpers.save()
+            if values!="":
+                if 'fkidperson' in keys:
+                    actpers = Activityperson(
+                        idactivity=activity, idperson=Person.objects.get(pk=values))
+                    actpers.save()
+                if 'fkidinst' in keys:
+                    actpers = Activityinstitution(
+                        idactivity=activity, idinst=Institution.objects.get(pk=values))
+                    actpers.save()
 
         if 'visit' in context:
-            if request.POST['idtypesubactivity'] != str(visit.idtypesubactivity.id):
-                visit.idtypesubactivity = Typesubactivity.objects.get(
-                    pk=request.POST['idtypesubactivity'])
-                countChangeVisit += 1
-                countChange += 1
-
-            if request.POST['idlocation'] != str(visit.idlocation.id):
+            if visit.idlocation is None or request.POST['idlocation'] != str(visit.idlocation.id) :
                 visit.idlocation = Location.objects.get(
                     pk=request.POST['idlocation'])
                 countChangeVisit += 1
                 countChange += 1
 
-            if request.POST['dateend'] != str(visit.dateend):
+            if visit.dateend is None or request.POST['dateend'] != str(visit.dateend) :
                 dateend = request.POST['dateend']
                 if request.POST['dateend'] == "":
                     dateend = None
@@ -558,8 +581,9 @@ def updateActivity(request, activity_id=1):
                 fsnumber = 0
                 data = request.POST.items()
                 for keys, values in data:
-                    if 'fsidinst' in keys or 'fsiddept' in keys:
-                        fsnumber += 1
+                    if values!="":
+                        if 'fsidinst' in keys or 'fsiddept' in keys:
+                            fsnumber += 1
 
                 fsnumber = int(fsnumber/2)
                 for i in range(0, fsnumber):
@@ -688,11 +712,12 @@ def addPublication(request, idtypepublication=1):
         fkarticlenumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
-                    pubauth = Publicationauthor(
-                        idpublication=lastPublication, idperson=Person.objects.get(pk=values))
-                    pubauth.save()
+            if values !="":
+                if 'fkidperson' in keys:
+                    if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                        pubauth = Publicationauthor(
+                            idpublication=lastPublication, idperson=Person.objects.get(pk=values))
+                        pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
@@ -700,17 +725,17 @@ def addPublication(request, idtypepublication=1):
             pd = Publicationdetail(idpublication=lastPublication)
             name = request.POST.get('fknamearticle'+str(i))
 
-            if name != "":
-                pd.name = name
+            if name == "":
+                name=None
+            pd.name = name
 
             if request.FILES:
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
                 
+                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type_en))
 
-                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type))
-
-            if pd.name is not None and pd.pdf is not None:
+            if  pd.pdf is not None:
                 pd.save()
 
     return render(request, "admin/addPublication.html", context)
@@ -732,7 +757,7 @@ def updatePublication(request, pub_id=1):
     countChange = 0
     countChangePublication = 0
     if request.method == 'POST':
-        if request.POST['idtype'] != str(publication.idtype.id):
+        if publication.idtype is None or request.POST['idtype'] != str(publication.idtype.id) :
             publication.idtype = Typepublication.objects.get(
                 pk=request.POST['idtype'])
             countChangePublication += 1
@@ -758,26 +783,28 @@ def updatePublication(request, pub_id=1):
         fkarticlenumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkidperson' in keys:
-                if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
-                    pubauth = Publicationauthor(
-                        idpublication=publication, idperson=Person.objects.get(pk=values))
-                    pubauth.save()
+            if values!="":
+                if 'fkidperson' in keys:
+                    if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
+                        pubauth = Publicationauthor(
+                            idpublication=publication, idperson=Person.objects.get(pk=values))
+                        pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
         for i in range(0, fkarticlenumber):
             pd = Publicationdetail(idpublication=publication)
             name = request.POST.get('fknamearticle'+str(i))
-            if name != "":
-                pd.name = name
+            if name == "":
+                name=None
+            pd.name = name
 
             if request.FILES:
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
-                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(publication.idtype.type))
+                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(publication.idtype.type_en))
 
-            if pd.name is not None and pd.pdf is not None:
+            if  pd.pdf is not None:
                 pd.save()
 
         # UPDATE PUBLICATION ITEMS
@@ -792,7 +819,7 @@ def updatePublication(request, pub_id=1):
                 pubdetailtodelete = Publicationdetail.objects.get(
                     pk=id_pubDetail)
                 if pubdetailtodelete.pdf is not None:
-                    delete_file(pubdetailtodelete.pdf, 'pdf/' + renameFile(publication.idtype.type))
+                    delete_file(pubdetailtodelete.pdf, 'pdf/' + renameFile(publication.idtype.type_en))
                 pubdetailtodelete.delete()
             countChange += 1
 
@@ -825,7 +852,7 @@ def deletePublication(request, pub_id=None):
                 pubDetails = Publicationdetail.objects.filter(
                     idpublication=publication.id)
                 for det in pubDetails:
-                    delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type))
+                    delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type_en))
 
                 publication.delete()
 
@@ -932,8 +959,9 @@ def addMember(request,typemember_id=1):
         fkmembernumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkpost' in keys:
-                fkmembernumber += 1
+            if values!="":
+                if 'fkpost' in keys:
+                    fkmembernumber += 1
 
         for i in range(0, fkmembernumber):
             mip = Memberpostinst(idmember=lastMember)
@@ -975,7 +1003,7 @@ def updateMember(request,member_id=None):
     countChange = 0
     countChangeMember = 0
     if request.method == 'POST':
-        if request.POST['idtypemember'] != str(member.idtypemember.id):
+        if member.idtypemember is None or request.POST['idtypemember'] != str(member.idtypemember.id) :
             member.idtypemember = Typemember.objects.get(
                 pk=request.POST['idtypemember'])
             countChangeMember += 1
@@ -997,6 +1025,7 @@ def updateMember(request,member_id=None):
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
                 w,h = get_image_dimensions(imageFile)
+                print(w,h)
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
                     return render(request, "admin/updateMember.html", context)
@@ -1015,8 +1044,9 @@ def updateMember(request,member_id=None):
         fkmembernumber = 0
         data = request.POST.items()
         for keys, values in data:
-            if 'fkpost' in keys:
-                fkmembernumber += 1
+            if values!="":
+                if 'fkpost' in keys:
+                    fkmembernumber += 1
 
         for i in range(0, fkmembernumber):
             mip = Memberpostinst(idmember=member)
@@ -1257,6 +1287,7 @@ def addImage(request,image_type=1):
 
         typeimage = Imagetype.objects.get(pk=request.POST['idtype'])
         context["imagetype"] = typeimage
+        
 
 
         if not request.FILES:
@@ -1267,9 +1298,9 @@ def addImage(request,image_type=1):
             for f in files:
                 titleImg = f.name.split(".")[0].replace("_"," ")
                 image = Image(idtype=typeimage,title=titleImg)
-                path = renameFile(typeimage.type)
+                path = renameFile(typeimage.type_en)
                 image.name = handle_uploaded_file(f, 'images/'+path)
-                # image.save()
+                image.save()
 
         context["success"] = "New photo of "+typeimage.type+" inserted successfully."
 
@@ -1292,7 +1323,7 @@ def updateImage(request,image_id=1):
 
     countChange = 0
     if request.method == 'POST':
-        if request.POST['idtype'] != str(image.idtype.id):
+        if image.idtype is None or request.POST['idtype'] != str(image.idtype.id) :
             image.idtype = Imagetype.objects.get(pk=request.POST['idtype'])
             countChange += 1
 
@@ -1302,8 +1333,7 @@ def updateImage(request,image_id=1):
         if request.FILES:
             if request.FILES.getlist('file'):
                 imageFile = request.FILES.getlist('file')[0]
-                path = renameFile(image.idtype.type)
-                print(image.name)
+                path = renameFile(image.idtype.type_en)
                 delete_file(image.name, 'images/'+path)
                 image.name = handle_uploaded_file(imageFile, 'images/'+path)
                 countChange += 1

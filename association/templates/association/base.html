@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% translate "Contact Us" as contactus %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -49,11 +51,10 @@
         </div><!-- Color Picker -->
       </div><!-- Side Panel -->
       <header class="style1">
-        <div class="container">
+        <div class="container" style="max-width: 1300px;">
             <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img src="{% static 'images/logo.png' %}" alt="logo.png"></a></div>
             <nav>
                 <div>
-                    <a class="thm-btn brd-rd40" href="{% url 'association:contact' %}" title="">Contact Us</a>
                     {% include 'association/includes/nav.html' %}
                 </div>
             </nav>
@@ -67,10 +68,10 @@
                 <li><a href="#" title="Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a></li>
                 <li><a href="#" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>                   
             </ul>
-            <form class="rspn-srch">
-                <input type="text" placeholder="Enter Your Keyword" />
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            <div class="rspn-srch">
+                <input id="keywordToFind" type="text" placeholder="Enter Your Keyword" />
+                <button onclick="FF(this)" id="keywordToFindBtn" type="submit"><i class="fa fa-search"></i></button>
+            </div>
         </div>
         <div class="lg-mn">
             <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img  width="60" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div>
@@ -96,7 +97,7 @@
                         <div class="col-md-4 col-sm-12 col-lg-4">
                             <div class="wdgt-box">
                                 <center><div class="logo"><a href="#" title="Logo"><img width="150" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div></center>
-                                <p>Vahatra's challenge, objectives and mission are mainly based on its history; and the members are doing their best to achieve these objectives.</p>
+                                <p>{% trans "Vahatra's challenge, objectives and mission are mainly based on its history; and the members are doing their best to achieve these objectives." %}</p>
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-12 col-lg-8">
@@ -106,11 +107,11 @@
                                 </div>
                                 <div class="col-md-7 col-sm-7 col-lg-7">
                                     <div class="wdgt-box">
-                                        <h4>Contact Us</h4>
+                                        <h4>{{contactus}}</h4>
                                         <ul class="cont-lst">
                                             <li><i class="flaticon-location-pin"></i>Association Vahatra, B.P. 3972, Antananarivo 101, Madagascar</li>
                                             <li><i class="flaticon-call"></i>+261 20 22 277 55</li>
-                                            <li><i class="flaticon-email"></i><a href="#" title="">associatvahatra@moov.mg</a></li>
+                                            <li><i class="flaticon-email"></i><a href="mailto:associatvahatra@moov.mg" title="">associatvahatra@moov.mg</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -121,10 +122,7 @@
                 <div class="bottom-bar">
                     <p>© Copyright 2022. All Rights Reserved.</p>
                     <div class="scl">
-                        <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-                        <a href="#" title="Pinterest" target="_blank"><i class="fa fa-pinterest-p"></i></a>
-                        <a href="#" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a href="mailto:associatvahatra@moov.mg" title="Email" target="_blank"><i class="flaticon-email"></i></a>
                     </div>
                     <div>Icons made by <a href="https://www.freepik.com" target="_blank" title="Freepik">Freepik</a>,<a href="https://www.flaticon.com/authors/iconixar" target="_blank" title="iconixar">iconixar</a>,<a href="https://www.flaticon.com/authors/hilmy-abiyyu-a" target="_blank" title="Hilmy Abiyyu A.">Hilmy Abiyyu A.</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
                 </div><!-- Bottom Bar -->
@@ -145,21 +143,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'js/perfectscrollbar.min.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/graingert-wow/1.1.3/wow.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/circliful/1.2.1/js/jquery.circliful.min.js"></script>
 <script src="{% static 'js/custom-scripts.js' %}"></script>
 <script src="{% static 'js/customize.js' %}"></script>
-<script src="{% static 'js/collapsed.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList"></script>
 
-<script src="{% static 'js/fichepublication.js' %}"></script>
+<script>
+    function FF($this){
+        var val = $this.previousElementSibling.value;
+        if(val == ''){
+            console.log('no input');
+        }else{
+            find(val);
+        }
+    }
 
-
-
-
+    var input = document.getElementById("keywordToFind");
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("keywordToFindBtn").click();
+        }
+    }); 
+</script>
 {% block js %}
 {% endblock %}
 </body>

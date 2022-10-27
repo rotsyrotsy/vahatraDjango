@@ -30,14 +30,34 @@
                             {% endfor %}
                         </select>
                     </div>
+
+                    {% if activity.idtypeactivity.typesubactivity_set.all %}
+                    <div class="form-group">
+                      <label for="selectTypeSubActivity">Type of sub-activity : <strong>{{activity.idtypesubactivity.type}}</strong></label>
+                          <select class="form-control" id="selectTypeSubActivity" name="idtypesubactivity" required>
+                            <option value="{{activity.idtypesubactivity.id}}">{{activity.idtypesubactivity.type}}</option>  
+                            {% for item in type_subactivity %}
+                                  {% if item.id != activity.idtypesubactivity.id %}
+                                  <option value="{{item.id}}">{{item.type}}</option>
+                                  {% endif %}
+                              {% endfor %}
+                          </select>
+                      </div>
+                      <div id="fieldschool" style="margin-left:5rem"></div>
+
+                    {% endif %}
                     
+                  <div class="form-group">
+                    <label for="slug">URL</label>
+                    <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug to URL" value="{{activity.slug}}">
+                  </div>
                   <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{activity.title}}" required>
                   </div>
                   <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="4">{{activity.description|default_if_none:""}}</textarea>
+                    <textarea class="form-control" id="description" name="description" rows="20">{{activity.description|default_if_none:""}}</textarea>
                   </div>
                   <div class="form-group">
                     <label for="date">Starting date</label>
@@ -68,7 +88,7 @@
                               <i class="input-helper"></i>
                             </label>
                           </div>
-                          <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{img.image}}">
+                          <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{img.image}}">
                         </div>
                         {% endfor %}
                     </div>
@@ -80,16 +100,6 @@
                   </div>
 
                   {% if visit %}
-                      <div class="form-group">
-                          <label for="selectTypeVisit">Type of visit : <strong>{{visit.idtypesubactivity.type}}</strong></label>
-                          <select class="form-control" id="selectTypeVisit" name="idtypesubactivity" required>
-                            <option value="{{visit.idtypesubactivity.id}}">{{visit.idtypesubactivity.type}}</option>
-                              {% for item in typevisit %}
-                                  <option value="{{item.id}}">{{item.type}}</option>
-                              {% endfor %}
-                          </select>
-                      </div>
-                      <div id="fieldschool" style="margin-left:5rem"></div>
 
                       {% if fieldschool %}
                       <div class="form-group">
@@ -233,7 +243,7 @@
       fileChosen.value = this.files.length+" files selected"
     })
 
-    $('#selectTypeVisit').click(function(){
+    $('#selectTypeSubActivity').click(function(){
       val = $(this).find(":selected").val();
       if (val == 'SA2'){
         var addnew = '<div class="row"><button type="button" class="btn btn-primary btn-sm" onclick="addFS()">\
@@ -243,13 +253,15 @@
         var select = '<div class="row"><div class="form-group row"><div class="col text-primary">\
                   <label for="instFS">Institution that took part</label>\
                         <div><select class="form-control form-control-sm" id="instFS" name="fsidinst0">';
-        select += '{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
+        select += '<option value="">--</option>{% for inst in institutions %}<option value="{{inst.id}}">{{inst.name}}</option>{% endfor %}';
         select += '</select></div></div>';
         select += '<div class="col text-primary"><label for="deptFS">Department</label>\
                         <select class="form-control form-control-sm" id="deptFS" name="fsiddept0">';
-        select += '{% for dept in departments %}<option value="{{dept.id}}">{{dept.name}}</option>{% endfor %}';
+        select += '<option value="">--</option>{% for dept in departments %}<option value="{{dept.id}}">{{dept.name}}</option>{% endfor %}';
         select += '</select></div></div></div></div>';
         $('#fieldschool').html(addnew+select);
+      }else{
+        $('#fieldschool').empty();
       }
     });
 

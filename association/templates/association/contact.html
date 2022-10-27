@@ -1,5 +1,6 @@
 {% extends "association/base.html" %}
 {% load static %}
+{% load i18n %}
 {% block title %}Contact{% endblock %}
 {% block content %}
 <section>
@@ -10,7 +11,7 @@
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
                 <h2>Contact</h2>
                 <ul class="breadcrumbs">
-                    <li><a href="{% url 'association:index' %}" title="">Home</a></li>
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
                     <li>Contact</li>
                 </ul>
             </div><!-- Page Title Wrap -->
@@ -22,8 +23,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Get information</span>
-                    <h3>Contact information</h3>
+                    <span>{% trans "Get information" %}</span>
+                    <h3>{% trans "Contact information" %}</h3>
                 </div>
             </div>
             <div class="contact-info-wrap text-center remove-ext3">
@@ -31,7 +32,7 @@
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="contact-info-box">
                             <i class="flaticon-location-pin"></i>
-                            <strong>Our Location</strong>
+                            <strong>{% trans "Our Location" %}</strong>
                             <span>B.P. 3972, Antananarivo 101</span>
                             <a href="#" title="">Madagascar</a>
                         </div>
@@ -39,15 +40,15 @@
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="contact-info-box">
                             <i class="flaticon-call"></i>
-                            <strong>Contact us Anytime</strong>
+                            <strong>{% trans "Contact us Anytime" %}</strong>
                             <span>Mobile: 20 22 277 55</span>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="contact-info-box">
                             <i class="flaticon-email"></i>
-                            <strong>Write Some Words</strong>
-                            <a href="#" title=""> associatvahatra@moov.mg</a>
+                            <strong>{% trans "Write Some Words" %}</strong>
+                            <a href="mailto:associatvahatra@moov.mg" title=""> associatvahatra@moov.mg</a>
                         </div>
                     </div>
                 </div>
@@ -65,8 +66,8 @@
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <span>Have Question</span>
-                    <h3>Send Message</h3>
+                    <span>{% trans "Have Question" %}</span>
+                    <h3>{% trans "Send Message" %}</h3>
                 </div>
             </div>
             <div class="contact-form text-center">
@@ -74,7 +75,7 @@
                     {% csrf_token %}
                     <div class="row mrg20">
                         <div class="col-md-6 col-sm-6 col-lg-6">
-                            <input type="text" name="message-name" placeholder="Name">
+                            <input type="text" name="message-name" placeholder="{% trans 'Name' %}">
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6">
                             <input type="text" name="message-phone" placeholder="Phone">
@@ -85,14 +86,14 @@
                             
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6">
-                            <input type="text"name="message-subject" placeholder="Subject">
+                            <input type="text"name="message-subject" placeholder="{% trans 'Subject' %}">
                         </div>
                   
 
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <textarea placeholder="Message" name="message-content"></textarea>
 
-                            <button class="thm-btn brd-rd40" type="submit">Contact Us</button>
+                            <button class="thm-btn brd-rd40" type="submit">{% trans "Contact Us" %}</button>
                         </div>
                     </div>
                     
@@ -100,8 +101,8 @@
                 
                 {% if message_name %}
                     <fieldset>
-                        <legend>Thanks {{message_name}}</legend>
-                        <p>We received your email and will respond shortly...</p>
+                        <legend>{% trans "Thanks" %} {{message_name}}</legend>
+                        <p>{% trans "We received your email and will respond shortly..." %}</p>
                     </fieldset>
                 {% endif %}
 
@@ -112,6 +113,8 @@
 {% endblock content %}
 
 {% block js %}
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
+
 <script>
     var img = "{% static 'images/map-icon.png' %}";
     var map = new ol.Map({

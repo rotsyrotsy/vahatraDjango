@@ -78,6 +78,10 @@
   // }
 
   //===== Circliful =====//
+
+  var lang_inver = $("#suprt-prg-invertebrates").attr('data-lang');
+  var lang_ver = $("#suprt-prg-vertebrates").attr('data-lang');
+  var lang_new = $("#suprt-prg-newspecies").attr('data-lang');
   if ($.isFunction($.fn.circliful)) {
     $("#suprt-prg1").circliful({
       animationStep: 5,
@@ -119,7 +123,7 @@
       textColor: '#d1ad3c',
       fontColor: '#fff',
       percent: 63,
-      text: 'Vertebrates',
+      text: lang_ver,
       textBelow: true,
       textStyle: 'font-size: 18px'
     });
@@ -134,7 +138,7 @@
       textColor: '#d1ad3c',
       fontColor: '#fff',
       percent: 32,
-      text: 'Invertebrates',
+      text: lang_inver,
       textBelow: true,
       textStyle: 'font-size: 18px'
     });
@@ -149,7 +153,7 @@
       textColor: '#d1ad3c',
       fontColor: '#fff',
       percent: 5,
-      text: 'New species',
+      text: lang_new,
       textBelow: true,
       textStyle: 'font-size: 18px'
     });

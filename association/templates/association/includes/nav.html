@@ -1,25 +1,41 @@
 {% load i18n %}
 {% load publications_extras %}
+{% get_available_languages as languages %}
+<a class="thm-btn brd-rd40" href="{% url 'association:contact' %}" title="">{{contactus}}</a>
 <ul>
     <li class="menu-item"><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
     <li class="menu-item-has-children"><a href="{% url 'activities:index' %}" title="">{% trans "Activities" %}</a>
         <ul>
-            {% for visit in type_visit %}
-            <li><a href="{% url 'activities:index' visit.id visit.type|toSlug %}" title="">{{ visit.type|title }}</a></li>
+            {% for activity in types_activity %}
+                {% if activity.typesubactivity_set.all %}
+                    <li class="menu-item-has-children"><a href="#" title="">{{activity.type}}</a>
+                        <ul>
+                            {% for subactivity in activity.typesubactivity_set.all %}
+                            <li><a href="{% url 'activities:index' activity.id activity.type|toSlug subactivity.id subactivity.type|toSlug %}" title="">{{ subactivity.type|title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'activities:index' activity.id activity.type|toSlug  %}" title="">{{activity.type|title}}</a></li>
+                {% endif %}
             {% endfor %}
-           
-            <li><a href="{% url 'activities:support' %}" title="">Pedagogic and scientific support</a></li>
-            <li><a href="{% url 'activities:otherActivity' 'A2' 'conference' %}" title="">Conference</a></li>
-            <li><a href="{% url 'activities:collection' %}" title="">Collection room</a></li>
-            <li><a href="{% url 'activities:atlas' %}" title="">Database & Atlas</a></li>
+            
+            <li><a href="{% url 'activities:support' %}" title="">{% trans "Pedagogic and scientific support" %}</a></li>
+            <li><a href="{% url 'activities:collection' %}" title="">{% trans "Collection room" %}</a></li>
+            <li><a href="{% url 'activities:atlas' %}" title="">{% trans "Database & Atlas" %}</a></li>
         </ul>
     </li>
     
-    <li class="menu-item"><a href="{% url 'activities:otherActivity' 'A4' 'project' %}" title="">{% trans "Projects and grants" %}</a></li>
+    <li class="menu-item-has-children"><a href="#" title="">{% trans "Projects and grants" %}</a>
+        <ul>
+            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA6' 'grant' %}" title="">{% trans "Grant" %}</a></li>
+            <li><a href="{% url 'activities:index' 'A4' 'project' 'SA7' 'scientific research'|toSlug %}" title="">{% trans "Scientific research" %}</a></li>
+        </ul>
+    </li>
 
     <li class="menu-item-has-children"><a href="#" title="">Publications</a>
         <ul>
-            {% for publication_type in type_pub %}
+            {% for publication_type in types_pub %}
                 <li><a href="{% url 'publications:index' publication_type.id publication_type.type|toSlug  %}" title="">{{ publication_type.type|title }}</a></li>
             {% endfor %}
         </ul>
@@ -27,9 +43,23 @@
 
     <li class="menu-item-has-children"><a href="#" title="">{% trans "About" %}</a>
         <ul>
-        <li><a href="{% url 'association:gallery' %}" title="">Our gallery</a></li>
-        <li><a href="{% url 'association:financing' %}" title="">Financing</a></li>
+        <li><a href="{% url 'association:gallery' %}" title="">{% trans "Our gallery" %}</a></li>
+        <li><a href="{% url 'association:financing' %}" title="">{% trans "Financing" %}</a></li>
         </ul>
     </li>
+    
+    {% get_available_languages as LANGUAGES %}
+
+    {% get_current_language as LANGUAGE_CODE %}
+    <li class="menu-item-has-children"><a href="#" alt="{{ LANGUAGE_CODE }}" title="{{ LANGUAGE_CODE }}">{{ LANGUAGE_CODE }}</a>
+        
+        <ul>
+            {% for code,lang in LANGUAGES %}
+            <li><a href="{% change_lang code %}" alt="{{ code }}" title="{{ code }}">{{ lang }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    
+    
 
 </ul>
