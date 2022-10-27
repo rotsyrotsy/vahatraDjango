@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'modeltranslation',
     'association.apps.AssociationConfig',
     'activities.apps.ActivitiesConfig',
     'publications.apps.PublicationsConfig',
     'admin.apps.AdminConfig',
     'sequences.apps.SequencesConfig',
-    'parler',
 ]
 
 MIDDLEWARE = [

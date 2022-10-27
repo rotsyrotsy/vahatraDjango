@@ -15,7 +15,6 @@ from django.core.mail import EmailMultiAlternatives
 import imaplib, time
 
 
-
 # Create your views here.
 type_pub = Typepublication.objects.all().order_by("id")
 type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
@@ -110,7 +109,7 @@ def contact(request):
         
         from_email = settings.DEFAULT_FROM_EMAIL
         to = [message_email]
-        text_content = 'Thank you, we have received your email and will answer soon.Here is your message:'+message_content+'.'
+        text_content = 'Thank you, we have received  your email and will answer soon.Here is your message:'+message_content+'.'
         html_content = '<p>Bonjour '+message_name+',</p>\
             <p>Merci, nous avons bien reçu votre mail et un responsable va vous répondre bientôt.</p>\
                 <p>Voici votre message:<br> <strong>"'+message_content+'"</strong></p>\

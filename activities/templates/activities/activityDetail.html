@@ -41,7 +41,9 @@
                         <div class="blog-detail">
                             <div class="blog-detail-inf brd-rd5">
                                 {% if images|length > 0 %}
-                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{images.0.image}}"  alt="{{images.0.image}}">
+                                    <a href="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{images.0.image}}"data-fancybox="gallery" title="" >
+                                        <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{images.0.image}}"  alt="{{images.0.image}}">
+                                    </a>
                                 {% else %}
                                     <img src="{% static 'images/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
                                 {% endif %}
@@ -72,7 +74,7 @@
                                                     <div class="row my-3 justify-content-center">
                                                         {% for img in item.img %}
                                                             <div class="col-md-4">
-                                                                <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{img.image}}"  style="width: 500px; height:250px;object-fit: cover;" alt="{{img.image}}">
+                                                                <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{img.image}}"  style="width: 500px; height:250px;object-fit: cover;" alt="{{img.image}}">
                                                             </div>
                                                         {% endfor %}
                                                     </div>          
@@ -119,7 +121,7 @@
                                             
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.image}}">
+                                            <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.image}}">
                                             {% endwith %}
                                         {% else %}
                                             <img src="{% static 'images/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">

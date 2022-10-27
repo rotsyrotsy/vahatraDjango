@@ -47,6 +47,18 @@
             </div>
             <div >
                 <p>{{ type.description}}</p>
+                <div class="pagination-wrap text-center m-0">
+                    <ul class="pagination" style="float:right ;">
+                        {% for number in page_number %}
+                        {% if keyword %}
+                        <li ><a href="{% url 'association:member' type.id type.type|toSlug keyword number %}" title="">{{number}}</a></li>
+                        {% else %}
+                        <li ><a href="{% url 'association:member' type.id type.type|toSlug  number %}" title="">{{number}}</a></li>
+                        {% endif%}
+                            
+                        {% endfor %}
+                    </ul>
+                </div>
                 <div class="row">
                     <div class="col-md-8">
                         <ul>
@@ -55,15 +67,6 @@
                             {%endfor%}
                         </ul>
                     </div>
-                </div>
-                <div class="row">
-                    {% with type.image|split:"," as imgs %}
-                        {% for img in imgs|slice:"1:" %}
-                            <div class="col-md-4">
-                                <img src="{% static 'images/members/' %}{{img}}" alt="{{img}}" style="width: 500px; height:250px; object-fit: cover;"> 
-                            </div>
-                        {% endfor %}
-                    {% endwith %}
                 </div>
             </div>
             {% else %}
@@ -75,6 +78,21 @@
                 
                 <p>{{ type.description}}</p>
             </div>
+            
+            {% if page_number|length > 1 %}
+            <div class="pagination-wrap text-center m-2">
+                <ul class="pagination" >
+                    {% for number in page_number %}
+                    {% if keyword %}
+                    <li ><a href="{% url 'association:member' type.id type.type|toSlug keyword number %}" title="">{{number}}</a></li>
+                    {% else %}
+                    <li ><a href="{% url 'association:member' type.id type.type|toSlug  number %}" title="">{{number}}</a></li>
+                    {% endif%}
+                        
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
             <div class="team-wrap2 text-center remove-ext3">
                 <div class="row">
                         {% for member in members %}
@@ -86,7 +104,7 @@
                                 <img src="{% static 'images/members/none.webp' %}" alt="{{ member.idperson.username }}">
                                 {% endif %}
                                 <div class="team-info2">
-                                    <h4>{{member.idperson.title|default_if_none:""}} {{ member.idperson.username }} {{ member.idperson.name }}</h4>
+                                    <h4>{{ member.idperson.username }} {{ member.idperson.name }}</h4>
                                     <p>{{ member.description|default_if_none:"" }}</p>
                                     
                                         {% for mpi in member.memberpostinst_set.all %}
@@ -105,6 +123,8 @@
                         </div>
                         {% endfor %}
                 </div>
+            {% endif %}
+                
                 <div class="row justify-content-center pt-5">
                     {% with type.image|split:"," as imgs %}
                         {% for img in imgs %}
@@ -114,19 +134,7 @@
                         {% endfor %}
                     {% endwith %}
                 </div>
-            {% endif %}
-                <div class="pagination-wrap text-center">
-                    <ul class="pagination">
-                        {% for number in page_number %}
-                        {% if keyword %}
-                        <li ><a href="{% url 'association:member' type.id type.type|toSlug keyword number %}" title="">{{number}}</a></li>
-                        {% else %}
-                        <li ><a href="{% url 'association:member' type.id type.type|toSlug  number %}" title="">{{number}}</a></li>
-                        {% endif%}
-                            
-                        {% endfor %}
-                    </ul>
-                </div>
+                
 
                 
             </div><!-- Team Wrap -->

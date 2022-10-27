@@ -1,7 +1,7 @@
 {% extends "association/base.html" %}
 {% load static %}
 {% load i18n %}
-{% block title %}Supports{% endblock %}
+{% block title %}{% trans "Supports" %}{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
@@ -10,10 +10,10 @@
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
-                <h2>Supports</h2>
+                <h2>{% trans "Supports" %}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
-                    <li>Supports</li>
+                    <li>{% trans "Supports" %}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
         </div>
@@ -90,7 +90,7 @@
                                 {% endwith %}
                                 <div class="bord-info">
                                     <h4>{{partner.name}}</h4>
-                                    <p>{{partner.description}}</p>
+                                    <p>{{partner.description|capfirst}}</p>
                                     <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
                                 </div>
                             </div>

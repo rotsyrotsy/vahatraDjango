@@ -252,13 +252,13 @@ def updateAttributeByRequestParams(request,params,model):
     values = [request.POST.get(p) for p in params]
     i = 0
     for value in values:
-        if getattr(model, params[i]) is None or value != str(getattr(model, params[i])):
-            if value == "":
-                value = None
-            else:
-                value = value.strip()
-            setattr(model, params[i], value)
-            countChange += 1
+        # if getattr(model, params[i]) is None or value != str(getattr(model, params[i])):
+        if value == "":
+            value = None
+        else:
+            value = value.strip()
+        setattr(model, params[i], value)
+        countChange += 1
         i += 1
     return countChange
 
@@ -328,7 +328,7 @@ def addActivity(request, idtypeactivity='A1'):
             files = request.FILES.getlist('files')
             for f in files:
                 image = Activityimage(idactivity=lastActivity)
-                image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type))
+                image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type_en))
                 image.save()
 
         if request.POST['idtypeactivity'] == 'A1':  # if activity is visit
@@ -504,8 +504,10 @@ def updateActivity(request, activity_id=1):
 
         if activity.slug is not None and request.POST['slug']!=activity.slug:
             activity.slug = unique_slug_generator(activity,request.POST['slug'])
+            countChangeActivity += 1
         else :
             activity.slug = unique_slug_generator(activity)
+            countChangeActivity += 1
         
         if countChangeActivity > 0:
             countChange += 1
@@ -516,7 +518,7 @@ def updateActivity(request, activity_id=1):
             files = request.FILES.getlist('files')
             for f in files:
                 activityimage = Activityimage(idactivity=activity)
-                activityimage.image = handle_uploaded_file(f, 'images/site/'+renameFile(activity.idtypeactivity.type))
+                activityimage.image = handle_uploaded_file(f, 'images/site/'+renameFile(activity.idtypeactivity.type_en))
                 activityimage.save()
             countChange += 1
 
@@ -731,7 +733,7 @@ def addPublication(request, idtypepublication=1):
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
                 
-                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type))
+                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type_en))
 
             if  pd.pdf is not None:
                 pd.save()
@@ -800,7 +802,7 @@ def updatePublication(request, pub_id=1):
             if request.FILES:
                 if request.FILES.getlist('fkpdfarticle'+str(i)):
                     pdf = request.FILES.getlist('fkpdfarticle'+str(i))[0]
-                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(publication.idtype.type))
+                    pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(publication.idtype.type_en))
 
             if  pd.pdf is not None:
                 pd.save()
@@ -817,7 +819,7 @@ def updatePublication(request, pub_id=1):
                 pubdetailtodelete = Publicationdetail.objects.get(
                     pk=id_pubDetail)
                 if pubdetailtodelete.pdf is not None:
-                    delete_file(pubdetailtodelete.pdf, 'pdf/' + renameFile(publication.idtype.type))
+                    delete_file(pubdetailtodelete.pdf, 'pdf/' + renameFile(publication.idtype.type_en))
                 pubdetailtodelete.delete()
             countChange += 1
 
@@ -850,7 +852,7 @@ def deletePublication(request, pub_id=None):
                 pubDetails = Publicationdetail.objects.filter(
                     idpublication=publication.id)
                 for det in pubDetails:
-                    delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type))
+                    delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type_en))
 
                 publication.delete()
 
@@ -1296,7 +1298,7 @@ def addImage(request,image_type=1):
             for f in files:
                 titleImg = f.name.split(".")[0].replace("_"," ")
                 image = Image(idtype=typeimage,title=titleImg)
-                path = renameFile(typeimage.type)
+                path = renameFile(typeimage.type_en)
                 image.name = handle_uploaded_file(f, 'images/'+path)
                 image.save()
 
@@ -1331,8 +1333,7 @@ def updateImage(request,image_id=1):
         if request.FILES:
             if request.FILES.getlist('file'):
                 imageFile = request.FILES.getlist('file')[0]
-                path = renameFile(image.idtype.type)
-                print(image.name)
+                path = renameFile(image.idtype.type_en)
                 delete_file(image.name, 'images/'+path)
                 image.name = handle_uploaded_file(imageFile, 'images/'+path)
                 countChange += 1

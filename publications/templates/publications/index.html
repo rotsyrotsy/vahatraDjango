@@ -49,7 +49,7 @@
                         <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                         <div class="fea-info2">
                             <br>
-                            <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">Read More</a>
+                            <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">Read More</a>
                         </div>
                     </div>
                 </div>

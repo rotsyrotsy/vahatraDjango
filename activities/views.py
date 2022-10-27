@@ -164,7 +164,7 @@ def activityDetail(request,slug):
 
     typeactivity= activity.idtypeactivity
     if typeactivity.id=='A1':
-        return redirect('activities:index')
+        return redirect('activities:index', typeactivity_id=activity.idtypeactivity.id, typeactivity_name=activity.idtypeactivity.type,typesubactivity_id=activity.idtypesubactivity.id,typesubactivity_name=activity.idtypesubactivity.type)
 
     new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id),
     Q(idtypesubactivity = activity.idtypesubactivity_id),
@@ -173,6 +173,7 @@ def activityDetail(request,slug):
     Q(date__year__gte = (date.today()-timedelta(days=100)).year)).order_by('-date')  
 
     context["activity"]= activity
+    print(activity.description)
     context["images"]=activity.activityimage_set.all()
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)

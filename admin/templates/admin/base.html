@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% load publications_extras %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,6 +53,22 @@
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
+          {% get_available_languages as LANGUAGES %}
+
+          {% get_current_language as LANGUAGE_CODE %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              Actual language: <span style="font-weight: bold;">{{ LANGUAGE_CODE }}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              {% for code,lang in LANGUAGES %}
+              <a href="{% change_lang code %}" class="dropdown-item">
+                {{ lang }}
+              </a>
+              {% endfor %}
+            </div>
+          </li>
+          
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="{% static 'images/members/none.webp' %}" alt="profile"/>

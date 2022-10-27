@@ -2,55 +2,58 @@
 {% load i18n %}
 {% load static %}
 {% load publications_extras %}
-{% block title %}Home{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
 {% block content %}
 {% translate "Show more" as showmore %}
 <section>
-    <div class="gap no-gap">
+    <div class="gap no-gap opc5">
         <img class="botm-shp shp-img" src="{% static 'images/shp1.png' %}" alt="shp1.png">
         <div class="custom-featured-area-wrap text-center">
             <div class="custom-featured-area mycaroussel-index">
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.webp' %});background-position:50% 70%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.webp' %});background-position:50% 90%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/avifauna/Amena_295.webp' %});">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
+
                     </div>
                 </div>
                 
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/Bea_354.webp' %});">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/banniere3.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
-                <div class="custom-featured-item" style="background-image: url({% static 'images/site/field_school/Field_School_Master_Ambohitantely_5.webp' %});background-position:50% 37%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/site/conference/DSC_2357_2019.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
+
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/avifauna/Sahafina_176.webp' %});">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
+
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/IMG_1444.webp' %});">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/primate/a1.webp' %}); background-position:50% 15%;">
                     <div class="custom-featured-cap">
-                        <h3>He raised the sky and set up the balance</h3>
-                        <span>"Surah Al-Rahmaan Vesre 7"</span>
+                        <h3>{% trans "Working on reptiles, amphibians ,birds and small mammals : endemic to Madagascar" %}</h3>
+                        <span>{% trans "'Let's keep our diversity together'" %}</span>
                     </div>
                 </div>
             </div>
@@ -63,11 +66,6 @@
         <div class="lft-shp shp-lyr"></div>
         <div class="container">
             <div class="plrs-wrap text-center remove-ext5">
-                <div class="sec-title text-center" style="margin-bottom: 50px;">
-                    <p>
-                        {% trans "Association Vahatra works on reptiles, amphibians ,birds and small mammals that are especially endemic to Madagascar" %}
-                    </p>
-                </div>
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
@@ -300,7 +298,7 @@
                         <div class="team-box mt-5">
                             <img src="{% static 'images/members/' %}{{item.image|split:','|first}} " style="width: 265px; height: 265px; object-fit: cover;" alt="{{item.type}}" title="{{item.type}}">
                             <div class="team-info">
-                                <h4><a href="{% url 'association:member' item.id item.type|toSlug %}" >{{ item.type|title }}</a></h4>
+                                <h4><a href="{% url 'association:member' item.id item.type_en|toSlug %}" >{{ item.type|title }}</a></h4>
                                 <p>{{ item.description|truncatewords:10 }}</p>
                             </div>
                         </div>
@@ -334,7 +332,7 @@
                                             <a href="{% url 'activities:activityDetail' activity.slug %}" title="">
                                                 {% if activity.activityimage_set.all %}
                                                     {% with activity.activityimage_set.all|first as image %}
-                                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
+                                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
                                                     {% endwith %}
                                                 {% else %}
                                                     <img src="{% static 'images/evnt-img1.jpg' %} " alt="evnt-img1.webp">
@@ -358,13 +356,13 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb" >
-                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
+                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
                                                 <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                                             </a>
                                         </div>
                                         <div class="evnt-info">
                                             <h4>
-                                                <a  class="volume-btn"  data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type|lower|snake_case  %}"data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
+                                                <a  class="volume-btn"  data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}"data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
                                                     {{publication.title}}
                                                 </a>
                                             </h4>
@@ -413,13 +411,13 @@
                             <div class="rcnt-wrp">
                                 {% for newpub in new_pubs %}
                                 <div class="rcnt-bx">
-                                    <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
+                                    <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
                                         <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68" height="auto" alt="{{newpub.title}}" title="{{newpub.title}}">
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{newpub.idtype.type}}</small><br>
                                         <h6>
-                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
+                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
                                                 {{newpub.title}}
                                             </a>
                                         </h6>
@@ -432,7 +430,7 @@
                                     <a href="{% url 'activities:activityDetail' item.slug %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type|lower|renameFile}}/{{image.image}}" width="68" height="auto" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
+                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" width="68" height="auto" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
                                             {% endwith %}
                                         {% else %}
                                             <img src="{% static 'images/evnt-img1.jpg' %}" width="68" height="auto"  alt="rcnt-img1.webp">
@@ -462,7 +460,7 @@
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>{% trans "A message from" %}</span>
-                    <h3>{% trans "The President of Vahatra" %}</h3>
+                    <h3 style="color: #ffe8a0;">{% trans "The President of Vahatra" %}</h3>
                 </div>
             </div>
             <div class="testi-wrap text-center">
@@ -476,10 +474,12 @@
              
                             <p>
                               <i>"</i>
-                              {{ message_of_year.description | slice:":234" }}
+                              {{message_of_year.description|linebreakcustom|first}}
                                                                                     
                             <span id="messageyear">
-                                {{ message_of_year.description | slice:"234:" }}
+                                {% for line in message_of_year.description|linebreakcustom|slice:"1:" %}
+                                    {{ line }}
+                                    {% endfor %}
                             </span>     
                
                               <i>"</i></p>

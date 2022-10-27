@@ -56,7 +56,7 @@
                             {% for pub in pubs %}
                           <tr>
                             <td class="text-center">
-                                <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub.idtype.type|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type|lower|snake_case }}" data-pub='{"id":"{{pub.id}}","title":"{{pub.title|escapejs}}", "description":"{{pub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{pub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{pub.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">
+                                <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{pub.id}}","title":"{{pub.title|escapejs}}", "description":"{{pub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{pub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{pub.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">
                                     <img src="{% static 'images/publication/' %}{{pub.imagefront}}" width="50">
                                 </a>
                             </td>
@@ -79,6 +79,7 @@
                         </tbody>
                       </table>
                     </div>
+                    {% if page_number|length > 1 %}
                     <div class="pagination-wrap text-center">
                         {% if keyword %}
                           <ul class="pagination" >
@@ -102,6 +103,7 @@
                           </ul>
                         {% endif %}
                     </div>
+                    {% endif %}
                   </div>
         </div>
     </div>

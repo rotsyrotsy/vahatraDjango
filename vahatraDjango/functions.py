@@ -35,21 +35,6 @@ def renameFile(file):
     unaccented_string = unidecode.unidecode(file)
     return unaccented_string
 
-def reduce_image_size( pic):
-    from PIL import Image
-    print('initial size: '+str(pic.size))
-    img = Image.open(pic)
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
-    thumb_io = BytesIO()
-    img.save(thumb_io, 'jpeg', quality=40)
-    
-    pic_file = File(thumb_io, pic.name)
-    print('final size: '+str(pic_file.size))
-    return pic_file
-    
-    
-
 def convert_to_webp(file):
     from PIL import Image
 
@@ -65,6 +50,7 @@ def convert_to_webp(file):
 
     new_file_name = str(Path(f_object._name).with_suffix('.webp'))
     image = Image.open(f_object.file)
+    # image = image.rotate(-90)
     if image.mode != 'RGB':
         image = image.convert('RGB')
     thumb_io = BytesIO()
@@ -77,7 +63,6 @@ def convert_to_webp(file):
 
 def handle_uploaded_file(f, location):
     if f.content_type.split("/")[0]=="image":
-        # reduce_pic = reduce_image_size(f)
         f = convert_to_webp(f)
 
     f.name=renameFile(f.name)
