@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
@@ -24,6 +24,7 @@ from django.contrib.auth.models import User
 type_activity = Typeactivity.objects.all()
 type_publication = Typepublication.objects.all()
 type_member = Typemember.objects.all()
+count_login = 1
 
 def saveChanges(request):
     if not checkIfAdmin(request): raise PermissionDenied()
@@ -31,7 +32,17 @@ def saveChanges(request):
     watchdog.handle()
 
 def checkIfAdmin(request):
-    if not request.user.is_authenticated: raise PermissionDenied() 
+    if not request.user.is_authenticated: raise PermissionDenied()
+    if 'count_login' in request.session:
+        if request.session['count_login'] > 3:
+            request.session['count_login'] += 1
+            return render(
+                request,
+                "admin/login.html",
+                {
+                    "block_message": "You have exceeded the number of connection attempts.",
+                },
+            )
 
 def index(request):
     context = {
@@ -44,14 +55,47 @@ def index(request):
     return render(request, "admin/index.html", context)
 
 def my_login(request):
+    if 'count_login' in request.session:
+        if request.session['count_login'] > 3:
+            # si l'authentification est invalide plus de 3 fois
+            if request.session['count_login']>4:
+                admin = User.objects.all()[0]
+                from_email = settings.DEFAULT_FROM_EMAIL
+                to = [admin.email]
+                text_content = 'Tentative de connexion suspecte bloquée'
+                html_content = '<p>Quelqu\'un vient d\'essayer de se connecter au compte administrateur de votre site de l\'Association Vahatra.\
+                        Si c\'était vous, veuillez <a href="http://127.0.0.1:8000/en/admin/reset_password_verify/'+admin.email+'">suivre ce lien</a></p>\
+                            <span style="color:#d1ad3c;font-style:italic;">Association Vahatra<br>\
+                            associatvahatra@moov.mg<br>\
+                            20 22 277 55</span>'
+                msg = EmailMultiAlternatives('Tentative de connexion suspecte bloquée', text_content, from_email, to)
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
+            request.session['count_login'] += 1
+            return render(
+                request,
+                "admin/login.html",
+                {
+                    "block_message": "You have exceeded the number of connection attempts.",
+                },
+            )
+        
     if request.method == 'POST':
+        if 'count_login' not in request.session:
+            request.session['count_login']=1
+        
         admin = authenticate(request,username=request.POST["username"],password=request.POST['password'])
         if admin is not None:
+            try:
+                del request.session['count_login']
+            except KeyError:
+                pass
             login(request,admin)
             if len(request.POST.getlist("remember_me")) == 0:
                 request.session.set_expiry(0)
             return HttpResponseRedirect(reverse("admin:index"))
         else:
+            request.session['count_login'] += 1
             return render(
                 request,
                 "admin/login.html",
@@ -63,13 +107,14 @@ def my_login(request):
 
 
 def my_logout(request):
+    checkIfAdmin(request)
     try:
         logout(request)
     except KeyError:
         pass
     return render(request, "admin/login.html", {"message": "You're logged out"})
 
-def reset_password_verify(request):
+def reset_password_verify(request,mail=None):
     admin = None
     if request.method == 'POST':
         if 'code' in request.POST:
@@ -88,37 +133,40 @@ def reset_password_verify(request):
                 )
 
         if "mail" in request.POST:
-            try:
-                admin = User.objects.get(email = request.POST["mail"])
-                request.session['admin_account_id']=admin.id
-            except (KeyError, User.DoesNotExist):
-                return render(
-                    request,
-                    "admin/reset_password_verify.html",
-                    {
-                        "error_message": "There is no account related to this email. Verify your input.",
-                    },
-                )
-            else:
-                
-                ## GENERATE CODE 
-                checkCode = get_random_code(6)
-                
-                from_email = settings.DEFAULT_FROM_EMAIL
-                to = [admin.email]
-                text_content = 'Changement de mot de passe administrateur'
-                html_content = '<p>Bonjour,</p>\
-                    <p>Voici votre code de confirmation de changement de mot de passe: \
-                        <strong>'+checkCode+'</strong></p>\
-                            <span style="color:#d1ad3c;font-style:italic;">Association Vahatra<br>\
-                            associatvahatra@moov.mg<br>\
-                            20 22 277 55</span>'
-                msg = EmailMultiAlternatives('Changement de mot de passe de Vahatra', text_content, from_email, to)
-                msg.attach_alternative(html_content, "text/html")
-                msg.send()
+            mail = request.POST["mail"]
+    
+    if mail is not None:
+        try:
+            admin = User.objects.get(email = mail)
+            request.session['admin_account_id']=admin.id
+        except (KeyError, User.DoesNotExist):
+            return render(
+                request,
+                "admin/reset_password_verify.html",
+                {
+                    "error_message": "There is no account related to this email. Verify your input.",
+                },
+            )
+        else:
+            ## GENERATE CODE 
+            checkCode = get_random_code(6)
+            
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to = [admin.email]
+            text_content = 'Changement de mot de passe administrateur'
+            html_content = '<p>Bonjour,</p>\
+                <p>Voici votre code de confirmation de changement de mot de passe: \
+                    <strong>'+checkCode+'</strong></p>\
+                        <span style="color:#d1ad3c;font-style:italic;">Association Vahatra<br>\
+                        associatvahatra@moov.mg<br>\
+                        20 22 277 55</span>'
+            msg = EmailMultiAlternatives('Changement de mot de passe de Vahatra', text_content, from_email, to)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
 
-                return render(request, "admin/reset_password_verify.html", {"message": "Check your mail and enter the code we've sent to you.", "checkCode":checkCode})
+            return render(request, "admin/reset_password_verify.html", {"message": "Check your mail and enter the code we've sent to you.", "checkCode":checkCode})
+            
     return render(request, "admin/reset_password_verify.html")
 
 
@@ -128,6 +176,7 @@ def reset_password(request):
         admin.set_password(str(request.POST["password"]))
         admin.save()
         try:
+            del request.session['count_login']
             del request.session['admin_account_id']
         except KeyError:
             pass

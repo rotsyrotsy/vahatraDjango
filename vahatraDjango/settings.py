@@ -177,11 +177,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.live.com'
-EMAIL_HOST_USER = "rotsyvonimanitra@hotmail.com"
-EMAIL_HOST_PASSWORD = "Poushinie"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('GMAIL_HOST')
+EMAIL_HOST_PASSWORD = config('GMAIL_PASSWORD')
 # EMAIL_TIMEOUT = 1000
-DEFAULT_FROM_EMAIL = 'rotsyvonimanitra@hotmail.com'
+DEFAULT_FROM_EMAIL = config('GMAIL_HOST')
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 
