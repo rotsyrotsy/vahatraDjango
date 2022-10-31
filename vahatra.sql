@@ -3379,6 +3379,10 @@ INSERT INTO public.django_migrations (id, app, name, applied) VALUES (77, 'activ
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (78, 'activities', '0019_alter_activity_date', '2022-10-27 10:26:36.39255-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (79, 'publications', '0005_publication_description_en_and_more', '2022-10-27 10:26:36.658992-01');
 INSERT INTO public.django_migrations (id, app, name, applied) VALUES (80, 'activities', '0020_remove_activity_slug_en_remove_activity_slug_fr_and_more', '2022-10-27 12:04:55.091085-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (81, 'activities', '0021_auto_20221031_1434', '2022-10-31 10:37:43.858015-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (82, 'publications', '0006_auto_20221031_1437', '2022-10-31 10:40:49.327232-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (83, 'activities', '0022_auto_20221031_1446', '2022-10-31 10:54:49.106215-01');
+INSERT INTO public.django_migrations (id, app, name, applied) VALUES (84, 'association', '0015_auto_20221031_1602', '2022-10-31 12:03:39.14071-01');
 
 
 --
@@ -5087,16 +5091,18 @@ INSERT INTO public.publicationdetail (id, name, pdf, idpublication) VALUES (236,
 --
 
 INSERT INTO public.sequences_sequence (name, last) VALUES ('institution', 41);
-INSERT INTO public.sequences_sequence (name, last) VALUES ('typesubactivity', 10);
+INSERT INTO public.sequences_sequence (name, last) VALUES ('typesubactivity', 11);
+INSERT INTO public.sequences_sequence (name, last) VALUES ('typeactivity', 13);
 
 
 --
 -- Data for Name: typeactivity; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.typeactivity (id, type, type_en, type_fr) VALUES ('A2', 'Conference', 'Conference', 'Séminaire');
-INSERT INTO public.typeactivity (id, type, type_en, type_fr) VALUES ('A4', 'Project', 'Project', 'Projet');
 INSERT INTO public.typeactivity (id, type, type_en, type_fr) VALUES ('A1', 'Visit', 'Visit', 'Visite');
+INSERT INTO public.typeactivity (id, type, type_en, type_fr) VALUES ('A2', 'Conference', 'Conference', 'Séminaire');
+INSERT INTO public.typeactivity (id, type, type_en, type_fr) VALUES ('A3', 'Test conference', 'Test conference', NULL);
+INSERT INTO public.typeactivity (id, type, type_en, type_fr) VALUES ('A4', 'Projet', 'Project', 'Projet');
 
 
 --
@@ -5107,6 +5113,7 @@ INSERT INTO public.typemember (id, type, description, image, description_en, des
 INSERT INTO public.typemember (id, type, description, image, description_en, description_fr, type_en, type_fr) VALUES (4, 'staff', 'The current staff includes seven individuals', 'Groupe.webp,DSC_0587.webp', 'The current staff includes seven individuals', 'Le personnel actuel comprend sept personnes', 'staff', 'personnels');
 INSERT INTO public.typemember (id, type, description, image, description_en, description_fr, type_en, type_fr) VALUES (3, 'students', 'Students enrolled within the Malagasy university system, particularly in the field of biology and environmental ecology, are the principal focus of the Vahatra program to help with their advancement and capacity building. We aim at having 12-15 students working with us at any given time. Once a student has finished their degree, the place is open for another incoming student.', 'Beman_037.webp,Grop_090.webp,DSC_0126.webp,Etudiants.webp', 'Students enrolled within the Malagasy university system, particularly in the field of biology and environmental ecology, are the principal focus of the Vahatra program to help with their advancement and capacity building. We aim at having 12-15 students working with us at any given time. Once a student has finished their degree, the place is open for another incoming student.', 'Les étudiants inscrits dans le système universitaire malgache, en particulier dans le domaine de la biologie et l''écologie environnementale, sont les principales cibles du programme de Vahatra, qui vise leur promotion et le renforcement de leur capacité. Notre but est d''avoir 12 à 15 étudiants qui travaillent avec nous à un moment donné. Une fois que l''étudiant a eu son diplôme, sa place est disponible pour un autre étudiant.', 'students', 'étudiants');
 INSERT INTO public.typemember (id, type, description, image, description_en, description_fr, type_en, type_fr) VALUES (1, 'board of directors', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.', 'BEA_113.webp,cc1.webp', 'In the context of providing clear and long-term advice for the development of new programs and the management of the association, Vahatra places considerable importance on the board of directors.', 'C’est dans le but de viser plus loin, avec plus de prévoyance et une vision claire et pragmatique que Vahatra a mis un accent particulier sur l’importance du comité de Conseil.', 'board of directors', 'comité de conseil');
+INSERT INTO public.typemember (id, type, description, image, description_en, description_fr, type_en, type_fr) VALUES (5, 'test kely', 'heehehe member be', 'Capture_d''ecran_(308).webp', NULL, 'heehehe member be', NULL, 'test kely');
 
 
 --
@@ -5280,7 +5287,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 39, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 80, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 84, true);
 
 
 --
@@ -5371,14 +5378,14 @@ SELECT pg_catalog.setval('public.publicationdetail_id_seq', 236, true);
 -- Name: typemember_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.typemember_id_seq', 4, true);
+SELECT pg_catalog.setval('public.typemember_id_seq', 5, true);
 
 
 --
 -- Name: typepublication_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.typepublication_id_seq', 1, false);
+SELECT pg_catalog.setval('public.typepublication_id_seq', 8, true);
 
 
 --
