@@ -15,7 +15,6 @@
         </a>
         <div class="collapse" id="activity">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"><a class="nav-link" href="{% url 'admin:statisticActivities' %}">Statistics</a></li>
             {% for item in type_activity %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listActivities' item.id %}">{{item.type|capfirst}}</a></li>
             {% endfor %}

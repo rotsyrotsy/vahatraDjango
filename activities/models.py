@@ -26,20 +26,20 @@ class Typeactivity(models.Model):
         db_table = 'typeactivity'
 
 class Activity(models.Model):
-    idtypeactivity = models.ForeignKey('Typeactivity', models.DO_NOTHING, db_column='idtypeactivity')
+    idtypeactivity = models.ForeignKey('Typeactivity', db_column='idtypeactivity',on_delete =models.CASCADE)
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True,default=timezone.now())
     note = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(max_length = 255, null = True, blank = True)
-    idtypesubactivity = models.ForeignKey('Typesubactivity', models.DO_NOTHING, db_column='idtypesubactivity', null=True)
+    idtypesubactivity = models.ForeignKey('Typesubactivity', db_column='idtypesubactivity', null=True,on_delete =models.CASCADE)
 
     class Meta:
         db_table = 'activity'
 
 class Visit(models.Model):
     idactivity = models.ForeignKey('Activity', db_column='idactivity',on_delete =models.CASCADE)
-    idlocation = models.ForeignKey('Location', models.DO_NOTHING, db_column='idlocation')
+    idlocation = models.ForeignKey('Location', db_column='idlocation',on_delete =models.CASCADE)
     dateend = models.DateField(blank=True, null=True)
 
     class Meta:

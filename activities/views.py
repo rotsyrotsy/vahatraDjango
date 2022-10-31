@@ -173,7 +173,6 @@ def activityDetail(request,slug):
     Q(date__year__gte = (date.today()-timedelta(days=100)).year)).order_by('-date')  
 
     context["activity"]= activity
-    print(activity.description)
     context["images"]=activity.activityimage_set.all()
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)

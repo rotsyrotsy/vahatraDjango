@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Add new sub-activity to <strong>{{typeactivity.type}}</strong></h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:addTypeSubActivity' typeactivity.id %}"  method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="selectTypeActivity">Type of activity</label>
+                            <select class="form-control" id="selectTypeActivity" name="idtypeactivity" required>
+                                <option value="{{typeactivity.id}}">{{typeactivity.type}}</option>
+                                {% for item in type_activity %}
+                                    {% if item.id != typeactivity.id %}
+                                    <option value="{{item.id}}">{{item.type}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                  <div class="form-group">
+                    <label for="name">Type</label>
+                    <input type="text" class="form-control" id="name" name="type" placeholder="Type" required>
+                  </div>
+                  
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+                {% if warning %}
+                <div class="alert alert-warning">
+                    {{ warning }}
+                </div>
+                {% endif %}
+                
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listActivities' typeactivity.id %}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

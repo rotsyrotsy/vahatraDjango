@@ -171,6 +171,47 @@
                 </div>
               </div>
               {% endif %}
+
+              <div class="row">
+                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                  <h4 class="card-title">{{type.type|title}} Sub-Activities</h4>
+                  <a href="{% url 'admin:addTypeSubActivity' type.id %}" type="button" class="btn btn-info">
+                    <i class="ti-plus"></i> Add new sub-activity
+                  </a>
+                </div>
+              </div>
+              
+              <div class="table-responsive pt-3">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr class="text-center">
+                      <th>
+                        Title
+                      </th>
+                      <th>
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in type.typesubactivity_set.all %}
+                    <tr>
+                      <td>
+                        {{item.type|capfirst}}
+                      </td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deleteTypeSubActivity('{{item.type|escapejs}}','{{item.id}}')" >
+                            <i class="ti-trash"></i>
+                          </button>
+                          <button onclick="location.href='{% url 'admin:updateTypeSubActivity' item.id %}'" type="button" class="btn btn-inverse-warning btn-icon" id="btn-change">
+                            <i class="ti-loop"></i>
+                          </button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
               
           </div>
         </div>
@@ -212,6 +253,32 @@
               type:"POST",
               data: {
                   'id_activity': id,
+                  'csrfmiddlewaretoken': '{{ csrf_token }}',
+              },
+              success:function(data){
+                $('#exampleModal').modal('hide');
+                location.reload(true);
+                // console.log(data['success'])
+              },
+              error:function(data){
+                  // console.log('error')
+                  // console.log(data)
+              }
+          });
+    });
+  }
+
+  function deleteTypeSubActivity(title,id){
+    $('#exampleModalLabel').text('Delete '+"{{type.type}}"+' sub-activity  : '+title);
+
+    $('#confirmDelete').click(function() {
+    
+      $.ajax({
+              url : "{% url 'admin:deleteTypeSubActivity' %}",
+              dataType: 'JSON',
+              type:"POST",
+              data: {
+                  'id_subactivity': id,
                   'csrfmiddlewaretoken': '{{ csrf_token }}',
               },
               success:function(data){

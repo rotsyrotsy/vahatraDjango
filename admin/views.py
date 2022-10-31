@@ -640,11 +640,11 @@ def updateActivity(request, activity_id=1):
                     valueInst = request.POST.get('fsidinst'+str(i))
                     valueDept = request.POST.get('fsiddept'+str(i))
                     if valueInst != "":
-                        print('fsidinst'+str(i)+" = "+valueInst)
+                        # print('fsidinst'+str(i)+" = "+valueInst)
                         setattr(fs, 'idinst',
                                 Institution.objects.get(pk=valueInst))
                     if valueDept != "":
-                        print('fsiddept'+str(i)+" = "+valueDept)
+                        # print('fsiddept'+str(i)+" = "+valueDept)
                         setattr(fs, 'iddept',
                                 Department.objects.get(pk=valueDept))
                     fs.save()
@@ -657,7 +657,7 @@ def updateActivity(request, activity_id=1):
         if countChange > 0:
             context["success"] = "Activity updated successfully."
         else:
-            context["success"] = "There is nothing to change."
+            context["error"] = "There is nothing to change."
 
     return render(request, "admin/updateActivity.html", context)
 
@@ -878,7 +878,7 @@ def updatePublication(request, pub_id=1):
         if countChange > 0:
             context["success"] = "Publication updated successfully."
         else:
-            context["success"] = "There is nothing to change."
+            context["error"] = "There is nothing to change."
 
     return render(request, "admin/updatePublication.html", context)
 
@@ -995,7 +995,7 @@ def addMember(request,typemember_id=1):
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
                 w,h = get_image_dimensions(imageFile)
-                print(str(w)+", "+str(h))
+                # print(str(w)+", "+str(h))
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
                     return render(request, "admin/addMember.html", context)
@@ -1074,7 +1074,7 @@ def updateMember(request,member_id=None):
             if request.FILES.getlist('image'):
                 imageFile = request.FILES.getlist('image')[0]
                 w,h = get_image_dimensions(imageFile)
-                print(w,h)
+                # print(w,h)
                 if w!=h:
                     context['imageError']="Recommended size : 1080 x 1080 pixels"
                     return render(request, "admin/updateMember.html", context)
@@ -1119,7 +1119,7 @@ def updateMember(request,member_id=None):
         if countChange > 0:
             context["success"] = "Member's informations updated successfully."
         else:
-            context["success"] = "There is nothing to change."
+            context["error"] = "There is nothing to change."
             
     return render(request, "admin/updateMember.html", context)
 
@@ -1276,7 +1276,7 @@ def updatePartner(request,partner_id=None):
         if countChange > 0:
             context["success"] = "Member's informations updated successfully."
         else:
-            context["success"] = "There is nothing to change."
+            context["error"] = "There is nothing to change."
             
     return render(request, "admin/updatePartner.html", context)
 
@@ -1392,7 +1392,7 @@ def updateImage(request,image_id=1):
             context["success"] = "Image's informations updated successfully."            
             image.save()
         else:
-            context["success"] = "There is nothing to change."
+            context["error"] = "There is nothing to change."
             
     return render(request, "admin/updateImage.html", context)
 
@@ -1419,40 +1419,79 @@ def deleteImage(request):
     else:
         return HttpResponseBadRequest('Invalid request')
 
-# STATISTICS-------------------------
-
-def groupByYear(queryset, limit):
-    qyeryset_year = queryset.annotate(year=ExtractYear('date')).values('year').annotate(count=Count('id')).values('year','count')
-    list=[]
-    for key, value in groupby(qyeryset_year, key = itemgetter('year')):
-        dicti={
-            'year':key,
-            'count':sum(val['count'] for val in value)
-        }
-        list.append(dicti)
-        
-    ten = len(list)-limit
-    return list[ten:]
-
-
-def statisticActivities(request):
-    
+def updateTypeSubActivity(request,subactivity_id=None):
     checkIfAdmin(request)
-
     context = {
         "type_publication": type_publication,
         "type_activity": type_activity,
         "type_member": type_member,
     }
-    context['global'] = Typeactivity.objects.annotate(num_activity=Count('activity'))
+    subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)
+    context['subactivity']=subactivity
 
-    if  request.method == 'POST':
-        if 'idtypeactivity' in request.POST:
-            typeactivity = Typeactivity.objects.get(pk=request.POST['idtypeactivity'])
-            context['typeactivity']=typeactivity
-             
-            activities = Activity.objects.filter(idtypeactivity=typeactivity.id).order_by('date')
+    countChangeSubActivity = 0
+    if request.method == 'POST':
+        if subactivity.idtypeactivity is None or request.POST['idtypeactivity'] != subactivity.idtypeactivity.id :
+            subactivity.idtypeactivity = Typeactivity.objects.get(
+                pk=request.POST['idtypeactivity'])
+            countChangeSubActivity += 1
+        params = ['type']
+        countChangeSubActivity += updateAttributeByRequestParams(request,params, subactivity)
+
+        if countChangeSubActivity > 0:
+            subactivity.save()
+            context['subactivity'] = subactivity
+            context["success"] = "Sub - activity updated successfully."
+        else:
+            context["error"] = "There is nothing to change."
+
+    return render(request, "admin/updateSubActivity.html", context)
+
+def deleteTypeSubActivity(request):
+    checkIfAdmin(request)
+
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method == 'POST':
+            id_subactivity = request.POST.get('id_subactivity', '')
+            try:
+                typesubactivity = Typesubactivity.objects.get(pk=id_subactivity)
+                typesubactivity.delete()
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': 'Sub-activity successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+
+def addTypeSubActivity(request,idtypeactivity=None):
+    checkIfAdmin(request)
+    context = {
+        "type_publication": type_publication,
+        "type_activity": type_activity,
+        "type_member": type_member,
+    }
+    context['typeactivity']=get_object_or_404(Typeactivity,pk=idtypeactivity)
+    if request.method == 'POST':
+        if request.POST['idtypeactivity'] == "" or request.POST['type'] == "":
+            context["error"] = "Fields 'Type of activity' and 'Type' are required."
+            return render(request, "admin/addSubActivity.html", context)
+
+        typeactivity = Typeactivity.objects.get(
+            pk=request.POST['idtypeactivity'])
+        
+        
+        typesubactivity = Typesubactivity.objects.filter(type=str(request.POST['type']), idtypeactivity=typeactivity.id)
+        if typesubactivity.count()>0:
+            context["warning"] = "This institution is already registered."
+        else:
+            nextId = get_next_value("typesubactivity")
+            nextId = "SA"+str(nextId)
+            print(nextId)
+            newTypeSubActivity = Typesubactivity(id=nextId, type=request.POST['type'], idtypeactivity=typeactivity)
+            newTypeSubActivity.save()
+            context["success"] = "New "+typeactivity.type+" sub-activity inserted successfully."
             
-            context['peryear']=groupByYear(activities,10)
-            
-    return render(request, "admin/statisticActivities.html", context)
+    return render(request, "admin/addSubActivity.html", context)
