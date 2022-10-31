@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
-from admin.models import Administrator
+from admin.general import updateAttributeByRequestParams,setAttributeByRequestParams
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Min, Max,Q,Count, Case, Value, When
@@ -20,11 +20,6 @@ from itertools import groupby
 from operator import itemgetter
 from django.conf import settings
 from django.contrib.auth.models import User
-
-type_activity = Typeactivity.objects.all()
-type_publication = Typepublication.objects.all()
-type_member = Typemember.objects.all()
-count_login = 1
 
 def saveChanges(request):
     if not checkIfAdmin(request): raise PermissionDenied()
@@ -46,9 +41,9 @@ def checkIfAdmin(request):
 
 def index(request):
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     checkIfAdmin(request)
 
@@ -189,9 +184,9 @@ def reset_password(request):
 def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
     checkIfAdmin(request)
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     type = get_object_or_404(Typeactivity, pk=activity_id)
@@ -288,36 +283,13 @@ def deleteActivity(request):
     else:
         return HttpResponseBadRequest('Invalid request')
 
-def setAttributeByRequestParams(request,params,model):
-    values = [request.POST.get(p) for p in params]
-    i = 0
-    for value in values:
-        if value != "":
-            setattr(model, params[i], value.strip())
-        i += 1
-
-def updateAttributeByRequestParams(request,params,model):
-    countChange = 0
-    values = [request.POST.get(p) for p in params]
-    i = 0
-    for value in values:
-        # if getattr(model, params[i]) is None or value != str(getattr(model, params[i])):
-        if value == "":
-            value = None
-        else:
-            value = value.strip()
-        setattr(model, params[i], value)
-        countChange += 1
-        i += 1
-    return countChange
-
 def addActivity(request, idtypeactivity='A1'):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     type = get_object_or_404(Typeactivity, pk=idtypeactivity)
@@ -419,9 +391,9 @@ def addPerson(request):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     if request.method == "GET":
@@ -469,9 +441,9 @@ def addInstitution(request):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     if request.method == 'POST':
         inst = Institution.objects.filter(Q(name=str(request.POST['name'])))
@@ -490,9 +462,9 @@ def addLocation(request):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     if request.method == 'POST':
         if request.POST['name'] == "" or request.POST['longitude'] == "" or request.POST['latitude'] == "":
@@ -514,9 +486,9 @@ def updateActivity(request, activity_id=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     activity = get_object_or_404(Activity, pk=activity_id)
@@ -668,9 +640,9 @@ def listPublications(request, pub_id=1, page=1, year=None):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     type = get_object_or_404(Typepublication, pk=pub_id)
@@ -717,9 +689,9 @@ def addPublication(request, idtypepublication=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     type = get_object_or_404(Typepublication, pk=idtypepublication)
@@ -794,9 +766,9 @@ def updatePublication(request, pub_id=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     publication = get_object_or_404(Publication, pk=pub_id)
@@ -918,9 +890,9 @@ def listMembers(request,typemember_id=2,page=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     type = get_object_or_404(Typemember, pk=typemember_id)
     context["type"] = type
@@ -956,9 +928,9 @@ def addMember(request,typemember_id=1):
     checkIfAdmin(request)
     
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     type = get_object_or_404(Typemember, pk=typemember_id)
     context["type"] = type
@@ -1038,9 +1010,9 @@ def updateMember(request,member_id=None):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     member = get_object_or_404(Member, pk=member_id)
     context['member'] = member
@@ -1150,9 +1122,9 @@ def listPartners(request,page=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
 
     list = Partner.objects.all()
@@ -1178,9 +1150,9 @@ def addPartner(request):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     if request.method=="POST":
         if request.POST['name'] == "" or request.POST['link'] == "":
@@ -1232,9 +1204,9 @@ def updatePartner(request,partner_id=None):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     partner = get_object_or_404(Partner,pk=partner_id)
     context['partner']=partner
@@ -1307,9 +1279,9 @@ def listImages(request,image_type=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     type_image = Imagetype.objects.all()
     context['type_image']=type_image
@@ -1321,9 +1293,9 @@ def addImage(request,image_type=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     type_image = Imagetype.objects.all()
     context['type_image']=type_image
@@ -1360,9 +1332,9 @@ def updateImage(request,image_id=1):
     checkIfAdmin(request)
 
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     type_image = Imagetype.objects.all()
     context['type_image']=type_image
@@ -1422,9 +1394,9 @@ def deleteImage(request):
 def updateTypeSubActivity(request,subactivity_id=None):
     checkIfAdmin(request)
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)
     context['subactivity']=subactivity
@@ -1469,9 +1441,9 @@ def deleteTypeSubActivity(request):
 def addTypeSubActivity(request,idtypeactivity=None):
     checkIfAdmin(request)
     context = {
-        "type_publication": type_publication,
-        "type_activity": type_activity,
-        "type_member": type_member,
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
     }
     context['typeactivity']=get_object_or_404(Typeactivity,pk=idtypeactivity)
     if request.method == 'POST':
@@ -1489,9 +1461,212 @@ def addTypeSubActivity(request,idtypeactivity=None):
         else:
             nextId = get_next_value("typesubactivity")
             nextId = "SA"+str(nextId)
-            print(nextId)
             newTypeSubActivity = Typesubactivity(id=nextId, type=request.POST['type'], idtypeactivity=typeactivity)
             newTypeSubActivity.save()
             context["success"] = "New "+typeactivity.type+" sub-activity inserted successfully."
             
     return render(request, "admin/addSubActivity.html", context)
+
+def listType(request):
+    checkIfAdmin(request)
+    context = {
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
+    }
+    return context
+
+def addType(request,model,modelstr,params=None,nextId=None):
+    checkIfAdmin(request)
+    context = {
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
+    }
+    
+    if request.method=="POST":
+        if request.POST['type'] == "":
+            context["error"] = "Field 'Type' is required."
+        else:
+            typemodel = model.objects.filter(type=str(request.POST['type']))
+            if params:
+                setAttributeByRequestParams(request,params,typemodel)
+            if typemodel.count()>0:
+                context["warning"] = "This "+modelstr+"  type is already registered."
+            else:
+                newType = model(type=request.POST['type'])
+                if nextId:
+                    newType = model(id=nextId, type=request.POST['type'])
+                newType.save()
+                context["success"] = "New "+modelstr+" type inserted successfully."
+
+    return context
+
+def updateType(request,id, model, modelstr):
+    checkIfAdmin(request)
+    context = {
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
+    }
+    type = get_object_or_404(model,pk=id)
+    context['type']=type
+
+    countChanges = 0
+    if request.method == 'POST':
+        params = ['type']
+        countChanges += updateAttributeByRequestParams(request,params, type)
+
+        if countChanges > 0:
+            type.save()
+            context['type'] = type
+            context["success"] = modelstr+" type updated successfully."
+        else:
+            context["error"] = "There is nothing to change."
+
+    return context
+
+def deleteType(request,type_id, model, modelstr):
+    checkIfAdmin(request)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method == 'POST':
+            type_id = request.POST.get(type_id, '')
+            try:
+                type = model.objects.get(pk=type_id)
+                type.delete()
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': modelstr+' successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+
+def listTypeActivity(request):
+    context = listType(request)
+    return render(request,  "admin/listTypeActivity.html", context)
+
+def addTypeActivity(request):
+    nextId = get_next_value("typeactivity")
+    nextId = "A"+str(nextId)
+    context = addType(request,Typeactivity,'activity',None,nextId)
+    return render(request, "admin/addTypeActivity.html", context)
+
+def updateTypeActivity(request,type_id=None):
+    context = updateType(request,type_id,Typeactivity,'Activity')
+    return render(request, "admin/updateTypeActivity.html", context)
+
+def deleteTypeActivity(request):
+    return deleteType(request,'type_id',Typeactivity,'Activity')
+
+def listTypePublication(request):
+    context = listType(request)
+    return render(request,  "admin/listTypePublication.html", context)
+
+def addTypePublication(request):
+    context = addType(request,Typepublication,'publication')
+    return render(request, 'admin/addTypePublication.html', context)
+
+def updateTypePublication(request,type_id=None):
+    context = updateType(request,type_id,Typepublication,'publication')
+    return render(request, "admin/updateTypePublication.html", context)
+
+def deleteTypePublication(request):
+    return deleteType(request,'type_id',Typepublication,'publication')
+
+
+def listTypeMember(request):
+    context = listType(request)
+    return render(request,  "admin/listTypeMember.html", context)
+
+def addTypeMember(request):
+    checkIfAdmin(request)
+    context = {
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
+    }
+
+    if request.method == 'POST':
+        if request.POST['type'] == "":
+            context["error"] = "Fields 'Type' is required."
+            return render(request, "admin/addMember.html", context)
+        else:
+            typemember = Typemember.objects.filter(type=str(request.POST['type']))
+            if typemember.count()>0:
+                context["warning"] = "This member  type is already registered."
+            else:
+                if request.FILES:
+                    files = request.FILES.getlist('files')
+                    images = ''
+                    for f in files:
+                        name = handle_uploaded_file(f, 'images/members')
+                        images += name+","
+                # remove the last character of string images ','
+                newType = Typemember(type=request.POST['type'],description=request.POST['description'],image=images[:-1])
+                newType.save()
+                context["success"] = "New member type inserted successfully."
+
+    return render(request, "admin/addTypeMember.html", context)
+
+def updateTypeMember(request,type_id=None):
+    checkIfAdmin(request)
+    context = {
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
+    }
+    typemember = get_object_or_404(Typemember,pk=type_id)
+    context['type']=typemember
+    context['imgs']=typemember.image.split(",")
+    countChanges = 0
+    if request.method == 'POST':
+        params = ['type','description']
+        countChanges += updateAttributeByRequestParams(request,params, typemember)
+
+        images = ''
+        if request.FILES:
+            files = request.FILES.getlist('files')
+            for f in files:
+                name = handle_uploaded_file(f, 'images/members')
+                images += name+","
+            countChanges += 1
+        images = images[:-1]
+        if len(request.POST.getlist("supprImage")) > 0:
+            imgs = request.POST.getlist("supprImage")
+            for img in imgs:
+                typemember.image = typemember.image.replace(img,'')
+                if typemember.image!="" and images !="":
+                    images += ','+typemember.image
+                elif typemember.image!="" and images =="":
+                    images += typemember.image                   
+        
+                # delete_file(img, 'images/members')
+            countChanges += 1
+        
+        print(images)
+
+        if countChanges > 0:
+            # typemember.save()
+            context['type'] = typemember
+            context["success"] = "Member type updated successfully."
+        else:
+            context["error"] = "There is nothing to change."
+
+    return render(request, "admin/updateTypeMember.html", context)
+
+def deleteTypeMember(request):
+    return deleteType(request,'type_id',Typepublication,'publication')
+
+
+def listTypePhoto(request):
+    checkIfAdmin(request)
+    context = {
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
+    }
+    context['type_image']=Imagetype.objects.all()
+    return render(request, "admin/listTypePhoto.html", context)

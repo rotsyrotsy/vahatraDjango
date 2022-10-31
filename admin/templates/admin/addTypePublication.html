@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Add new <strong>publication</strong> type </h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:addTypePublication' %}"  method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Type</label>
+                        <input type="text" class="form-control" id="name" name="type" placeholder="Type" required>
+                    </div>
+                  
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+                {% if warning %}
+                <div class="alert alert-warning">
+                    {{ warning }}
+                </div>
+                {% endif %}
+                
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listTypePublication'%}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

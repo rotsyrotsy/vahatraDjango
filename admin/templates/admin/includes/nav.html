@@ -15,6 +15,7 @@
         </a>
         <div class="collapse" id="activity">
           <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listTypeActivity'%}">CRUD type activity</a></li>
             {% for item in type_activity %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listActivities' item.id %}">{{item.type|capfirst}}</a></li>
             {% endfor %}
@@ -29,6 +30,7 @@
         </a>
         <div class="collapse" id="publications">
           <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listTypePublication'%}">CRUD type publication</a></li>
             {% for item in type_publication %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listPublications' item.id %}">{{item.type|capfirst}}</a></li>
             {% endfor %}
@@ -43,7 +45,7 @@
         </a>
         <div class="collapse" id="members">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="#"> Type of member </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listTypeMember'%}">CRUD type member</a></li>
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addPerson' %}"> Add New Person </a></li>
             {% for item in type_member %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listMembers' item.id %}">{{item.type|capfirst}}</a></li>
@@ -65,10 +67,17 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-priority="1" href="{% url 'admin:listImages' %}">
+        <a class="nav-link" data-toggle="collapse" href="#photos" aria-expanded="false" aria-controls="photos">
           <i class="icon-contract menu-icon"></i>
           <span class="menu-title">Photos</span>
+          <i class="menu-arrow"></i>
         </a>
+        <div class="collapse" id="photos">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listTypePhoto'%}">CRUD type photo</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listImages' %}"> Photos </a></li>
+          </ul>
+        </div>
       </li>
     </ul>
   </nav>
