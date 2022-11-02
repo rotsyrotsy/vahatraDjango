@@ -1,9 +1,18 @@
+from django.utils import translation 
+from django.conf import settings
 
 def setAttributeByRequestParams(request,params,model):
+    print(params)
     values = [request.POST.get(p) for p in params]
     i = 0
     for value in values:
         if value != "":
+            current = params[i]+'_'+translation.get_language()
+            for code,lang in settings.LANGUAGES:
+                other = params[i]+'_'+code
+                if current != other:
+                    if hasattr(model,other):
+                        setattr(model, other, value.strip())
             setattr(model, params[i], value.strip())
         i += 1
 

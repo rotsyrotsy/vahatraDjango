@@ -145,9 +145,7 @@ def multicriteriasearch(request):
 def download_pdf_file(request, location='',filename=''):
     import os
     import mimetypes
-    print(filename)
     if filename != '':
-        print(filename)
         # Define Django project base directory
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         # Define the full file path

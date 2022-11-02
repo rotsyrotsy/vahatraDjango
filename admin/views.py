@@ -1,13 +1,14 @@
-from django.shortcuts import get_object_or_404, render,redirect
+from django.utils import timezone
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from admin.general import updateAttributeByRequestParams,setAttributeByRequestParams
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
-from django.db.models import Min, Max,Q,Count, Case, Value, When
+from django.db.models import Min, Max,Q
 from sequences import get_next_value
-from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember
+from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember, Typememberimage
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 
 from django.core.files.images import get_image_dimensions
@@ -15,9 +16,6 @@ from django.core.exceptions import PermissionDenied
 from vahatraDjango.collectstatic import  Command
 from vahatraDjango.functions import *
 from django.contrib.auth import authenticate,login,logout
-from django.db.models.functions import ExtractYear
-from itertools import groupby
-from operator import itemgetter
 from django.conf import settings
 from django.contrib.auth.models import User
 
@@ -192,22 +190,17 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
     type = get_object_or_404(Typeactivity, pk=activity_id)
     context["type"] = type
 
-    list = Activity.objects.filter(idtypeactivity_id=activity_id)
+    list = Activity.objects.filter(idtypeactivity_id=type.id)
     if subactivity_id is not None:
         subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)
+        list = list.filter(idtypesubactivity_id = subactivity.id)
         if year is not None:
-            list = Activity.objects.filter(
-                idtypeactivity_id=type.id, idtypesubactivity_id = subactivity.id, date__year=year)
+            list = list.filter(date__year=year)
             context["year"] = year
-        else:
-            list = Activity.objects.filter(
-                idtypeactivity_id=type.id, idtypesubactivity_id = subactivity.id)
-
         context["subactivity"] = subactivity
     else:
         if year is not None:
-            list = Activity.objects.filter(
-                idtypeactivity_id=activity_id, date__year=year)
+            list = list.filter(date__year=year)
             context["year"] = year
 
     if request.method == 'GET':
@@ -240,11 +233,14 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
     else:
         context['activities']=list
 
-    min = Activity.objects.filter(
-        idtypeactivity=activity_id).aggregate(Min('date'))
-    max = Activity.objects.filter(
-        idtypeactivity=activity_id).aggregate(Max('date'))
-    context["years"] = range(min['date__min'].year, max['date__max'].year+1)
+    if list.count()>0:
+        min = Activity.objects.filter(
+            idtypeactivity=activity_id).aggregate(Min('date'))
+        max = Activity.objects.filter(
+            idtypeactivity=activity_id).aggregate(Max('date'))
+        context["years"] = range(min['date__min'].year, max['date__max'].year+1)
+    else:
+        context["years"] =range(timezone.now().year,timezone.now().year)
     
 
     return render(request, "admin/listActivities.html", context)
@@ -260,29 +256,34 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
 #                 path = 'static/images/site/'+renameFile(visit.idactivity.idtypeactivity.type)+'/'+toSlug(visit.idtypesubactivity.type)+'/'
 #                 shutil.move(path+activityimage.image, source+activityimage.image)
 
-
-def deleteActivity(request):
+def ajaxDelete(request,themodel,modelname,imgs=None,path=None):
     checkIfAdmin(request)
-
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
         if request.method == 'POST':
-            id_activity = request.POST.get('id_activity', '')
             try:
-                activity = Activity.objects.get(pk=id_activity)
-                for activityimage in activity.activityimage_set.all():
-                    if activityimage.image is not None:
-                        delete_file(activityimage.image, 'images/site/'+renameFile(activity.idtypeactivity.type))
-                activity.delete()
+                if imgs and path:
+                    if type(imgs) is str:
+                        delete_file(imgs, path)
+                    else:
+                        for img in imgs:
+                            if img is not None:
+                                delete_file(img, path)
+                themodel.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
             else:
-                return JsonResponse({'success': 'Activity successfully deleted.'})
+                return JsonResponse({'success': modelname+' successfully deleted.'})
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
 
+def deleteActivity(request):
+    id_activity = request.POST.get('id_activity', '')
+    activity = Activity.objects.get(pk=id_activity)
+    return ajaxDelete(request,activity,'Activity',activity.activityimage_set.all().values_list('image',flat=True),'images/site/'+renameFile(activity.idtypeactivity.type))
+    
 def addActivity(request, idtypeactivity='A1'):
     checkIfAdmin(request)
 
@@ -321,10 +322,9 @@ def addActivity(request, idtypeactivity='A1'):
                 return render(request, "admin/addActivity.html", context)
 
         activity = Activity(idtypeactivity=typeactivity,
-                            title=request.POST['title'],
                             idtypesubactivity = typesubactivity)
 
-        names = ['description', 'date', 'note']
+        names = ['title','description', 'date', 'note']
         setAttributeByRequestParams(request,names, activity)
         
 
@@ -418,25 +418,10 @@ def addPerson(request):
     return render(request, "admin/addPerson.html", context)
 
 def deletePerson(request):
-    checkIfAdmin(request)
-
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        if request.method=="POST": 
-            id_person = request.POST.get('id_person', '')
-            try:
-                person = Person.objects.get(pk=id_person)
-                person.delete()
-
-            except KeyError:
-                return HttpResponseBadRequest('Error')
-            else:
-                return JsonResponse({'success': 'Publication successfully deleted.'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
-
+    id_person = request.POST.get('id_person', '')
+    person = Person.objects.get(pk=id_person)
+    return ajaxDelete(request,person,'Person')
+    
 def addInstitution(request):
     checkIfAdmin(request)
 
@@ -651,7 +636,7 @@ def listPublications(request, pub_id=1, page=1, year=None):
     list = Publication.objects.filter(idtype=pub_id)
 
     if year is not None:
-        list = Publication.objects.filter(idtype=1, date__year=year)
+        list = list.filter(date__year=year)
         context["year"] = year
 
     if request.method == 'GET':
@@ -672,15 +657,18 @@ def listPublications(request, pub_id=1, page=1, year=None):
     list = list.order_by('date')
 
     page_number=0
+    yearsrange = range(timezone.now().year,timezone.now().year)
     if (list.count() > 0):
         dictpagination = pagination(page, list, 8, '-date')
         page_number = dictpagination['page_number']
         publications = dictpagination['list']
         context["publications"] = publications
 
-    min = Publication.objects.filter(idtype=pub_id).aggregate(Min('date'))
-    max = Publication.objects.filter(idtype=pub_id).aggregate(Max('date'))
-    context["years"] = range(min['date__min'].year, max['date__max'].year+1)
+        min = Publication.objects.filter(idtype=pub_id).aggregate(Min('date'))
+        max = Publication.objects.filter(idtype=pub_id).aggregate(Max('date'))
+        yearsrange = range(min['date__min'].year, max['date__max'].year+1)
+
+    context["years"] = yearsrange
     context["page_number"] = range(1, page_number+1)
 
     return render(request, "admin/listPublications.html", context)
@@ -708,11 +696,11 @@ def addPublication(request, idtypepublication=1):
             pk=request.POST['idtype'])
         context["type"] = typepub
 
-        publication = Publication(idtype=typepub, title=request.POST['title'])
+        publication = Publication(idtype=typepub)
 
         
 
-        names = ['description', 'date']
+        names = ['title','description', 'date']
         setAttributeByRequestParams(request,names, publication)
         
         if request.FILES:
@@ -857,23 +845,23 @@ def updatePublication(request, pub_id=1):
 
 def deletePublication(request, pub_id=None):
     checkIfAdmin(request)
-
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
     if is_ajax:
         if request.method == 'POST':
             id_publication = request.POST.get('id_pub', '')
             try:
                 publication = Publication.objects.get(pk=id_publication)
-                if publication.imagefront:
-                    delete_file(publication.imagefront, 'images/publication')
-                if publication.imageback:
-                    delete_file(publication.imageback, 'images/publication')
 
                 pubDetails = Publicationdetail.objects.filter(
                     idpublication=publication.id)
                 for det in pubDetails:
                     delete_file(det.pdf, 'pdf/' + renameFile(publication.idtype.type_en))
+                    det.delete()
+                
+                if publication.imagefront:
+                    delete_file(publication.imagefront, 'images/publication')
+                if publication.imageback:
+                    delete_file(publication.imageback, 'images/publication')
 
                 publication.delete()
 
@@ -1096,27 +1084,10 @@ def updateMember(request,member_id=None):
     return render(request, "admin/updateMember.html", context)
 
 def deleteMember(request, member_id=None):
-    checkIfAdmin(request)
-
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        if request.method == 'POST':
-            member_id = request.POST.get('member_id', '')
-            try:
-                member = Member.objects.get(pk=member_id)
-                if member.image:
-                    delete_file(member.image, 'images/members')
-                member.delete()
-
-            except KeyError:
-                return HttpResponseBadRequest('Error')
-            else:
-                return JsonResponse({'success': 'Publication successfully deleted.'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
-
+    member_id = request.POST.get('member_id', '')
+    member = Member.objects.get(pk=member_id)
+    return ajaxDelete(request,member,'Member',member.image,'images/members')
+    
 # ---------------------------------------PARTNERS------------------------------------------
 def listPartners(request,page=1):
     checkIfAdmin(request)
@@ -1253,27 +1224,10 @@ def updatePartner(request,partner_id=None):
     return render(request, "admin/updatePartner.html", context)
 
 def deletePartner(request,partner_id=None):
-    checkIfAdmin(request)
-
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        if request.method=="POST": 
-            partner_id = request.POST.get('partner_id', '')
-            try:
-                partner = Partner.objects.get(pk=partner_id)
-                if partner.logo:
-                    delete_file(partner.logo, 'images/partners')
-                partner.delete()
-
-            except KeyError:
-                return HttpResponseBadRequest('Error')
-            else:
-                return JsonResponse({'success': 'Publication successfully deleted.'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
-
+    partner_id = request.POST.get('partner_id', '')
+    partner = Partner.objects.get(pk=partner_id)
+    return ajaxDelete(request,partner,'Partner',partner.logo,'images/partners')
+    
 # IMAGES--------------------------------
 def listImages(request,image_type=1):
     checkIfAdmin(request)
@@ -1309,8 +1263,6 @@ def addImage(request,image_type=1):
         typeimage = Imagetype.objects.get(pk=request.POST['idtype'])
         context["imagetype"] = typeimage
         
-
-
         if not request.FILES:
             context["error"] = "You must upload photo."
             return render(request, "admin/addImage.html", context)
@@ -1369,28 +1321,11 @@ def updateImage(request,image_id=1):
     return render(request, "admin/updateImage.html", context)
 
 def deleteImage(request):
-    checkIfAdmin(request)
-
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        if request.method=="POST": 
-            id_image = request.POST.get('id_image', '')
-            try:
-                image = Image.objects.get(pk=id_image)
-                if image.name:
-                    path = renameFile(image.idtype.type)
-                    delete_file(image.name, 'images/'+path)
-                image.delete()
-
-            except KeyError:
-                return HttpResponseBadRequest('Error')
-            else:
-                return JsonResponse({'success': 'Publication successfully deleted.'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
-
+    id_image = request.POST.get('id_image', '')
+    image = Image.objects.get(pk=id_image)
+    path = renameFile(image.idtype.type)
+    return ajaxDelete(request,image,'Image',image.name,'images/'+path)
+    
 def updateTypeSubActivity(request,subactivity_id=None):
     checkIfAdmin(request)
     context = {
@@ -1420,23 +1355,9 @@ def updateTypeSubActivity(request,subactivity_id=None):
     return render(request, "admin/updateSubActivity.html", context)
 
 def deleteTypeSubActivity(request):
-    checkIfAdmin(request)
-
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        if request.method == 'POST':
-            id_subactivity = request.POST.get('id_subactivity', '')
-            try:
-                typesubactivity = Typesubactivity.objects.get(pk=id_subactivity)
-                typesubactivity.delete()
-            except KeyError:
-                return HttpResponseBadRequest('Error')
-            else:
-                return JsonResponse({'success': 'Sub-activity successfully deleted.'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
+    id_subactivity = request.POST.get('id_subactivity', '')
+    typesubactivity = Typesubactivity.objects.get(pk=id_subactivity)
+    return ajaxDelete(request,typesubactivity,'Sub-activity')
 
 def addTypeSubActivity(request,idtypeactivity=None):
     checkIfAdmin(request)
@@ -1476,7 +1397,7 @@ def listType(request):
     }
     return context
 
-def addType(request,model,modelstr,params=None,nextId=None):
+def addType(request,model,modelstr,params=['type'],nextId=None):
     checkIfAdmin(request)
     context = {
         "type_publication": Typepublication.objects.all(),
@@ -1489,14 +1410,13 @@ def addType(request,model,modelstr,params=None,nextId=None):
             context["error"] = "Field 'Type' is required."
         else:
             typemodel = model.objects.filter(type=str(request.POST['type']))
-            if params:
-                setAttributeByRequestParams(request,params,typemodel)
             if typemodel.count()>0:
                 context["warning"] = "This "+modelstr+"  type is already registered."
             else:
-                newType = model(type=request.POST['type'])
+                newType = model()
+                setAttributeByRequestParams(request,params,newType)
                 if nextId:
-                    newType = model(id=nextId, type=request.POST['type'])
+                    newType.id = nextId
                 newType.save()
                 context["success"] = "New "+modelstr+" type inserted successfully."
 
@@ -1526,24 +1446,6 @@ def updateType(request,id, model, modelstr):
 
     return context
 
-def deleteType(request,type_id, model, modelstr):
-    checkIfAdmin(request)
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        if request.method == 'POST':
-            type_id = request.POST.get(type_id, '')
-            try:
-                type = model.objects.get(pk=type_id)
-                type.delete()
-            except KeyError:
-                return HttpResponseBadRequest('Error')
-            else:
-                return JsonResponse({'success': modelstr+' successfully deleted.'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
-
 def listTypeActivity(request):
     context = listType(request)
     return render(request,  "admin/listTypeActivity.html", context)
@@ -1551,7 +1453,7 @@ def listTypeActivity(request):
 def addTypeActivity(request):
     nextId = get_next_value("typeactivity")
     nextId = "A"+str(nextId)
-    context = addType(request,Typeactivity,'activity',None,nextId)
+    context = addType(request,Typeactivity,'activity',['type'],nextId)
     return render(request, "admin/addTypeActivity.html", context)
 
 def updateTypeActivity(request,type_id=None):
@@ -1559,7 +1461,9 @@ def updateTypeActivity(request,type_id=None):
     return render(request, "admin/updateTypeActivity.html", context)
 
 def deleteTypeActivity(request):
-    return deleteType(request,'type_id',Typeactivity,'Activity')
+    type_id = request.POST.get('type_id', '')
+    model = Typeactivity.objects.get(pk=type_id)
+    return ajaxDelete(request,model,'Activity type')
 
 def listTypePublication(request):
     context = listType(request)
@@ -1574,7 +1478,29 @@ def updateTypePublication(request,type_id=None):
     return render(request, "admin/updateTypePublication.html", context)
 
 def deleteTypePublication(request):
-    return deleteType(request,'type_id',Typepublication,'publication')
+    type_id = request.POST.get('type_id', '')
+    model = Typepublication.objects.get(pk=type_id)
+    return ajaxDelete(request,model,'Publication type')
+
+
+def listTypeImage(request):
+    context = listType(request)
+    context['type_image']=Imagetype.objects.all()
+    return render(request,  "admin/listTypeImage.html", context)
+
+
+def addTypeImage(request):
+    context = addType(request,Imagetype,'image')
+    return render(request, 'admin/addTypeImage.html', context)
+
+def updateTypeImage(request,type_id=None):
+    context = updateType(request,type_id,Imagetype,'image')
+    return render(request, "admin/updateTypeImage.html", context)
+
+def deleteTypeImage(request):
+    type_id = request.POST.get('type_id', '')
+    model = Imagetype.objects.get(pk=type_id)
+    return ajaxDelete(request,model,'Image type')
 
 
 def listTypeMember(request):
@@ -1598,15 +1524,15 @@ def addTypeMember(request):
             if typemember.count()>0:
                 context["warning"] = "This member  type is already registered."
             else:
+                newType = Typemember(type=request.POST['type'],description=request.POST['description'])
+                newType.save()
                 if request.FILES:
                     files = request.FILES.getlist('files')
-                    images = ''
                     for f in files:
                         name = handle_uploaded_file(f, 'images/members')
-                        images += name+","
-                # remove the last character of string images ','
-                newType = Typemember(type=request.POST['type'],description=request.POST['description'],image=images[:-1])
-                newType.save()
+                        img = Typememberimage(image=name,idtypemember=newType)
+                        img.save()
+                
                 context["success"] = "New member type inserted successfully."
 
     return render(request, "admin/addTypeMember.html", context)
@@ -1620,36 +1546,30 @@ def updateTypeMember(request,type_id=None):
     }
     typemember = get_object_or_404(Typemember,pk=type_id)
     context['type']=typemember
-    context['imgs']=typemember.image.split(",")
+    context['imgs']=typemember.typememberimage_set.all()
     countChanges = 0
     if request.method == 'POST':
         params = ['type','description']
         countChanges += updateAttributeByRequestParams(request,params, typemember)
 
-        images = ''
         if request.FILES:
             files = request.FILES.getlist('files')
             for f in files:
                 name = handle_uploaded_file(f, 'images/members')
-                images += name+","
+                img = Typememberimage(image=name,idtypemember=typemember)
+                img.save()
             countChanges += 1
-        images = images[:-1]
+
         if len(request.POST.getlist("supprImage")) > 0:
             imgs = request.POST.getlist("supprImage")
-            for img in imgs:
-                typemember.image = typemember.image.replace(img,'')
-                if typemember.image!="" and images !="":
-                    images += ','+typemember.image
-                elif typemember.image!="" and images =="":
-                    images += typemember.image                   
-        
-                # delete_file(img, 'images/members')
+            for img_id in imgs:
+                image = Typememberimage.objects.get(pk=img_id)   
+                image.delete()     
+                delete_file(img, 'images/members')
             countChanges += 1
         
-        print(images)
-
         if countChanges > 0:
-            # typemember.save()
+            typemember.save()
             context['type'] = typemember
             context["success"] = "Member type updated successfully."
         else:
@@ -1658,15 +1578,7 @@ def updateTypeMember(request,type_id=None):
     return render(request, "admin/updateTypeMember.html", context)
 
 def deleteTypeMember(request):
-    return deleteType(request,'type_id',Typepublication,'publication')
-
-
-def listTypePhoto(request):
-    checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
-    context['type_image']=Imagetype.objects.all()
-    return render(request, "admin/listTypePhoto.html", context)
+    type_id = request.POST.get('type_id', '')
+    type = Typemember.objects.get(pk=type_id)
+    return ajaxDelete(request,type,'Member type',type.typememberimage_set.all().values_list('image',flat=True),'images/members')
+    

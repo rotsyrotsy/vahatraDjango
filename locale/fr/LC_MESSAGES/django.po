@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-27 15:24+0300\n"
+"POT-Creation-Date: 2022-11-02 12:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,7 @@ msgstr "Récent"
 #: .\association\templates\association\financing.html:14
 #: .\association\templates\association\gallery.html:15
 #: .\association\templates\association\includes\nav.html:6
+#: .\association\templates\association\index.html:5
 #: .\association\templates\association\members.html:15
 #: .\publications\templates\publications\index.html:28
 #: .\publications\templates\publications\search.html:15
@@ -337,7 +338,7 @@ msgstr ""
 "p>"
 
 #: .\activities\templates\activities\index.html:79
-#: .\activities\templates\activities\otherActivities.html:78
+#: .\activities\templates\activities\otherActivities.html:94
 #: .\association\templates\association\gallery.html:48
 #: .\association\templates\association\index.html:7
 msgid "Show more"
@@ -347,7 +348,8 @@ msgstr "Voir plus"
 msgid "Filter activities by year"
 msgstr "Filtrer les activités par année"
 
-#: .\activities\templates\activities\otherActivities.html:32
+#: .\activities\templates\activities\otherActivities.html:34
+#: .\activities\templates\activities\otherActivities.html:45
 #: .\association\templates\association\gallery.html:26
 msgid "All"
 msgstr "Tous"
@@ -511,21 +513,6 @@ msgid "TRUST FUND"
 msgstr "FONDS JUDICIAIRE"
 
 #: .\association\templates\association\financing.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "In order to guarantee the long-term financial viability of Vahatra we "
-#| "have followed a trust fund model. This fund is folded into the assets of "
-#| "The Field Museum of Natural History in Chicago and managed by the "
-#| "museum’s financial councilors. Each year the interest revenue earned by "
-#| "the fund is made available to Vahatra, with the appropriate year-end "
-#| "financial accounting submitted to the Field Museum.  The fund has been "
-#| "set up as “donor-restricted” under the title “Vahatra Fund.”  This "
-#| "arrangement is necessary following the IRS Code Sec. 170(a) and (c)(2). "
-#| "All donations sent to the Field Museum and earmarked for Vahatra would be "
-#| "tax-exempt in conformance with U.S. Governmental laws. Currently the "
-#| "trust fund contains about 20%% of the intended sum. For further "
-#| "information on the trust fund and possible donations, please contact Mr. "
-#| "Steven Strohmeier at"
 msgid ""
 "In order to guarantee the long-term financial viability of Vahatra we have "
 "followed a trust fund model. This fund is folded into the assets of The "
@@ -539,20 +526,7 @@ msgid ""
 "conformance with U.S. Governmental laws. Currently the trust fund contains "
 "about 20%% of the intended sum. For further information on the trust fund "
 "and possible donations, please contact Mr. Steven Strohmeier at"
-msgstr ""
-"Afin de garantir la viabilité financière à long terme de Vahatra nous avons "
-"suivi un modèle de fonds d'affectation spéciale. Ce fonds est inclus dans "
-"l'actif du Field Museum of Natural History à Chicago et est géré par les "
-"conseillers financiers du musée. Chaque année, les revenus d'intérêts gagnés "
-"par le fonds sont mis à la disposition de Vahatra, et le rapport financier "
-"annuel correspondant est soumis au Field Museum Field. Le fonds a été mis en "
-"place en tant que 'donateur-restreint' sous le titre 'Fonds Vahatra'. Cet "
-"accord est exigé par l'IRS Code Sec. 170 (a) et (c) (2). Tous les dons "
-"envoyés au Field Museum et destinés à Vahatra sont exonérés d'impôt en "
-"conformité avec les lois des États-Unis. Actuellement, le fonds contient "
-"environ 20% de la somme nécessaire. Pour de plus amples renseignements sur "
-"le Fonds fiduciaire et les dons éventuels, veuillez contacter M. Steven "
-"Strohmeier au"
+msgstr "Fonds fiduciaire - afin de garantir la viabilité financière à long terme de Vahatra nous avons suivi un modèle de fonds d'affectation spéciale. Ce fonds est inclus dans l'actif du Field Museum of Natural History à Chicago et est géré par les conseillers financiers du musée. Chaque année, les revenus d'intérêts gagnés par le fonds sont mis à la disposition de Vahatra, et le rapport financier annuel correspondant est soumis au Field Museum Field. Le fonds a été mis en place en tant que 'donateur-restreint' sous le titre 'Fonds Vahatra.' Cet accord est exigé par l'IRS Code Sec. 170 (a) et (c) (2). Tous les dons envoyés au Field Museum et destinés à Vahatra sont exonérés d'impôt en conformité avec les lois des États-Unis. Actuellement, le fonds contient environ 20% de la somme nécessaire. Pour de plus amples renseignements sur le Fonds fiduciaire et les dons éventuels, veuillez contacter M. Steven Strohmeier au "
 
 #: .\association\templates\association\financing.html:33
 #: .\association\templates\association\financing.html:48

@@ -31,7 +31,8 @@ def toSlug(word):
     return unaccented_string
 
 def renameFile(file):
-    file = file.replace(" ", "_")
+    file = "_".join(slugify(f) for f in file.split())
+    # file = file.replace(" ", "_")
     unaccented_string = unidecode.unidecode(file)
     return unaccented_string
 
@@ -64,8 +65,11 @@ def convert_to_webp(file):
 def handle_uploaded_file(f, location):
     if f.content_type.split("/")[0]=="image":
         f = convert_to_webp(f)
-
-    f.name=renameFile(f.name)
+    extension = f.name.split(".")
+    if len(extension)>1:
+        f.name = renameFile(extension[0])+"."+extension[1]
+    else:
+        f.name=renameFile(f.name)
     path = 'static/'+location+'/'
     isExist = os.path.exists(path)
     if not isExist:

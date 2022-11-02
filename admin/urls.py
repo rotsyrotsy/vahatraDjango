@@ -53,6 +53,9 @@ urlpatterns = [
     path("updateImage/<str:image_id>", views.updateImage, name="updateImage"),
     path("deletePerson", views.deletePerson, name="deletePerson"),
     path("listTypeActivity", views.listTypeActivity, name="listTypeActivity"),
+    path("addTypeActivity", views.addTypeActivity, name="addTypeActivity"),
+    path("updateTypeActivity/<str:type_id>", views.updateTypeActivity, name="updateTypeActivity"),
+    path("deleteTypeActivity", views.deleteTypeActivity, name="deleteTypeActivity"),
     path("listTypePublication", views.listTypePublication, name="listTypePublication"),
     path("addTypePublication", views.addTypePublication, name="addTypePublication"),
     path("updateTypePublication/<str:type_id>", views.updateTypePublication, name="updateTypePublication"),
@@ -61,8 +64,9 @@ urlpatterns = [
     path("addTypeMember", views.addTypeMember, name="addTypeMember"),
     path("updateTypeMember/<str:type_id>", views.updateTypeMember, name="updateTypeMember"),
     path("deleteTypeMember", views.deleteTypeMember, name="deleteTypeMember"),
-    path("listTypePhoto", views.listTypePhoto, name="listTypePhoto"),
-    path("addTypeActivity", views.addTypeActivity, name="addTypeActivity"),
-    path("updateTypeActivity/<str:type_id>", views.updateTypeActivity, name="updateTypeActivity"),
-    path("deleteTypeActivity", views.deleteTypeActivity, name="deleteTypeActivity"),
+    path("listTypeImage", views.listTypeImage, name="listTypeImage"),
+    path("addTypeImage", views.addTypeImage, name="addTypeImage"),
+    path("updateTypeImage/<str:type_id>", views.updateTypeImage, name="updateTypeImage"),
+    path("deleteTypeImage", views.deleteTypeImage, name="deleteTypeImage"),
+    
 ]

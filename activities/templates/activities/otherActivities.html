@@ -27,16 +27,32 @@
                 <div class="col-md-12">
                     <div class="wdgt-box" style="float:right; width:30%;">
                         <h4>{% trans "Filter activities by year" %}</h4>
-                        <select onchange="location = this.value;">
-                            <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' %}">
-                                {% trans "All" %}
-                            </option>
-                            {% for range in filter_year %}
-                            <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' range.max range.min %}">
-                                    {{range.max}} - {{range.min}}
-                            </option>
-                            {% endfor %}
-                        </select>
+
+                        {% if type_subactivity %}
+                            <select onchange="location = this.value;">
+                                <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' %}">
+                                    {% trans "All" %}
+                                </option>
+                                {% for range in filter_year %}
+                                <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' range.max range.min %}">
+                                        {{range.max}} - {{range.min}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        {% else %}
+                            <select onchange="location = this.value;">
+                                <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug %}">
+                                    {% trans "All" %}
+                                </option>
+                                {% for range in filter_year %}
+                                <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug  range.max range.min %}">
+                                        {{range.max}} - {{range.min}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+
+                        
                     </div>
                 </div>
             </div>

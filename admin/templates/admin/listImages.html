@@ -36,7 +36,7 @@
                   {% for img in imagetype.image_set.all %}
                     <div class="col-md-4 col-sm-6 col-lg-4 ">
                         <div class="prtfl-admin-box">
-                            <img src="{% static 'images/' %}{{img.idtype.type|snake_case}}/{{img.name}}" alt="prtfl-admin-img1.jpg" class="w-100 shadow-1-strong rounded mb-4">
+                            <img src="{% static 'images/' %}{{img.idtype.type_en|snake_case}}/{{img.name}}" alt="prtfl-admin-img1.jpg" class="w-100 shadow-1-strong rounded mb-4">
                             <div class="prtfl-admin-info">
                                 <button type="button" class="btn btn-inverse-danger btn-icon" data-toggle="modal" data-target="#exampleModal" onclick="deleteImage('{{img.title|escapejs}}','{{img.id}}')" >
                                   <i class="ti-trash"></i>

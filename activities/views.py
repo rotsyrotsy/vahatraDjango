@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, get_list_or_404,redirect
 from math import ceil
 from activities.models import Activityinstitution, Activityperson, Typeactivity, Typesubactivity, Visit,Activityimage,Location,Intervenantfieldschool,Activity
@@ -64,21 +65,23 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
             thelist = thelist.filter(Q(idtypesubactivity_id=typesubactivity.id))
     
     limit=3
-    minactivity = thelist.aggregate(Min('date'))['date__min'].year
-    maxactivity = thelist.aggregate(Max('date'))['date__max'].year
-
-    if not max and not min:
-        max = maxactivity
-        min = max-limit
-    else:
-        context['minfilter']=min
-        context['maxfilter']=max
-        
-    thelist = thelist.filter(Q(date__year__gte = min),
-    Q(date__year__lte = max))
-
+    minactivity=maxactivity=timezone.now().year
+   
     page_number=0
     if (thelist.count() > 0):
+        minactivity = thelist.aggregate(Min('date'))['date__min'].year
+        maxactivity = thelist.aggregate(Max('date'))['date__max'].year
+
+        if not max and not min:
+            max = maxactivity
+            min = max-limit
+        else:
+            context['minfilter']=min
+            context['maxfilter']=max
+            
+        thelist = thelist.filter(Q(date__year__gte = min),
+        Q(date__year__lte = max))
+        
         dictpagination = pagination(page, thelist, 6, '-date')
         page_number = dictpagination['page_number']
         activities = dictpagination['list']

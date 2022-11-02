@@ -43,10 +43,15 @@ class Typemember(models.Model):
     description = models.TextField(blank=True, null=True)
     image = models.CharField(max_length=255, blank=True, null=True)
 
-
-
     class Meta:
         db_table = 'typemember'
+
+class Typememberimage(models.Model):
+    idtypemember = models.ForeignKey('Typemember', on_delete=models.CASCADE, db_column='idtypemember')
+    image = models.CharField(max_length=255, blank=True, null=True)
+    class Meta:
+        db_table = 'typememberimage'
+    
 
 
 class Partner(models.Model):

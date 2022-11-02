@@ -35,12 +35,12 @@
                     <div class="col-md-4">
                       <div class="form-check form-check-flat form-check-danger">
                         <label class="form-check-label">
-                          <input type="checkbox" name="supprImage" value="{{img}}" class="form-check-input">
+                          <input type="checkbox" name="supprImage" value="{{img.id}}" class="form-check-input">
                           Delete this image
                           <i class="input-helper"></i>
                         </label>
                       </div>
-                      <img src="{% static 'images/members/' %}{{img}}">
+                      <img src="{% static 'images/members/' %}{{img.image}}">
                     </div>
                     {% endfor %}
                 </div>
