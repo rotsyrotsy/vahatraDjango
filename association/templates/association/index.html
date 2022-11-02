@@ -296,7 +296,9 @@
                     {% for item in type_member_list %}
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box mt-5">
-                            <img src="{% static 'images/members/' %}{{item.image|split:','|first}} " style="width: 265px; height: 265px; object-fit: cover;" alt="{{item.type}}" title="{{item.type}}">
+                            {% with first=item.typememberimage_set.all|first %}
+                            <img src="{% static 'images/members/' %}{{first.image}} " style="width: 265px; height: 265px; object-fit: cover;" alt="{{item.type}}" title="{{item.type}}">
+                            {% endwith %}
                             <div class="team-info">
                                 <h4><a href="{% url 'association:member' item.id item.type_en|toSlug %}" >{{ item.type|title }}</a></h4>
                                 <p>{{ item.description|truncatewords:10 }}</p>
