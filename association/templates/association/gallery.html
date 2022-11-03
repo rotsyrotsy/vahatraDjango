@@ -3,6 +3,10 @@
 {% load i18n %}
 {% load publications_extras %}
 {% block title %}{% trans "Gallery" %}{% endblock %}
+{% block meta %}
+    <meta name="description" content="{% trans 'Photos are both document and illustration of messages. It is a very easy means of communication. The pictures here were taken in natural environments and are part of Vahatra database. For higher resolution or other photos, please contact:' %} photo@vahatra.mg" />
+    <meta name="keywords" content="vahatra, association, association vahatra, gallery,galerie,2022" />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc5">
@@ -46,8 +50,12 @@
                         {% endfor %}
                     </div>
                     <a href="{% url 'association:gallery' limit|add:9 %}" class="thm-btn brd-rd40" id="showMoreBtn">{% trans "Show more" %}</a>
+                    
+                <p class="p-5">
+                    {% trans 'Photos are both document and illustration of messages. It is a very easy means of communication. The pictures here were taken in natural environments and are part of Vahatra database. For higher resolution or other photos, please contact:' %} 
+                    <a href="mailto:photo@vahatra.mg">photo@vahatra.mg</a>
+                </p>
                 </div>
-                
             </div>
     </div>
 </section>

@@ -16,7 +16,7 @@
         <div class="container">
             <div class="page-title-wrap">
                 <div style="margin-bottom: 10px;text-align: center;">
-                    <img src="{% static 'images/site/lettre.png' %}" alt="lettre.png" style="opacity: 0.9;">
+                    <img  src="{% static 'images/site/lettre.png' %}" alt="lettre.png" style="opacity: 0.9;">
                 </div>
                 <h2>
                     {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst|truncatewords:3}}</span>{% else %}{{activity.title | title|truncatewords:3}}{% endif %}
@@ -46,10 +46,10 @@
                             <div class="blog-detail-inf brd-rd5">
                                 {% if images|length > 0 %}
                                     <a href="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{images.0.image}}"data-fancybox="gallery" title="" >
-                                        <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{images.0.image}}"  alt="{{images.0.image}}">
+                                        <img loading="lazy" src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{images.0.image}}"  alt="{{images.0.image}}">
                                     </a>
                                 {% else %}
-                                    <img src="{% static 'images/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
+                                    <img loading="lazy" src="{% static 'images/blog-detail-img.jpg' %}" alt="blog-detail-img.jpg">
                                 {% endif %}
                                 <div class="blog-detail-inf-inr">
                                     <h1 style="padding: 10px 0px 5px 0;font-weight: 600; font-size: 1.5rem;">
@@ -78,7 +78,7 @@
                                                     <div class="row justify-content-center">
                                                         {% for img in item.img %}
                                                             <div class="col-md-6 col-sm-12 col-lg-4 ">
-                                                                <img class="py-3" src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{img.image}}"  style="width: 500px; height:250px;object-fit: cover;" alt="{{img.image}}">
+                                                                <img loading="lazy" class="py-3" src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{img.image}}"  style="width: 500px; height:250px;object-fit: cover;" alt="{{img.image}}">
                                                             </div>
                                                         {% endfor %}
                                                     </div>          
@@ -125,10 +125,10 @@
                                             
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.image}}">
+                                            <img loading="lazy" src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" width="68" alt="{{image.image}}">
                                             {% endwith %}
                                         {% else %}
-                                            <img src="{% static 'images/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
+                                            <img loading="lazy" src="{% static 'images/rcnt-img1.jpg' %}" width="68"  alt="rcnt-img1.jpg">
                                         {% endif %}
                                         </a>
                                         <div class="rcnt-inf">

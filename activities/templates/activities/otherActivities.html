@@ -3,6 +3,11 @@
 {% load i18n %}
 {% load publications_extras %}
 {% block title %}{{type_activity.type}}{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="{% trans 'Vahatra is actively involved in biological inventories of unknown or poorly known forested areas and the reinforcement of capacity of university graduate students. The association is also responsible for the publication of a scientific journal of international standards known as Malagasy Nature and a series of general books on the natural history of Madagascar. A project `Sciences for the people` was initiated to give back to the local population information related to data accumulated during the biological inventories done by ETP and Vahatra team. ' %}..." />
+    <meta name="keywords" content="vahatra, association, association vahatra, visit, visite,{{type_activity.type}} , activity" />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
@@ -67,10 +72,10 @@
                                 <a href="{% url 'activities:activityDetail' activity.slug %}" title="">
                                     {% if activity.activityimage_set.all %}
                                         {% with activity.activityimage_set.all|first as image %}
-                                        <img src="{% static 'images/site/' %}{{type_activity.type_en|lower|renameFile}}/{{image.image}}" alt="{{image.image}}">
+                                        <img loading="lazy" src="{% static 'images/site/' %}{{type_activity.type_en|lower|renameFile}}/{{image.image}}" alt="{{image.image}}">
                                         {% endwith %}
                                     {% else %}
-                                    <img src="{% static 'images/post-img1.jpg' %}" alt="post-img1.jpg">
+                                    <img loading="lazy" src="{% static 'images/post-img1.jpg' %}" alt="post-img1.jpg">
                                     {% endif %}
                                 </a>
                             </div>

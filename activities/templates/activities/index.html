@@ -3,6 +3,11 @@
 {% load i18n %}
 {% load publications_extras %}
 {% block title %}{{type_subactivity.type}}{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="{% trans 'Over the course of the past 18 years, the ETP and now Vahatra have conducted field schools' %}..." />
+    <meta name="keywords" content="vahatra, association, association vahatra, visit, visite,{{type_subactivity.type}} , activity" />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
@@ -69,9 +74,9 @@
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="bord-box">
                             {% if dict.image %}
-                                <img src="{% static 'images/site/visit/' %}{{dict.image.image}}" alt="{{dict.image.image}}" alt="" style="width: 400px; height:250px;object-fit: cover;" >
+                                <img loading="lazy" src="{% static 'images/site/visit/' %}{{dict.image.image}}" alt="{{dict.image.image}}" alt="" style="width: 400px; height:250px;object-fit: cover;" >
                             {% else %}
-                                <img src="{% static 'images/parallax2.png' %}" alt="no image" alt="" style="width: 400px; height:250px;object-fit: cover;">
+                                <img loading="lazy" src="{% static 'images/parallax2.png' %}" alt="no image" alt="" style="width: 400px; height:250px;object-fit: cover;">
                             {% endif %}
                             
                             <div class="bord-info">

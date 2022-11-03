@@ -2,6 +2,11 @@
 {% load static %}
 {% load i18n %}
 {% block title %}{% trans "Collection room" %}{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="{% trans 'The collection room of the Department of Animal Biology, University of Antananarivo, holds a collection of 60,000 specimens of animals.'...{% trans 'The Association Vahatra works closely with the Department of Animal Biology to improve the management of the collection room' %}" />
+    <meta name="keywords" content="vahatra, association, association vahatra, collection room, salle de collection, department of animal biology, activity" />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
@@ -95,7 +100,7 @@
         {% for i in '012345678'|make_list %}
         <div class="col-md-6 col-sm-12 col-lg-4" style="padding: 7.5px;">
             <div class="prtfl-box text-center">
-                <img src="{% static 'images/collection_room/' %}{{i}}_association_vahatra.webp" alt="{{i}}_association_vahatra.webp" title="{{i}}_association_vahatra.webp">
+                <img loading="lazy" src="{% static 'images/collection_room/' %}{{i}}_association_vahatra.webp" alt="{{i}}_association_vahatra.webp" title="{{i}}_association_vahatra.webp">
                 <div class="prtfl-info">
                     <a href="{% static 'images/collection_room/' %}{{i}}_association_vahatra.webp" data-fancybox="gallery" title=""><i class="fa fa-plus"></i></a>
                 </div>

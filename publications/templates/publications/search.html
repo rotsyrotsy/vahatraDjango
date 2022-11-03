@@ -3,6 +3,10 @@
 {% load i18n %}
 {% load publications_extras %}
 {% block title %}{% trans "Search" %}{% endblock %}
+{% block meta %}
+<meta name="description" content="{% trans 'Results of publication research' %}" />
+<meta name="keywords" content='Vahatra, association, association vahatra, publications, malagasy nature, guides, book, biodiversity'  />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc6">
@@ -57,7 +61,7 @@
                           <tr>
                             <td class="text-center">
                                 <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{pub.id}}","title":"{{pub.title|escapejs}}", "description":"{{pub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{pub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{pub.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">
-                                    <img src="{% static 'images/publication/' %}{{pub.imagefront}}" width="50">
+                                    <img loading="lazy" src="{% static 'images/publication/' %}{{pub.imagefront}}" width="50">
                                 </a>
                             </td>
                             <td>
