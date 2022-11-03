@@ -29,12 +29,12 @@
     centerPadding: '60px',
     responsive: [
         {
-            breakpoint: 768,
+            breakpoint: 820,
             settings: {
                 arrows: false,
                 centerMode: true,
                 centerPadding: '40px',
-                slidesToShow: 3
+                slidesToShow: 2
             }
         },
         {
@@ -58,41 +58,12 @@ $('.mycaroussel-simple').slick({
     nextArrow: '<button class="slide-arrow next-arrow"></button>',
     responsive: [
         {
-            breakpoint: 768,
+            breakpoint: 820,
             settings: {
                 arrows: false,
                 centerMode: true,
                 centerPadding: '40px',
-                slidesToShow: 3
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
-                slidesToShow: 1
-            }
-        }
-    ]
-});
-
-$('.mycaroussel-partner').slick({
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    prevArrow: '<button class="slide-arrow prev-arrow"></button>',
-    nextArrow: '<button class="slide-arrow next-arrow"></button>',
-    responsive: [
-        {
-            breakpoint: 768,
-            settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
-                slidesToShow: 3
+                slidesToShow: 2
             }
         },
         {
@@ -108,23 +79,13 @@ $('.mycaroussel-partner').slick({
 });
 
 $('.mycaroussel-index').slick({
-    slidesToScroll: 1,
+    slidesToShow: 1,
     autoplay: true,
     autoplaySpeed: 5000,
-    infinite: true,
     fade: true,
     prevArrow: '<button class="slide-arrow-index previous-arrow-index"></button>',
     nextArrow: '<button class="slide-arrow-index next-arrow-index"></button>',
     responsive: [
-        {
-            breakpoint: 768,
-            settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
-                slidesToShow: 3
-            }
-        },
         {
             breakpoint: 480,
             settings: {
@@ -145,12 +106,12 @@ $('.mycaroussel-single').slick({
     autoplaySpeed: 1000,
     responsive: [
         {
-            breakpoint: 768,
+            breakpoint: 820,
             settings: {
                 arrows: false,
                 centerMode: true,
                 centerPadding: '40px',
-                slidesToShow: 3
+                slidesToShow: 1
             }
         },
         {

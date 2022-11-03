@@ -3,11 +3,15 @@
 {% load static %}
 {% load publications_extras %}
 {% block title %}{% trans "Home" %}{% endblock %}
+{% block meta %}
+    <meta name="description" content="{% trans 'Vahatra` s challenge, objectives and mission are mainly based on its history; and the members are doing their best to achieve these objectives.' %}" />
+    <meta name="keywords" content="vahatra, association, association vahatra, accueil,home,2022" />
+{% endblock %}
 {% block content %}
 {% translate "Show more" as showmore %}
 <section>
     <div class="gap no-gap opc5">
-        <img class="botm-shp shp-img" src="{% static 'images/shp1.png' %}" alt="shp1.png">
+        <img loading="lazy" class="botm-shp shp-img" src="{% static 'images/shp1.png' %}" alt="shp1.png">
         <div class="custom-featured-area-wrap text-center">
             <div class="custom-featured-area mycaroussel-index">
                 <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.webp' %});background-position:50% 90%;">
@@ -69,7 +73,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Lurcifer_pardalis.webp' %}" alt="Lurcifer pardalis" title="Lurcifer pardalis" ></div>
+                            <div class="img"><img loading="lazy" src="{% static 'fonts/mycollection/Lurcifer_pardalis.webp' %}" alt="Lurcifer pardalis" title="Lurcifer pardalis" ></div>
                             <div class="pilr-info">
                                 <h4>Furcifer<br>pardalis</h4>
                             </div>
@@ -77,7 +81,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Boophis_marojezensis_ZHM.webp' %} " alt="Boophis_marojezensis_ZHM" title="Boophis_marojezensis_ZHM"></div>
+                            <div class="img"><img loading="lazy" src="{% static 'fonts/mycollection/Boophis_marojezensis_ZHM.webp' %} " alt="Boophis_marojezensis_ZHM" title="Boophis_marojezensis_ZHM"></div>
                             <div class="pilr-info">
                                 
                                 <h4>Boophis <br>marojezensis</h4>
@@ -86,7 +90,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Corythornis_madagascariensis.webp' %} "  alt="Corythornis_madagascariensis" title="Corythornis_madagascariensis"></div>
+                            <div class="img"><img loading="lazy" src="{% static 'fonts/mycollection/Corythornis_madagascariensis.webp' %} "  alt="Corythornis_madagascariensis" title="Corythornis_madagascariensis"></div>
                             <div class="pilr-info">
                                 <h4>Corythornis <br>madagascariensis</h4>
                             </div>
@@ -94,7 +98,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-lg-3">
                         <div class="plr-box">
-                            <div class="img"><img src="{% static 'fonts/mycollection/Miza_242.webp' %} "  alt="Miza_242" title="Miza_242"></div>
+                            <div class="img"><img loading="lazy" src="{% static 'fonts/mycollection/Miza_242.webp' %} "  alt="Miza_242" title="Miza_242"></div>
                             <div class="pilr-info">
                                 <h4>Elirus <br>tanala</h4>
                             </div>
@@ -107,8 +111,8 @@
   </section>
   <section>
     <div class="gap top-spac120 white-grad-layer">
-        <img class="top-shp shp-img" src="{% static 'images/shp2.png' %} " alt="shp2.png" title="shp2.png">
-        <img class="botm-shp shp-img" src="{% static 'images/shp3.png' %} " alt="shp3.png" title="shp3.png">
+        <img loading="lazy" class="top-shp shp-img" src="{% static 'images/shp2.png' %} " alt="shp2.png" title="shp2.png">
+        <img loading="lazy" class="botm-shp shp-img" src="{% static 'images/shp3.png' %} " alt="shp3.png" title="shp3.png">
         <div class="fixed-bg" style="background-image: url({% static 'images/site/Appui_scient/DSC_1.webp' %});"></div>
         <div class="container">
             <div class="abot-wrap">
@@ -162,7 +166,7 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="serv-box">
                                         
-                                        <img src="{% static 'fonts/mycollection/001.png' %} " >
+                                        <img loading="lazy" src="{% static 'fonts/mycollection/001.png' %} "  alt='{% trans "Expand Knowledge" %}'>
                                         <div class="serv-info">
                                             <h4>{% trans "Expand Knowledge" %}</h4>
                                             <p>{% trans "To expand knowledge on the biodiversity and natural history of Madagascar" %}</p>
@@ -171,16 +175,16 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="serv-box">
-                                        <img src="{% static 'fonts/mycollection/002.png' %} " >
+                                        <img loading="lazy" src="{% static 'fonts/mycollection/002.png' %} "  alt='{% trans "Educate" %}'>
                                         <div class="serv-info">
-                                            <h4>{% trans "Educate" %}"</h4>
+                                            <h4>{% trans "Educate" %}</h4>
                                             <p>{% trans "To educate and advance future generations of Malagasy scientists working in the domain of conservation biology" %}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="serv-box">
-                                        <img src="{% static 'fonts/mycollection/003.png' %} " >
+                                        <img loading="lazy" src="{% static 'fonts/mycollection/003.png' %} "  alt='{% trans "Exchange" %}'>
                                         <div class="serv-info">
                                             <h4>{% trans "Exchange" %}</h4>
                                             <p>{% trans "To help with the exchange of scientific information and experiences between national and international specialists" %}</p>
@@ -189,7 +193,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="serv-box">
-                                        <img src="{% static 'fonts/mycollection/004.png' %} " >
+                                        <img loading="lazy" src="{% static 'fonts/mycollection/004.png' %} "  alt='{% trans "Reinforce Collaborations" %}'>
                                         <div class="serv-info">
                                             <h4>{% trans "Reinforce Collaborations" %}</h4>
                                             <p>{% trans "To help reinforce collaborations between national and international institutions and NGOs in fields associated with the environment and conservation" %}</p>
@@ -198,7 +202,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                   <div class="serv-box">
-                                    <img src="{% static 'fonts/mycollection/005.png' %} " alt="">
+                                    <img loading="lazy" src="{% static 'fonts/mycollection/005.png' %} " alt='{% trans "Advance Expertise and Knowledge" %}'>
                                     <div class="serv-info">
                                           <h4>{% trans "Advance Expertise and Knowledge" %}</h4>
                                           <p>{% trans "To advance expertise and knowledge associated with environmental impact studies and to follow aspects of the evolution of the island’s natural landscapes" %}</p>
@@ -207,7 +211,7 @@
                               </div>
                               <div class="col-md-6 col-sm-6 col-lg-6">
                                   <div class="serv-box">
-                                    <img src="{% static 'fonts/mycollection/006.png' %} " >
+                                    <img loading="lazy" src="{% static 'fonts/mycollection/006.png' %} " alt='{% trans "Provide Advice" %}' >
                                       <div class="serv-info">
                                           <h4>{% trans "Provide Advice" %}</h4>
                                           <p>{% trans "To provide solid scientific advice to managers of natural resources and protected areas associated with the conservation of Madagascar’s biodiversity" %}</p>
@@ -224,7 +228,7 @@
   </section>
   <section>
     <div class="gap top-spac170 bottom-spac170 black-layer2 opc5" >
-        <img class="top-shp shp-img" src="{% static 'images/shp4.png' %} " alt="shp4.png">
+        <img loading="lazy" class="top-shp shp-img" src="{% static 'images/shp4.png' %} " alt="shp4.png">
         <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0553.webp' %});"></div>
         <div class="container">
             <div class="suprt-wrap">
@@ -297,7 +301,7 @@
                     <div class="col-md-4 col-sm-6 col-lg-4">
                         <div class="team-box mt-5">
                             {% with first=item.typememberimage_set.all|first %}
-                            <img src="{% static 'images/members/' %}{{first.image}} " style="width: 265px; height: 265px; object-fit: cover;" alt="{{item.type}}" title="{{item.type}}">
+                            <img loading="lazy" src="{% static 'images/members/' %}{{first.image}} " style="width: 265px; height: 265px; object-fit: cover;" alt="{{item.type}}" title="{{item.type}}">
                             {% endwith %}
                             <div class="team-info">
                                 <h4><a href="{% url 'association:member' item.id item.type_en|toSlug %}" >{{ item.type|title }}</a></h4>
@@ -334,10 +338,10 @@
                                             <a href="{% url 'activities:activityDetail' activity.slug %}" title="">
                                                 {% if activity.activityimage_set.all %}
                                                     {% with activity.activityimage_set.all|first as image %}
-                                                    <img src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
+                                                    <img loading="lazy" src="{% static 'images/site/' %}{{activity.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" alt="{{image.idactivity.title}}" alt="{{image.idactivity.title}}">
                                                     {% endwith %}
                                                 {% else %}
-                                                    <img src="{% static 'images/evnt-img1.jpg' %} " alt="evnt-img1.webp">
+                                                    <img loading="lazy" src="{% static 'images/evnt-img1.jpg' %} " alt="evnt-img1.webp">
                                                 {% endif %}
                                             </a>
                                         </div>
@@ -358,13 +362,13 @@
                                 <div class="col-md-6 col-sm-6 col-lg-6">
                                     <div class="evnt-box">
                                         <div class="evnt-thmb" >
-                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
-                                                <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
+                                            <a href="#" class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
+                                                <img loading="lazy" src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                                             </a>
                                         </div>
                                         <div class="evnt-info">
                                             <h4>
-                                                <a  class="volume-btn"  data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}"data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
+                                                <a href="#" class="volume-btn"  data-urldownload="{% url 'publications:download_pdf_file'  publication.idtype.type_en|lower|snake_case  %}"data-staticpdf = "{% static 'pdf/'%}{{ publication.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|default_if_none:""|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}' title="">
                                                     {{publication.title}}
                                                 </a>
                                             </h4>
@@ -413,13 +417,13 @@
                             <div class="rcnt-wrp">
                                 {% for newpub in new_pubs %}
                                 <div class="rcnt-bx">
-                                    <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
-                                        <img src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68" height="auto" alt="{{newpub.title}}" title="{{newpub.title}}">
+                                    <a href="#" class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
+                                        <img loading="lazy" src="{% static 'images/publication/' %}{{newpub.imagefront}}" width="68" height="auto" alt="{{newpub.title}}" title="{{newpub.title}}">
                                     </a>
                                     <div class="rcnt-inf">
                                         <small>{{newpub.idtype.type}}</small><br>
                                         <h6>
-                                            <a  class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
+                                            <a href="#" class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  newpub.idtype.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ newpub.idtype.type_en|lower|snake_case }}" data-pub='{"id":"{{newpub.id}}","title":"{{newpub.title|escapejs}}", "description":"{{newpub.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{newpub.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{newpub.imageback|default_if_none:""|escapejs}}"}' title="">
                                                 {{newpub.title}}
                                             </a>
                                         </h6>
@@ -432,10 +436,10 @@
                                     <a href="{% url 'activities:activityDetail' item.slug %}" title="">
                                         {% if item.activityimage_set.all %}
                                             {% with item.activityimage_set.all|first as image %}
-                                            <img src="{% static 'images/site/' %}{{item.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" width="68" height="auto" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
+                                            <img loading="lazy" src="{% static 'images/site/' %}{{item.idtypeactivity.type_en|lower|renameFile}}/{{image.image}}" width="68" height="auto" alt="{{image.idactivity.title}}" title="{{image.idactivity.title}}">
                                             {% endwith %}
                                         {% else %}
-                                            <img src="{% static 'images/evnt-img1.jpg' %}" width="68" height="auto"  alt="rcnt-img1.webp">
+                                            <img loading="lazy" src="{% static 'images/evnt-img1.jpg' %}" width="68" height="auto"  alt="rcnt-img1.webp">
                                         {% endif %}
                                     </a>
                                     <div class="rcnt-inf">
@@ -470,7 +474,7 @@
                 <div class="testi-car-two">
                   
                     <div class="testi-itm" id="messageyearfocus">
-                        <i><img src="{% static 'images/members/' %}{{message_of_year.idmember.image}} " width="106" height="106" alt="message of the year" title="message of the year"></i>
+                        <i><img loading="lazy" src="{% static 'images/members/' %}{{message_of_year.idmember.image}} " width="106" height="106" alt="message of the year" title="message of the year"></i>
                         <div class="testi-info">
                             <h4>Achille P. RASELIMANANA</h4>
              

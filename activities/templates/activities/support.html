@@ -63,7 +63,7 @@
 <section>
         <div class="row">
             {% for i in '012345'|make_list %}
-            <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="col-md-6 col-sm-6 col-lg-4">
                 <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
                     <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:350px;object-fit: cover;">
                 </a>
@@ -83,13 +83,13 @@
             <div class="bord-wrap">
                 <div class="row mrg">
                     {% for partner in partner_list %}
-                        <div class="col-md-3 col-sm-6 col-lg-3">
+                        <div class="col-md-6 col-sm-12 col-lg-3">
                             <div class="bord-box">
                                 {% with 'images/partners/'|add:partner.logo as logo %}
                                     <img src="{% static logo %}" width="100" height="100" alt="{{partner.name}}">
                                 {% endwith %}
                                 <div class="bord-info">
-                                    <h4>{{partner.name}}</h4>
+                                    <h4>{{partner.idinst.name}}</h4>
                                     <p>{{partner.description|capfirst}}</p>
                                     <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
                                 </div>

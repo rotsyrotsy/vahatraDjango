@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="wdgt-box" style="float:right; width:30%;">
+                    <div class="wdgt-box">
                         <h4>{% trans "Filter activities by year" %}</h4>
 
                         {% if type_subactivity %}
@@ -61,7 +61,7 @@
 
                 <div class="row mrg40">
                     {% for activity in activities %}
-                    <div class="col-md-4 col-sm-6 col-lg-4 fadeIn" data-wow-duration=".8s" data-wow-delay=".2s">
+                    <div class="col-md-6 col-sm-12 col-lg-4 fadeIn" data-wow-duration=".8s" data-wow-delay=".2s">
                         <div class="blog-box">
                             <div class="blog-thmb ">
                                 <a href="{% url 'activities:activityDetail' activity.slug %}" title="">
