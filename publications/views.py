@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from activities.models import Typeactivity
 from publications.models import  Publication,Typepublication,Publicationdetail,Publicationauthor
 from django.core import serializers
 from django.http import JsonResponse, HttpResponseBadRequest,HttpResponseRedirect,HttpResponse
@@ -10,15 +9,13 @@ from django.urls import reverse
 from association.models import Person
 from vahatraDjango.functions import pagination, toSlug
 # Create your views here.
+from association.views import getContext
 
-type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
-type_pub = Typepublication.objects.all().order_by("id")
+
 
 def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    
+    context = getContext()
     type = get_object_or_404(Typepublication, pk=typepublication_id)
     context["pub_type"]=type
 
@@ -59,10 +56,7 @@ def detail(request):
         return HttpResponseBadRequest('Invalid request')
 
 def search(request,keyword="",page=1):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
 
     if 'keyword' in request.GET:
         if request.GET['keyword']=="":
@@ -101,10 +95,7 @@ def search(request,keyword="",page=1):
 
 
 def multicriteriasearch(request):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     page = 1
     if request.method == 'POST':
         author=""

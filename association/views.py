@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render,redirect
-from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner
+from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member
 from django.db.models import Q
 from activities.models import Activity, Typeactivity
 from publications.models import Typepublication,Publication
