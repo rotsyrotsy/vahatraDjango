@@ -31,13 +31,8 @@
 <body>
 <main>
     <div class="pageloader-wrap">
-        <div class="loader">
-            <div class="loader__bar"></div>
-            <div class="loader__bar"></div>
-            <div class="loader__bar"></div>
-            <div class="loader__bar"></div>
-            <div class="loader__bar"></div>
-            <div class="loader__ball"></div>
+        <div class="loader-custom">
+            <img src="{% static 'images/Vahatra_logo.png' %}" alt="logo.png">
         </div>
       </div><!-- Pageloader Wrap -->
       <div class="sidepanel">
@@ -52,7 +47,7 @@
       </div><!-- Side Panel -->
       <header class="style1">
         <div class="container" style="max-width: 1300px;">
-            <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img src="{% static 'images/logo.png' %}" alt="logo.png"></a></div>
+            <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img loading="lazy" src="{% static 'images/logo.png' %}" alt="logo.png"></a></div>
             <nav>
                 <div>
                     {% include 'association/includes/nav.html' %}
@@ -63,10 +58,7 @@
       <div class="rspn-hdr">
         <div class="rspn-mdbr">
             <ul class="rspn-scil">
-                <li><a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#" title="Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                <li><a href="#" title="Google Plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>                   
+                <li><a href="mailto:associatvahatra@moov.mg" title="Email" target="_blank"><i class="flaticon-email"></i></a>></li>                  
             </ul>
             <div class="rspn-srch">
                 <input id="keywordToFind" type="text" placeholder="Enter Your Keyword" />
@@ -74,7 +66,7 @@
             </div>
         </div>
         <div class="lg-mn">
-            <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img  width="60" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div>
+            <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img loading="lazy"  width="60" height="60" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div>
             <div class="rspn-cnt">
                 <span><i class="fa fa-envelope thm-clr"></i><a href="#" title="">associatvahatra@moov.mg</a></span>
                 <span><i class="fa fa-phone thm-clr"></i>+261 20 22 277 55</span>
@@ -96,7 +88,7 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-12 col-lg-4">
                             <div class="wdgt-box">
-                                <center><div class="logo"><a href="#" title="Logo"><img width="150" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div></center>
+                                <center><div class="logo"><a href="#" title="Logo"><img loading="lazy" width="150" height="150" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div></center>
                                 <p>{% trans "Vahatra's challenge, objectives and mission are mainly based on its history; and the members are doing their best to achieve these objectives." %}</p>
                             </div>
                         </div>

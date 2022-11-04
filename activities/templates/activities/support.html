@@ -2,6 +2,10 @@
 {% load static %}
 {% load i18n %}
 {% block title %}{% trans "Supports" %}{% endblock %}
+{% block meta %}
+<meta name="description" content="{% trans 'Members of Vahatra contribute to the education of numerous students working for their higher degrees in the national university system. These individuals are amongst the future scientific leaders of the country, many of which are trained in conservation biology and biodiversity science.' %}" />
+<meta name="keywords" content="vahatra, association, association vahatra, {% trans 'Pedagogic support' %}, {% trans 'Scientific support' %},2022" />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
@@ -37,7 +41,7 @@
                                     {% for i in '67'|make_list %}
                                     <div class="col-md-6 col-sm-6 col-lg-6">
                                         <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
-                                        <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:360px;object-fit: cover;">
+                                        <img loading="lazy" src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:360px;object-fit: cover;">
                                         </a>
                                     </div>
                                     {% endfor %}
@@ -63,9 +67,9 @@
 <section>
         <div class="row">
             {% for i in '012345'|make_list %}
-            <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="col-md-6 col-sm-6 col-lg-4">
                 <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
-                    <img src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:350px;object-fit: cover;">
+                    <img loading="lazy" src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:350px;object-fit: cover;">
                 </a>
             </div>
             {% endfor %}
@@ -83,13 +87,13 @@
             <div class="bord-wrap">
                 <div class="row mrg">
                     {% for partner in partner_list %}
-                        <div class="col-md-3 col-sm-6 col-lg-3">
+                        <div class="col-md-6 col-sm-12 col-lg-3">
                             <div class="bord-box">
                                 {% with 'images/partners/'|add:partner.logo as logo %}
-                                    <img src="{% static logo %}" width="100" height="100" alt="{{partner.name}}">
+                                    <img loading="lazy" src="{% static logo %}" width="100" height="100" alt="{{partner.name}}">
                                 {% endwith %}
                                 <div class="bord-info">
-                                    <h4>{{partner.name}}</h4>
+                                    <h4>{{partner.idinst.name}}</h4>
                                     <p>{{partner.description|capfirst}}</p>
                                     <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
                                 </div>

@@ -2,6 +2,12 @@
 {% load static %}
 {% load i18n %}
 {% block title %}Atlas{% endblock %}
+{% block meta %}
+<meta name="description" content="{% trans 'Atlas of selected land vertebrates of Madagascar' %}...{% trans 'Over the past 20 years, members of the Association Vahatra collected 
+considerable data on terrestrial vertebrates of Madagascar, 
+based on fieldwork and museum studies...' %}" />
+<meta name="keywords" content="vahatra, association, association vahatra, Atlas,database,base de données,2022" />
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
@@ -26,7 +32,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12 col-lg-6">
                         <a href="{% static 'images/publication/op3_back.webp' %}" data-fancybox="gallery" title="">
-                            <img src="{% static 'images/publication/op3.webp' %}" alt="Atlas" >
+                            <img loading="lazy" src="{% static 'images/publication/op3.webp' %}" alt="Atlas" >
                         </a>
                     </div>
                     <div class="col-md-6 col-sm-12 col-lg-6">

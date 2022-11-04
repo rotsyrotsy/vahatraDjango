@@ -22,7 +22,7 @@
         <div class="fixed-bg" style="background-image: url({% static 'images/miscellaneous/Bea_291.webp' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
-                <h1><img src="{% static 'images/site/lettre.png' %}" alt="association vahatra" title="association vahatra"></h1>
+                <h1><img loading="lazy" src="{% static 'images/site/lettre.png' %}" alt="association vahatra" title="association vahatra"></h1>
                 <h2>{{ pub_type.type }}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
@@ -46,7 +46,7 @@
                 {% for publication in publications %}
                 <div class="col-md-4 col-sm-6 col-lg-4">
                     <div class="fea-itm-img"  >
-                        <img src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
+                        <img loading="lazy" src="{% static 'images/publication/' %}{{publication.imagefront}}" alt="{{publication.title}}" title="{{publication.title}}" >
                         <div class="fea-info2">
                             <br>
                             <a class="volume-btn" data-urldownload="{% url 'publications:download_pdf_file'  pub_type.type_en|lower|snake_case  %}" data-staticpdf = "{% static 'pdf/'%}{{ pub_type.type_en|lower|snake_case }}" data-pub='{"id":"{{publication.id}}","title":"{{publication.title|escapejs}}", "description":"{{publication.description|escapejs}}", "imagefront":"{% static "images/publication/" %}{{publication.imagefront|escapejs}}", "imageback":"{% static "images/publication/" %}{{publication.imageback|default_if_none:""|escapejs}}"}'  href="#" title="">Read More</a>

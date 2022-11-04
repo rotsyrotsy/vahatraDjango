@@ -2,6 +2,10 @@
 {% load static %}
 {% load i18n %}
 {% load publications_extras %}
+{% block meta %}
+    <meta name="description" content="{{ type.description}}" />
+    <meta name="keywords" content="vahatra, association,{{ type.type}}, association vahatra, members,membres,2022" />
+{% endblock %}
 {% block title %}{{type.type}}{% endblock %}
 {% block content %}
 <section>
@@ -99,9 +103,9 @@
                         <div class="col-md-3 col-sm-6 col-lg-3">
                             <div class="team-box2">
                                 {% if member.image %}
-                                <img src="{% static 'images/members/' %}{{member.image}}" alt="{{ member.idperson.username }}">
+                                <img loading="lazy" src="{% static 'images/members/' %}{{member.image}}" alt="{{ member.idperson.username }}">
                                 {% else %}
-                                <img src="{% static 'images/members/none.webp' %}" alt="{{ member.idperson.username }}">
+                                <img loading="lazy" src="{% static 'images/members/none.webp' %}" alt="{{ member.idperson.username }}">
                                 {% endif %}
                                 <div class="team-info2">
                                     <h4>{{ member.idperson.username }} {{ member.idperson.name }}</h4>
@@ -129,7 +133,7 @@
                     {% with type.typememberimage_set.all as imgs %}
                         {% for img in imgs %}
                             <div class="col-md-4">
-                                <img src="{% static 'images/members/' %}{{img.image}}" alt="{{img.image}}" style="width: 500px; height:250px; object-fit: cover;"> 
+                                <img loading="lazy" src="{% static 'images/members/' %}{{img.image}}" alt="{{img.image}}" style="width: 500px; height:250px; object-fit: cover;"> 
                             </div>
                         {% endfor %}
                     {% endwith %}

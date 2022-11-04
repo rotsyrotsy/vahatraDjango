@@ -1,12 +1,9 @@
-from math import ceil
 from django.shortcuts import get_object_or_404, render,redirect
-from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member,Partner,Person
+from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member
 from django.db.models import Q
-from activities.models import Activity, Typeactivity, Typesubactivity
-from publications.models import Typepublication,Publication,Publicationauthor
+from activities.models import Activity, Typeactivity
+from publications.models import Typepublication,Publication
 from datetime import date,timedelta
-from django.core import serializers
-from django.http import JsonResponse,HttpResponseRedirect
 from vahatraDjango.functions import   pagination, toSlug
 # from django.views.decorators.cache import cache_page
 # from django.core.cache import cache, caches
@@ -14,46 +11,35 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 import imaplib, time
 
-
-# Create your views here.
-type_pub = Typepublication.objects.all().order_by("id")
-type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
+def getContext():
+    context={
+        "types_activity": Typeactivity.objects.filter(~Q(id='A4')).order_by("type"),
+        "types_pub": Typepublication.objects.all().order_by("id"),
+    }
+    return context
 
 def index(request):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
-    type_member_list = Typemember.objects.all
-    partner_list = Partner.objects.filter(isLink=False)
-    links_list = Partner.objects.filter(isLink=True)
-    message_of_year = Messageofyear.objects.order_by('year')[0]
+    context = getContext()
     
-    upcoming_events = Activity.objects.filter(date__gte=date.today())
+    new_pubs = Publication.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month),
+    Q(date__year__gte = (date.today()-timedelta(days=100)).year), 
+    Q(date__lte = date.today())).order_by('-date')
 
-    upcoming_publications = Publication.objects.filter(date__gt=date.today())
-    new_pubs = Publication.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month),Q(date__year__gte = (date.today()-timedelta(days=100)).year), Q(date__lte = date.today())).order_by('-date')
     new_events = Activity.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month), 
     Q(date__lte = date.today()),
     Q(date__year__gte = (date.today()-timedelta(days=100)).year)).order_by('-date')
-    
 
-    context["type_member_list"]= type_member_list
-    context["message_of_year"]= message_of_year
-    context["partner_list"]= partner_list
-    context["links_list"]=links_list
-    context["upcoming_events"]= upcoming_events
-    context["upcoming_publications"]= upcoming_publications
+    context["type_member_list"]= Typemember.objects.all
+    context["message_of_year"]= Messageofyear.objects.order_by('year')[0]
+    context["upcoming_events"]= Activity.objects.filter(date__gt=date.today())
+    context["upcoming_publications"]= Publication.objects.filter(date__gt=date.today())
     context["new_pubs"] = new_pubs
     context["new_events"] = new_events
     
     return render(request, "association/index.html", context)
 
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     type = get_object_or_404(Typemember, pk = type_member_id)
 
     slug = toSlug(type.type)
@@ -95,10 +81,7 @@ def member(request,type_member_name=None, type_member_id=None,keyword=None, page
     return render(request, "association/members.html", context)
 
 def contact(request):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     if request.method == "POST":
         message_name = request.POST['message-name']
         message_phone = request.POST['message-phone']
@@ -140,18 +123,12 @@ def contact(request):
     return render(request, "association/contact.html",context)
 
 def financing(request):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     return render(request, "association/financing.html",context)
 
     
 def gallery(request,limit=9):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     limit = int(limit)
     
     context["typeimage"] = Imagetype.objects.all()

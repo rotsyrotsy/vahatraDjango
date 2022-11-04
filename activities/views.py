@@ -10,17 +10,10 @@ from publications.models import Typepublication
 from django.db.models import Q,Min,Max
 from vahatraDjango.functions import toSlug,pagination
 # # Create your views here.
-
-type_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
-type_pub = Typepublication.objects.all().order_by("id")
-
-
+from association.views import getContext
 
 def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_id=None,typesubactivity_name=None,max=None,min=None, page=1):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     typeactivity= get_object_or_404(Typeactivity, pk = typeactivity_id)
     context["type_activity"] = typeactivity
         
@@ -140,28 +133,19 @@ def visit_by_lieu(request):
         return HttpResponseBadRequest('Invalid request')
 
 def support(request):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     partner_list = Partner.objects.filter(isLink=False)
     context["partner_list"]= partner_list
     
     return render(request, "activities/support.html", context)
 
 def atlas(request):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     return render(request, "activities/atlas.html", context)
 
 
 def activityDetail(request,slug):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
 
     activity = get_object_or_404(Activity, slug = slug)
 
@@ -181,10 +165,7 @@ def activityDetail(request,slug):
     return render(request, "activities/activityDetail.html", context)
 
 def collection(request,salle=''):
-    context = {
-        "types_activity": type_activity,
-        "types_pub": type_pub,
-        }
+    context = getContext()
     context['salle']=salle
     return render(request, "activities/collection.html",context)
 
