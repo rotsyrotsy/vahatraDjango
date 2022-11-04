@@ -5,20 +5,33 @@ from activities.models import Activity, Typeactivity
 from publications.models import Typepublication,Publication
 from datetime import date,timedelta
 from vahatraDjango.functions import   pagination, toSlug
-# from django.views.decorators.cache import cache_page
-# from django.core.cache import cache, caches
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 import imaplib, time
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
+TYPES_ACTIVITY="Typeactivity.all"
+TYPES_PUB="Typepublication.all"
 def getContext():
+    types_activity = cache.get(TYPES_ACTIVITY)
+    types_pub = cache.get(TYPES_PUB)
+    if not types_activity:
+        types_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
+        cache.set(TYPES_ACTIVITY, types_activity)
+    if not types_pub:
+        types_pub = Typepublication.objects.all().order_by("id")
+        cache.set(TYPES_ACTIVITY, types_pub)
+
     context={
-        "types_activity": Typeactivity.objects.filter(~Q(id='A4')).order_by("type"),
-        "types_pub": Typepublication.objects.all().order_by("id"),
+        "types_activity": cache.get(TYPES_ACTIVITY),
+        "types_pub": cache.get(TYPES_PUB),
     }
     return context
 
+@cache_page(60*60)
 def index(request):
+
     context = getContext()
     
     new_pubs = Publication.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month),
@@ -38,6 +51,7 @@ def index(request):
     
     return render(request, "association/index.html", context)
 
+@cache_page(60*60)
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
     context = getContext()
     type = get_object_or_404(Typemember, pk = type_member_id)
@@ -122,11 +136,13 @@ def contact(request):
     
     return render(request, "association/contact.html",context)
 
+@cache_page(60*60*24)
 def financing(request):
     context = getContext()
     return render(request, "association/financing.html",context)
 
-    
+
+@cache_page(60*60)    
 def gallery(request,limit=9):
     context = getContext()
     limit = int(limit)

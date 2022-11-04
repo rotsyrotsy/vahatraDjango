@@ -10,9 +10,9 @@ from association.models import Person
 from vahatraDjango.functions import pagination, toSlug
 # Create your views here.
 from association.views import getContext
+from django.views.decorators.cache import cache_page
 
-
-
+@cache_page(60*60)
 def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
     
     context = getContext()
@@ -34,6 +34,7 @@ def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
     context["years"]=range(min['date__min'].year,max['date__max'].year+1)
     return render(request, "publications/index.html", context)
 
+@cache_page(60*60)
 def detail(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if is_ajax:
