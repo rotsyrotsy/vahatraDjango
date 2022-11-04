@@ -111,7 +111,7 @@
                                     <h4>Categories</h4>
                                     <ul class="cat-lst">
                                         
-                                    {% for publication_type in type_pub %}
+                                    {% for publication_type in types_pub %}
                                     <li><a href="{% url 'publications:index' publication_type.type|toSlug publication_type.id %}" title="">{{publication_type.type}}</a>({{publication_type.publication_set.all|length}})</li>
                                     {% endfor %}
                                     </ul>
@@ -129,7 +129,7 @@
                                             </select>
                                             <select class="form-control"  name="type_pub">
                                                 <option value="" selected="selected">Categorie</option>
-                                                {% for publication_type in type_pub %}
+                                                {% for publication_type in types_pub %}
                                                 <option value="{{publication_type.id}}">{{publication_type.type}}</option>
                                                 {% endfor %}
                                             </select>
