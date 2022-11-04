@@ -366,3 +366,32 @@
   }
 
 }
+
+.loader-custom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin-left: auto; 
+  margin-right: auto; 
+  margin-top: auto; 
+  margin-bottom: auto; 
+  width: 150px;
+  height: 150px;
+
+}
+.loader-custom img{
+  animation: spinlogo 2s linear infinite;
+}
+
+@keyframes spinlogo {
+  
+  0% {transform: rotateY(0deg);}
+  100% { 
+    -webkit-transform: rotateY(360deg);
+    -ms-transform: rotateY(360deg);
+    -o-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+   }
+}

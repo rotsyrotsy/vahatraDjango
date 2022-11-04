@@ -1,9 +1,8 @@
-from django.utils import timezone
+from django.utils import timezone,translation
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
-from admin.general import updateAttributeByRequestParams,setAttributeByRequestParams
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Min, Max,Q
@@ -13,16 +12,47 @@ from publications.models import Publication, Publicationauthor, Publicationdetai
 
 from django.core.files.images import get_image_dimensions
 from django.core.exceptions import PermissionDenied
-from vahatraDjango.collectstatic import  Command
 from vahatraDjango.functions import *
 from django.contrib.auth import authenticate,login,logout
 from django.conf import settings
 from django.contrib.auth.models import User
 
-def saveChanges(request):
-    if not checkIfAdmin(request): raise PermissionDenied()
-    watchdog = Command()
-    watchdog.handle()
+def setAttributeByRequestParams(request,params,model):
+    values = [request.POST.get(p) for p in params]
+    i = 0
+    for value in values:
+        if value != "":
+            current = params[i]+'_'+translation.get_language()
+            for code,lang in settings.LANGUAGES:
+                other = params[i]+'_'+code
+                if hasattr(model,other):
+                    if current != other:
+                        setattr(model, other, value.strip())
+            setattr(model, params[i], value.strip())
+        i += 1
+
+def updateAttributeByRequestParams(request,params,model):
+    countChange = 0
+    values = [request.POST.get(p) for p in params]
+    i = 0
+    for value in values:
+        # if getattr(model, params[i]) is None or value != str(getattr(model, params[i])):
+        if value == "":
+            value = None
+        else:
+            value = value.strip()
+        setattr(model, params[i], value)
+        countChange += 1
+        i += 1
+    return countChange
+
+def getContext():
+    context = {
+        "type_publication": Typepublication.objects.all(),
+        "type_activity": Typeactivity.objects.all(),
+        "type_member": Typemember.objects.all(),
+    }
+    return context
 
 def checkIfAdmin(request):
     if not request.user.is_authenticated: raise PermissionDenied()
@@ -37,21 +67,11 @@ def checkIfAdmin(request):
                 },
             )
 
-def index(request):
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
-    checkIfAdmin(request)
-
-    return render(request, "admin/index.html", context)
-
 def my_login(request):
     if 'count_login' in request.session:
         if request.session['count_login'] > 3:
             # si l'authentification est invalide plus de 3 fois
-            if request.session['count_login']>4:
+            if request.session['count_login']==4:
                 admin = User.objects.all()[0]
                 from_email = settings.DEFAULT_FROM_EMAIL
                 to = [admin.email]
@@ -166,26 +186,57 @@ def reset_password_verify(request,mail=None):
 def reset_password(request):
     if request.method == 'POST':
         admin = User.objects.get(pk = request.session['admin_account_id'])
-        admin.set_password(str(request.POST["password"]))
-        admin.save()
-        try:
-            del request.session['count_login']
-            del request.session['admin_account_id']
-        except KeyError:
-            pass
-        return render(request, "admin/login.html",{"message":"Your password has been changed successfully."})
+        password = str(request.POST["password"])
+        if validPassword(password)==False:
+            return render(request, "admin/reset_password.html",{"error_message":"Password must contains 8 characters minimum,\
+    at least 1 number or digit between [0-9],at least 1 special character and\
+    at least one alphabet should be of Upper Case."})
+        else:
+            admin.set_password(password)
+            admin.save()
+            try:
+                del request.session['count_login']
+                del request.session['admin_account_id']
+            except KeyError:
+                pass
+            return render(request, "admin/login.html",{"message":"Your password has been changed successfully."})
     return render(request, "admin/reset_password_verify.html")
 
+
+def ajaxDelete(request,themodel,modelname,imgs=None,path=None):
+    checkIfAdmin(request)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        if request.method == 'POST':
+            try:
+                # if imgs and path:
+                #     if type(imgs) is str:
+                #         delete_file(imgs, path)
+                #     else:
+                #         for img in imgs:
+                #             if img is not None:
+                #                 delete_file(img, path)
+                themodel.delete()
+            except KeyError:
+                return HttpResponseBadRequest('Error')
+            else:
+                return JsonResponse({'success': modelname+' successfully deleted.'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+
+
+def index(request):
+    context = getContext()
+    checkIfAdmin(request)
+    return render(request, "admin/index.html", context)
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
 def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     type = get_object_or_404(Typeactivity, pk=activity_id)
     context["type"] = type
@@ -245,40 +296,6 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
 
     return render(request, "admin/listActivities.html", context)
 
-
-# def move(request,type="SA1"):
-#     import shutil
-#     visits = Visit.objects.filter(idtypesubactivity=type)
-#     for visit in visits:
-#         for activityimage in visit.idactivity.activityimage_set.all():
-#             if activityimage.image is not None:
-#                 source = 'static/images/site/'+renameFile(visit.idactivity.idtypeactivity.type)+'/'
-#                 path = 'static/images/site/'+renameFile(visit.idactivity.idtypeactivity.type)+'/'+toSlug(visit.idtypesubactivity.type)+'/'
-#                 shutil.move(path+activityimage.image, source+activityimage.image)
-
-def ajaxDelete(request,themodel,modelname,imgs=None,path=None):
-    checkIfAdmin(request)
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        if request.method == 'POST':
-            try:
-                if imgs and path:
-                    if type(imgs) is str:
-                        delete_file(imgs, path)
-                    else:
-                        for img in imgs:
-                            if img is not None:
-                                delete_file(img, path)
-                themodel.delete()
-            except KeyError:
-                return HttpResponseBadRequest('Error')
-            else:
-                return JsonResponse({'success': modelname+' successfully deleted.'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
-
 def deleteActivity(request):
     id_activity = request.POST.get('id_activity', '')
     activity = Activity.objects.get(pk=id_activity)
@@ -286,12 +303,7 @@ def deleteActivity(request):
     
 def addActivity(request, idtypeactivity='A1'):
     checkIfAdmin(request)
-
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     type = get_object_or_404(Typeactivity, pk=idtypeactivity)
     context["type"] = type
@@ -328,7 +340,7 @@ def addActivity(request, idtypeactivity='A1'):
         setAttributeByRequestParams(request,names, activity)
         
 
-        activity.save()
+        # activity.save()
 
         lastActivity = Activity.objects.last()
 
@@ -390,11 +402,7 @@ def addActivity(request, idtypeactivity='A1'):
 def addPerson(request):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     if request.method == "GET":
         if 'keyword' in request.GET:
@@ -425,11 +433,7 @@ def deletePerson(request):
 def addInstitution(request):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     if request.method == 'POST':
         inst = Institution.objects.filter(Q(name=str(request.POST['name'])))
         if inst.count()>0:
@@ -446,11 +450,7 @@ def addInstitution(request):
 def addLocation(request):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     if request.method == 'POST':
         if request.POST['name'] == "" or request.POST['longitude'] == "" or request.POST['latitude'] == "":
             context["error"] = "All fields are required."
@@ -470,11 +470,7 @@ def addLocation(request):
 def updateActivity(request, activity_id=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     activity = get_object_or_404(Activity, pk=activity_id)
     context["activity"] = activity
@@ -624,11 +620,7 @@ def updateActivity(request, activity_id=1):
 def listPublications(request, pub_id=1, page=1, year=None):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     type = get_object_or_404(Typepublication, pk=pub_id)
     context["type"] = type
@@ -676,11 +668,7 @@ def listPublications(request, pub_id=1, page=1, year=None):
 def addPublication(request, idtypepublication=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     type = get_object_or_404(Typepublication, pk=idtypepublication)
     context["type"] = type
@@ -753,11 +741,7 @@ def addPublication(request, idtypepublication=1):
 def updatePublication(request, pub_id=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     publication = get_object_or_404(Publication, pk=pub_id)
     context["publication"] = publication
@@ -877,11 +861,7 @@ def deletePublication(request, pub_id=None):
 def listMembers(request,typemember_id=2,page=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     type = get_object_or_404(Typemember, pk=typemember_id)
     context["type"] = type
 
@@ -915,11 +895,7 @@ def listMembers(request,typemember_id=2,page=1):
 def addMember(request,typemember_id=1):
     checkIfAdmin(request)
     
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     type = get_object_or_404(Typemember, pk=typemember_id)
     context["type"] = type
     context['posts']=Post.objects.all().order_by('name')
@@ -997,11 +973,7 @@ def addMember(request,typemember_id=1):
 def updateMember(request,member_id=None):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     member = get_object_or_404(Member, pk=member_id)
     context['member'] = member
     context['posts']=Post.objects.all().order_by('name')
@@ -1092,11 +1064,7 @@ def deleteMember(request, member_id=None):
 def listPartners(request,page=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     list = Partner.objects.all()
     if request.method == 'GET':
@@ -1120,11 +1088,7 @@ def listPartners(request,page=1):
 def addPartner(request):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     if request.method=="POST":
         if request.POST['name'] == "" or request.POST['link'] == "":
             context["error"] = "Fields 'Name' and 'Link' are required."
@@ -1174,11 +1138,7 @@ def addPartner(request):
 def updatePartner(request,partner_id=None):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     partner = get_object_or_404(Partner,pk=partner_id)
     context['partner']=partner
     countChange = 0
@@ -1232,11 +1192,7 @@ def deletePartner(request,partner_id=None):
 def listImages(request,image_type=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     type_image = Imagetype.objects.all()
     context['type_image']=type_image
     imagetype=Imagetype.objects.get(pk=image_type)
@@ -1246,11 +1202,7 @@ def listImages(request,image_type=1):
 def addImage(request,image_type=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     type_image = Imagetype.objects.all()
     context['type_image']=type_image
     imagetype=Imagetype.objects.get(pk=image_type)
@@ -1283,11 +1235,7 @@ def addImage(request,image_type=1):
 def updateImage(request,image_id=1):
     checkIfAdmin(request)
 
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     type_image = Imagetype.objects.all()
     context['type_image']=type_image
 
@@ -1328,11 +1276,7 @@ def deleteImage(request):
     
 def updateTypeSubActivity(request,subactivity_id=None):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)
     context['subactivity']=subactivity
 
@@ -1361,11 +1305,7 @@ def deleteTypeSubActivity(request):
 
 def addTypeSubActivity(request,idtypeactivity=None):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     context['typeactivity']=get_object_or_404(Typeactivity,pk=idtypeactivity)
     if request.method == 'POST':
         if request.POST['idtypeactivity'] == "" or request.POST['type'] == "":
@@ -1390,20 +1330,12 @@ def addTypeSubActivity(request,idtypeactivity=None):
 
 def listType(request):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     return context
 
 def addType(request,model,modelstr,params=['type'],nextId=None):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     
     if request.method=="POST":
         if request.POST['type'] == "":
@@ -1424,11 +1356,7 @@ def addType(request,model,modelstr,params=['type'],nextId=None):
 
 def updateType(request,id, model, modelstr):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     type = get_object_or_404(model,pk=id)
     context['type']=type
 
@@ -1509,11 +1437,7 @@ def listTypeMember(request):
 
 def addTypeMember(request):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
 
     if request.method == 'POST':
         if request.POST['type'] == "":
@@ -1539,11 +1463,7 @@ def addTypeMember(request):
 
 def updateTypeMember(request,type_id=None):
     checkIfAdmin(request)
-    context = {
-        "type_publication": Typepublication.objects.all(),
-        "type_activity": Typeactivity.objects.all(),
-        "type_member": Typemember.objects.all(),
-    }
+    context = getContext()
     typemember = get_object_or_404(Typemember,pk=type_id)
     context['type']=typemember
     context['imgs']=typemember.typememberimage_set.all()

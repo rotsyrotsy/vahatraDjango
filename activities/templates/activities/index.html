@@ -8,6 +8,10 @@
     <meta name="description" content="{% trans 'Over the course of the past 18 years, the ETP and now Vahatra have conducted field schools' %}..." />
     <meta name="keywords" content="vahatra, association, association vahatra, visit, visite,{{type_subactivity.type}} , activity" />
 {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/collapsed.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/css/ol.css" type="text/css">
+{% endblock %}
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
