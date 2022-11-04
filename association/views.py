@@ -21,7 +21,7 @@ def getContext():
         cache.set(TYPES_ACTIVITY, types_activity)
     if not types_pub:
         types_pub = Typepublication.objects.all().order_by("id")
-        cache.set(TYPES_ACTIVITY, types_pub)
+        cache.set(TYPES_PUB, types_pub)
 
     context={
         "types_activity": cache.get(TYPES_ACTIVITY),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-03 13:46+0300\n"
+"POT-Creation-Date: 2022-11-04 13:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,9 +42,9 @@ msgstr "Atlas d'une sélection de vertébrés terrestres de Madagascar"
 
 #: .\activities\templates\activities\atlas.html:21
 #: .\activities\templates\activities\collection.html:20
-#: .\activities\templates\activities\index.html:21
+#: .\activities\templates\activities\index.html:25
 #: .\activities\templates\activities\otherActivities.html:21
-#: .\activities\templates\activities\support.html:15
+#: .\activities\templates\activities\support.html:19
 #: .\association\templates\association\contact.html:18
 #: .\association\templates\association\financing.html:18
 #: .\association\templates\association\gallery.html:19
@@ -52,7 +52,7 @@ msgstr "Atlas d'une sélection de vertébrés terrestres de Madagascar"
 #: .\association\templates\association\index.html:5
 #: .\association\templates\association\members.html:19
 #: .\publications\templates\publications\index.html:28
-#: .\publications\templates\publications\search.html:15
+#: .\publications\templates\publications\search.html:19
 msgid "Home"
 msgstr "Accueil"
 
@@ -139,6 +139,12 @@ msgstr "Salle de collection"
 msgid ""
 "The collection room of the Department of Animal Biology, University of "
 "Antananarivo, holds a collection of 60,000 specimens of animals."
+msgstr ""
+
+#: .\activities\templates\activities\collection.html:7
+msgid ""
+"The Association Vahatra works closely with the Department of Animal Biology "
+"to improve the management of the collection room"
 msgstr ""
 
 #: .\activities\templates\activities\collection.html:41
@@ -237,11 +243,11 @@ msgid ""
 "field schools"
 msgstr ""
 
-#: .\activities\templates\activities\index.html:35
+#: .\activities\templates\activities\index.html:39
 msgid "About the"
 msgstr "A propos"
 
-#: .\activities\templates\activities\index.html:38
+#: .\activities\templates\activities\index.html:42
 msgid ""
 "\n"
 "                                <p>Wide dissemination of information on "
@@ -302,7 +308,7 @@ msgstr ""
 "                                </ul>\n"
 "                                "
 
-#: .\activities\templates\activities\index.html:51
+#: .\activities\templates\activities\index.html:55
 msgid ""
 "<p>Over the course of the past 18 years, the ETP and now <span>Vahatra</"
 "span> have conducted field schools on a nearly yearly basis for young "
@@ -335,7 +341,7 @@ msgstr ""
 "mettre en relation les aspects théoriques présentés à l’université et les "
 "aspects pratiques pour collecter les données sur le terrain.</p>"
 
-#: .\activities\templates\activities\index.html:54
+#: .\activities\templates\activities\index.html:58
 msgid ""
 "<p>Over the past 18 years, over 430 sites have been the subjects of multi-"
 "disciplinary biological inventories by the former ETP group and more "
@@ -350,14 +356,14 @@ msgstr ""
 "nombreux cas, plusieurs sites ont été inventoriés dans une localité donnée.</"
 "p>"
 
-#: .\activities\templates\activities\index.html:84
+#: .\activities\templates\activities\index.html:88
 #: .\activities\templates\activities\otherActivities.html:99
 #: .\association\templates\association\gallery.html:52
 #: .\association\templates\association\index.html:11
 msgid "Show more"
 msgstr "Voir plus"
 
-#: .\activities\templates\activities\index.html:91
+#: .\activities\templates\activities\index.html:95
 msgid "Scroll down to see details"
 msgstr "Faites défiler pour voir les détails"
 
@@ -372,7 +378,14 @@ msgid ""
 "population information related to data accumulated during the biological "
 "inventories done by ETP and Vahatra team. "
 msgstr ""
-"Vahatra est impliqué dans les inventaires biologiques des zones forestières inconnues ou pauvrement connues et dans le renforcement de capacité des étudiants diplômés de l’université. Elle a aussi promu la publication d’une revue scientifique de normes internationales ainsi qu’une série de livres sur l’histoire naturelle de Madagascar. L'Association a initié un projet intitulé « Sciences pour le peuple » qui vise surtout à rendre à la population les données acquis au cours des dizaines d'années de recherche sur le terrain."
+"Vahatra est impliqué dans les inventaires biologiques des zones forestières "
+"inconnues ou pauvrement connues et dans le renforcement de capacité des "
+"étudiants diplômés de l’université. Elle a aussi promu la publication d’une "
+"revue scientifique de normes internationales ainsi qu’une série de livres "
+"sur l’histoire naturelle de Madagascar. L'Association a initié un projet "
+"intitulé « Sciences pour le peuple » qui vise surtout à rendre à la "
+"population les données acquis au cours des dizaines d'années de recherche "
+"sur le terrain."
 
 #: .\activities\templates\activities\otherActivities.html:34
 msgid "Filter activities by year"
@@ -385,16 +398,13 @@ msgid "All"
 msgstr "Tous"
 
 #: .\activities\templates\activities\support.html:4
-#: .\activities\templates\activities\support.html:13
-#: .\activities\templates\activities\support.html:16
+#: .\activities\templates\activities\support.html:17
+#: .\activities\templates\activities\support.html:20
 msgid "Supports"
 msgstr "Appuis"
 
-#: .\activities\templates\activities\support.html:32
-msgid "Pedagogic support"
-msgstr "Appui pédagogique"
-
-#: .\activities\templates\activities\support.html:35
+#: .\activities\templates\activities\support.html:6
+#: .\activities\templates\activities\support.html:39
 msgid ""
 "Members of Vahatra contribute to the education of numerous students working "
 "for their higher degrees in the national university system. These "
@@ -407,7 +417,17 @@ msgstr ""
 "pays. Une grande partie sont formés dans les domaines de la biologie de "
 "conservation et de la science de la biodiversité."
 
-#: .\activities\templates\activities\support.html:45
+#: .\activities\templates\activities\support.html:7
+#: .\activities\templates\activities\support.html:36
+msgid "Pedagogic support"
+msgstr "Appui pédagogique"
+
+#: .\activities\templates\activities\support.html:7
+#: .\activities\templates\activities\support.html:83
+msgid "Scientific support"
+msgstr "Appui scientifique"
+
+#: .\activities\templates\activities\support.html:49
 msgid ""
 "\n"
 "                                <p><strong>Vahatra staff members present "
@@ -448,11 +468,7 @@ msgstr ""
 "Finlande et en Afrique du Sud. </p>\n"
 "                                "
 
-#: .\activities\templates\activities\support.html:79
-msgid "Scientific support"
-msgstr "Appui scientifique"
-
-#: .\activities\templates\activities\support.html:81
+#: .\activities\templates\activities\support.html:85
 msgid ""
 "Vahatra participates in helping with the reinforcement of conservation "
 "biology on Madagascar by actively collaborating with different organizations "
@@ -462,15 +478,15 @@ msgstr ""
 "biodiversité à Madagascar en collaborant étroitement avec les diverses "
 "institutions oeuvrant dans ou associées à ce domaine."
 
-#: .\activities\templates\activities\support.html:113
+#: .\activities\templates\activities\support.html:117
 msgid "Become One Of Our Partners"
 msgstr "Devenez Un De Nos Partenaires"
 
-#: .\activities\templates\activities\support.html:114
+#: .\activities\templates\activities\support.html:118
 msgid "Contact us to get more informations about the processes"
 msgstr "Contactez-nous pour avoir plus d'information"
 
-#: .\activities\templates\activities\support.html:118
+#: .\activities\templates\activities\support.html:122
 msgid "Send"
 msgstr "Envoyer"
 
@@ -479,7 +495,7 @@ msgstr "Envoyer"
 msgid "Contact Us"
 msgstr "Contactez-Nous"
 
-#: .\association\templates\association\base.html:97
+#: .\association\templates\association\base.html:92
 msgid ""
 "Vahatra's challenge, objectives and mission are mainly based on its history; "
 "and the members are doing their best to achieve these objectives."
@@ -546,28 +562,16 @@ msgstr "Financement"
 msgid ""
 "We have approached the financing of Association Vahatra in two different "
 "manners: Trust fund and Grants and funds from the private sector"
-msgstr "Nous avons abordé le financement de l'Association Vahatra en deux manières différentes: Fonds fiduciaire et Subventions et fonds provenant du secteur privé"
+msgstr ""
+"Nous avons abordé le financement de l'Association Vahatra en deux manières "
+"différentes: Fonds fiduciaire et Subventions et fonds provenant du secteur "
+"privé"
 
 #: .\association\templates\association\financing.html:31
 msgid "TRUST FUND"
 msgstr "FONDS JUDICIAIRE"
 
 #: .\association\templates\association\financing.html:32
-#, fuzzy, python-format
-#| msgid ""
-#| "In order to guarantee the long-term financial viability of Vahatra we "
-#| "have followed a trust fund model. This fund is folded into the assets of "
-#| "The Field Museum of Natural History in Chicago and managed by the "
-#| "museum’s financial councilors. Each year the interest revenue earned by "
-#| "the fund is made available to Vahatra, with the appropriate year-end "
-#| "financial accounting submitted to the Field Museum.  The fund has been "
-#| "set up as “donor-restricted” under the title “Vahatra Fund.”  This "
-#| "arrangement is necessary following the IRS Code Sec. 170(a) and (c)(2). "
-#| "All donations sent to the Field Museum and earmarked for Vahatra would be "
-#| "tax-exempt in conformance with U.S. Governmental laws. Currently the "
-#| "trust fund contains about 20%% of the intended sum. For further "
-#| "information on the trust fund and possible donations, please contact Mr. "
-#| "Steven Strohmeier at"
 msgid ""
 "In order to guarantee the long-term financial viability of Vahatra we have "
 "followed a trust fund model. This fund is folded into the assets of The "
@@ -581,15 +585,14 @@ msgid ""
 "conformance with U.S. Governmental laws. Currently the trust fund contains "
 "about 20%% of the intended sum. For further information on the trust fund "
 "and possible donations, please contact Mr. Steven Strohmeier at"
-msgstr ""
-"Fonds fiduciaire - afin de garantir la viabilité financière à long terme de "
+msgstr "Afin de garantir la viabilité financière à long terme de "
 "Vahatra nous avons suivi un modèle de fonds d'affectation spéciale. Ce fonds "
 "est inclus dans l'actif du Field Museum of Natural History à Chicago et est "
 "géré par les conseillers financiers du musée. Chaque année, les revenus "
 "d'intérêts gagnés par le fonds sont mis à la disposition de Vahatra, et le "
 "rapport financier annuel correspondant est soumis au Field Museum Field. Le "
-"fonds a été mis en place en tant que 'donateur-restreint' sous le titre "
-"'Fonds Vahatra.' Cet accord est exigé par l'IRS Code Sec. 170 (a) et (c) "
+"fonds a été mis en place en tant que “donateur-restreint” sous le titre "
+"“Fonds Vahatra.” Cet accord est exigé par l'IRS Code Sec. 170 (a) et (c) "
 "(2). Tous les dons envoyés au Field Museum et destinés à Vahatra sont "
 "exonérés d'impôt en conformité avec les lois des États-Unis. Actuellement, "
 "le fonds contient environ 20% de la somme nécessaire. Pour de plus amples "
@@ -692,10 +695,6 @@ msgid "Our gallery"
 msgstr "Notre galerie"
 
 #: .\association\templates\association\index.html:7
-#, fuzzy
-#| msgid ""
-#| "Vahatra's challenge, objectives and mission are mainly based on its "
-#| "history; and the members are doing their best to achieve these objectives."
 msgid ""
 "Vahatra` s challenge, objectives and mission are mainly based on its "
 "history; and the members are doing their best to achieve these objectives."
@@ -1085,8 +1084,8 @@ msgstr "Membres"
 #: .\publications\templates\publications\index.html:106
 #: .\publications\templates\publications\index.html:139
 #: .\publications\templates\publications\search.html:5
-#: .\publications\templates\publications\search.html:13
 #: .\publications\templates\publications\search.html:17
+#: .\publications\templates\publications\search.html:21
 msgid "Search"
 msgstr "Recherche"
 
@@ -1334,27 +1333,31 @@ msgstr "Recherche multicritère"
 msgid "Author"
 msgstr "Auteur"
 
-#: .\publications\templates\publications\search.html:29
+#: .\publications\templates\publications\search.html:7
+msgid "Results of publication research"
+msgstr "Resultats des recherches de publication"
+
+#: .\publications\templates\publications\search.html:33
 msgid "Publication Searching"
 msgstr "Recherche de Publication"
 
-#: .\publications\templates\publications\search.html:30
+#: .\publications\templates\publications\search.html:34
 msgid "Results"
 msgstr "Resultats"
 
-#: .\publications\templates\publications\search.html:42
+#: .\publications\templates\publications\search.html:46
 msgid "Category"
 msgstr "Catégorie"
 
-#: .\publications\templates\publications\search.html:45
+#: .\publications\templates\publications\search.html:49
 msgid "Title"
 msgstr "Titre"
 
-#: .\publications\templates\publications\search.html:48
+#: .\publications\templates\publications\search.html:52
 msgid "Authors"
 msgstr "Auteurs"
 
-#: .\publications\templates\publications\search.html:51
+#: .\publications\templates\publications\search.html:55
 msgid "Year"
 msgstr "Année"
 
