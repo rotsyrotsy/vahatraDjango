@@ -10,6 +10,7 @@ from django.core.mail import EmailMultiAlternatives
 import imaplib, time
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
+from association.pdf import render_to_pdf
 
 TYPES_ACTIVITY="Typeactivity.all"
 TYPES_PUB="Typepublication.all"
@@ -29,7 +30,6 @@ def getContext():
     }
     return context
 
-@cache_page(60*60)
 def index(request):
 
     context = getContext()
@@ -49,7 +49,11 @@ def index(request):
     context["new_pubs"] = new_pubs
     context["new_events"] = new_events
     
-    return render(request, "association/index.html", context)
+    return render_to_pdf(
+            "association/index.html",context
+        )
+    
+    # return render(request, "association/index.html", context)
 
 @cache_page(60*60)
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
