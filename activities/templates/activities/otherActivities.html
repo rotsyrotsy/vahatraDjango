@@ -91,7 +91,7 @@
                                     {% if activity.idtypesubactivity.id == 'SA7' %}
                                         <span class="font-italic" >{{activity.title | capfirst}}</span>
                                     {% else %}
-                                        {{activity.title | title}}
+                                        {{activity.title | capfirst}}
                                     {% endif %}
                                 </a></h4>
                                 {% if activity.note %}<p>{{activity.note}}</p>{% endif %}

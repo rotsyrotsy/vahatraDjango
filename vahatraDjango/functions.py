@@ -17,10 +17,10 @@ def unique_slug_generator(instance: Activity, new_slug = None):
         new_slug.split("/")
         slug = "/".join(slugify(el) for el in new_slug.split("/"))
     else:
-        strToSlug = slugify(str(instance.idtypeactivity.type))
+        strToSlug = slugify(str(instance.idtypeactivity.type_en))
         if instance.idtypesubactivity:
-            strToSlug += "/"+slugify(str(instance.idtypesubactivity.type))
-        strToSlug += "/"+slugify(instance.title)+"-"+str(instance.id)
+            strToSlug += "/"+slugify(str(instance.idtypesubactivity.type_en))
+        strToSlug += "/"+slugify(instance.title_en)+"-"+str(instance.id)
         slug = strToSlug
 
     return slug

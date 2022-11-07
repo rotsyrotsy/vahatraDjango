@@ -109,7 +109,7 @@
                               <div class="form-check form-check-danger">
                                 <label class="form-check-label">
                                   <input type="checkbox" class="form-check-input" name="deletepd" value="{{pd.id}}">
-                                  {{pd.name|title }} 
+                                  {{pd.name }} 
                                   <i class="input-helper"></i>
                                     {% if pd.pdf %}
                                    - <a style="color: #D5A843;" href="{% static 'pdf/' %}{{publication.idtype.type_en|snake_case}}/{{pd.pdf}}">PDF</a>

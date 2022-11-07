@@ -94,7 +94,9 @@
                                 {% endwith %}
                                 <div class="bord-info">
                                     <h4>{{partner.idinst.name}}</h4>
+                                    {% autoescape off %}
                                     <p>{{partner.description|capfirst}}</p>
+                                    {% endautoescape %}
                                     <span><a href="{{partner.link}}" target="_blank" title="">Show page<i class="flaticon-right-arrow"></i></a></span>
                                 </div>
                             </div>

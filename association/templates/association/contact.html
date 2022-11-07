@@ -130,7 +130,7 @@
         ],
         view: new ol.View({
         center: ol.proj.fromLonLat([ 47.5511327993, -18.9167]),
-        zoom: 17
+        zoom: 19
         })
     });
 
@@ -157,5 +157,28 @@
         })
     });
     map.addLayer(layer);
+    var domaineLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [
+                new ol.Feature({
+                    geometry: new ol.geom.Point(ol.proj.fromLonLat([47.5511327993, -18.9169]))})
+            ]
+        }),
+        style: new ol.style.Style({
+            image: new ol.style.Icon({
+            anchor: [0.5, 1],
+            src: img,
+            scale: 0.3
+            }),
+            text : new ol.style.Text({
+                text: 'Domaine d\'Ankatso',
+                scale: 1.5,
+                fill: new ol.style.Fill({
+                    color: 'black',
+                })
+            })
+        })
+    });
+    map.addLayer(domaineLayer);
 </script>
 {% endblock %}

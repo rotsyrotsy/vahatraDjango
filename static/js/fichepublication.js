@@ -54,7 +54,10 @@ function fichepublicationretour(data,model,staticpdf,pub,downloadurl){
 
     par_authors = '<p><i class="fa fa-user-o thm-clr"></i> <strong>Authors</strong></p><p>';
     for (let i = 0; i < authors.length; i++) {
-        par_authors += authors[i]['fields']['name']+" "+authors[i]['fields']['username']+", ";
+        par_authors += authors[i]['fields']['name']+" "+authors[i]['fields']['username'];
+        if (i<authors.length-1){
+            par_authors += ", ";
+        }
     }
     par_authors +='</p>'
     $('#content').append(par_authors);

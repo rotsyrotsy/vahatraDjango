@@ -7,9 +7,15 @@
     if ( $(this).text() == 'Show more' ){  
         $('#'+id).css('display','block');
         $(this).html('Show less');
-    } else {
+    }else if ( $(this).text() == 'Voir plus' ){  
+        $('#'+id).css('display','block');
+        $(this).html('Voir moins');
+    } else if ( $(this).text() == 'Show less' ){
         $('#'+id).css('display','none');
         $(this).html('Show more');
+    }else if ( $(this).text() == 'Voir moins' ){
+        $('#'+id).css('display','none');
+        $(this).html('Voir plus');
     };
 
     var idfocus = $(this).data('focus');
@@ -137,3 +143,5 @@ $( ".custom-featured-item" ).hover(
         $('.slide-arrow-index').css('display','none');
       }
   );
+
+  

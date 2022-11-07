@@ -70,7 +70,8 @@
                             <div class="blog-detail-desc">
                                 {% if activity.note %}<p>{{activity.note}}</p>{% endif %}
                                 {% if activity.description %}
-                                    {% autoescape on %}
+                                
+                                    {% autoescape off %}
                                         {% with lines=activity.description|linebreakcustom  %}
                                             {% with items=images|slicePerRange:lines %}
                                                 {% for item in items %}

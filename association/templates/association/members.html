@@ -50,7 +50,9 @@
                 </div>
             </div>
             <div >
+                {% autoescape off %}
                 <p>{{ type.description}}</p>
+                {% endautoescape %}
                 <div class="pagination-wrap text-center m-0">
                     <ul class="pagination" style="float:right ;">
                         {% for number in page_number %}
@@ -79,8 +81,9 @@
                     <span>{% trans "Our Members" %}</span>
                     <h3>{{type.type|title}}</h3>
                 </div>
-                
+                {% autoescape off %}
                 <p>{{ type.description}}</p>
+                {% endautoescape %}
             </div>
             
             {% if page_number|length > 1 %}
@@ -109,7 +112,9 @@
                                 {% endif %}
                                 <div class="team-info2">
                                     <h4>{{ member.idperson.username }} {{ member.idperson.name }}</h4>
+                                    {% autoescape off %}
                                     <p>{{ member.description|default_if_none:"" }}</p>
+                                    {% endautoescape %}
                                     
                                         {% for mpi in member.memberpostinst_set.all %}
                                             <p style="font-weight: bold;">

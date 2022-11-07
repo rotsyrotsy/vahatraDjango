@@ -67,5 +67,7 @@ urlpatterns = [
     path("addTypeImage", views.addTypeImage, name="addTypeImage"),
     path("updateTypeImage/<str:type_id>", views.updateTypeImage, name="updateTypeImage"),
     path("deleteTypeImage", views.deleteTypeImage, name="deleteTypeImage"),
+    path("addMessageofyear", views.addMessageofyear, name="addMessageofyear"),
+    path("updateMessageofyear/<int:id>", views.updateMessageofyear, name="updateMessageofyear"),
     
 ]

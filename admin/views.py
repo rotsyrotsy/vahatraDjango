@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Min, Max,Q
 from sequences import get_next_value
-from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember, Typememberimage
+from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember, Typememberimage, Messageofyear
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 
 from django.core.files.images import get_image_dimensions
@@ -229,6 +229,7 @@ def ajaxDelete(request,themodel,modelname,imgs=None,path=None):
 
 def index(request):
     context = getContext()
+    context['message_of_year']=Messageofyear.objects.order_by('year')[0]
     checkIfAdmin(request)
     return render(request, "admin/index.html", context)
 
@@ -340,7 +341,7 @@ def addActivity(request, idtypeactivity='A1'):
         setAttributeByRequestParams(request,names, activity)
         
 
-        # activity.save()
+        activity.save()
 
         lastActivity = Activity.objects.last()
 
@@ -1502,3 +1503,40 @@ def deleteTypeMember(request):
     type = Typemember.objects.get(pk=type_id)
     return ajaxDelete(request,type,'Member type',type.typememberimage_set.all().values_list('image',flat=True),'images/members')
     
+
+def addMessageofyear(request):
+    context = getContext()
+    checkIfAdmin(request)
+    context['members']=Member.objects.filter(idtypemember=2)
+    countChanges = 0
+    if request.method == 'POST':
+        message_of_year=Messageofyear(idmember=Member.objects.get(pk=request.POST['idmember']))
+        names = ['year','description']
+        setAttributeByRequestParams(request,names, message_of_year)
+        message_of_year.save()
+
+        context["success"] = "The message of year "+message_of_year.year+" inserted successfully."
+
+    return render(request, "admin/addMessageofyear.html", context)
+
+def updateMessageofyear(request,id=1):
+    context = getContext()
+    checkIfAdmin(request)
+    message_of_year = Messageofyear.objects.get(pk=id)
+    context['message_of_year']=message_of_year
+    context['members']=Member.objects.filter(idtypemember=2)
+    countChanges = 0
+    if request.method == 'POST':
+        if request.POST['idmember']!=message_of_year.idmember.id:
+            message_of_year.idmember = Member.objects.get(pk=request.POST['idmember'])
+            countChanges += 1
+        params = ['year','description']
+        countChanges += updateAttributeByRequestParams(request,params, message_of_year)
+
+        if countChanges > 0:
+            message_of_year.save()
+            context["success"] = "Message of the year "+str(message_of_year.year)+" updated successfully."
+        else:
+            context["error"] = "There is nothing to change."
+
+    return render(request, "admin/updateMessageofyear.html", context)

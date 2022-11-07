@@ -1,0 +1,80 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'admin:addMessageofyear' %}" type="button" class="btn btn-info">
+                      <i class="ti-plus"></i> Add new message of year
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Update the year message </h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:updateMessageofyear' message_of_year.id %}"  method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="date">Year</label>
+                        <input type="number" class="form-control" name="year" value="{{message_of_year.year}}" >
+                      </div>
+
+                    <div class="form-group">
+                      <label for="description">Description</label>
+                      <textarea class="form-control editor" id="description" name="description" rows="4">
+                        {% autoescape off %}
+                        {{message_of_year.description}}
+                        {% endautoescape %}
+                    </textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selectFrom">From : <strong>{{message_of_year.idmember.idperson.username|title}} {{message_of_year.idmember.idperson.name|title}}</strong></label>
+                            <select class="form-control" id="selectFrom" name="idmember" required>
+                                <option value="{{message_of_year.idmember.id}}">{{message_of_year.idmember.idperson.username|title}} {{message_of_year.idmember.idperson.name|title}}</option>
+                                {% for item in members %}
+                                    {% if item.idperson.id != message_of_year.idmember.idperson.id %}
+                                    <option value="{{item.id}}">{{item.idperson.username|title}} {{item.idperson.name|title}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+                {% if warning %}
+                <div class="alert alert-warning">
+                    {{ warning }}
+                </div>
+                {% endif %}
+                
+                <button type="submit" class="btn btn-info mr-2">Submit</button>
+                <a href="{% url 'admin:index' %}" class="btn btn-light">Cancel</a>
+              
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

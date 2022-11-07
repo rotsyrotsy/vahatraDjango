@@ -305,7 +305,9 @@
                             {% endwith %}
                             <div class="team-info">
                                 <h4><a href="{% url 'association:member' item.id item.type_en|toSlug %}" >{{ item.type|title }}</a></h4>
+                                {% autoescape off %}
                                 <p>{{ item.description|truncatewords:10 }}</p>
+                                {% endautoescape %}
                             </div>
                         </div>
                     </div>
@@ -353,7 +355,9 @@
                                                 <li class="thm-clr">{{activity.date}}</li>
                                                 <li>{{activity.idtypeactivity.type}}</li>
                                             </ul>
+                                            {% autoescape off %}
                                             <p>{{activity.description|truncatewords:10}}</p>
+                                            {% endautoescape %}
                                         </div>
                                     </div>
                                 </div>
@@ -477,18 +481,18 @@
                         <i><img loading="lazy" src="{% static 'images/members/' %}{{message_of_year.idmember.image}} " width="106" height="106" alt="message of the year" title="message of the year"></i>
                         <div class="testi-info">
                             <h4>Achille P. RASELIMANANA</h4>
-             
+
+                            {% autoescape off %}
                             <p>
-                              <i>"</i>
                               {{message_of_year.description|linebreakcustom|first}}
                                                                                     
-                            <span id="messageyear">
+                            <span id="messageyear" class="testi-info" >
                                 {% for line in message_of_year.description|linebreakcustom|slice:"1:" %}
                                     {{ line }}
-                                    {% endfor %}
+                                {% endfor %}
                             </span>     
-               
-                              <i>"</i></p>
+                            </p>
+                              {% endautoescape %}
                               <p>
                                   <button class="show-more-btn thm-btn brd-rd40" data-id="messageyear" data-focus="messageyearfocus">{{showmore}}</button>
                               </p>

@@ -13,15 +13,21 @@ def split(value,character):
     return value.split(character)
 
 def linebreakcustom(value):
-    lines=[]
-    text=""
-    for line in value.splitlines():
-        if line!="":
-            text += line+" "
-        else:
-            lines.append(text)
-            text= ""
-    lines.append(text)
+    splitstr = value.split("</p>")
+    lines = [item + '</p>' for item in splitstr]
+    if lines[len(splitstr)-1]=="":
+        lines = lines[len(splitstr)-1]
+    
+    # lines=[]
+    # text=""
+    # for line in value.splitlines():
+    #     if line!="":
+    #         text += line+" "
+    #     else:
+    #         lines.append(text)
+    #         text= ""
+    # lines.append(text)
+    print(lines)
     return lines
 
 def slicePerRange(value,liste=None):

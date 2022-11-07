@@ -12,7 +12,6 @@ from vahatraDjango.functions import pagination, toSlug
 from association.views import getContext
 from django.views.decorators.cache import cache_page
 
-@cache_page(60*60)
 def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
     
     context = getContext()
@@ -24,8 +23,7 @@ def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
         return redirect('publications:index', typepublication_id=type.id, typepublication_name=slug)
     
 
-    publications = Publication.objects.filter(Q(idtype=typepublication_id), Q(date__lte = date.today())|Q(date__isnull=True))
-    
+    publications = Publication.objects.filter(Q(idtype=typepublication_id)|Q(date__isnull=True))
     context["publications"]=publications.order_by('-date')
     
     
