@@ -716,18 +716,18 @@ msgstr ""
 #: .\association\templates\association\index.html:47
 #: .\association\templates\association\index.html:54
 #: .\association\templates\association\index.html:60
-msgid "'Let's keep our diversity together'"
-msgstr "'Conservons notre diversité ensemble'"
+msgid "'Let's keep our biodiversity'"
+msgstr "'Conservons notre biodiversité'"
 
 #: .\association\templates\association\index.html:25
 #: .\association\templates\association\index.html:33
 #: .\association\templates\association\index.html:46
 #: .\association\templates\association\index.html:59
 msgid ""
-"Working on reptiles, amphibians ,birds and small mammals : endemic to "
+"Working on reptiles, amphibians, birds and small mammals : endemic to "
 "Madagascar"
 msgstr ""
-"Travailler sur les reptiles, amphibiens ,oiseaux et petits mammifères "
+"Travailler sur les reptiles, amphibiens, oiseaux et petits mammifères "
 "endémiques de Madagascar"
 
 #: .\association\templates\association\index.html:125
