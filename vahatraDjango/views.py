@@ -6,5 +6,5 @@ def page_not_found_view(request, exception):
 def my_custom_permission_denied_view(request,exception):
     return render(request, 'association/httpError/403.html', status=403)
 
-def server_error(request,exception):
+def server_error(request,*args, **argv):
     return render(request, 'association/httpError/500.html', status=500)
