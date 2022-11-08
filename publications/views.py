@@ -12,6 +12,7 @@ from vahatraDjango.functions import pagination, toSlug
 from association.views import getContext
 from django.views.decorators.cache import cache_page
 
+@cache_page(60*60)
 def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
     
     context = getContext()

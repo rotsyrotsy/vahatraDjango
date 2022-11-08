@@ -29,6 +29,7 @@ def getContext():
     }
     return context
 
+@cache_page(60*60)
 def index(request):
 
     context = getContext()
@@ -50,6 +51,7 @@ def index(request):
     
     return render(request, "association/index.html", context)
 
+@cache_page(60*60)
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
     context = getContext()
     type = get_object_or_404(Typemember, pk = type_member_id)
@@ -134,12 +136,12 @@ def contact(request):
     
     return render(request, "association/contact.html",context)
 
-
+@cache_page(60*60*24)
 def financing(request):
     context = getContext()
     return render(request, "association/financing.html",context)
 
-   
+@cache_page(60*60)
 def gallery(request,limit=9):
     context = getContext()
     limit = int(limit)

@@ -14,7 +14,7 @@ from association.views import getContext
 
 from django.views.decorators.cache import cache_page
 
-
+@cache_page(60*60)
 def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_id=None,typesubactivity_name=None,max=None,min=None, page=1):
     context = getContext()
     typeactivity= get_object_or_404(Typeactivity, pk = typeactivity_id)
@@ -106,7 +106,7 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
     context['filter_year']=filter
     return render(request, "activities/otherActivities.html", context)
 
-
+@cache_page(60*60)
 def visit_by_lieu(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
@@ -135,7 +135,7 @@ def visit_by_lieu(request):
     else:
         return HttpResponseBadRequest('Invalid request')
 
-
+@cache_page(60*60*24)
 def support(request):
     context = getContext()
     partner_list = Partner.objects.filter(isLink=False)
@@ -143,11 +143,12 @@ def support(request):
     
     return render(request, "activities/support.html", context)
 
-
+@cache_page(60*60*24)
 def atlas(request):
     context = getContext()
     return render(request, "activities/atlas.html", context)
 
+@cache_page(60*60)
 def activityDetail(request,slug):
     context = getContext()
 
@@ -168,13 +169,13 @@ def activityDetail(request,slug):
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)
 
-
+@cache_page(60*60*24)
 def collection(request,salle=''):
     context = getContext()
     context['salle']=salle
     return render(request, "activities/collection.html",context)
 
-
+@cache_page(60*60)
 def ajaxActivityDetail(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
