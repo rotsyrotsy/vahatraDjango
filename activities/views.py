@@ -70,13 +70,12 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
 
         if not max and not min:
             max = maxactivity
-            min = max-limit
+            min = minactivity
         else:
             context['minfilter']=min
             context['maxfilter']=max
-            
-        thelist = thelist.filter(Q(date__year__gte = min),
-        Q(date__year__lte = max))
+            thelist = thelist.filter(Q(date__year__gte = min),
+            Q(date__year__lte = max))
         
         dictpagination = pagination(page, thelist, 6, '-date')
         page_number = dictpagination['page_number']

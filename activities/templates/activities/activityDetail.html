@@ -53,7 +53,7 @@
                                 {% endif %}
                                 <div class="blog-detail-inf-inr">
                                     <h1 style="padding: 10px 0px 5px 0;font-weight: 600; font-size: 1.5rem;">
-                                        {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst}}</span>{% else %}{{activity.title | title}}{% endif %}
+                                        {%if activity.idtypesubactivity.id == 'SA7' %}<span class="font-italic" >{{activity.title | capfirst}}</span>{% else %}{{activity.title | capfirst}}{% endif %}
                                     </h1>
                                     <ul class="pst-mta">
                                         <li><i class="fa fa-calendar-o thm-clr"></i>{{activity.date |date:"Y"}}</li>

@@ -32,9 +32,13 @@
                 <div class="col-md-12">
                     <div class="wdgt-box">
                         <h4>{% trans "Filter activities by year" %}</h4>
-
                         {% if type_subactivity %}
                             <select onchange="location = this.value;">
+                                {% if maxfilter and minfilter %}
+                                <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' maxfilter minfilter %}">
+                                        {{maxfilter}} - {{minfilter}}
+                                </option>
+                                {% endif %}
                                 <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug type_subactivity.id|default_if_none:'' type_subactivity.type|toSlug|default_if_none:'' %}">
                                     {% trans "All" %}
                                 </option>
@@ -46,6 +50,11 @@
                             </select>
                         {% else %}
                             <select onchange="location = this.value;">
+                                {% if maxfilter and minfilter %}
+                                <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug maxfilter minfilter %}">
+                                        {{maxfilter}} - {{minfilter}}
+                                </option>
+                                {% endif %}
                                 <option value="{% url 'activities:index' type_activity.id type_activity.type|toSlug %}">
                                     {% trans "All" %}
                                 </option>

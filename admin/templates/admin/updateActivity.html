@@ -108,7 +108,7 @@
                               <div class="form-check form-check-danger">
                                 <label class="form-check-label">
                                   <input type="checkbox" class="form-check-input" name="deletefs" value="{{fs.id}}">
-                                  {{fs.iddept.name|title }} {{fs.idinst.name|title}}
+                                  {{fs.iddept.name }} {{fs.idinst.name}}
                                   <i class="input-helper"></i>
                                 </label>
                               </div>
@@ -197,7 +197,11 @@
                 {% endif %}
 
                   <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  {% if activity.idtypesubactivity %}
+                  <a href="{% url 'admin:listActivities' activity.idtypeactivity.id activity.idtypesubactivity.id 1 %}" class="btn btn-light">Cancel</a>
+                  {% else %}
                   <a href="{% url 'admin:listActivities' activity.idtypeactivity.id %}" class="btn btn-light">Cancel</a>
+                  {% endif %}
                 </form>
               </div>
             </div>

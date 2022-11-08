@@ -18,16 +18,6 @@ def linebreakcustom(value):
     if lines[len(splitstr)-1]=="":
         lines = lines[len(splitstr)-1]
     
-    # lines=[]
-    # text=""
-    # for line in value.splitlines():
-    #     if line!="":
-    #         text += line+" "
-    #     else:
-    #         lines.append(text)
-    #         text= ""
-    # lines.append(text)
-    print(lines)
     return lines
 
 def slicePerRange(value,liste=None):

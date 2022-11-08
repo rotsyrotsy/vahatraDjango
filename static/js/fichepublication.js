@@ -30,8 +30,8 @@ function fichepublicationretour(data,model,staticpdf,pub,downloadurl){
     $('#content').append(img);
 
     descriPub = '<div>';
-    if (pub.decription!= null) {
-        descriPub += '<p>'+pub.decription+'</p>';
+    if (pub.description!='None') {
+        descriPub += '<p>'+pub.description+'</p>';
     }
     
 
