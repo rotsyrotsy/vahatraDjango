@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-04 13:16+0300\n"
+"POT-Creation-Date: 2022-11-09 14:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\activities\templates\activities\activityDetail.html:92
+#: .\activities\templates\activities\activityDetail.html:93
 msgid "Our collaborators"
 msgstr "Nos Collaborateurs"
 
-#: .\activities\templates\activities\activityDetail.html:104
+#: .\activities\templates\activities\activityDetail.html:105
 msgid ""
 "Because Madagascar has been an island for tens of millions of years, many of "
 "the plants and animals that live there are found nowhere else."
@@ -30,8 +30,8 @@ msgstr ""
 "Parce que Madagascar a vécu des dizaines de millions d'années, la majorité "
 "de sa faune et sa flore ne peuvent être trouvées n'importe où ailleurs."
 
-#: .\activities\templates\activities\activityDetail.html:120
-#: .\association\templates\association\index.html:413
+#: .\activities\templates\activities\activityDetail.html:121
+#: .\association\templates\association\index.html:420
 msgid "Recent"
 msgstr "Récent"
 
@@ -357,7 +357,7 @@ msgstr ""
 "p>"
 
 #: .\activities\templates\activities\index.html:88
-#: .\activities\templates\activities\otherActivities.html:99
+#: .\activities\templates\activities\otherActivities.html:108
 #: .\association\templates\association\gallery.html:52
 #: .\association\templates\association\index.html:11
 msgid "Show more"
@@ -391,8 +391,8 @@ msgstr ""
 msgid "Filter activities by year"
 msgstr "Filtrer les activités par année"
 
-#: .\activities\templates\activities\otherActivities.html:39
-#: .\activities\templates\activities\otherActivities.html:50
+#: .\activities\templates\activities\otherActivities.html:43
+#: .\activities\templates\activities\otherActivities.html:59
 #: .\association\templates\association\gallery.html:30
 msgid "All"
 msgstr "Tous"
@@ -434,14 +434,14 @@ msgid ""
 "courses and help guide students at the following universities:</strong></p>\n"
 "\n"
 "                                <ul>\n"
-"                                    <li>Department of Animal Biology, "
-"University of Antananarivo</li>\n"
+"                                    <li>Mention Zoologie et Biodiversité "
+"Animale, University of Antananarivo</li>\n"
 "                                    <li>Institut des Sciences et Techniques "
 "de l’Environnement (ISTE), University of Fianarantsoa</li>\n"
-"                                    <li>Department of Animal Biology, "
-"University of Mahajanga</li>\n"
-"                                    <li>Department of Animal Biology, "
-"University of Toliara</li>\n"
+"                                    <li>Faculté des Sciences, de "
+"technologies et de l’Environnement (FSTE), University of Mahajanga</li>\n"
+"                                    <li>Domaine des Sciences et "
+"Technologies, University of Toliara</li>\n"
 "                                </ul>\n"
 "                                <p>Further, Vahatra staff members have been "
 "committee members for Master’s and PhD theses at universities in the USA, "
@@ -449,17 +449,17 @@ msgid ""
 "                                "
 msgstr ""
 "\n"
-"<p><strong>Plusieurs membres de Vahatra enseignent dans les universités "
+"                                <p><strong>Plusieurs membres de Vahatra enseignent dans les universités "
 "suivantes :</strong></p>\n"
 "\n"
 "                                <ul>\n"
-"                                    <li>Department of Animal Biology, "
+"                                    <li>Mention Zoologie et Biodiversité Animale, "
 "University of Antananarivo</li>\n"
 "                                    <li>Institut des Sciences et Techniques "
 "de l’Environnement (ISTE), University of Fianarantsoa</li>\n"
-"                                    <li>Department of Animal Biology, "
+"                                    <li>Faculté des Sciences, de technologies et de l’Environnement (FSTE), "
 "University of Mahajanga</li>\n"
-"                                    <li>Department of Animal Biology, "
+"                                    <li>Domaine des Sciences et Technologies, "
 "University of Toliara</li>\n"
 "                                </ul>\n"
 "                                <p>En outre, les membres de Vahatra ont été "
@@ -478,24 +478,34 @@ msgstr ""
 "biodiversité à Madagascar en collaborant étroitement avec les diverses "
 "institutions oeuvrant dans ou associées à ce domaine."
 
-#: .\activities\templates\activities\support.html:117
+#: .\activities\templates\activities\support.html:119
 msgid "Become One Of Our Partners"
 msgstr "Devenez Un De Nos Partenaires"
 
-#: .\activities\templates\activities\support.html:118
+#: .\activities\templates\activities\support.html:120
 msgid "Contact us to get more informations about the processes"
 msgstr "Contactez-nous pour avoir plus d'information"
 
-#: .\activities\templates\activities\support.html:122
+#: .\activities\templates\activities\support.html:124
 msgid "Send"
 msgstr "Envoyer"
+
+#: .\admin\templates\admin\index.html:21
+#: .\association\templates\association\index.html:475
+msgid "A message from"
+msgstr "Un message"
+
+#: .\admin\templates\admin\index.html:21
+#: .\association\templates\association\index.html:476
+msgid "The President of Vahatra"
+msgstr "Du President de Vahatra"
 
 #: .\association\templates\association\base.html:3
 #: .\association\templates\association\contact.html:100
 msgid "Contact Us"
 msgstr "Contactez-Nous"
 
-#: .\association\templates\association\base.html:92
+#: .\association\templates\association\base.html:83
 msgid ""
 "Vahatra's challenge, objectives and mission are mainly based on its history; "
 "and the members are doing their best to achieve these objectives."
@@ -572,6 +582,21 @@ msgid "TRUST FUND"
 msgstr "FONDS JUDICIAIRE"
 
 #: .\association\templates\association\financing.html:32
+#, fuzzy, python-format
+#| msgid ""
+#| "In order to guarantee the long-term financial viability of Vahatra we "
+#| "have followed a trust fund model. This fund is folded into the assets of "
+#| "The Field Museum of Natural History in Chicago and managed by the "
+#| "museum’s financial councilors. Each year the interest revenue earned by "
+#| "the fund is made available to Vahatra, with the appropriate year-end "
+#| "financial accounting submitted to the Field Museum.  The fund has been "
+#| "set up as “donor-restricted” under the title “Vahatra Fund.”  This "
+#| "arrangement is necessary following the IRS Code Sec. 170(a) and (c)(2). "
+#| "All donations sent to the Field Museum and earmarked for Vahatra would be "
+#| "tax-exempt in conformance with U.S. Governmental laws. Currently the "
+#| "trust fund contains about 20%% of the intended sum. For further "
+#| "information on the trust fund and possible donations, please contact Mr. "
+#| "Steven Strohmeier at"
 msgid ""
 "In order to guarantee the long-term financial viability of Vahatra we have "
 "followed a trust fund model. This fund is folded into the assets of The "
@@ -585,19 +610,20 @@ msgid ""
 "conformance with U.S. Governmental laws. Currently the trust fund contains "
 "about 20%% of the intended sum. For further information on the trust fund "
 "and possible donations, please contact Mr. Steven Strohmeier at"
-msgstr "Afin de garantir la viabilité financière à long terme de "
-"Vahatra nous avons suivi un modèle de fonds d'affectation spéciale. Ce fonds "
-"est inclus dans l'actif du Field Museum of Natural History à Chicago et est "
-"géré par les conseillers financiers du musée. Chaque année, les revenus "
-"d'intérêts gagnés par le fonds sont mis à la disposition de Vahatra, et le "
-"rapport financier annuel correspondant est soumis au Field Museum Field. Le "
-"fonds a été mis en place en tant que “donateur-restreint” sous le titre "
-"“Fonds Vahatra.” Cet accord est exigé par l'IRS Code Sec. 170 (a) et (c) "
-"(2). Tous les dons envoyés au Field Museum et destinés à Vahatra sont "
-"exonérés d'impôt en conformité avec les lois des États-Unis. Actuellement, "
-"le fonds contient environ 20% de la somme nécessaire. Pour de plus amples "
-"renseignements sur le Fonds fiduciaire et les dons éventuels, veuillez "
-"contacter M. Steven Strohmeier au "
+msgstr ""
+"Afin de garantir la viabilité financière à long terme de Vahatra nous avons "
+"suivi un modèle de fonds d'affectation spéciale. Ce fonds est inclus dans "
+"l'actif du Field Museum of Natural History à Chicago et est géré par les "
+"conseillers financiers du musée. Chaque année, les revenus d'intérêts gagnés "
+"par le fonds sont mis à la disposition de Vahatra, et le rapport financier "
+"annuel correspondant est soumis au Field Museum Field. Le fonds a été mis en "
+"place en tant que “donateur-restreint” sous le titre “Fonds Vahatra.” Cet "
+"accord est exigé par l'IRS Code Sec. 170 (a) et (c) (2). Tous les dons "
+"envoyés au Field Museum et destinés à Vahatra sont exonérés d'impôt en "
+"conformité avec les lois des États-Unis. Actuellement, le fonds contient "
+"environ 20% de la somme nécessaire. Pour de plus amples renseignements sur "
+"le Fonds fiduciaire et les dons éventuels, veuillez contacter M. Steven "
+"Strohmeier au "
 
 #: .\association\templates\association\financing.html:37
 #: .\association\templates\association\financing.html:52
@@ -665,7 +691,7 @@ msgstr ""
 "d’autres photos, veuillez contacter :"
 
 #: .\association\templates\association\includes\nav.html:7
-#: .\association\templates\association\index.html:413
+#: .\association\templates\association\index.html:420
 msgid "Activities"
 msgstr "Activités"
 
@@ -1053,25 +1079,17 @@ msgstr ""
 "objectifs. La présence de personnes ayant des expériences et des spécialités "
 "différentes au sein de Vahatra est indispensable."
 
-#: .\association\templates\association\index.html:327
+#: .\association\templates\association\index.html:329
 msgid "Upcoming"
 msgstr "Prochain"
 
-#: .\association\templates\association\index.html:327
+#: .\association\templates\association\index.html:329
 msgid "Events"
 msgstr "Evénements"
 
-#: .\association\templates\association\index.html:329
+#: .\association\templates\association\index.html:331
 msgid "Let us introduce to you what's comming soon."
 msgstr "Les événements à venir."
-
-#: .\association\templates\association\index.html:468
-msgid "A message from"
-msgstr "Un message"
-
-#: .\association\templates\association\index.html:469
-msgid "The President of Vahatra"
-msgstr "Du President de Vahatra"
 
 #: .\association\templates\association\members.html:17
 msgid "Members"
@@ -1090,7 +1108,7 @@ msgid "Search"
 msgstr "Recherche"
 
 #: .\association\templates\association\members.html:48
-#: .\association\templates\association\members.html:79
+#: .\association\templates\association\members.html:81
 msgid "Our Members"
 msgstr "Les membres"
 
@@ -1361,11 +1379,11 @@ msgstr "Auteurs"
 msgid "Year"
 msgstr "Année"
 
-#: .\vahatraDjango\settings.py:143
+#: .\vahatraDjango\settings.py:165
 msgid "English"
 msgstr "Anglais"
 
-#: .\vahatraDjango\settings.py:144
+#: .\vahatraDjango\settings.py:166
 msgid "French"
 msgstr "Français"
 
