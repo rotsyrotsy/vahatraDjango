@@ -10,8 +10,6 @@ from math import ceil
 from django.utils.text import slugify
 import random
 import string
-
-
 def unique_slug_generator(instance: Activity, new_slug = None):
     if new_slug is not None:
         new_slug.split("/")
@@ -39,7 +37,6 @@ def renameFile(file):
 
 def convert_to_webp(file):
     from PIL import Image
-
     content_type=file.content_type.split("/")[1]
     if content_type == "webp":
         return file
@@ -61,7 +58,6 @@ def convert_to_webp(file):
     new_f_object = File(thumb_io, new_file_name)
     
     return new_f_object
-
 
 def handle_uploaded_file(f, location):
     if f.content_type.split("/")[0]=="image":
@@ -123,7 +119,6 @@ def get_random_code(length):
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
 
-import re
 from string import punctuation
 
 def validPassword(password):

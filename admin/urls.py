@@ -69,5 +69,10 @@ urlpatterns = [
     path("deleteTypeImage", views.deleteTypeImage, name="deleteTypeImage"),
     path("addMessageofyear", views.addMessageofyear, name="addMessageofyear"),
     path("updateMessageofyear/<int:id>", views.updateMessageofyear, name="updateMessageofyear"),
-    
+    path("listReports", views.listReports, name="listReports"),
+    path("listReports/page-<int:page>", views.listReports, name="listReports"),
+    path("listReports/<int:year>/page-<int:page>", views.listReports, name="listReports"),
+    path("addReport", views.addReport, name="addReport"),
+    path("updateReport/<str:id_report>", views.updateReport, name="updateReport"),
+    path("deleteReport", views.deleteReport, name="deleteReport"),
 ]

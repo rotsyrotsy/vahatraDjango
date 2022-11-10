@@ -6,8 +6,9 @@ from activities.models import Activity, Activityimage, Activityperson, Fieldscho
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Min, Max,Q
+from django.db import IntegrityError
 from sequences import get_next_value
-from association.models import Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember, Typememberimage, Messageofyear
+from association.models import Report, Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember, Typememberimage, Messageofyear
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 
 from django.core.files.images import get_image_dimensions
@@ -210,13 +211,13 @@ def ajaxDelete(request,themodel,modelname,imgs=None,path=None):
     if is_ajax:
         if request.method == 'POST':
             try:
-                # if imgs and path:
-                #     if type(imgs) is str:
-                #         delete_file(imgs, path)
-                #     else:
-                #         for img in imgs:
-                #             if img is not None:
-                #                 delete_file(img, path)
+                if imgs and path:
+                    if type(imgs) is str:
+                        delete_file(imgs, path)
+                    else:
+                        for img in imgs:
+                            if img is not None:
+                                delete_file(img, path)
                 themodel.delete()
             except KeyError:
                 return HttpResponseBadRequest('Error')
@@ -1540,3 +1541,86 @@ def updateMessageofyear(request,id=1):
             context["error"] = "There is nothing to change."
 
     return render(request, "admin/updateMessageofyear.html", context)
+
+def listReports(request,page=1, year=None):
+    checkIfAdmin(request)
+    context = getContext()
+    reports = Report.objects.all()
+    if year is not None:
+        reports = reports.filter(year=year)
+        context["year"] = year
+    reports = reports.order_by('year')
+
+    min = reports.aggregate(Min('year'))
+    max = reports.aggregate(Max('year'))
+    context["years"] = range(min['year__min'], max['year__max']+1)
+    page_number=0
+    if (reports.count() > 0):
+        dictpagination = pagination(page, reports, 6, '-year')
+        page_number = dictpagination['page_number']
+        reports = dictpagination['list']
+        context["reports"] = reports
+        
+
+    context["page_number"] = range(1, page_number+1)
+    return render(request, "admin/listReports.html", context)
+
+def addReport(request):
+    checkIfAdmin(request)
+
+    context = getContext()
+    if request.method == 'POST':
+        if request.POST['title'] == "":
+            context["error"] = "Field 'Title' is required."
+            return render(request, "admin/addReport.html", context)
+
+        if not request.FILES:
+            context["error"] = "You must upload pdf file for the report."
+            return render(request, "admin/addReport.html", context)
+        else:
+            report = Report()
+            if request.POST['year'] == "":
+                from datetime import date
+                request.POST['year'] = date.today().year
+            names = ['title','year']
+            setAttributeByRequestParams(request,names, report)
+            if request.FILES.getlist('pdf'):
+                pdf = request.FILES.getlist('pdf')[0]
+                report.pdf = handle_uploaded_file(pdf, 'pdf/annual_reports/')
+            
+            try:
+                report.save()
+                context["success"] = "New annual report inserted successfully."
+            except IntegrityError as e:
+                context["error"] = "This pdf file is already attached to another annual report."
+                return render(request, "admin/addReport.html", context)
+            
+            
+    return render(request, "admin/addReport.html", context)
+
+def deleteReport(request):
+    id_report = request.POST.get('id_report', '')
+    report = Report.objects.get(pk=id_report)
+    return ajaxDelete(request,report,'Report',report.pdf,'pdf/annual_reports')
+
+def updateReport(request,id_report=1):
+    checkIfAdmin(request)
+    context = getContext()
+    report = get_object_or_404(Report, pk=id_report)
+    context["report"] = report
+    countChange = 0
+    if request.method == 'POST':
+        names = ['title', 'year']
+        countChange += updateAttributeByRequestParams(request,names,report)
+        if request.FILES:
+            if request.FILES.getlist('pdf'):
+                pdf = request.FILES.getlist('pdf')[0]
+                report.pdf = handle_uploaded_file(pdf, 'pdf/annual_reports')
+                countChange += 1
+        if countChange > 0:
+            report.save()
+            context["success"] = "Annual report "+str(report.year)+" updated successfully."
+        else:
+            context["error"] = "There is nothing to change."
+
+    return render(request, "admin/updateReport.html", context)

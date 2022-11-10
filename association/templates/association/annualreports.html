@@ -1,0 +1,102 @@
+{% extends "association/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans "Annual reports" %}{% endblock %}
+{% block meta %}
+    <meta name="description" content="{% trans 'Download annual reports since 2011 here.' %}" />
+    <meta name="keywords" content="vahatra, association, association vahatra, report,rapport,2022" />
+{% endblock %}
+{% block content %}
+<section>
+    <div class="gap remove-bottom black-layer2 opc5">
+        <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0918.webp' %});"></div>
+        <div class="container">
+            <div class="page-title-wrap">
+                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <h2>{% trans "Annual reports" %}</h2>
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
+                    <li>{% trans "Annual reports" %}</li>
+                </ul>
+            </div><!-- Page Title Wrap -->
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="wdgt-box">
+                        <h4>{% trans "Filter activities by year" %}</h4>
+                            <select onchange="location = this.value;">
+                                {% if theyear %}
+                                    <option value="{% url 'association:reports' theyear %}">
+                                        {{theyear}}
+                                    </option>
+                                    <option value="{% url 'association:reports' %}">
+                                        {% trans "All" %}
+                                    </option>
+                                    {% for i in years %}
+                                    {% if i != theyear %}
+                                        <option value="{% url 'association:reports' i %}">
+                                                {{i}}
+                                        </option>
+                                    {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="{% url 'association:reports' %}">
+                                        {% trans "All" %}
+                                    </option>
+                                    {% for i in years %}
+                                    <option value="{% url 'association:reports' i %}">
+                                            {{i}}
+                                    </option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <p>{% trans 'Download annual reports since 2011 here.' %}</p>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">{% trans 'Year' %}</th>
+                    <th scope="col">{% trans 'Title' %}</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <th scope="row">{{report.year}}</th>
+                        <td>{{report.title}} </td>
+                        <td><a href="{% url 'publications:download_pdf_file'  'annual_reports' report.pdf  %}" type="button" class="btn btn-success text-light">
+                            <i class="ti-download btn-icon-prepend"></i> {% trans 'Download' %}
+                        </a></td>
+                    </tr>
+                    {% endfor %}
+              
+                </tbody>
+              </table>
+                
+              <div class="pagination-wrap text-center m-0">
+                <ul class="pagination" >
+                    {% for number in page_number %}
+                    {% if year %}
+                    <li ><a href="{% url 'association:reports' year number %}" title="">{{number}}</a></li>
+                    {% else %}
+                    <li ><a href="{% url 'association:reports' number %}" title="">{{number}}</a></li>
+                    {% endif%}
+                        
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

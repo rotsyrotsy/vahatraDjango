@@ -111,7 +111,7 @@
                                 <img loading="lazy" src="{% static 'images/members/none.webp' %}" alt="{{ member.idperson.username }}">
                                 {% endif %}
                                 <div class="team-info2">
-                                    <h4>{{ member.idperson.username }} {{ member.idperson.name }}</h4>
+                                    <h4>{{member.idperson.title|capfirst}} {{ member.idperson.username }} {{ member.idperson.name }}</h4>
                                     {% autoescape off %}
                                     <p>{{ member.description|default_if_none:"" }}</p>
                                     {% endautoescape %}

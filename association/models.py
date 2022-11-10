@@ -103,3 +103,10 @@ class Post(models.Model):
 
     class Meta:
         db_table = 'post'
+
+class Report(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+    pdf = models.CharField(max_length=255, blank=True, null=True, unique=True)
+    year = models.IntegerField(blank=True, null=True)
+    class Meta:
+        db_table = 'report'

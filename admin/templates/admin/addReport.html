@@ -1,0 +1,65 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Add new Report</h4>
+                <p class="card-description">
+                  Fill in the form
+                </p>
+                <form class="forms-sample" action="{% url 'admin:addReport' %}" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="year">Year of report</label>
+                    <input type="number" class="form-control" id="year" name="year" value="{% now 'Y' %}">
+                  </div>
+                  <div class="form-group">
+                    <label>Attached PDF</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="file-chosen-pdf" placeholder="No file chosen" aria-label="No file chosen">
+                      <div class="input-group-append">
+                        <input type="file" id="actual-btn-pdf" name="pdf" accept="application/pdf" hidden/>
+                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>
+                      </div>
+                    </div>
+                  </div>
+                
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+                {% endif %}
+                {% if success %}
+                <div class="alert alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+                
+                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                  <a href="{% url 'admin:listReports'%}" class="btn btn-light">Cancel</a>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    const actualBtnPdf = document.getElementById('actual-btn-pdf');
+
+    actualBtnPdf.addEventListener('change', function(){
+        document.getElementById('file-chosen-pdf').value = this.files[0].name
+    })  
+    
+</script>
+{% endblock %}

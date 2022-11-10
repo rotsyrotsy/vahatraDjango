@@ -86,7 +86,14 @@
                         <div class="col-md-8 col-sm-12 col-lg-8">
                             <div class="row">
                                 <div class="col-md-5 col-sm-5 col-lg-5">
-                                    
+                                    <div class="wdgt-box">
+                                        <h4>{% trans "Quick Links" %}</h4>
+                                        <ul>
+                                            <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
+                                            <li><a href="{% url 'association:reports' %}" title="">{% trans "Annual reports" %}</a></li>
+                                            <li><a href="{% url 'association:financing' %}" title="">{% trans "donate" %}</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="col-md-7 col-sm-7 col-lg-7">
                                     <div class="wdgt-box">

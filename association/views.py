@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render,redirect
-from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member
-from django.db.models import Q
+from association.models import  Image, Imagetype,  Messageofyear, Typemember, Member, Report
+from django.db.models import Q, Min, Max
 from activities.models import Activity, Typeactivity
 from publications.models import Typepublication,Publication
 from datetime import date,timedelta
@@ -158,3 +158,25 @@ def gallery(request,limit=9):
     context['limit']=limit
 
     return render(request, "association/gallery.html",context)
+
+def reports(request, year=None, page=1):
+    context = getContext()
+    list = Report.objects.all()
+    min =list.aggregate(Min('year'))
+    max = list.aggregate(Max('year'))
+    context["years"] = range(min['year__min'], max['year__max']+1)
+    if year:
+        list = list.filter(year=year)
+        context['theyear']=year
+    
+    rangenumber=5
+    if (list.count() > 0):
+        dictpagination = pagination(page, list, rangenumber, '-year')
+        page_number = dictpagination['page_number']
+        reports = dictpagination['list']
+        context["reports"] = reports
+
+    context["type"]= type
+    context["page_number"]= range(1,page_number+1)
+
+    return render(request, "association/annualreports.html",context)

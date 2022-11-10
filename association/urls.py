@@ -16,4 +16,8 @@ urlpatterns = [
     path("financing", views.financing, name="financing"),
     path("gallery", views.gallery, name="gallery"),
     path("gallery/show-more-<str:limit>", views.gallery, name="gallery"),
+    path("annual-reports/", views.reports, name="reports"),
+    path("annual-reports/<int:year>", views.reports, name="reports"),
+    path("annual-reports/page-<int:page>", views.reports, name="reports"),
+    path("annual-reports/<int:year>/page-<int:page>", views.reports, name="reports"),
 ]
