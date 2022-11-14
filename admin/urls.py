@@ -75,4 +75,5 @@ urlpatterns = [
     path("addReport", views.addReport, name="addReport"),
     path("updateReport/<str:id_report>", views.updateReport, name="updateReport"),
     path("deleteReport", views.deleteReport, name="deleteReport"),
+    path("statistics", views.statistics, name="statistics"),
 ]

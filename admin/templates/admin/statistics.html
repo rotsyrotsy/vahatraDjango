@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% load publications_extras %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-6 grid-margin  stretch-card">
+          <div class="card">
+            <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+              <h4 class="card-title">Overall activity statistics</h4>
+              <canvas id="pieChartActivity" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232" data-context="{{overallAct|safe|to_double_quote}}"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 grid-margin  stretch-card">
+            <div class="card">
+              <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <h4 class="card-title">Overall publication statistics</h4>
+                <canvas id="pieChartPublication" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232" data-context="{{overallPub|safe|to_double_quote}}"></canvas>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <h4 class="card-title">All activities per year</h4>
+                <canvas id="activityPerYear" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232" data-context="{{activities|safe|to_double_quote}}" data-max="{{max}}" data-step="{{step}}"></canvas>          </div>
+            </div>
+          </div>
+      <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+            <h4 class="card-title">All publications per year</h4>
+            <canvas id="publicationPerYear" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232" data-context="{{publications|safe|to_double_quote}}" data-max="{{maxPub}}" data-step="{{stepPub}}"></canvas>          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+            <h4 class="card-title">Area chart</h4>
+            <canvas id="areaChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+            <h4 class="card-title">Doughnut chart</h4>
+            <canvas id="doughnutChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <h4 class="card-title">Bar chart</h4>
+                <canvas id="barChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+              </div>
+            </div>
+          </div>
+      <div class="col-lg-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+            <h4 class="card-title">Line chart</h4>
+            <canvas id="lineChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'admin/js/dashboard.js' %}"></script>
+<script src="{% static 'admin/js/chart-custom.js' %}"></script>
+<script src="{% static 'admin/js/chart.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+{% endblock %}

@@ -3,13 +3,13 @@
     <ul class="nav">
       <li class="nav-item">
         <a class="nav-link" data-priority="1" href="{% url 'admin:index' %}">
-          <i class="icon-grid menu-icon"></i>
-          <span class="menu-title">Dashboard</span>
+          <i class="ti-home menu-icon"></i>
+          <span class="menu-title">Home</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#activity" aria-expanded="false" aria-controls="activity">
-          <i class="icon-layout menu-icon"></i>
+          <i class=" mdi mdi-chart-areaspline  menu-icon"></i>
           <span class="menu-title">Activities</span>
           <i class="menu-arrow"></i>
         </a>
@@ -24,7 +24,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#publications" aria-expanded="false" aria-controls="publications">
-          <i class="icon-grid-2 menu-icon"></i>
+          <i class="mdi mdi-library-books menu-icon"></i>
           <span class="menu-title">Publications</span>
           <i class="menu-arrow"></i>
         </a>
@@ -55,7 +55,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#partners" aria-expanded="false" aria-controls="partners">
-          <i class="ti-home menu-icon"></i>
+          <i class="mdi mdi-account-multiple menu-icon"></i>
           <span class="menu-title">Partners</span>
           <i class="menu-arrow"></i>
         </a>
@@ -68,7 +68,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#photos" aria-expanded="false" aria-controls="photos">
-          <i class="icon-contract menu-icon"></i>
+          <i class="mdi mdi-file-image menu-icon"></i>
           <span class="menu-title">Photos</span>
           <i class="menu-arrow"></i>
         </a>
@@ -83,6 +83,12 @@
         <a class="nav-link" href="{% url 'admin:listReports' %}">
           <i class="icon-paper menu-icon"></i>
           <span class="menu-title">{% trans "Annual reports" %}</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-priority="1" href="{% url 'admin:statistics' %}">
+          <i class="icon-bar-graph menu-icon"></i>
+          <span class="menu-title">{% trans "Statistics" %}</span>
         </a>
       </li>
     </ul>

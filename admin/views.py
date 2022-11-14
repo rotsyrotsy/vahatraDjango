@@ -5,18 +5,21 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadReque
 from activities.models import Activity, Activityimage, Activityperson, Fieldschool, Typeactivity, Activityinstitution, Visit, Typesubactivity, Location
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
-from django.db.models import Min, Max,Q
+from django.db.models import Min, Max,Q, Count
 from django.db import IntegrityError
 from sequences import get_next_value
 from association.models import Report, Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember, Typememberimage, Messageofyear
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
-
+from datetime import date,timedelta
 from django.core.files.images import get_image_dimensions
 from django.core.exceptions import PermissionDenied
 from vahatraDjango.functions import *
 from django.contrib.auth import authenticate,login,logout
 from django.conf import settings
 from django.contrib.auth.models import User
+import operator
+import itertools
+import math
 
 def setAttributeByRequestParams(request,params,model):
     values = [request.POST.get(p) for p in params]
@@ -1624,3 +1627,52 @@ def updateReport(request,id_report=1):
             context["error"] = "There is nothing to change."
 
     return render(request, "admin/updateReport.html", context)
+
+def allStat(activityPerY, type_name):
+    context={}
+    minYear = activityPerY.aggregate(Min('date'))['date__min'].year
+    maxYear = activityPerY.aggregate(Max('date'))['date__max'].year
+    context['max']=activityPerY.aggregate(Max('number'))['number__max']
+    context['step']=math.ceil(context['max']/6)
+
+    activityPerY = sorted(activityPerY, key=operator.itemgetter(type_name))
+    outputList=[]
+    for i,g in itertools.groupby(activityPerY, key=operator.itemgetter(type_name)):
+        outputList.append(list(g))
+    
+
+    temp1 = [*range(minYear,maxYear+1)]
+    for index, item in enumerate(outputList):
+        temp2 = [d['date__year'] for d in item]
+        for missing in list(set(temp1) - set(temp2)):
+            act={
+                type_name:item[0][type_name],
+                "date__year":missing,
+                "number":0
+            }
+            item.append(act)
+        outputList[index] = sorted(item, key=lambda i: i['date__year'])
+
+    context['result']=outputList
+    return context
+
+def statistics (request):
+    checkIfAdmin(request)
+    context = getContext()
+    overallAct = Activity.objects.values('idtypeactivity__type_en').annotate(number=Count('idtypeactivity')).order_by('-number')
+    overallPub = Publication.objects.values('idtype__type_en').annotate(number=Count('idtype')).order_by('-number')
+    activityPerY = Activity.objects.filter(date__year__gte =(date.today().year-10)).values('idtypeactivity__type_en', 'date__year').annotate(number=Count('idtypeactivity')).order_by('idtypeactivity', 'date__year')
+    contextActivity = allStat(activityPerY, 'idtypeactivity__type_en')
+    publicationPerY = Publication.objects.filter(date__year__gte =(date.today().year-10)).values('idtype__type_en', 'date__year').annotate(number=Count('idtype')).order_by('idtype', 'date__year')
+    contextPublication = allStat(publicationPerY, 'idtype__type_en')
+    context['maxPub']=contextPublication['max']
+    context['stepPub']=contextPublication['step']
+    context['publications']=contextPublication['result']
+    context['max']=contextActivity['max']
+    context['step']=contextActivity['step']
+    context['activities']=contextActivity['result']
+    context['overallAct']=list(overallAct)
+    context['overallPub']=list(overallPub)
+
+
+    return render(request, "admin/statistics.html", context)

@@ -45,7 +45,7 @@ def slicePerRange(value,liste=None):
 
 def float_comma_to_dot(value):
     number = str(value)
-    number.replace(',', '.')
+    number = number.replace(',', '.')
     return number
 
 def truncatesmart(value, limit="0,80"):
@@ -86,6 +86,12 @@ def change_lang(context, lang=None, *args, **kwargs):
 
     return "%s" % url
 
+def to_double_quote(value):
+    string = str(value)
+    string = string.replace('\'', '"')
+    return string
+
+register.filter('to_double_quote',to_double_quote)
 register.filter('truncatesmart',truncatesmart)
 register.filter('float_comma_to_dot',float_comma_to_dot)
 register.filter('renameFile',renameFile)
