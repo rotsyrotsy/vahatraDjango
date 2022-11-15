@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 import operator
 import itertools
 import math
+from django.core import serializers
 
 def setAttributeByRequestParams(request,params,model):
     values = [request.POST.get(p) for p in params]
@@ -294,9 +295,9 @@ def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=
             idtypeactivity=activity_id).aggregate(Min('date'))
         max = Activity.objects.filter(
             idtypeactivity=activity_id).aggregate(Max('date'))
-        context["years"] = range(min['date__min'].year, max['date__max'].year+1)
+        context["years"] = reversed(range(min['date__min'].year, max['date__max'].year+1))
     else:
-        context["years"] =range(timezone.now().year,timezone.now().year)
+        context["years"] =reversed(range(timezone.now().year,timezone.now().year))
     
 
     return render(request, "admin/listActivities.html", context)
@@ -663,7 +664,7 @@ def listPublications(request, pub_id=1, page=1, year=None):
 
         min = Publication.objects.filter(idtype=pub_id).aggregate(Min('date'))
         max = Publication.objects.filter(idtype=pub_id).aggregate(Max('date'))
-        yearsrange = range(min['date__min'].year, max['date__max'].year+1)
+        yearsrange = reversed(range(min['date__min'].year, max['date__max'].year+1))
 
     context["years"] = yearsrange
     context["page_number"] = range(1, page_number+1)
@@ -1556,7 +1557,7 @@ def listReports(request,page=1, year=None):
 
     min = reports.aggregate(Min('year'))
     max = reports.aggregate(Max('year'))
-    context["years"] = range(min['year__min'], max['year__max']+1)
+    context["years"] = reversed(range(min['year__min'], max['year__max']+1))
     page_number=0
     if (reports.count() > 0):
         dictpagination = pagination(page, reports, 6, '-year')
@@ -1656,6 +1657,30 @@ def allStat(activityPerY, type_name):
     context['result']=outputList
     return context
 
+def joinWithAllMonths(activityPerM,type_name):
+    import calendar
+    activityPerM = sorted(activityPerM, key=operator.itemgetter(type_name))
+    outputList=[]
+    for i,g in itertools.groupby(activityPerM, key=operator.itemgetter(type_name)):
+        outputList.append(list(g))
+
+    temp1 = [*range(1,13)]
+    for index, item in enumerate(outputList):
+        temp2 = [d['date__month'] for d in item]
+        for missing in list(set(temp1) - set(temp2)):
+            act={
+                type_name:item[0][type_name],
+                "date__month":missing,
+                "number":0
+            }
+            item.append(act)
+        outputList[index] = sorted(item, key=lambda i: i['date__month'])
+
+        for d in outputList[index] :
+            d['date__month'] = calendar.month_abbr[d['date__month']]            
+
+    return outputList
+
 def statistics (request):
     checkIfAdmin(request)
     context = getContext()
@@ -1673,6 +1698,40 @@ def statistics (request):
     context['activities']=contextActivity['result']
     context['overallAct']=list(overallAct)
     context['overallPub']=list(overallPub)
+    context['rangeActivityYear']=reversed(range(Activity.objects.all().aggregate(Min('date'))['date__min'].year, timezone.now().year+1))
+    context['rangePublicationYear']=reversed(range(Publication.objects.all().aggregate(Min('date'))['date__min'].year, timezone.now().year+1))
 
-
+    
+    defaultYear=2022
+    activityPerM = Activity.objects.filter(date__year=defaultYear).values('idtypeactivity__type_en','date__month').annotate(number=Count('date__month')).order_by('idtypeactivity__type_en','-date__month')
+    activityPerMPerType = joinWithAllMonths(list(activityPerM),'idtypeactivity__type_en')
+    context['activitiesPerM']=activityPerMPerType
+    publicationPerM = Publication.objects.filter(date__year=defaultYear).values('idtype__type_en','date__month').annotate(number=Count('date__month')).order_by('idtype__type_en','-date__month')
+    publicationPerMPerType = joinWithAllMonths(list(publicationPerM),'idtype__type_en')
+    context['publicationsPerM']=publicationPerMPerType
     return render(request, "admin/statistics.html", context)
+
+
+def changeActivityYear(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'POST':
+            year = request.POST.get('year','')
+            activityPerM = Activity.objects.filter(date__year=year).values('idtypeactivity__type_en','date__month').annotate(number=Count('date__month')).order_by('idtypeactivity__type_en','-date__month')
+            activityPerMPerType = joinWithAllMonths(list(activityPerM),'idtypeactivity__type_en')
+            return  JsonResponse({'activitiesPerM': activityPerMPerType, 'year':year})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+
+def changePublicationYear(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'POST':
+            year = request.POST.get('year','')
+            publicationPerM = Publication.objects.filter(date__year=year).values('idtype__type_en','date__month').annotate(number=Count('date__month')).order_by('idtype__type_en','-date__month')
+            publicationPerMPerType = joinWithAllMonths(list(publicationPerM),'idtype__type_en')
+            return  JsonResponse({'publicationsPerM': publicationPerMPerType, 'year':year})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    else:
+        return HttpResponseBadRequest('Invalid request')

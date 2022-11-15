@@ -38,40 +38,49 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-            <h4 class="card-title">Area chart</h4>
-            <canvas id="areaChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-            <h4 class="card-title">Doughnut chart</h4>
-            <canvas id="doughnutChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
         <div class="col-lg-6 grid-margin stretch-card">
             <div class="card">
               <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                <h4 class="card-title">Bar chart</h4>
-                <canvas id="barChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+                <h4 class="card-title">Statistic of activities per month</h4>
+                <div class="template-demo mb-3">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="rangeyear" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Year
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="rangeyear" style="">
+                      {% for y in rangeActivityYear %}
+                      <button class="dropdown-item" onclick="changeActivityYear('{{y}}','{% url 'admin:changeActivityYear' %}','{{ csrf_token }}')">{{y}}</button>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                
+                <canvas id="barChartActivity" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232" data-context="{{activitiesPerM|safe|to_double_quote}}"></canvas>
               </div>
             </div>
           </div>
-      <div class="col-lg-6 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-            <h4 class="card-title">Line chart</h4>
-            <canvas id="lineChart" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232"></canvas>
+      
+          <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <h4 class="card-title">Statistic of publications per month</h4>
+                <div class="template-demo mb-3">
+                 
+                  <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="rangeyearpub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  >
+                      Year
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="rangeyearpub" style="">
+                      {% for y in rangePublicationYear %}
+                      <button class="dropdown-item" onclick="changePublicationYear('{{y}}','{% url 'admin:changePublicationYear' %}','{{ csrf_token }}')">{{y}}</button>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <canvas id="barChartPublication" style="display: block; width: 464px; height: 232px;" class="chartjs-render-monitor" width="464" height="232" data-context="{{publicationsPerM|safe|to_double_quote}}"></canvas>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
     </div>
   </div>
 {% endblock content %}

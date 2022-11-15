@@ -11765,6 +11765,8 @@ input[type="button"].btn-block {
   background-clip: padding-box;
   border: 1px solid #CED4DA;
   border-radius: 0.25rem;
+  overflow-y: auto;
+  max-height: 200px;
 }
 
 .dropdown-menu-left {

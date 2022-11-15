@@ -117,6 +117,128 @@ function areaOptions(step,max){
     }
     return areaOptions;
 }
+function barChartData(context, labels, type, year){
+  var datasets = [];
+    var colors = [
+        '#4747A1',
+        '#F09397',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)'
+    ];
+    var k = 0
+    for (let i=0; i<context.length; i++){
+        if (k>colors.length){ 
+            k = 0; 
+        }
+        datasets.push({
+            data : context[i].map(({ number }) => number),
+            backgroundColor: colors[k],
+            label: context[i][0][type]+" in "+year
+        });
+        k++;
+    }
+    
+  var barChartData = {
+    labels: labels,
+    datasets: datasets
+  };
+  return barChartData;
+}
+var barChartOptions = {
+  responsive: true,
+  scales: {
+    yAxes: [{
+      ticks: {
+        display: true,
+        beginAtZero: true
+      }
+    }]
+  },
+  legend: {
+    display: true
+  },
+  elements: {
+    point: {
+      radius: 0
+    }
+  }
+
+};
+function changeActivityYear(year,url,csrf_token){
+  $.ajax({
+      url : url,
+      dataType: 'JSON',
+      type:"POST",
+      data: {
+          'year': year,
+          'csrfmiddlewaretoken': csrf_token,
+      },
+      success:function(data){
+        var barChartCanvas = $("#barChartActivity").get(0).getContext("2d");
+        $("#rangeyear").html(data['year']);
+        $("#barChartActivity").data("context",data['activitiesPerM']);
+        var context = data['activitiesPerM'];
+        var labels = [];
+        if (context.length==0){
+          for (let m=1; m<13; m++){
+            labels.push(m);
+          }
+        }else{
+          labels = context[0].map(({ date__month }) => date__month);
+        }
+        // This will get the first returned node in the jQuery collection.
+        var barChart = new Chart(barChartCanvas, {
+          type: 'bar',
+          data: barChartData(context,labels,'idtypeactivity__type_en',data['year']),
+          options: barChartOptions
+        });
+        
+      },
+      error:function(data){
+        //   console.log('error')
+        //   console.log(data)
+      }
+    });    
+}
+
+function changePublicationYear(year,url,csrf_token){
+  $.ajax({
+      url : url,
+      dataType: 'JSON',
+      type:"POST",
+      data: {
+          'year': year,
+          'csrfmiddlewaretoken': csrf_token,
+      },
+      success:function(data){
+        var barChartCanvas = $("#barChartPublication").get(0).getContext("2d");
+        $("#rangeyearpub").html(data['year']);
+        $("#barChartPublication").data("context",data['publicationsPerM']);
+        var context = data['publicationsPerM'];
+        var labels = [];
+        if (context.length==0){
+          for (let m=1; m<13; m++){
+            labels.push(m);
+          }
+        }else{
+          labels = context[0].map(({ date__month }) => date__month);
+        }
+        // This will get the first returned node in the jQuery collection.
+        var barChart = new Chart(barChartCanvas, {
+          type: 'bar',
+          data: barChartData(context,labels,'idtype__type_en',data['year']),
+          options: barChartOptions
+        });
+        
+      },
+      error:function(data){
+        //   console.log('error')
+        //   console.log(data)
+      }
+    });    
+}
 
 $(function() {
     /* ChartJS
@@ -131,6 +253,8 @@ $(function() {
         animateRotate: true
       }
     };
+    
+    
     if ($("#pieChartActivity").length) {
         var context = $("#pieChartActivity").data("context");
         const labels = context.map(({ idtypeactivity__type_en }) => idtypeactivity__type_en);
@@ -179,5 +303,44 @@ $(function() {
         options: areaOptions($("#publicationPerYear").data("step"),$("#publicationPerYear").data("max"))
         });
     }
-  
-});
+
+    
+    if ($("#barChartActivity").length) {
+      var barChartCanvas = $("#barChartActivity").get(0).getContext("2d");
+      var context = $("#barChartActivity").data("context");
+      console.log(context);
+      var labels = [];
+        if (context.length==0){
+          for (let m=1; m<13; m++){
+            labels.push(m);
+          }
+        }else{
+          labels = context[0].map(({ date__month }) => date__month);
+        }
+        // This will get the first returned node in the jQuery collection.
+      var barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: barChartData(context,labels,'idtypeactivity__type_en',2022),
+        options: barChartOptions
+      });
+    }
+    if ($("#barChartPublication").length) {
+      var barChartCanvas = $("#barChartPublication").get(0).getContext("2d");
+      var context = $("#barChartPublication").data("context");
+      console.log(context);
+      var labels = [];
+        if (context.length==0){
+          for (let m=1; m<13; m++){
+            labels.push(m);
+          }
+        }else{
+          labels = context[0].map(({ date__month }) => date__month);
+        }
+      // This will get the first returned node in the jQuery collection.
+      var barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: barChartData(context,labels,'idtype__type_en',2022),
+        options: barChartOptions
+      });
+    }
+})
