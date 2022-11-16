@@ -77,7 +77,7 @@
         
         <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-lg-12 collection-video">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="sec-title text-center">
                             <div class="sec-title-inner">
                                 <span>{% trans "Visit Our" %}</span>
@@ -85,11 +85,9 @@
                             </div>
                         </div>
                         <center>
-                            <!-- <iframe src="https://www.google.com/maps/embed?pb=!4v1666106845174!6m8!1m7!1sCAoSLEFGMVFpcE5oZFpVb0NmNUZ4eFVnMlQ3MGd6NkZGMDJLNDdzX0duWGQyc1ZW!2m2!1d38.90041077888231!2d-77.01123766697788!3f231.5367336332625!4f-3.2395778144837806!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                       -->
-                            <video class='video' width="1000" controls preload="none"> 
-                                <source src="{% static 'video/collection_room.mp4' %}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>  
+                            <div id="div-iframe">
+                                <iframe id="iframe-id" src="https://collection-room-vr.cloudaccess.host/index.php/2-uncategorised/2-collection-room"  allowfullscreen=""  scrolling="no" ></iframe>                      
+                            </div>
                         </center>
                 </div>
         </div>
