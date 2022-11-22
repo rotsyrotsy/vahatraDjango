@@ -554,12 +554,12 @@ msgid "Subject"
 msgstr "Objet"
 
 #: .\association\templates\association\contact.html:108
-msgid "Thanks"
+msgid "Thank you"
 msgstr "Merci"
 
 #: .\association\templates\association\contact.html:109
-msgid "We received your email and will respond shortly..."
-msgstr "Nous avons bien reçu votre email et vous repondrons bientôt..."
+msgid "We will look into your message and get back to you soon."
+msgstr "Nous examinerons votre message et vous contacterons bientôt."
 
 #: .\association\templates\association\financing.html:4
 #: .\association\templates\association\financing.html:16

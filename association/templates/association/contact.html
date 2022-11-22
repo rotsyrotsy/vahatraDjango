@@ -74,39 +74,91 @@
                     <h3>{% trans "Send Message" %}</h3>
                 </div>
             </div>
+            
             <div class="contact-form text-center">
                 <form action="{% url 'association:contact'  %}" method="post">
                     {% csrf_token %}
-                    <div class="row mrg20">
-                        <div class="col-md-6 col-sm-6 col-lg-6">
-                            <input type="text" name="message-name" placeholder="{% trans 'Name' %}">
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-lg-6">
-                            <input type="text" name="message-phone" placeholder="Phone">
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-lg-6">
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div>
+                                  <input type="text" class="form-control" name="message_name" placeholder="{% trans 'Name' %}" {% if data.message_name %} value="{{data.message_name}}"{% endif %}>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row no-gutters">
+                                    <div class="col-sm-4">
+                                        <select class="form-control" style="height: 50px;margin-top: 20px;" name="dial_code">
+                                            {% if data.dial_code %}
+                                            <option value="{{data.dial_code}}" >{{data.dial_code}}</option>
+                                            {% endif %}
+                                            {% for c in country %}
+                                            <option value="{{c.dial_code}}" >
+                                                {{c.flag}} {{c.dial_code}} 
+                                            </option>
+                                            {% endfor %}
+                                          </select>
+                                    </div>
+                                  <div class="col-sm-8">
+                                    {% if number_error %}
+                                    <input type="text" class="form-control" style="border:5px solid rgba(255, 0, 0, 0.47);" name="message_phone" placeholder="Phone">
+                                    {% else %}
+                                    <input type="text" class="form-control" name="message_phone" placeholder="Phone" {% if data.message_phone %} value="{{data.message_phone}}" {% endif %}>
+                                    {% endif %}
+                                    
+                                  </div>
+                                </div>
+                              </div>
                             
-                            <input type="email" name="message-email" name="email" placeholder="Email" {% if email %} value="{{ email }} " {% endif %}>
-                            
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-lg-6">
-                            <input type="text"name="message-subject" placeholder="{% trans 'Subject' %}">
-                        </div>
-                  
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div >
+                                    
+                                    {% if email_error %}
+                                    <input type="email" class="form-control" style="border:5px solid rgba(255, 0, 0, 0.47);" name="message_email" placeholder="Email">
+                                    {% else %}
+                                    <input type="email" class="form-control" name="message_email" placeholder="Email" {% if data.message_email %} value="{{ data.message_email }} " {% endif %}>
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                  <input type="text" class="form-control" name="message_subject" {% if data.message_subject %} value="{{ data.message_subject }} " {% endif %} placeholder="{% trans 'Subject' %}">
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                                <div >
+                                    <textarea class="form-control" placeholder="Message" name="message_content">{% if data.message_content %}{{ data.message_content }}{% endif %}</textarea>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div >
+                                    <button class="thm-btn brd-rd40" type="submit">{% trans "Contact Us" %}</button>
+                                </div>
+                            </div>
+                          </div>
 
-                        <div class="col-md-12 col-sm-12 col-lg-12">
-                            <textarea placeholder="Message" name="message-content"></textarea>
-
-                            <button class="thm-btn brd-rd40" type="submit">{% trans "Contact Us" %}</button>
-                        </div>
-                    </div>
-                    
+                    {% if email_error %}
+                    <div class="alert alert-danger m-2" role="alert">
+                        {{email_error}}
+                      </div>
+                    {% endif %}
+                    {% if number_error %}
+                    <div class="alert alert-danger m-2" role="alert">
+                        {{number_error}}
+                      </div>
+                    {% endif %}
                 </form>
                 
-                {% if message_name %}
+                {% if success %}
                     <fieldset>
-                        <legend>{% trans "Thanks" %} {{message_name}}</legend>
-                        <p>{% trans "We received your email and will respond shortly..." %}</p>
+                        <legend>{% trans "Thank you" %} {{data.message_name}}</legend>
+                        <p>{% trans "We will look into your message and get back to you soon." %}</p>
                     </fieldset>
                 {% endif %}
 

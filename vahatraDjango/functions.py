@@ -146,3 +146,15 @@ def validPassword(password):
     if (l>=1 and u>=1 and p>=1 and d>=1 and l+p+u+d==len(password)):
         return True
     return False
+
+def is_validate_phone_number(number):
+    import phonenumbers
+    phone_number = phonenumbers.parse(number)
+    return phonenumbers.is_valid_number(phone_number)
+
+def check_email(email):
+    import re   
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  
+    if(re.search(regex,email)):   
+        return True 
+    return False 
