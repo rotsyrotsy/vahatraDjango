@@ -318,6 +318,10 @@ def addActivity(request, idtypeactivity='A1'):
     context["departments"] = Department.objects.all().order_by('name')
     context["locations"] = Location.objects.all().order_by('name')
     context["type_subactivity"] = type.typesubactivity_set.all().order_by('type')
+    steps=3
+    if idtypeactivity=='A1':
+        steps=4
+    context['step_number']=range(0,steps)
     
 
     if request.method == 'POST':
@@ -679,6 +683,7 @@ def addPublication(request, idtypepublication=1):
     type = get_object_or_404(Typepublication, pk=idtypepublication)
     context["type"] = type
     context["persons"] = Person.objects.filter(~Q(member__idtypemember=4)).order_by('name')
+    context['step_number']=range(0,4)
 
     if request.method == 'POST':
 
@@ -1227,7 +1232,9 @@ def addImage(request,image_type=1):
         else:
             files = request.FILES.getlist('files')
             for f in files:
-                titleImg = f.name.split(".")[0].replace("_"," ")
+                titleImg= f.name.split(".")[0].replace("_"," ")
+                if 'title' in request.POST:
+                    titleImg = request.POST['title']
                 image = Image(idtype=typeimage,title=titleImg)
                 path = renameFile(typeimage.type_en)
                 image.name = handle_uploaded_file(f, 'images/'+path)

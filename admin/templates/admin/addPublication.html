@@ -10,92 +10,93 @@
                 <p class="card-description">
                   Fill in the form
                 </p>
-                <form class="forms-sample" action="{% url 'admin:addPublication' %}" enctype="multipart/form-data" method="post">
+                <form class="forms-sample" id="regForm" action="{% url 'admin:addPublication' %}" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
                     {% if error %}
                     <div class="alert alert-danger">
                         {{ error }}
                     </div>
                     {% endif %}
-
+                    <div class="tab">
+                      <div class="form-group">
+                      <label for="selectTypePub">Type of publication</label>
+                          <select class="form-control required" id="selectTypePub" name="idtype" required>
+                              <option value="{{type.id}}">{{type.type}}</option>
+                              {% for item in type_publication %}
+                                  {% if item.id != type.id %}
+                                  <option value="{{item.id}}">{{item.type}}</option>
+                                  {% endif %}
+                              {% endfor %}
+                          </select>
+                      </div>
                     <div class="form-group">
-                    <label for="selectTypePub">Type of publication</label>
-                        <select class="form-control" id="selectTypePub" name="idtype" required>
-                            <option value="{{type.id}}">{{type.type}}</option>
-                            {% for item in type_publication %}
-                                {% if item.id != type.id %}
-                                <option value="{{item.id}}">{{item.type}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
+                      <label for="title">Title</label>
+                      <input type="text" class="form-control required" id="title" name="title" placeholder="Title" required>
                     </div>
-                  <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
+                    <div class="form-group">
+                      <label for="date">Publication date</label>
+                      <input type="date" class="form-control required" id="date" name="date" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="form-group">
+                      <label for="description">Description</label>
+                      <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="date">Publication date</label>
-                    <input type="date" class="form-control" id="date" name="date" placeholder="dd/mm/yyyy">
-                  </div>
-
-
-                  <div class="form-group">
-                    <label>Cover</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="file-chosen-front" placeholder="No file chosen" aria-label="No file chosen">
-                      <div class="input-group-append">
-                        <input type="file" id="actual-btn-front" name="imagefront" accept="image/*" hidden/>
-                        <label class="btn btn-sm btn-primary" for="actual-btn-front" style="margin-bottom:0; padding-top: .7rem;">Upload image</label>
+                  <div class="tab">
+                    <div class="form-group">
+                      <label>Cover</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control required" id="file-chosen-front" placeholder="No file chosen" aria-label="No file chosen">
+                        <div class="input-group-append">
+                          <input type="file" id="actual-btn-front" name="imagefront" accept="image/*" hidden/>
+                          <label class="btn btn-sm btn-primary" for="actual-btn-front" style="margin-bottom:0; padding-top: .7rem;">Upload image</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Back Cover</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="file-chosen-back" placeholder="No file chosen" aria-label="No file chosen">
+                        <div class="input-group-append">
+                          <input type="file" id="actual-btn-back" name="imageback" accept="image/*" hidden/>
+                          <label class="btn btn-sm btn-primary" for="actual-btn-back" style="margin-bottom:0; padding-top: .7rem;">Upload image</label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label>Back Cover</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="file-chosen-back" placeholder="No file chosen" aria-label="No file chosen">
-                      <div class="input-group-append">
-                        <input type="file" id="actual-btn-back" name="imageback" accept="image/*" hidden/>
-                        <label class="btn btn-sm btn-primary" for="actual-btn-back" style="margin-bottom:0; padding-top: .7rem;">Upload image</label>
-                      </div>
+                  <div class="tab">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary" onclick="addEditors()">
+                          <i class="ti-plus"></i> Add editor(s)
+                      </button>
+                      <span id="btncol"></span>
                     </div>
+                    <div id="inputeditors"></div>
+                    <div id="addEditorPlus"></div>
                   </div>
-                  
-                  <div class="form-group">
-                    <button type="button" class="btn btn-primary" onclick="addEditors()">
-                        <i class="ti-plus"></i> Add editor(s)
-                    </button>
-                    <span id="btncol"></span>
-                  </div>
-                  <div id="inputeditors"></div>
-                  <div id="addEditorPlus"></div>
-
-                  <hr>
-                  <p class="card-title">Attach an article to the publication</p>
-                  <div class="form-group">
-                    <label for="name">Article name</label>
-                    <input type="text" class="form-control" id="name" name="fknamearticle0" placeholder="Name">
-                  </div>
-                  <div class="form-group">
-                    <label>Attached PDF</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="file-chosen-pdf-0" placeholder="No file chosen" aria-label="No file chosen">
-                      <div class="input-group-append">
-                        <input type="file" id="actual-btn-pdf-0" name="fkpdfarticle0" accept="application/pdf" hidden/>
-                        <label class="btn btn-sm btn-primary" for="actual-btn-pdf-0" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>
+                  <div class="tab">
+                      <p class="card-title">Attach an article to the publication</p>
+                      <div class="form-group">
+                        <label for="name">Article name</label>
+                        <input type="text" class="form-control" id="name" name="fknamearticle0" placeholder="Name">
                       </div>
-                    </div>
+                      <div class="form-group">
+                        <label>Attached PDF</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" id="file-chosen-pdf-0" placeholder="No file chosen" aria-label="No file chosen">
+                          <div class="input-group-append">
+                            <input type="file" id="actual-btn-pdf-0" name="fkpdfarticle0" accept="application/pdf" hidden/>
+                            <label class="btn btn-sm btn-primary" for="actual-btn-pdf-0" style="margin-bottom:0; padding-top: .7rem;">Upload PDF</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-outline-primary" onclick="addArticles()">
+                            <i class="ti-plus"></i> Add another article
+                        </button>
+                      </div>
+                      <div id="inputarticles"></div>
                   </div>
-                  <div class="form-group">
-                    <button type="button" class="btn btn-outline-primary" onclick="addArticles()">
-                        <i class="ti-plus"></i> Add another article
-                    </button>
-                  </div>
-                  <div id="inputarticles"></div>
-                  
                 
                 {% if error %}
                 <div class="alert alert-danger">
@@ -108,7 +109,18 @@
                 </div>
                 {% endif %}
                 
-                  <button type="submit" class="btn btn-info mr-2">Submit</button>
+                <div style="overflow:auto;">
+                  <div style="float:right;">
+                    <button type="button" class="btn btn-light" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                    <button type="button" class="btn btn-info mr-2" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                  </div>
+                </div>
+                <div style="text-align:center;margin-top:40px;">
+                  {% for i in step_number %}
+                  <span class="step"></span>
+                  {% endfor %}
+                  
+                </div>
                   <a href="{% url 'admin:listPublications' type.id %}" class="btn btn-light">Cancel</a>
                 </form>
               </div>
@@ -119,6 +131,8 @@
 
 {% endblock %}
 {% block js %}
+<script src="{% static 'admin/js/multipleStepsForm.js' %}"></script>
+
 <script>
     let click1 = 0;
     function addEditors(){

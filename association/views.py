@@ -171,6 +171,7 @@ def gallery(request,limit=9):
 
     return render(request, "association/gallery.html",context)
 
+@cache_page(60*60)
 def reports(request, year=None, page=1):
     context = getContext()
     list = Report.objects.all()

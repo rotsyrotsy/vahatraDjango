@@ -169,6 +169,7 @@ def activityDetail(request,slug):
     context["new_events"] = new_events
     return render(request, "activities/activityDetail.html", context)
 
+@cache_page(60*60*24)
 def collection(request,salle=''):
     context = getContext()
     context['salle']=salle

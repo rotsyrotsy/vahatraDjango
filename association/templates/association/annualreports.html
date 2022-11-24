@@ -61,7 +61,7 @@
             </div>
 
             <p>{% trans 'Download annual reports since 2011 here.' %}</p>
-            <table class="table">
+            <table class="table" id="reporttable">
                 <thead>
                   <tr>
                     <th scope="col">{% trans 'Year' %}</th>
@@ -100,3 +100,16 @@
 </section>
 
 {% endblock content %}
+
+{% block js %}
+<script>
+
+    $(document).ready(function () {
+        
+        $('html, body').animate({
+            scrollTop:  $("#reporttable").offset().top -100
+        }, 0);
+    });
+
+</script>
+{% endblock %}
