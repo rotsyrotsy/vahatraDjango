@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-09 14:51+0300\n"
+"POT-Creation-Date: 2022-11-24 16:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,8 @@ msgstr "Atlas d'une sélection de vertébrés terrestres de Madagascar"
 #: .\activities\templates\activities\index.html:25
 #: .\activities\templates\activities\otherActivities.html:21
 #: .\activities\templates\activities\support.html:19
+#: .\association\templates\association\annualreports.html:18
+#: .\association\templates\association\base.html:92
 #: .\association\templates\association\contact.html:18
 #: .\association\templates\association\financing.html:18
 #: .\association\templates\association\gallery.html:19
@@ -388,11 +390,14 @@ msgstr ""
 "sur le terrain."
 
 #: .\activities\templates\activities\otherActivities.html:34
+#: .\association\templates\association\annualreports.html:31
 msgid "Filter activities by year"
 msgstr "Filtrer les activités par année"
 
 #: .\activities\templates\activities\otherActivities.html:43
 #: .\activities\templates\activities\otherActivities.html:59
+#: .\association\templates\association\annualreports.html:38
+#: .\association\templates\association\annualreports.html:49
 #: .\association\templates\association\gallery.html:30
 msgid "All"
 msgstr "Tous"
@@ -449,18 +454,18 @@ msgid ""
 "                                "
 msgstr ""
 "\n"
-"                                <p><strong>Plusieurs membres de Vahatra enseignent dans les universités "
-"suivantes :</strong></p>\n"
+"                                <p><strong>Plusieurs membres de Vahatra "
+"enseignent dans les universités suivantes :</strong></p>\n"
 "\n"
 "                                <ul>\n"
-"                                    <li>Mention Zoologie et Biodiversité Animale, "
-"University of Antananarivo</li>\n"
+"                                    <li>Mention Zoologie et Biodiversité "
+"Animale, University of Antananarivo</li>\n"
 "                                    <li>Institut des Sciences et Techniques "
 "de l’Environnement (ISTE), University of Fianarantsoa</li>\n"
-"                                    <li>Faculté des Sciences, de technologies et de l’Environnement (FSTE), "
-"University of Mahajanga</li>\n"
-"                                    <li>Domaine des Sciences et Technologies, "
-"University of Toliara</li>\n"
+"                                    <li>Faculté des Sciences, de "
+"technologies et de l’Environnement (FSTE), University of Mahajanga</li>\n"
+"                                    <li>Domaine des Sciences et "
+"Technologies, University of Toliara</li>\n"
 "                                </ul>\n"
 "                                <p>En outre, les membres de Vahatra ont été "
 "membres de commissions de mémoires de maîtrise et de thèses de doctorat dans "
@@ -490,18 +495,45 @@ msgstr "Contactez-nous pour avoir plus d'information"
 msgid "Send"
 msgstr "Envoyer"
 
-#: .\admin\templates\admin\index.html:21
+#: .\admin\templates\admin\index.html:22
 #: .\association\templates\association\index.html:475
 msgid "A message from"
 msgstr "Un message"
 
-#: .\admin\templates\admin\index.html:21
+#: .\admin\templates\admin\index.html:22
 #: .\association\templates\association\index.html:476
 msgid "The President of Vahatra"
 msgstr "Du President de Vahatra"
 
+#: .\association\templates\association\annualreports.html:4
+#: .\association\templates\association\annualreports.html:16
+#: .\association\templates\association\annualreports.html:19
+#: .\association\templates\association\base.html:93
+#: .\association\templates\association\includes\nav.html:47
+msgid "Annual reports"
+msgstr "Rapports annuels"
+
+#: .\association\templates\association\annualreports.html:6
+#: .\association\templates\association\annualreports.html:63
+msgid "Download annual reports since 2011 here."
+msgstr "Téléchargez les rapports annuels depuis 2011 ici."
+
+#: .\association\templates\association\annualreports.html:67
+#: .\publications\templates\publications\search.html:55
+msgid "Year"
+msgstr "Année"
+
+#: .\association\templates\association\annualreports.html:68
+#: .\publications\templates\publications\search.html:49
+msgid "Title"
+msgstr "Titre"
+
+#: .\association\templates\association\annualreports.html:78
+msgid "Download"
+msgstr "Télécharger"
+
 #: .\association\templates\association\base.html:3
-#: .\association\templates\association\contact.html:100
+#: .\association\templates\association\contact.html:141
 msgid "Contact Us"
 msgstr "Contactez-Nous"
 
@@ -513,9 +545,17 @@ msgstr ""
 "Les défi, objectifs et mission de Vahatra sont basé sur son histoire et les "
 "membres font en sorte de les réaliser."
 
+#: .\association\templates\association\base.html:90
+msgid "Quick Links"
+msgstr "Liens utiles"
+
+#: .\association\templates\association\base.html:94
+msgid "donate"
+msgstr "Faire un don"
+
 #: .\association\templates\association\contact.html:6
 msgid "Vahatra is located at"
-msgstr ""
+msgstr "Vahatra est située au"
 
 #: .\association\templates\association\contact.html:30
 msgid "Get information"
@@ -545,26 +585,27 @@ msgstr "Des Questions?"
 msgid "Send Message"
 msgstr "Ecrivez-Nous"
 
-#: .\association\templates\association\contact.html:82
+#: .\association\templates\association\contact.html:84
+#: .\association\templates\association\members.html:77
 msgid "Name"
 msgstr "Nom"
 
-#: .\association\templates\association\contact.html:93
+#: .\association\templates\association\contact.html:127
 msgid "Subject"
 msgstr "Objet"
 
-#: .\association\templates\association\contact.html:108
+#: .\association\templates\association\contact.html:160
 msgid "Thank you"
 msgstr "Merci"
 
-#: .\association\templates\association\contact.html:109
+#: .\association\templates\association\contact.html:161
 msgid "We will look into your message and get back to you soon."
 msgstr "Nous examinerons votre message et vous contacterons bientôt."
 
 #: .\association\templates\association\financing.html:4
 #: .\association\templates\association\financing.html:16
 #: .\association\templates\association\financing.html:19
-#: .\association\templates\association\includes\nav.html:47
+#: .\association\templates\association\includes\nav.html:48
 msgid "Financing"
 msgstr "Financement"
 
@@ -1107,10 +1148,13 @@ msgstr "Membres"
 msgid "Search"
 msgstr "Recherche"
 
-#: .\association\templates\association\members.html:48
-#: .\association\templates\association\members.html:81
+#: .\association\templates\association\members.html:46
 msgid "Our Members"
 msgstr "Les membres"
+
+#: .\association\templates\association\members.html:80
+msgid "Username"
+msgstr "Prénom(s)"
 
 #: .\publications\templates\publications\index.html:9
 msgid ""
@@ -1367,23 +1411,15 @@ msgstr "Resultats"
 msgid "Category"
 msgstr "Catégorie"
 
-#: .\publications\templates\publications\search.html:49
-msgid "Title"
-msgstr "Titre"
-
 #: .\publications\templates\publications\search.html:52
 msgid "Authors"
 msgstr "Auteurs"
 
-#: .\publications\templates\publications\search.html:55
-msgid "Year"
-msgstr "Année"
-
-#: .\vahatraDjango\settings.py:165
+#: .\vahatraDjango\settings.py:181
 msgid "English"
 msgstr "Anglais"
 
-#: .\vahatraDjango\settings.py:166
+#: .\vahatraDjango\settings.py:182
 msgid "French"
 msgstr "Français"
 

@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, get_list_or_404,redirect
 from math import ceil
-from activities.models import Activityinstitution, Activityperson, Typeactivity, Typesubactivity, Visit,Activityimage,Location,Intervenantfieldschool,Activity
+from activities.models import  Activityperson, Typeactivity, Typesubactivity, Visit,Activityimage,Location,Intervenantfieldschool,Activity
 from association.models import  Partner,Person
 from django.core import serializers
 from django.http import JsonResponse, HttpResponseBadRequest
@@ -34,7 +34,7 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
         
         context["type_subactivity"]=typesubactivity
 
-        if typeactivity.id == 'A1': # IF THE ACTIVITY IS A VISIT
+        if typeactivity.id == 1: # IF THE ACTIVITY IS A VISIT
             visits = Visit.objects.filter(Q(idactivity__idtypesubactivity = typesubactivity_id), Q(idactivity__date__lte=date.today())|Q(idactivity__date__isnull=True))
             context["visits"]= visits
             
@@ -155,7 +155,7 @@ def activityDetail(request,slug):
     activity = get_object_or_404(Activity, slug = slug)
 
     typeactivity= activity.idtypeactivity
-    if typeactivity.id=='A1':
+    if typeactivity.id==1:
         return redirect('activities:index', typeactivity_id=activity.idtypeactivity.id, typeactivity_name=activity.idtypeactivity.type,typesubactivity_id=activity.idtypesubactivity.id,typesubactivity_name=activity.idtypesubactivity.type)
 
     new_events = Activity.objects.filter(Q(idtypeactivity = activity.idtypeactivity_id),
@@ -199,7 +199,7 @@ def ajaxActivityDetail(request):
                     authors.append(Person.objects.get(pk=author.idperson_id))
                 response['authors']=serializers.serialize('json',authors)
 
-            if activity.idtypeactivity_id == "A1":
+            if activity.idtypeactivity_id == 1:
                 visite = Visit.objects.get(idactivity=activity.id)
                 lieu = Location.objects.get(pk = visite.idlocation_id)
                 response['lieu'] =  serializers.serialize('json', [ lieu])

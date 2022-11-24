@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('association', '0017_auto_20221102_0912'),
+        ('association', '0016_typememberimage'),
     ]
 
     operations = [

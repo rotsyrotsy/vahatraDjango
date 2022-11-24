@@ -240,7 +240,7 @@ def index(request):
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
-def listActivities(request, activity_id="A1", page=1, subactivity_id=None, year=None):
+def listActivities(request, activity_id=1, page=1, subactivity_id=None, year=None):
     checkIfAdmin(request)
     context = getContext()
 
@@ -307,7 +307,7 @@ def deleteActivity(request):
     activity = Activity.objects.get(pk=id_activity)
     return ajaxDelete(request,activity,'Activity',activity.activityimage_set.all().values_list('image',flat=True),'images/site/'+renameFile(activity.idtypeactivity.type))
     
-def addActivity(request, idtypeactivity='A1'):
+def addActivity(request, idtypeactivity=1):
     checkIfAdmin(request)
     context = getContext()
 
@@ -319,7 +319,7 @@ def addActivity(request, idtypeactivity='A1'):
     context["locations"] = Location.objects.all().order_by('name')
     context["type_subactivity"] = type.typesubactivity_set.all().order_by('type')
     steps=3
-    if idtypeactivity=='A1':
+    if idtypeactivity==1:
         steps=4
     context['step_number']=range(0,steps)
     
@@ -338,7 +338,7 @@ def addActivity(request, idtypeactivity='A1'):
             typesubactivity = Typesubactivity.objects.get(pk=request.POST['idtypesubactivity'])
 
 
-        if request.POST['idtypeactivity'] == 'A1':
+        if request.POST['idtypeactivity'] == 1:
             if request.POST['idlocation'] == "" or request.POST['idtypesubactivity'] == "":
                 context["error"] = "Fields 'Type of visit' and 'Location' are required."
                 return render(request, "admin/addActivity.html", context)
@@ -374,13 +374,13 @@ def addActivity(request, idtypeactivity='A1'):
                 image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type_en))
                 image.save()
 
-        if request.POST['idtypeactivity'] == 'A1':  # if activity is visit
+        if request.POST['idtypeactivity'] == 1:  # if activity is visit
             visit = Visit(idactivity=lastActivity, idlocation=Location.objects.get(
                 pk=request.POST['idlocation']))
             if (request.POST['dateend'] != ""):
                 visit.dateend = request.POST['dateend']
             visit.save()
-            if visit.idactivity.idtypesubactivity.id == 'SA2':  # if field school
+            if visit.idactivity.idtypesubactivity.id == 2:  # if field school
                 fsnumber = 0
                 data = request.POST.items()
                 for keys, values in data:
@@ -449,9 +449,7 @@ def addInstitution(request):
         if inst.count()>0:
             context["warning"] = "This institution is already registered."
         else:
-            nextId = get_next_value("institution")
-            nextId = "I"+str(nextId)
-            inst = Institution(id=nextId, name=request.POST['name'])
+            inst = Institution(name=request.POST['name'])
             inst.save()
             context["success"] = "New institution inserted successfully."
     return render(request, "admin/addInstitution.html", context)
@@ -1125,11 +1123,9 @@ def addPartner(request):
         if theinstitution.count()>0:
             lastInst = theinstitution[0]
         else:
-            nextId = get_next_value("institution")
-            nextId = "I"+str(nextId)
-            newinst = Institution(id=nextId,name=request.POST['name'])
+            newinst = Institution(name=request.POST['name'])
             newinst.save()
-            lastInst = Institution.objects.get(pk=nextId)
+            lastInst = newinst
 
         partner.idinst = lastInst
 
@@ -1333,9 +1329,7 @@ def addTypeSubActivity(request,idtypeactivity=None):
         if typesubactivity.count()>0:
             context["warning"] = "This institution is already registered."
         else:
-            nextId = get_next_value("typesubactivity")
-            nextId = "SA"+str(nextId)
-            newTypeSubActivity = Typesubactivity(id=nextId, type=request.POST['type'], idtypeactivity=typeactivity)
+            newTypeSubActivity = Typesubactivity(type=request.POST['type'], idtypeactivity=typeactivity)
             newTypeSubActivity.save()
             context["success"] = "New "+typeactivity.type+" sub-activity inserted successfully."
             
@@ -1346,7 +1340,7 @@ def listType(request):
     context = getContext()
     return context
 
-def addType(request,model,modelstr,params=['type'],nextId=None):
+def addType(request,model,modelstr,params=['type']):
     checkIfAdmin(request)
     context = getContext()
     
@@ -1360,8 +1354,6 @@ def addType(request,model,modelstr,params=['type'],nextId=None):
             else:
                 newType = model()
                 setAttributeByRequestParams(request,params,newType)
-                if nextId:
-                    newType.id = nextId
                 newType.save()
                 context["success"] = "New "+modelstr+" type inserted successfully."
 
@@ -1392,9 +1384,7 @@ def listTypeActivity(request):
     return render(request,  "admin/listTypeActivity.html", context)
 
 def addTypeActivity(request):
-    nextId = get_next_value("typeactivity")
-    nextId = "A"+str(nextId)
-    context = addType(request,Typeactivity,'activity',['type'],nextId)
+    context = addType(request,Typeactivity,'activity',['type'])
     return render(request, "admin/addTypeActivity.html", context)
 
 def updateTypeActivity(request,type_id=None):

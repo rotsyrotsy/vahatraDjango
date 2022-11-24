@@ -18,7 +18,7 @@ def getContext():
     types_activity = cache.get(TYPES_ACTIVITY)
     types_pub = cache.get(TYPES_PUB)
     if not types_activity:
-        types_activity = Typeactivity.objects.filter(~Q(id='A4')).order_by("type")
+        types_activity = Typeactivity.objects.filter(~Q(id=3)).order_by("type")
         cache.set(TYPES_ACTIVITY, types_activity)
     if not types_pub:
         types_pub = Typepublication.objects.all().order_by("id")
@@ -52,7 +52,6 @@ def index(request):
     
     return render(request, "association/index.html", context)
 
-@cache_page(60*60)
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
     context = getContext()
     type = get_object_or_404(Typemember, pk = type_member_id)
@@ -88,7 +87,7 @@ def member(request,type_member_name=None, type_member_id=None,keyword=None, page
         page_number = dictpagination['page_number']
         members = dictpagination['list']
         context["members"] = members
-
+        print(page_number)
     context["type"]= type
     context["page_number"]= range(1,page_number+1)
     

@@ -41,41 +41,6 @@
                     </div>
                 </div>
             </div>
-            
-            {% if type.id == 3 %}
-            <div class="sec-title text-center">
-                <div class="sec-title-inner">
-                    <span>{% trans "Our Members" %}</span>
-                    <h3>{{type.type|title}}</h3>
-                </div>
-            </div>
-            <div >
-                {% autoescape off %}
-                <p>{{ type.description}}</p>
-                {% endautoescape %}
-                <div class="pagination-wrap text-center m-0">
-                    <ul class="pagination" style="float:right ;">
-                        {% for number in page_number %}
-                        {% if keyword %}
-                        <li ><a href="{% url 'association:member' type.id type.type|toSlug keyword number %}" title="">{{number}}</a></li>
-                        {% else %}
-                        <li ><a href="{% url 'association:member' type.id type.type|toSlug  number %}" title="">{{number}}</a></li>
-                        {% endif%}
-                            
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="row">
-                    <div class="col-md-8">
-                        <ul>
-                            {% for member in members %}
-                                <li>{{member.idperson.name}} {{member.idperson.username}}</li>
-                            {%endfor%}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            {% else %}
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>{% trans "Our Members" %}</span>
@@ -100,6 +65,43 @@
                 </ul>
             </div>
             {% endif %}
+            {% if type.id == 3 %}
+            <div class="table-responsive pt-3">
+                <table class="table table-bordered">
+                  <thead class="text-center">
+                    <tr>
+                      <th width="10%">
+                        #
+                      </th>
+                      <th width="40%">
+                        {% trans "Name" %}
+                      </th>
+                      <th width="50%">
+                        {% trans "Username" %}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for member in members %}
+                    <tr>
+                      <td class="text-center">
+                          {{forloop.counter}}
+                      </td>
+                      <td>
+                        {{member.idperson.name}}
+                      </td>
+                      <td>
+                        {{member.idperson.username}}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              
+            </div>
+            {% else %}
+            
             <div class="team-wrap2 text-center remove-ext3">
                 <div class="row">
                         {% for member in members %}

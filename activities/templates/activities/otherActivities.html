@@ -97,7 +97,7 @@
                                     </li>
                                 </ul>
                                 <h4><a href="{% url 'activities:activityDetail' activity.slug %}" title="">
-                                    {% if activity.idtypesubactivity.id == 'SA7' %}
+                                    {% if activity.idtypesubactivity.id == 7 %}
                                         <span class="font-italic" >{{activity.title | capfirst}}</span>
                                     {% else %}
                                         {{activity.title | capfirst}}
