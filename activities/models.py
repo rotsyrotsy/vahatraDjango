@@ -24,13 +24,13 @@ class Typeactivity(models.Model):
         db_table = 'typeactivity'
 
 class Activity(models.Model):
-    idtypeactivity = models.ForeignKey('Typeactivity', db_column='idtypeactivity',on_delete =models.CASCADE)
+    idtypeactivity = models.ForeignKey('Typeactivity', db_column='idtypeactivity',on_delete =models.DO_NOTHING)
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True,default=timezone.now())
     note = models.CharField(max_length=255, blank=True, null=True)
-    slug = models.SlugField(max_length = 255, null = True, blank = True)
-    idtypesubactivity = models.ForeignKey('Typesubactivity', db_column='idtypesubactivity', null=True,on_delete =models.CASCADE)
+    slug = models.SlugField(allow_unicode=True)
+    idtypesubactivity = models.ForeignKey('Typesubactivity', db_column='idtypesubactivity', null=True,on_delete =models.DO_NOTHING)
 
     class Meta:
         db_table = 'activity'
