@@ -223,15 +223,15 @@ DROP TABLE IF EXISTS sql9580428.auth_user;
 CREATE TABLE sql9580428.auth_user (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(128) NOT NULL,
-  `last_login` datetime(6) DEFAULT NULL,
-  `is_superuser` tinyint(1) NOT NULL DEFAULT '0',
+  `last_login` datetime DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
   `username` varchar(150) NOT NULL,
   `first_name` varchar(150) NOT NULL,
   `last_name` varchar(150) NOT NULL,
   `email` varchar(254) NOT NULL,
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL,
+  `date_joined` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -362,7 +362,7 @@ CREATE TABLE sql9580428.django_migrations (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `applied` datetime(6) NOT NULL,
+  `applied` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=75 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -387,7 +387,7 @@ DROP TABLE IF EXISTS sql9580428.django_session;
 CREATE TABLE sql9580428.django_session (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
-  `expire_date` datetime(6) NOT NULL,
+  `expire_date` datetime NOT NULL,
   PRIMARY KEY (`session_key`),
   KEY `django_session_expire_date_a5c62663` (`expire_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -1016,14 +1016,3 @@ LOCK TABLES sql9580428.visit WRITE;
 INSERT INTO sql9580428.visit VALUES (42,NULL,42,27),(37,NULL,37,31),(47,NULL,47,38),(36,NULL,36,29),(40,NULL,40,32),(41,NULL,41,33),(38,NULL,38,41),(50,NULL,50,32),(52,'2003-03-01',52,42),(53,'2005-10-01',53,43),(54,'2006-02-01',54,44),(55,'2007-03-01',55,45),(56,'2008-03-01',56,33),(57,'2009-02-01',57,46),(58,'2010-04-01',58,30),(59,NULL,59,47),(61,NULL,61,14),(60,NULL,60,28),(39,NULL,39,31),(62,'2022-12-15',62,48),(6,NULL,6,6),(17,NULL,17,17),(18,NULL,18,18),(19,NULL,19,19),(20,NULL,20,20),(21,NULL,21,21),(22,NULL,22,22),(23,NULL,23,23),(24,NULL,24,24),(2,NULL,2,2),(3,NULL,3,3),(4,NULL,4,4),(12,NULL,12,12),(13,NULL,13,13),(14,NULL,14,14),(15,NULL,15,15),(16,NULL,16,16),(5,NULL,5,5),(11,NULL,11,11),(7,NULL,7,7),(8,NULL,8,8),(35,NULL,35,30),(9,NULL,9,9),(10,NULL,10,10),(1,NULL,1,1),(25,NULL,25,25),(26,NULL,26,26),(48,NULL,48,31),(28,NULL,28,27),(30,NULL,30,27),(32,NULL,32,27),(33,NULL,33,28),(49,NULL,49,39),(51,NULL,51,40),(46,NULL,46,37),(27,NULL,27,27),(29,NULL,29,14),(43,NULL,43,34),(31,NULL,31,14),(45,NULL,45,36),(34,NULL,34,29),(44,NULL,44,35);
 /*!40000 ALTER TABLE sql9580428.visit ENABLE KEYS */;
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2022-11-24 16:28:45

@@ -60,19 +60,21 @@
                       {% endif %}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2" style="">
-                      
+                      {% with yearstr="year" %}
                         {% if subactivity %}
                           <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity.id 1 %}">all</a>
                           {% for i in years %}
-                            <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity.id i 1 %}">{{i}}</a>
+                            <a class="dropdown-item" href="{% url 'admin:listActivities' type.id subactivity.id yearstr i 1 %}">{{i}}</a>
                           {% endfor %}
                         {% else %}
                           <a class="dropdown-item" href="{% url 'admin:listActivities' type.id %}">all</a>
                           {% for i in years %}
-                          <a class="dropdown-item" href="{% url 'admin:listActivities' type.id i 1%}">{{ i }}</a>
+                          <a class="dropdown-item" href="{% url 'admin:listActivities' type.id yearstr i 1%}">{{ i }}</a>
+                          
                           {% endfor %}
                           
                         {% endif %}
+                        {% endwith %}
                     </div>
                   </div>
                  </div>
@@ -88,7 +90,7 @@
                         Title
                       </th>
                       
-                      {% if type.id == "A1"  %}
+                      {% if type.id == 1  %}
                       <th>
                         Location
                       </th>
@@ -113,7 +115,7 @@
                       <td>
                         {{activity.title}}
                       </td>
-                      {% if type.id == "A1" %}
+                      {% if type.id == 1 %}
                       <td>
                         {{activity.visit_set.get.idlocation.name}}
                       </td>
@@ -162,7 +164,7 @@
                                 <li ><a href="{% url 'admin:listActivities' type.id subactivity.id number %}" title="">{{number}}</a></li>
                               {% endif %}
                             {% elif not subactivity and year %}
-                              <li ><a href="{% url 'admin:listActivities' type.id year number %}" title="">{{number}}</a></li>
+                              <li ><a href="{% url 'admin:listActivities' type.id 'str' number %}" title="">{{number}}</a></li>
                             {% else %}
                               <li ><a href="{% url 'admin:listActivities' type.id number %}" title="">{{number}}</a></li>
                             {% endif %}

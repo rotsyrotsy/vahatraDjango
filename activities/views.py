@@ -25,7 +25,7 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
         return redirect('activities:index', typeactivity_id=typeactivity.id, typeactivity_name=slug,typesubactivity_id=typesubactivity_id,typesubactivity_name=typesubactivity_name)
     thelist = [] 
     thelist = Activity.objects.filter( Q(idtypeactivity_id = typeactivity.id),Q(date__lte=date.today())|Q(date__isnull=True))
-
+    
     if typesubactivity_id:
         typesubactivity = get_object_or_404(Typesubactivity, pk=typesubactivity_id)
         slug = toSlug(typesubactivity.type)
@@ -67,6 +67,7 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
     if (thelist.count() > 0):
         minactivity = thelist.aggregate(Min('date'))['date__min'].year
         maxactivity = thelist.aggregate(Max('date'))['date__max'].year
+        
 
         if not max and not min:
             max = maxactivity
@@ -77,10 +78,11 @@ def index(request,typeactivity_id=None,typeactivity_name=None, typesubactivity_i
             thelist = thelist.filter(Q(date__year__gte = min),
             Q(date__year__lte = max))
         
-        dictpagination = pagination(page, thelist, 6, '-date')
-        page_number = dictpagination['page_number']
-        activities = dictpagination['list']
-        context["activities"] = activities
+        if thelist.count()>0:
+            dictpagination = pagination(page, thelist, 6, '-date')
+            page_number = dictpagination['page_number']
+            activities = dictpagination['list']
+            context["activities"] = activities
 
     context["page_number"]= range(1,page_number+1)
 

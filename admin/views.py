@@ -240,13 +240,13 @@ def index(request):
 
 #  -----------------------------------ACTIVITIES ---------------------------------
 
-def listActivities(request, activity_id=1, page=1, subactivity_id=None, year=None):
+def listActivities(request, activity_id=1, subactivity_id=None, yearstr='year',year=None,page=1):
     checkIfAdmin(request)
     context = getContext()
-
     type = get_object_or_404(Typeactivity, pk=activity_id)
     context["type"] = type
 
+    print(activity_id, subactivity_id, yearstr,year,page)
     list = Activity.objects.filter(idtypeactivity_id=type.id)
     if subactivity_id is not None:
         subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)

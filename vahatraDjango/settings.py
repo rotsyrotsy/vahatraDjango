@@ -112,6 +112,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "sql9580428",
+#         "USER": "sql9580428",
+#         "PASSWORD": "h6d121SwDn",
+#         "HOST": "sql9.freemysqlhosting.net",
+#         "PORT": "3306",
+#     }
+# }
+
 
 # DATABASES = {
 #     'default': dj_database_url.config()
