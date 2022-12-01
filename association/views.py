@@ -51,6 +51,7 @@ def getContext():
     }
     return context
 
+# @cache_page(60*60)
 def index(request):
 
     context = getContext()
@@ -72,6 +73,7 @@ def index(request):
     
     return render(request, "association/index.html", context)
 
+@cache_page(60*60)
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
     context = getContext()
     type = get_object_or_404(Typemember, pk = type_member_id)
