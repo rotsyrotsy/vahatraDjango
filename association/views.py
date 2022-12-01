@@ -11,10 +11,29 @@ from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.template.loader import render_to_string
 import datetime
+import flag
+from django.utils.translation import get_language
+
 
 TYPES_ACTIVITY="Typeactivity.all"
 TYPES_PUB="Typepublication.all"
 def getContext():
+    current = get_language()
+    lang = ()
+    for item in settings.LANGUAGES:
+        f = flag.flag(item[0])
+        if item[0]=="en":
+            f = flag.flag('GB')
+        tup = item + (f,)
+        lang = lang + (tup,)
+    fcurr = flag.flag(current)
+    if current=="en":
+        fcurr = flag.flag('GB')
+    currlang = {
+        "lang":current,
+        "flag":fcurr,
+    }
+
     types_activity = cache.get(TYPES_ACTIVITY)
     types_pub = cache.get(TYPES_PUB)
     if not types_activity:
@@ -27,10 +46,11 @@ def getContext():
     context={
         "types_activity": cache.get(TYPES_ACTIVITY),
         "types_pub": cache.get(TYPES_PUB),
+        "languages":lang,
+        "currlang":currlang,
     }
     return context
 
-@cache_page(60*60)
 def index(request):
 
     context = getContext()
@@ -96,7 +116,6 @@ def member(request,type_member_name=None, type_member_id=None,keyword=None, page
 
 def contact(request):
     import json
-    import flag
     context = getContext()
     
     

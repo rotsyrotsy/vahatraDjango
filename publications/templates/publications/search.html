@@ -93,7 +93,7 @@
                           </ul>
                           
                         {% else %}
-                          <ul class="pagination" style="display:block ruby;">
+                          <ul class="pagination" style="display:inline-flex;">
                             {% for number in page_number %}
                               <form action="{% url 'publications:multicriteriasearch'%}" method="POST">
                                 {% csrf_token %}

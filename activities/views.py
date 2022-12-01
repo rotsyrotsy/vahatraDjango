@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render, get_list_or_404,redirect
 from math import ceil
-from activities.models import  Activityperson, Typeactivity, Typesubactivity, Visit,Activityimage,Location,Intervenantfieldschool,Activity
+from activities.models import  Activityperson, Typeactivity, Typesubactivity, Visit,Activityimage,Location,Activity
 from association.models import  Partner,Person
 from django.core import serializers
 from django.http import JsonResponse, HttpResponseBadRequest
@@ -127,7 +127,13 @@ def visit_by_lieu(request):
                 dict['activity']=serializers.serialize('json', [visit.idactivity])
                 dict['visit']= serializers.serialize('json', [ visit])
                 dict['images']= serializers.serialize('json',Activityimage.objects.filter(idactivity=visit.idactivity_id))
-                dict['fs']=serializers.serialize('json',Intervenantfieldschool.objects.filter(id=visit.id))
+                intervenantfieldschool = []
+                for item in visit.fieldschool_set.all():
+                    if item.iddept:
+                        intervenantfieldschool.append(item.iddept.name+', '+item.idinst.name)
+                    else:
+                        intervenantfieldschool.append(item.idinst.name)
+                dict['fs']=intervenantfieldschool
                
                 tab.append(dict)
 

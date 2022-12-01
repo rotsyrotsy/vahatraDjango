@@ -112,7 +112,7 @@
                                     <ul class="cat-lst">
                                         
                                     {% for publication_type in types_pub %}
-                                    <li><a href="{% url 'publications:index' publication_type.type|toSlug publication_type.id %}" title="">{{publication_type.type}}</a>({{publication_type.publication_set.all|length}})</li>
+                                    <li><a href="{% url 'publications:index'  publication_type.id publication_type.type|toSlug %}" title="">{{publication_type.type}}</a>({{publication_type.publication_set.all|length}})</li>
                                     {% endfor %}
                                     </ul>
                                 </div>

@@ -156,19 +156,21 @@
               {% if not keyword %}
                 <div class="pagination-wrap text-center">
                     <ul class="pagination">
+                      {% with yearstr="year" %}
                         {% for number in page_number %}
                             {% if subactivity %}
                               {% if year %}
-                                <li ><a href="{% url 'admin:listActivities' type.id subactivity.id year number %}" title="">{{number}}</a></li>
+                                <li ><a href="{% url 'admin:listActivities' type.id subactivity.id yearstr year number %}" title="">{{number}}</a></li>
                               {% else %}
                                 <li ><a href="{% url 'admin:listActivities' type.id subactivity.id number %}" title="">{{number}}</a></li>
                               {% endif %}
                             {% elif not subactivity and year %}
-                              <li ><a href="{% url 'admin:listActivities' type.id 'str' number %}" title="">{{number}}</a></li>
+                              <li ><a href="{% url 'admin:listActivities' type.id yearstr year number %}" title="">{{number}}</a></li>
                             {% else %}
                               <li ><a href="{% url 'admin:listActivities' type.id number %}" title="">{{number}}</a></li>
                             {% endif %}
                         {% endfor %}
+                      {% endwith %}
                     </ul>
                 </div>
               {% endif %}

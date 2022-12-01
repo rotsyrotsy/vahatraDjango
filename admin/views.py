@@ -246,7 +246,7 @@ def listActivities(request, activity_id=1, subactivity_id=None, yearstr='year',y
     type = get_object_or_404(Typeactivity, pk=activity_id)
     context["type"] = type
 
-    print(activity_id, subactivity_id, yearstr,year,page)
+    # print(activity_id, subactivity_id, yearstr,year,page)
     list = Activity.objects.filter(idtypeactivity_id=type.id)
     if subactivity_id is not None:
         subactivity = get_object_or_404(Typesubactivity,pk=subactivity_id)
@@ -290,14 +290,11 @@ def listActivities(request, activity_id=1, subactivity_id=None, yearstr='year',y
     else:
         context['activities']=list
 
-    if list.count()>0:
-        min = Activity.objects.filter(
-            idtypeactivity=activity_id).aggregate(Min('date'))
-        max = Activity.objects.filter(
-            idtypeactivity=activity_id).aggregate(Max('date'))
-        context["years"] = reversed(range(min['date__min'].year, max['date__max'].year+1))
-    else:
-        context["years"] =reversed(range(timezone.now().year,timezone.now().year))
+    min = Activity.objects.filter(
+        idtypeactivity=activity_id).aggregate(Min('date'))
+    max = Activity.objects.filter(
+        idtypeactivity=activity_id).aggregate(Max('date'))
+    context["years"] = reversed(range(min['date__min'].year, max['date__max'].year+1))
     
 
     return render(request, "admin/listActivities.html", context)
@@ -319,7 +316,7 @@ def addActivity(request, idtypeactivity=1):
     context["locations"] = Location.objects.all().order_by('name')
     context["type_subactivity"] = type.typesubactivity_set.all().order_by('type')
     steps=3
-    if idtypeactivity==1:
+    if int(idtypeactivity) == 1:
         steps=4
     context['step_number']=range(0,steps)
     
@@ -338,7 +335,7 @@ def addActivity(request, idtypeactivity=1):
             typesubactivity = Typesubactivity.objects.get(pk=request.POST['idtypesubactivity'])
 
 
-        if request.POST['idtypeactivity'] == 1:
+        if int(request.POST['idtypeactivity']) == 1:
             if request.POST['idlocation'] == "" or request.POST['idtypesubactivity'] == "":
                 context["error"] = "Fields 'Type of visit' and 'Location' are required."
                 return render(request, "admin/addActivity.html", context)
@@ -374,7 +371,7 @@ def addActivity(request, idtypeactivity=1):
                 image.image = handle_uploaded_file(f, 'images/site/'+renameFile(lastActivity.idtypeactivity.type_en))
                 image.save()
 
-        if request.POST['idtypeactivity'] == 1:  # if activity is visit
+        if int(request.POST['idtypeactivity']) == 1:  # if activity is visit
             visit = Visit(idactivity=lastActivity, idlocation=Location.objects.get(
                 pk=request.POST['idlocation']))
             if (request.POST['dateend'] != ""):
@@ -498,13 +495,13 @@ def updateActivity(request, activity_id=1):
     countChange = 0
     countChangeActivity = 0
     if request.method == 'POST':
-        if activity.idtypeactivity is None or request.POST['idtypeactivity'] != activity.idtypeactivity.id :
+        if activity.idtypeactivity is None or request.POST['idtypeactivity'] != str(activity.idtypeactivity.id) :
             activity.idtypeactivity = Typeactivity.objects.get(
                 pk=request.POST['idtypeactivity'])
             countChangeActivity += 1
 
         if 'idtypesubactivity' in request.POST:
-            if activity.idtypesubactivity is None or request.POST['idtypesubactivity'] != activity.idtypesubactivity.id  :
+            if activity.idtypesubactivity is None or request.POST['idtypesubactivity'] != str(activity.idtypesubactivity.id)  :
                 activity.idtypesubactivity = Typesubactivity.objects.get(
                     pk=request.POST['idtypesubactivity'])
                 countChangeActivity += 1
@@ -700,17 +697,17 @@ def addPublication(request, idtypepublication=1):
         names = ['title','description', 'date']
         setAttributeByRequestParams(request,names, publication)
         
-        if request.FILES:
-            if request.FILES.getlist('imagefront'):
-                front = request.FILES.getlist('imagefront')[0]
-                publication.imagefront = handle_uploaded_file(front, 'images/publication/')
+        # if request.FILES:
+        #     if request.FILES.getlist('imagefront'):
+        #         front = request.FILES.getlist('imagefront')[0]
+        #         publication.imagefront = handle_uploaded_file(front, 'images/publication/')
                 
-            if request.FILES.getlist('imageback'):
-                back = request.FILES.getlist('imageback')[0]
-                publication.imageback = handle_uploaded_file(back, 'images/publication/')
+        #     if request.FILES.getlist('imageback'):
+        #         back = request.FILES.getlist('imageback')[0]
+        #         publication.imageback = handle_uploaded_file(back, 'images/publication/')
                 
 
-        publication.save()
+        # publication.save()
         context["success"] = "New publication inserted successfully."
 
         lastPublication = Publication.objects.last()
@@ -723,7 +720,7 @@ def addPublication(request, idtypepublication=1):
                     if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
                         pubauth = Publicationauthor(
                             idpublication=lastPublication, idperson=Person.objects.get(pk=values))
-                        pubauth.save()
+                        # pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
@@ -741,8 +738,8 @@ def addPublication(request, idtypepublication=1):
                 
                     pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type_en))
 
-            if  pd.pdf is not None:
-                pd.save()
+            # if  pd.pdf is not None:
+                # pd.save()
 
     return render(request, "admin/addPublication.html", context)
 
@@ -1291,7 +1288,7 @@ def updateTypeSubActivity(request,subactivity_id=None):
 
     countChangeSubActivity = 0
     if request.method == 'POST':
-        if subactivity.idtypeactivity is None or request.POST['idtypeactivity'] != subactivity.idtypeactivity.id :
+        if subactivity.idtypeactivity is None or request.POST['idtypeactivity'] != str(subactivity.idtypeactivity.id) :
             subactivity.idtypeactivity = Typeactivity.objects.get(
                 pk=request.POST['idtypeactivity'])
             countChangeSubActivity += 1
@@ -1507,10 +1504,9 @@ def deleteTypeMember(request):
     
 
 def addMessageofyear(request):
-    context = getContext()
     checkIfAdmin(request)
+    context = getContext()
     context['members']=Member.objects.filter(idtypemember=2)
-    countChanges = 0
     if request.method == 'POST':
         message_of_year=Messageofyear(idmember=Member.objects.get(pk=request.POST['idmember']))
         names = ['year','description']
