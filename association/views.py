@@ -51,7 +51,7 @@ def getContext():
     }
     return context
 
-# @cache_page(60*60)
+@cache_page(60*60)
 def index(request):
 
     context = getContext()

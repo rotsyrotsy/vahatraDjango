@@ -31,12 +31,6 @@ def setAttributeByRequestParams(request,params,model):
             if hasattr(model,originalField):
                 if getattr(model, originalField) is None:
                     setattr(model, originalField, value.strip())
-            # current = params[i]+'_'+translation.get_language()
-            # for code,lang in settings.LANGUAGES:
-            #     other = params[i]+'_'+code
-            #     if hasattr(model,other):
-            #         if current != other:
-            #             setattr(model, other, value.strip())
             setattr(model, params[i], value.strip())
         i += 1
 
@@ -729,7 +723,7 @@ def addPublication(request, idtypepublication=1):
                     if Publicationauthor.objects.filter(idpublication=publication, idperson=Person.objects.get(pk=values)).count()==0:
                         pubauth = Publicationauthor(
                             idpublication=lastPublication, idperson=Person.objects.get(pk=values))
-                        # pubauth.save()
+                        pubauth.save()
             if 'fknamearticle' in keys:
                 fkarticlenumber += 1
 
