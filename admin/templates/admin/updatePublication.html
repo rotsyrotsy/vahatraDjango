@@ -34,9 +34,20 @@
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{publication.title}}">
                   </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="10">{{publication.description|default_if_none:""}}</textarea>
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="description_en">Description in english</label>
+                        <textarea class="form-control editor" id="description_en" name="description_en" rows="20">{{publication.description_en|default_if_none:""}}</textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="description_fr">Description en français</label>
+                        <textarea class="form-control editor" id="description_fr" name="description_fr" rows="20">{{publication.description_fr|default_if_none:""}}</textarea>
+                      </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="date">Publication date</label>

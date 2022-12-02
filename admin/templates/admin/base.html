@@ -144,11 +144,14 @@
   
   <script src="{% static 'admin/js/ckeditor.js' %}"></script>
   <script>
-    ClassicEditor
-    .create( document.querySelector( '.editor' ) )
-    .catch( error => {
+    var allEditors = document.querySelectorAll('.editor');
+    for (var i = 0; i < allEditors.length; ++i) {
+      ClassicEditor
+      .create(allEditors[i])
+      .catch( error => {
         console.error( error );
-    } );
+      } );
+    }
   </script>
   {% block js %}
     {% endblock %}

@@ -27,12 +27,16 @@ def setAttributeByRequestParams(request,params,model):
     i = 0
     for value in values:
         if value != "":
-            current = params[i]+'_'+translation.get_language()
-            for code,lang in settings.LANGUAGES:
-                other = params[i]+'_'+code
-                if hasattr(model,other):
-                    if current != other:
-                        setattr(model, other, value.strip())
+            originalField = params[i].split("_")[0]
+            if hasattr(model,originalField):
+                if getattr(model, originalField) is None:
+                    setattr(model, originalField, value.strip())
+            # current = params[i]+'_'+translation.get_language()
+            # for code,lang in settings.LANGUAGES:
+            #     other = params[i]+'_'+code
+            #     if hasattr(model,other):
+            #         if current != other:
+            #             setattr(model, other, value.strip())
             setattr(model, params[i], value.strip())
         i += 1
 
@@ -45,6 +49,10 @@ def updateAttributeByRequestParams(request,params,model):
         if value == "":
             value = None
         else:
+            originalField = params[i].split("_")[0]
+            if hasattr(model,originalField):
+                if getattr(model, originalField) is None:
+                    setattr(model, originalField, value.strip())
             value = value.strip()
         setattr(model, params[i], value)
         countChange += 1
@@ -60,6 +68,7 @@ def getContext():
     return context
 
 def checkIfAdmin(request):
+    print(request.user)
     if not request.user.is_authenticated: raise PermissionDenied()
     if 'count_login' in request.session:
         if request.session['count_login'] > 3:
@@ -322,8 +331,8 @@ def addActivity(request, idtypeactivity=1):
     
 
     if request.method == 'POST':
-        if request.POST['idtypeactivity'] == "" or request.POST['title'] == "":
-            context["error"] = "Fields 'Type of activity' and 'Title' are required."
+        if request.POST['idtypeactivity'] == "" or request.POST['title_en'] == "" or request.POST['title_fr'] == "":
+            context["error"] = "Fields 'Type of activity', 'Title in en' and 'Titre en fr' are required."
             return render(request, "admin/addActivity.html", context)
 
         typeactivity = Typeactivity.objects.get(
@@ -343,7 +352,7 @@ def addActivity(request, idtypeactivity=1):
         activity = Activity(idtypeactivity=typeactivity,
                             idtypesubactivity = typesubactivity)
 
-        names = ['title','description', 'date', 'note']
+        names = ['title_en','title_fr','description_en','description_fr', 'date', 'note_en','note_fr']
         setAttributeByRequestParams(request,names, activity)
         
 
@@ -506,7 +515,7 @@ def updateActivity(request, activity_id=1):
                     pk=request.POST['idtypesubactivity'])
                 countChangeActivity += 1
 
-        params = ['title', 'description', 'date', 'note']
+        params = ['title_en','title_fr', 'description_en','description_fr', 'date', 'note_en','note_fr']
         countChangeActivity += updateAttributeByRequestParams(request,params, activity)
 
         if activity.slug is not None and request.POST['slug']!=activity.slug:
@@ -694,20 +703,20 @@ def addPublication(request, idtypepublication=1):
 
         
 
-        names = ['title','description', 'date']
+        names = ['title','description_en','description_fr', 'date']
         setAttributeByRequestParams(request,names, publication)
         
-        # if request.FILES:
-        #     if request.FILES.getlist('imagefront'):
-        #         front = request.FILES.getlist('imagefront')[0]
-        #         publication.imagefront = handle_uploaded_file(front, 'images/publication/')
+        if request.FILES:
+            if request.FILES.getlist('imagefront'):
+                front = request.FILES.getlist('imagefront')[0]
+                publication.imagefront = handle_uploaded_file(front, 'images/publication/')
                 
-        #     if request.FILES.getlist('imageback'):
-        #         back = request.FILES.getlist('imageback')[0]
-        #         publication.imageback = handle_uploaded_file(back, 'images/publication/')
+            if request.FILES.getlist('imageback'):
+                back = request.FILES.getlist('imageback')[0]
+                publication.imageback = handle_uploaded_file(back, 'images/publication/')
                 
 
-        # publication.save()
+        publication.save()
         context["success"] = "New publication inserted successfully."
 
         lastPublication = Publication.objects.last()
@@ -738,8 +747,8 @@ def addPublication(request, idtypepublication=1):
                 
                     pd.pdf = handle_uploaded_file(pdf, 'pdf/'+renameFile(lastPublication.idtype.type_en))
 
-            # if  pd.pdf is not None:
-                # pd.save()
+            if  pd.pdf is not None:
+                pd.save()
 
     return render(request, "admin/addPublication.html", context)
 
@@ -762,7 +771,7 @@ def updatePublication(request, pub_id=1):
             countChangePublication += 1
             countChange += 1
 
-        names = ['title', 'description', 'date']
+        names = ['title', 'description_en','description_fr', 'date']
         countChangePublication += updateAttributeByRequestParams(request,names,publication)
         
         # ADD PUBLICATION ITEMS
@@ -930,7 +939,7 @@ def addMember(request,typemember_id=1):
 
         member = Member(idtypemember=typemember,idperson=lastPerson)
 
-        names = ['description', 'mail']
+        names = ['description_en','description_fr', 'mail']
         setAttributeByRequestParams(request,names, member)
         
         if request.FILES:
@@ -1005,7 +1014,7 @@ def updateMember(request,member_id=None):
             theperson.save()
             countChange += 1
 
-        names = ['mail', 'description']
+        names = ['mail', 'description_en','description_fr']
         countChangeMember += updateAttributeByRequestParams(request, names,member)
 
         if request.FILES:
@@ -1126,7 +1135,7 @@ def addPartner(request):
 
         partner.idinst = lastInst
 
-        names = ['description']
+        names = ['description_en','description_fr']
         setAttributeByRequestParams(request,names, partner)
         
            
@@ -1157,7 +1166,7 @@ def updatePartner(request,partner_id=None):
             inst.save()
             countChange += 1
 
-        names = ['link', 'description']
+        names = ['link','description_en','description_fr']
         countChangePartner += updateAttributeByRequestParams(request, names,partner)
 
         if eval(request.POST['be_link'])!=partner.isLink:
@@ -1181,7 +1190,7 @@ def updatePartner(request,partner_id=None):
             countChange +=1
             partner.save()
         if countChange > 0:
-            context["success"] = "Member's informations updated successfully."
+            context["success"] = "Partner's informations updated successfully."
         else:
             context["error"] = "There is nothing to change."
             
@@ -1292,7 +1301,7 @@ def updateTypeSubActivity(request,subactivity_id=None):
             subactivity.idtypeactivity = Typeactivity.objects.get(
                 pk=request.POST['idtypeactivity'])
             countChangeSubActivity += 1
-        params = ['type']
+        params = ['type_en','type_fr']
         countChangeSubActivity += updateAttributeByRequestParams(request,params, subactivity)
 
         if countChangeSubActivity > 0:
@@ -1314,19 +1323,19 @@ def addTypeSubActivity(request,idtypeactivity=None):
     context = getContext()
     context['typeactivity']=get_object_or_404(Typeactivity,pk=idtypeactivity)
     if request.method == 'POST':
-        if request.POST['idtypeactivity'] == "" or request.POST['type'] == "":
-            context["error"] = "Fields 'Type of activity' and 'Type' are required."
+        if request.POST['idtypeactivity'] == "" or request.POST['type_en'] == "" or request.POST['type_fr'] == "":
+            context["error"] = "Fields 'Type of activity','Nom du type en français' and 'Type name in english' are required."
             return render(request, "admin/addSubActivity.html", context)
 
         typeactivity = Typeactivity.objects.get(
             pk=request.POST['idtypeactivity'])
         
         
-        typesubactivity = Typesubactivity.objects.filter(type=str(request.POST['type']), idtypeactivity=typeactivity.id)
+        typesubactivity = Typesubactivity.objects.filter(type_en=str(request.POST['type_en']),type_fr=str(request.POST['type_fr']), idtypeactivity=typeactivity.id)
         if typesubactivity.count()>0:
-            context["warning"] = "This institution is already registered."
+            context["warning"] = "This sub-activity is already registered."
         else:
-            newTypeSubActivity = Typesubactivity(type=request.POST['type'], idtypeactivity=typeactivity)
+            newTypeSubActivity = Typesubactivity(type=request.POST['type_en'],type_en=str(request.POST['type_en']),type_fr=str(request.POST['type_fr']), idtypeactivity=typeactivity)
             newTypeSubActivity.save()
             context["success"] = "New "+typeactivity.type+" sub-activity inserted successfully."
             
@@ -1337,15 +1346,15 @@ def listType(request):
     context = getContext()
     return context
 
-def addType(request,model,modelstr,params=['type']):
+def addType(request,model,modelstr,params=['type_en','type_fr']):
     checkIfAdmin(request)
     context = getContext()
     
     if request.method=="POST":
-        if request.POST['type'] == "":
-            context["error"] = "Field 'Type' is required."
+        if request.POST['type_en'] == "" or request.POST['type_fr'] == "":
+            context["error"] = "Fields 'Type name in english' and 'Nom du type en français' are required."
         else:
-            typemodel = model.objects.filter(type=str(request.POST['type']))
+            typemodel = model.objects.filter(type_en=str(request.POST['type_en']),type_fr=str(request.POST['type_fr']))
             if typemodel.count()>0:
                 context["warning"] = "This "+modelstr+"  type is already registered."
             else:
@@ -1364,7 +1373,7 @@ def updateType(request,id, model, modelstr):
 
     countChanges = 0
     if request.method == 'POST':
-        params = ['type']
+        params = ['type_en','type_fr']
         countChanges += updateAttributeByRequestParams(request,params, type)
 
         if countChanges > 0:
@@ -1381,7 +1390,7 @@ def listTypeActivity(request):
     return render(request,  "admin/listTypeActivity.html", context)
 
 def addTypeActivity(request):
-    context = addType(request,Typeactivity,'activity',['type'])
+    context = addType(request,Typeactivity,'activity')
     return render(request, "admin/addTypeActivity.html", context)
 
 def updateTypeActivity(request,type_id=None):
@@ -1440,15 +1449,15 @@ def addTypeMember(request):
     context = getContext()
 
     if request.method == 'POST':
-        if request.POST['type'] == "":
-            context["error"] = "Fields 'Type' is required."
-            return render(request, "admin/addMember.html", context)
+        if request.POST['type_en'] == "" or request.POST['type_fr'] == "":
+            context["error"] = "Fields 'Type name in english' and 'Nom du type en français' are required."
+            return render(request, "admin/addTypeMember.html", context)
         else:
-            typemember = Typemember.objects.filter(type=str(request.POST['type']))
+            typemember = Typemember.objects.filter(type_en=str(request.POST['type_en']),type_fr=str(request.POST['type_fr']))
             if typemember.count()>0:
-                context["warning"] = "This member  type is already registered."
+                context["warning"] = "This member type is already registered."
             else:
-                newType = Typemember(type=request.POST['type'],description=request.POST['description'])
+                newType = Typemember(type=request.POST['type_en'],type_en=str(request.POST['type_en']),type_fr=str(request.POST['type_fr']),description=request.POST['description_en'],description_en=request.POST['description_en'],description_fr=request.POST['description_fr'])
                 newType.save()
                 if request.FILES:
                     files = request.FILES.getlist('files')
@@ -1469,7 +1478,7 @@ def updateTypeMember(request,type_id=None):
     context['imgs']=typemember.typememberimage_set.all()
     countChanges = 0
     if request.method == 'POST':
-        params = ['type','description']
+        params = ['type_en','type_fr','description_en','description_fr']
         countChanges += updateAttributeByRequestParams(request,params, typemember)
 
         if request.FILES:
@@ -1509,7 +1518,7 @@ def addMessageofyear(request):
     context['members']=Member.objects.filter(idtypemember=2)
     if request.method == 'POST':
         message_of_year=Messageofyear(idmember=Member.objects.get(pk=request.POST['idmember']))
-        names = ['year','description']
+        names = ['year','description_en','description_fr']
         setAttributeByRequestParams(request,names, message_of_year)
         message_of_year.save()
 
@@ -1528,7 +1537,7 @@ def updateMessageofyear(request,id=1):
         if request.POST['idmember']!=message_of_year.idmember.id:
             message_of_year.idmember = Member.objects.get(pk=request.POST['idmember'])
             countChanges += 1
-        params = ['year','description']
+        params = ['year','description_en','description_fr']
         countChanges += updateAttributeByRequestParams(request,params, message_of_year)
 
         if countChanges > 0:

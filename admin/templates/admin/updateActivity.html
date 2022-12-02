@@ -51,14 +51,36 @@
                     <label for="slug">URL</label>
                     <input type="text" class="form-control" id="slug" name="slug" placeholder="Slug to URL" value="{{activity.slug}}">
                   </div>
-                  <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{activity.title}}" required>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="title_en">Title in english</label>
+                        <input type="text" class="form-control" id="title_en" name="title_en" placeholder="Title in english" value="{{activity.title_en}}" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="title_fr">Titre en français</label>
+                        <input type="text" class="form-control" id="title_fr" name="title_fr" placeholder="Titre en français" value="{{activity.title_fr}}" required>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea class="form-control editor" id="description" name="description" rows="20">{{activity.description|default_if_none:""}}</textarea>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="description_en">Description in english</label>
+                        <textarea class="form-control editor" id="description_en" name="description_en" rows="20">{{activity.description_en|default_if_none:""}}</textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="description_fr">Description en français</label>
+                        <textarea class="form-control editor" id="description_fr" name="description_fr" rows="20">{{activity.description_fr|default_if_none:""}}</textarea>
+                      </div>
+                    </div>
                   </div>
+                  
+                  
                   <div class="form-group">
                     <label for="date">Starting date</label>
                     {% if activity.date|date:'Y-m-d' %}
@@ -94,10 +116,23 @@
                     </div>
                   </div>
                   
-                  <div class="form-group">
-                    <label for="note">Comment</label>
-                    <textarea class="form-control" id="note" name="note" rows="2">{{activity.note|default_if_none:""}}</textarea>
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="note_en">Comment in english</label>
+                        <textarea class="form-control" id="note_en" name="note_en" rows="2">{{activity.note_en|default_if_none:""}}</textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="note_fr">Remarque en français</label>
+                        <textarea class="form-control" id="note_fr" name="note_fr" rows="2">{{activity.note_fr|default_if_none:""}}</textarea>
+                      </div>
+                    </div>
                   </div>
+
+                  
 
                   {% if visit %}
 

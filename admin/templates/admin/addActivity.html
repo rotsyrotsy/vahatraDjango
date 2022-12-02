@@ -36,8 +36,12 @@
                       {% endif %}
 
                       <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control required" id="title" name="title" placeholder="Title" required>
+                        <label for="titleen">Title in english</label>
+                        <input type="text" class="form-control required" id="titleen" name="title_en" placeholder="Title in en" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="titlefr">Titre en français</label>
+                        <input type="text" class="form-control required" id="titlefr" name="title_fr" placeholder="Titre en fr" required>
                       </div>
                       <div class="form-group">
                         <label for="date">Starting date</label>
@@ -46,17 +50,25 @@
                     </div>
                     <div class="tab">
                       <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control editor" id="description" name="description" rows="4"></textarea>
+                        <label for="description_en">Description in english</label>
+                        <textarea class="form-control editor" id="description_en" name="description_en" rows="4"></textarea>
                       </div>
                       <div class="form-group">
-                        <label for="note">Comment</label>
-                        <textarea class="form-control" id="note" name="note" rows="2"></textarea>
+                        <label for="description_fr">Description en français</label>
+                        <textarea class="form-control editor" id="description_fr" name="description_fr" rows="4"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="note_en">Comment in english</label>
+                        <textarea class="form-control" id="note_en" name="note_en" rows="2"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="note_fr">Note en français</label>
+                        <textarea class="form-control" id="note_fr" name="note_fr" rows="2"></textarea>
                       </div>
                       <div class="form-group">
                         <label for="file-chosen">Images</label>
                         <div class="input-group">
-                          <input type="text" class="form-control required" id="file-chosen" placeholder="No file chosen" aria-label="No file chosen">
+                          <input type="text" class="form-control" id="file-chosen" placeholder="No file chosen" aria-label="No file chosen">
                           <div class="input-group-append">
                             <input type="file" id="actual-btn" name="files" accept="image/*" multiple hidden/>
                             <label class="btn btn-sm btn-primary" for="actual-btn" style="margin-bottom:0; padding-top: .7rem;">Upload images</label>
@@ -85,7 +97,7 @@
                       </div>
                       <div class="form-group">
                         <label for="end">End of visit</label>
-                        <input type="date" class="form-control required" id="end" name="dateend" placeholder="dd/mm/yyyy">
+                        <input type="date" class="form-control" id="end" name="dateend" placeholder="dd/mm/yyyy">
                       </div>
                   </div>
                   {% endif %}

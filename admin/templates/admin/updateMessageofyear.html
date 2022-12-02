@@ -30,14 +30,29 @@
                         <input type="number" class="form-control" name="year" value="{{message_of_year.year}}" >
                       </div>
 
-                    <div class="form-group">
-                      <label for="description">Description</label>
-                      <textarea class="form-control editor" id="description" name="description" rows="4">
-                        {% autoescape off %}
-                        {{message_of_year.description}}
-                        {% endautoescape %}
-                    </textarea>
+                    
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="description_en">Description in english</label>
+                        <textarea class="form-control editor" id="description_en" name="description_en" rows="4">
+                            {% autoescape off %}
+                            {{message_of_year.description_en}}
+                            {% endautoescape %}    
+                        </textarea>
+                      </div>
                     </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="description_fr">Description en français</label>
+                        <textarea class="form-control editor" id="description_fr" name="description_fr" rows="4">
+                            {% autoescape off %}
+                            {{message_of_year.description_fr}}
+                            {% endautoescape %}
+                        </textarea>
+                      </div>
+                    </div>
+                  </div>
                     
                     <div class="form-group">
                         <label for="selectFrom">From : <strong>{{message_of_year.idmember.idperson.username|title}} {{message_of_year.idmember.idperson.name|title}}</strong></label>

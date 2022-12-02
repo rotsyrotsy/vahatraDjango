@@ -12,11 +12,19 @@
                 </p>
                 <form class="forms-sample" action="{% url 'admin:updateTypePublication' type.id %}"  method="post">
                     {% csrf_token %}
-                    <div class="form-group">
-                            
-                    <div class="form-group">
-                        <label for="name">Type</label>
-                        <input type="text" class="form-control" id="name" name="type" placeholder="Type" value="{{type.type}}">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="type_en">Type name in english</label>
+                          <input type="text" class="form-control" id="type_en" name="type_en" placeholder="Type name in english" value="{{type.type_en}}">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="type_fr">Nom du type en français</label>
+                          <input type="text" class="form-control" id="type_fr" name="type_fr" placeholder="Nom du type en français" value="{{type.type_fr}}">
+                        </div>
+                      </div>
                     </div>
                   
                 {% if error %}

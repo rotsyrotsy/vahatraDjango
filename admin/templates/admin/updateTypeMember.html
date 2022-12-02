@@ -12,14 +12,34 @@
                 </p>
                 <form class="forms-sample" action="{% url 'admin:updateTypeMember' type.id %}" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="name">Type</label>
-                        <input type="text" class="form-control" id="name" name="type" placeholder="Type" value="{{type.type}}">
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control editor" id="description" name="description" rows="4">{{type.description}}</textarea>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="type_en">Type name in english</label>
+                          <input type="text" class="form-control" id="type_en" name="type_en" placeholder="Type name in english" value="{{type.type_en}}">
+                        </div>
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="type_fr">Nom du type en français</label>
+                          <input type="text" class="form-control" id="type_fr" name="type_fr" placeholder="Nom du type en français" value="{{type.type_fr}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="description_en">Description in english</label>
+                          <textarea class="form-control editor" id="description_en" name="description_en" rows="20">{{type.description_en|default_if_none:""}}</textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="description_fr">Description en français</label>
+                          <textarea class="form-control editor" id="description_fr" name="description_fr" rows="20">{{type.description_fr|default_if_none:""}}</textarea>
+                        </div>
+                      </div>
+                    </div>
                   <div class="form-group">
                     <label for="file-chosen">Illustration of members</label>
                     <div class="input-group">

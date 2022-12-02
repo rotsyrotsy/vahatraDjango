@@ -13,8 +13,12 @@
                 <form class="forms-sample" action="{% url 'admin:addTypePublication' %}"  method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="name">Type</label>
-                        <input type="text" class="form-control" id="name" name="type" placeholder="Type" required>
+                      <label for="type_en">Type name in english</label>
+                      <input type="text" class="form-control" id="type_en" name="type_en" placeholder="Type name in english" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="type_fr">Nom du type en français</label>
+                      <input type="text" class="form-control" id="type_fr" name="type_fr" placeholder="Nom du type en français" required>
                     </div>
                   
                 {% if error %}
