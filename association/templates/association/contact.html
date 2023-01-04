@@ -78,7 +78,7 @@
                           <div class="row">
                             <div class="col-md-6">
                                 <div>
-                                  <input type="text" class="form-control" name="message_name" placeholder="{% trans 'Name' %}" {% if data.message_name %} value="{{data.message_name}}"{% endif %}>
+                                  <input required type="text" class="form-control" name="message_name" placeholder="{% trans 'Name' %}*" {% if data.message_name %} value="{{data.message_name}}" {% endif %}>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -112,23 +112,23 @@
                                 <div >
                                     
                                     {% if email_error %}
-                                    <input type="email" class="form-control" style="border:5px solid rgba(255, 0, 0, 0.47);" name="message_email" placeholder="Email">
+                                    <input required type="email" class="form-control" style="border:5px solid rgba(255, 0, 0, 0.47);" name="message_email" placeholder="Email*">
                                     {% else %}
-                                    <input type="email" class="form-control" name="message_email" placeholder="Email" {% if data.message_email %} value="{{ data.message_email }} " {% endif %}>
+                                    <input required type="email" class="form-control" name="message_email" placeholder="Email*" {% if data.message_email %} value="{{ data.message_email }} "  {% endif %}>
                                     {% endif %}
                                     
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                  <input type="text" class="form-control" name="message_subject" {% if data.message_subject %} value="{{ data.message_subject }} " {% endif %} placeholder="{% trans 'Subject' %}">
+                                  <input required type="text" class="form-control" name="message_subject" {% if data.message_subject %} value="{{ data.message_subject }} "  {% endif %} placeholder="{% trans 'Subject' %}*">
                                 </div>
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-md-12">
                                 <div >
-                                    <textarea class="form-control" placeholder="Message" name="message_content">{% if data.message_content %}{{ data.message_content }}{% endif %}</textarea>
+                                    <textarea required class="form-control" placeholder="Message*" name="message_content">{% if data.message_content %}{{ data.message_content }}{% endif %}</textarea>
                                 </div>
                             </div>
                           </div>
@@ -140,6 +140,11 @@
                             </div>
                           </div>
 
+                    {% if error %}
+                    <div class="alert alert-danger m-2" role="alert">
+                        {{error}}
+                    </div>
+                    {% endif %}
                     {% if email_error %}
                     <div class="alert alert-danger m-2" role="alert">
                         {{email_error}}

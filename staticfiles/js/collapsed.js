@@ -83,17 +83,13 @@ function openNav(typevisit, lieu, visits) {
           par.innerText= description;
           eventinfo.appendChild(par);
         }
-        try {
-          fs = JSON.parse(visits[i]['fs']);
-          for (let ii = 0; ii< fs.length; ii++){
-              var par = document.createElement("p");
-              par.innerText= fs[ii]['fields']['intervenant'];
-              eventinfo.appendChild(par);
-          } 
-        }
-        catch(e) {
-          fs = visits[i]['fs'];
-        }
+        fs = visits[i]['fs'];
+        var ulfs = document.createElement("ul");
+        for (let ii = 0; ii< fs.length; ii++){
+            ulfs.innerHTML += "<li>"+fs[ii]+"</li>";
+            
+        } 
+        eventinfo.appendChild(ulfs);
 
         
         var ul = document.createElement("ul");

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-24 16:03+0300\n"
+"POT-Creation-Date: 2022-12-04 16:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "de sa faune et sa flore ne peuvent être trouvées n'importe où ailleurs."
 
 #: .\activities\templates\activities\activityDetail.html:121
-#: .\association\templates\association\index.html:420
+#: .\association\templates\association\index.html:417
 msgid "Recent"
 msgstr "Récent"
 
@@ -41,25 +41,25 @@ msgid "Atlas of selected land vertebrates of Madagascar"
 msgstr "Atlas d'une sélection de vertébrés terrestres de Madagascar"
 
 #: .\activities\templates\activities\atlas.html:21
-#: .\activities\templates\activities\collection.html:20
+#: .\activities\templates\activities\collection.html:16
 #: .\activities\templates\activities\index.html:25
-#: .\activities\templates\activities\otherActivities.html:21
-#: .\activities\templates\activities\support.html:19
+#: .\activities\templates\activities\otherActivities.html:17
+#: .\activities\templates\activities\support.html:16
 #: .\association\templates\association\annualreports.html:18
 #: .\association\templates\association\base.html:92
-#: .\association\templates\association\contact.html:18
+#: .\association\templates\association\contact.html:15
 #: .\association\templates\association\financing.html:18
-#: .\association\templates\association\gallery.html:19
-#: .\association\templates\association\includes\nav.html:6
+#: .\association\templates\association\gallery.html:16
+#: .\association\templates\association\includes\nav.html:5
 #: .\association\templates\association\index.html:5
-#: .\association\templates\association\members.html:19
+#: .\association\templates\association\members.html:16
 #: .\publications\templates\publications\index.html:28
-#: .\publications\templates\publications\search.html:19
+#: .\publications\templates\publications\search.html:16
 msgid "Home"
 msgstr "Accueil"
 
 #: .\activities\templates\activities\atlas.html:40
-#: .\association\templates\association\includes\nav.html:25
+#: .\association\templates\association\includes\nav.html:24
 msgid "Database & Atlas"
 msgstr "Base de données & Atlas"
 
@@ -130,26 +130,14 @@ msgstr ""
 "p>"
 
 #: .\activities\templates\activities\collection.html:4
-#: .\activities\templates\activities\collection.html:18
-#: .\activities\templates\activities\collection.html:21
-#: .\activities\templates\activities\collection.html:34
-#: .\association\templates\association\includes\nav.html:24
+#: .\activities\templates\activities\collection.html:14
+#: .\activities\templates\activities\collection.html:17
+#: .\activities\templates\activities\collection.html:30
+#: .\association\templates\association\includes\nav.html:23
 msgid "Collection room"
 msgstr "Salle de collection"
 
-#: .\activities\templates\activities\collection.html:7
-msgid ""
-"The collection room of the Department of Animal Biology, University of "
-"Antananarivo, holds a collection of 60,000 specimens of animals."
-msgstr ""
-
-#: .\activities\templates\activities\collection.html:7
-msgid ""
-"The Association Vahatra works closely with the Department of Animal Biology "
-"to improve the management of the collection room"
-msgstr ""
-
-#: .\activities\templates\activities\collection.html:41
+#: .\activities\templates\activities\collection.html:37
 msgid ""
 "\n"
 "                            <p>The collection room of the Department of "
@@ -219,23 +207,23 @@ msgstr ""
 "                            </ul>\n"
 "                            "
 
-#: .\activities\templates\activities\collection.html:66
+#: .\activities\templates\activities\collection.html:62
 msgid "Invertebrates"
 msgstr "Invertébrés"
 
-#: .\activities\templates\activities\collection.html:67
+#: .\activities\templates\activities\collection.html:63
 msgid "Vertebrates"
 msgstr "Vertébrés"
 
-#: .\activities\templates\activities\collection.html:68
+#: .\activities\templates\activities\collection.html:64
 msgid "New Species"
 msgstr "Nouvelles Espèces"
 
-#: .\activities\templates\activities\collection.html:83
+#: .\activities\templates\activities\collection.html:79
 msgid "Visit Our"
 msgstr "Visitez Notre"
 
-#: .\activities\templates\activities\collection.html:84
+#: .\activities\templates\activities\collection.html:80
 msgid "Collection Room"
 msgstr "Salle de collection"
 
@@ -359,9 +347,9 @@ msgstr ""
 "p>"
 
 #: .\activities\templates\activities\index.html:88
-#: .\activities\templates\activities\otherActivities.html:108
-#: .\association\templates\association\gallery.html:52
-#: .\association\templates\association\index.html:11
+#: .\activities\templates\activities\otherActivities.html:104
+#: .\association\templates\association\gallery.html:49
+#: .\association\templates\association\index.html:8
 msgid "Show more"
 msgstr "Voir plus"
 
@@ -369,47 +357,30 @@ msgstr "Voir plus"
 msgid "Scroll down to see details"
 msgstr "Faites défiler pour voir les détails"
 
-#: .\activities\templates\activities\otherActivities.html:8
-msgid ""
-"Vahatra is actively involved in biological inventories of unknown or poorly "
-"known forested areas and the reinforcement of capacity of university "
-"graduate students. The association is also responsible for the publication "
-"of a scientific journal of international standards known as Malagasy Nature "
-"and a series of general books on the natural history of Madagascar. A "
-"project `Sciences for the people` was initiated to give back to the local "
-"population information related to data accumulated during the biological "
-"inventories done by ETP and Vahatra team. "
-msgstr ""
-"Vahatra est impliqué dans les inventaires biologiques des zones forestières "
-"inconnues ou pauvrement connues et dans le renforcement de capacité des "
-"étudiants diplômés de l’université. Elle a aussi promu la publication d’une "
-"revue scientifique de normes internationales ainsi qu’une série de livres "
-"sur l’histoire naturelle de Madagascar. L'Association a initié un projet "
-"intitulé « Sciences pour le peuple » qui vise surtout à rendre à la "
-"population les données acquis au cours des dizaines d'années de recherche "
-"sur le terrain."
-
-#: .\activities\templates\activities\otherActivities.html:34
+#: .\activities\templates\activities\otherActivities.html:30
 #: .\association\templates\association\annualreports.html:31
 msgid "Filter activities by year"
 msgstr "Filtrer les activités par année"
 
-#: .\activities\templates\activities\otherActivities.html:43
-#: .\activities\templates\activities\otherActivities.html:59
+#: .\activities\templates\activities\otherActivities.html:39
+#: .\activities\templates\activities\otherActivities.html:55
 #: .\association\templates\association\annualreports.html:38
 #: .\association\templates\association\annualreports.html:49
-#: .\association\templates\association\gallery.html:30
+#: .\association\templates\association\gallery.html:27
 msgid "All"
 msgstr "Tous"
 
 #: .\activities\templates\activities\support.html:4
+#: .\activities\templates\activities\support.html:14
 #: .\activities\templates\activities\support.html:17
-#: .\activities\templates\activities\support.html:20
 msgid "Supports"
 msgstr "Appuis"
 
-#: .\activities\templates\activities\support.html:6
-#: .\activities\templates\activities\support.html:39
+#: .\activities\templates\activities\support.html:33
+msgid "Pedagogic support"
+msgstr "Appui pédagogique"
+
+#: .\activities\templates\activities\support.html:36
 msgid ""
 "Members of Vahatra contribute to the education of numerous students working "
 "for their higher degrees in the national university system. These "
@@ -422,17 +393,7 @@ msgstr ""
 "pays. Une grande partie sont formés dans les domaines de la biologie de "
 "conservation et de la science de la biodiversité."
 
-#: .\activities\templates\activities\support.html:7
-#: .\activities\templates\activities\support.html:36
-msgid "Pedagogic support"
-msgstr "Appui pédagogique"
-
-#: .\activities\templates\activities\support.html:7
-#: .\activities\templates\activities\support.html:83
-msgid "Scientific support"
-msgstr "Appui scientifique"
-
-#: .\activities\templates\activities\support.html:49
+#: .\activities\templates\activities\support.html:46
 msgid ""
 "\n"
 "                                <p><strong>Vahatra staff members present "
@@ -473,7 +434,11 @@ msgstr ""
 "Finlande et en Afrique du Sud. </p>\n"
 "                                "
 
-#: .\activities\templates\activities\support.html:85
+#: .\activities\templates\activities\support.html:80
+msgid "Scientific support"
+msgstr "Appui scientifique"
+
+#: .\activities\templates\activities\support.html:82
 msgid ""
 "Vahatra participates in helping with the reinforcement of conservation "
 "biology on Madagascar by actively collaborating with different organizations "
@@ -483,25 +448,25 @@ msgstr ""
 "biodiversité à Madagascar en collaborant étroitement avec les diverses "
 "institutions oeuvrant dans ou associées à ce domaine."
 
-#: .\activities\templates\activities\support.html:119
+#: .\activities\templates\activities\support.html:116
 msgid "Become One Of Our Partners"
 msgstr "Devenez Un De Nos Partenaires"
 
-#: .\activities\templates\activities\support.html:120
+#: .\activities\templates\activities\support.html:117
 msgid "Contact us to get more informations about the processes"
 msgstr "Contactez-nous pour avoir plus d'information"
 
-#: .\activities\templates\activities\support.html:124
+#: .\activities\templates\activities\support.html:121
 msgid "Send"
 msgstr "Envoyer"
 
 #: .\admin\templates\admin\index.html:22
-#: .\association\templates\association\index.html:475
+#: .\association\templates\association\index.html:472
 msgid "A message from"
 msgstr "Un message"
 
 #: .\admin\templates\admin\index.html:22
-#: .\association\templates\association\index.html:476
+#: .\association\templates\association\index.html:473
 msgid "The President of Vahatra"
 msgstr "Du President de Vahatra"
 
@@ -509,7 +474,7 @@ msgstr "Du President de Vahatra"
 #: .\association\templates\association\annualreports.html:16
 #: .\association\templates\association\annualreports.html:19
 #: .\association\templates\association\base.html:93
-#: .\association\templates\association\includes\nav.html:47
+#: .\association\templates\association\includes\nav.html:46
 msgid "Annual reports"
 msgstr "Rapports annuels"
 
@@ -519,12 +484,12 @@ msgid "Download annual reports since 2011 here."
 msgstr "Téléchargez les rapports annuels depuis 2011 ici."
 
 #: .\association\templates\association\annualreports.html:67
-#: .\publications\templates\publications\search.html:55
+#: .\publications\templates\publications\search.html:52
 msgid "Year"
 msgstr "Année"
 
 #: .\association\templates\association\annualreports.html:68
-#: .\publications\templates\publications\search.html:49
+#: .\publications\templates\publications\search.html:46
 msgid "Title"
 msgstr "Titre"
 
@@ -533,7 +498,7 @@ msgid "Download"
 msgstr "Télécharger"
 
 #: .\association\templates\association\base.html:3
-#: .\association\templates\association\contact.html:141
+#: .\association\templates\association\contact.html:138
 msgid "Contact Us"
 msgstr "Contactez-Nous"
 
@@ -553,59 +518,55 @@ msgstr "Liens utiles"
 msgid "donate"
 msgstr "Faire un don"
 
-#: .\association\templates\association\contact.html:6
-msgid "Vahatra is located at"
-msgstr "Vahatra est située au"
-
-#: .\association\templates\association\contact.html:30
+#: .\association\templates\association\contact.html:27
 msgid "Get information"
 msgstr "Obtenir des renseignements"
 
-#: .\association\templates\association\contact.html:31
+#: .\association\templates\association\contact.html:28
 msgid "Contact information"
 msgstr "Informations de contact"
 
-#: .\association\templates\association\contact.html:39
+#: .\association\templates\association\contact.html:36
 msgid "Our Location"
 msgstr "Adresse"
 
-#: .\association\templates\association\contact.html:47
+#: .\association\templates\association\contact.html:44
 msgid "Contact us Anytime"
 msgstr "Toujours Disponible"
 
-#: .\association\templates\association\contact.html:54
+#: .\association\templates\association\contact.html:51
 msgid "Write Some Words"
 msgstr "Envoyez-nous vos mail"
 
-#: .\association\templates\association\contact.html:73
+#: .\association\templates\association\contact.html:70
 msgid "Have Question"
 msgstr "Des Questions?"
 
-#: .\association\templates\association\contact.html:74
+#: .\association\templates\association\contact.html:71
 msgid "Send Message"
 msgstr "Ecrivez-Nous"
 
-#: .\association\templates\association\contact.html:84
-#: .\association\templates\association\members.html:77
+#: .\association\templates\association\contact.html:81
+#: .\association\templates\association\members.html:74
 msgid "Name"
 msgstr "Nom"
 
-#: .\association\templates\association\contact.html:127
+#: .\association\templates\association\contact.html:124
 msgid "Subject"
 msgstr "Objet"
 
-#: .\association\templates\association\contact.html:160
+#: .\association\templates\association\contact.html:162
 msgid "Thank you"
 msgstr "Merci"
 
-#: .\association\templates\association\contact.html:161
+#: .\association\templates\association\contact.html:163
 msgid "We will look into your message and get back to you soon."
-msgstr "Nous examinerons votre message et vous contacterons bientôt."
+msgstr "Nous avons reçu votre message et vous contacterons bientôt."
 
 #: .\association\templates\association\financing.html:4
 #: .\association\templates\association\financing.html:16
 #: .\association\templates\association\financing.html:19
-#: .\association\templates\association\includes\nav.html:48
+#: .\association\templates\association\includes\nav.html:47
 msgid "Financing"
 msgstr "Financement"
 
@@ -712,13 +673,12 @@ msgid "(for queries in English)"
 msgstr "(pour les requêtes en anglais)"
 
 #: .\association\templates\association\gallery.html:5
+#: .\association\templates\association\gallery.html:14
 #: .\association\templates\association\gallery.html:17
-#: .\association\templates\association\gallery.html:20
 msgid "Gallery"
 msgstr "Galerie"
 
-#: .\association\templates\association\gallery.html:7
-#: .\association\templates\association\gallery.html:55
+#: .\association\templates\association\gallery.html:52
 msgid ""
 "Photos are both document and illustration of messages. It is a very easy "
 "means of communication. The pictures here were taken in natural environments "
@@ -731,65 +691,57 @@ msgstr ""
 "données de Vahatra. Pour des photos à résolution plus élevée ou pour "
 "d’autres photos, veuillez contacter :"
 
-#: .\association\templates\association\includes\nav.html:7
-#: .\association\templates\association\index.html:420
+#: .\association\templates\association\includes\nav.html:6
+#: .\association\templates\association\index.html:417
 msgid "Activities"
 msgstr "Activités"
 
-#: .\association\templates\association\includes\nav.html:23
+#: .\association\templates\association\includes\nav.html:22
 msgid "Pedagogic and scientific support"
 msgstr "Appui pédagogique et scientifique"
 
-#: .\association\templates\association\includes\nav.html:29
+#: .\association\templates\association\includes\nav.html:28
 msgid "Projects and grants"
 msgstr "Projets"
 
-#: .\association\templates\association\includes\nav.html:31
+#: .\association\templates\association\includes\nav.html:30
 msgid "Grant"
 msgstr "Subvention"
 
-#: .\association\templates\association\includes\nav.html:32
+#: .\association\templates\association\includes\nav.html:31
 msgid "Scientific research"
 msgstr "Recherche scientifique"
 
-#: .\association\templates\association\includes\nav.html:44
-#: .\association\templates\association\index.html:124
+#: .\association\templates\association\includes\nav.html:43
+#: .\association\templates\association\index.html:121
 msgid "About"
 msgstr "A propos"
 
-#: .\association\templates\association\includes\nav.html:46
+#: .\association\templates\association\includes\nav.html:45
 msgid "Our gallery"
 msgstr "Notre galerie"
 
-#: .\association\templates\association\index.html:7
-msgid ""
-"Vahatra` s challenge, objectives and mission are mainly based on its "
-"history; and the members are doing their best to achieve these objectives."
-msgstr ""
-"Les défi, objectifs et mission de Vahatra sont basé sur son histoire et les "
-"membres font en sorte de les réaliser."
-
-#: .\association\templates\association\index.html:19
-#: .\association\templates\association\index.html:39
-#: .\association\templates\association\index.html:53
+#: .\association\templates\association\index.html:16
+#: .\association\templates\association\index.html:36
+#: .\association\templates\association\index.html:50
 msgid "Develop an educational and research program focused on the biodiversity"
 msgstr ""
 "Développer un programme d'enseignement et de recherche axé sur la biodivesité"
 
-#: .\association\templates\association\index.html:20
-#: .\association\templates\association\index.html:26
-#: .\association\templates\association\index.html:34
-#: .\association\templates\association\index.html:40
-#: .\association\templates\association\index.html:47
-#: .\association\templates\association\index.html:54
-#: .\association\templates\association\index.html:60
+#: .\association\templates\association\index.html:17
+#: .\association\templates\association\index.html:23
+#: .\association\templates\association\index.html:31
+#: .\association\templates\association\index.html:37
+#: .\association\templates\association\index.html:44
+#: .\association\templates\association\index.html:51
+#: .\association\templates\association\index.html:57
 msgid "'Let's keep our biodiversity'"
 msgstr "'Conservons notre biodiversité'"
 
-#: .\association\templates\association\index.html:25
-#: .\association\templates\association\index.html:33
-#: .\association\templates\association\index.html:46
-#: .\association\templates\association\index.html:59
+#: .\association\templates\association\index.html:22
+#: .\association\templates\association\index.html:30
+#: .\association\templates\association\index.html:43
+#: .\association\templates\association\index.html:56
 msgid ""
 "Working on reptiles, amphibians, birds and small mammals : endemic to "
 "Madagascar"
@@ -797,11 +749,11 @@ msgstr ""
 "Travailler sur les reptiles, amphibiens, oiseaux et petits mammifères "
 "endémiques de Madagascar"
 
-#: .\association\templates\association\index.html:125
+#: .\association\templates\association\index.html:122
 msgid "Our Challenge"
 msgstr "Notre Défi"
 
-#: .\association\templates\association\index.html:129
+#: .\association\templates\association\index.html:126
 msgid ""
 "For Vahatra, the challenge is to be profoundly implicated in the "
 "conservation and management of Madagascar’s extraordinary biodiversity based "
@@ -818,23 +770,23 @@ msgstr ""
 "biologiques et des recherches sur le terrain pour obtenir des informations à "
 "jour, et travaille ainsi pour la formation des relèves. "
 
-#: .\association\templates\association\index.html:144
+#: .\association\templates\association\index.html:141
 msgid "Conserve biodiversity"
 msgstr "Conserver la biodiversité"
 
-#: .\association\templates\association\index.html:145
+#: .\association\templates\association\index.html:142
 msgid "Our Missions"
 msgstr "Nos missions"
 
-#: .\association\templates\association\index.html:153
+#: .\association\templates\association\index.html:150
 msgid "To develop an educational and research program focused on the"
 msgstr "Développer un programme d'enseignement et de recherche axé sur la"
 
-#: .\association\templates\association\index.html:155
+#: .\association\templates\association\index.html:152
 msgid "biodiversity"
 msgstr "biodiversité"
 
-#: .\association\templates\association\index.html:157
+#: .\association\templates\association\index.html:154
 msgid ""
 "of the terrestrial fauna of Madagascar and the advancement of national field "
 "scientists properly trained in the modern aspects of conservation biology. "
@@ -844,28 +796,28 @@ msgstr ""
 "terrain nationaux bien formés dans les aspects modernes de la biologie de "
 "conservation. Ces étapes sont primordiales pour permettre à cette île de"
 
-#: .\association\templates\association\index.html:159
+#: .\association\templates\association\index.html:156
 msgid "protect its unique biotic resources."
 msgstr "protéger ses ressources biotiques uniques."
 
-#: .\association\templates\association\index.html:169
-#: .\association\templates\association\index.html:171
+#: .\association\templates\association\index.html:166
+#: .\association\templates\association\index.html:168
 msgid "Expand Knowledge"
 msgstr "Approfondir Les Connaissances"
 
-#: .\association\templates\association\index.html:172
+#: .\association\templates\association\index.html:169
 msgid ""
 "To expand knowledge on the biodiversity and natural history of Madagascar"
 msgstr ""
 "Approfondir les connaissances sur la biodiversité et l'histoire naturelle de "
 "Madagascar."
 
-#: .\association\templates\association\index.html:178
-#: .\association\templates\association\index.html:180
+#: .\association\templates\association\index.html:175
+#: .\association\templates\association\index.html:177
 msgid "Educate"
 msgstr "Eduquer"
 
-#: .\association\templates\association\index.html:181
+#: .\association\templates\association\index.html:178
 msgid ""
 "To educate and advance future generations of Malagasy scientists working in "
 "the domain of conservation biology"
@@ -873,12 +825,12 @@ msgstr ""
 "Former et encadrer des futures relèves dans le domaine de la biologie de "
 "conservation."
 
-#: .\association\templates\association\index.html:187
-#: .\association\templates\association\index.html:189
+#: .\association\templates\association\index.html:184
+#: .\association\templates\association\index.html:186
 msgid "Exchange"
 msgstr "Echanger"
 
-#: .\association\templates\association\index.html:190
+#: .\association\templates\association\index.html:187
 msgid ""
 "To help with the exchange of scientific information and experiences between "
 "national and international specialists"
@@ -886,12 +838,12 @@ msgstr ""
 "Favoriser les échanges d'informations scientifiques et les expériences entre "
 "les spécialistes nationaux et internationaux"
 
-#: .\association\templates\association\index.html:196
-#: .\association\templates\association\index.html:198
+#: .\association\templates\association\index.html:193
+#: .\association\templates\association\index.html:195
 msgid "Reinforce Collaborations"
 msgstr "Renforcer Les Collaborations"
 
-#: .\association\templates\association\index.html:199
+#: .\association\templates\association\index.html:196
 msgid ""
 "To help reinforce collaborations between national and international "
 "institutions and NGOs in fields associated with the environment and "
@@ -901,12 +853,12 @@ msgstr ""
 "internationales oeuvrant dans le domaine de l’environnement et de la "
 "conservation."
 
-#: .\association\templates\association\index.html:205
-#: .\association\templates\association\index.html:207
+#: .\association\templates\association\index.html:202
+#: .\association\templates\association\index.html:204
 msgid "Advance Expertise and Knowledge"
 msgstr "Apport d'Expertise et de Connaissance"
 
-#: .\association\templates\association\index.html:208
+#: .\association\templates\association\index.html:205
 msgid ""
 "To advance expertise and knowledge associated with environmental impact "
 "studies and to follow aspects of the evolution of the island’s natural "
@@ -915,12 +867,12 @@ msgstr ""
 "Apporter les expertises et savoir-faire dans les études d'impact "
 "environnemental et de suivi de l'évolution des paysages naturels écologiques."
 
-#: .\association\templates\association\index.html:214
-#: .\association\templates\association\index.html:216
+#: .\association\templates\association\index.html:211
+#: .\association\templates\association\index.html:213
 msgid "Provide Advice"
 msgstr "Donner des Conseils"
 
-#: .\association\templates\association\index.html:217
+#: .\association\templates\association\index.html:214
 msgid ""
 "To provide solid scientific advice to managers of natural resources and "
 "protected areas associated with the conservation of Madagascar’s biodiversity"
@@ -928,15 +880,15 @@ msgstr ""
 "Appuyer scientifiquement les gestionnaires des ressources naturelles et des "
 "aires protégées pour la conservation de la biodiversité à Madagascar."
 
-#: .\association\templates\association\index.html:241
+#: .\association\templates\association\index.html:238
 msgid "A Few Words About Us,"
 msgstr "Quelques Mots Sur Nous,"
 
-#: .\association\templates\association\index.html:242
+#: .\association\templates\association\index.html:239
 msgid "Historical Perspective."
 msgstr "Historique."
 
-#: .\association\templates\association\index.html:246
+#: .\association\templates\association\index.html:243
 msgid ""
 "Vahatra is a legally registered International Association of the island "
 "nation of Madagascar. The word “vahatra” means “grass-roots” in Malagasy, "
@@ -946,7 +898,7 @@ msgstr ""
 "dénomination signifie “racine” dans la langue nationale malgache. Elle a "
 "comme mission:"
 
-#: .\association\templates\association\index.html:248
+#: .\association\templates\association\index.html:245
 msgid ""
 "To contribute to the amelioration of information on the biodiversity of "
 "Madagascar, particularly the terrestrial fauna, with the intention of "
@@ -955,7 +907,7 @@ msgstr ""
 "De contribuer à l’amélioration de la connaissance sur la biodiversité "
 "malgache en vue de la mieux gérer et de conserver."
 
-#: .\association\templates\association\index.html:249
+#: .\association\templates\association\index.html:246
 msgid ""
 "To advance a practical program in ecology and conservation biology for young "
 "Malagasy naturalists and graduate students in biology."
@@ -964,7 +916,7 @@ msgstr ""
 "en biologie  et en biologie de conservation pour les jeunes scientifiques "
 "naturalistes et biologistes malgaches."
 
-#: .\association\templates\association\index.html:256
+#: .\association\templates\association\index.html:253
 msgid ""
 "This association evolved in a natural manner from a WWF-Madagascar project "
 "known as “The Ecology Training Program” (ETP), for which the principal "
@@ -1002,7 +954,7 @@ msgstr ""
 "venir en hausse par rapport à l'évaluation biologique. L’ETP a joué un rôle "
 "important dans ce sens. "
 
-#: .\association\templates\association\index.html:260
+#: .\association\templates\association\index.html:257
 msgid ""
 "In 2007, at the moment that Vahatra became independent of WWF, the ETP had "
 "helped advance over 75 Malagasy graduate students earning higher degrees "
@@ -1028,7 +980,7 @@ msgstr ""
 "dans l'établissement des priorités en matière de stratégies de conservation "
 "liées au système d'aires protégées de l’île. "
 
-#: .\association\templates\association\index.html:264
+#: .\association\templates\association\index.html:261
 msgid ""
 "Given on one hand that the objectives of conservation and management of "
 "biodiversity and, on the other hand, few Malagasy nationals with in-depth "
@@ -1053,7 +1005,7 @@ msgstr ""
 "plusieurs ont conservé un fort intérêt professionnel dans la biologie de la "
 "conservation, y compris dans le cadre de la  recherche et de l'enseignement."
 
-#: .\association\templates\association\index.html:268
+#: .\association\templates\association\index.html:265
 msgid ""
 "To ensure the continuity of this success, we believed that the next logical "
 "step in the evolution of the ETP was for it to become an independent "
@@ -1080,15 +1032,15 @@ msgstr ""
 "comprendre l'impact des changements climatiques sur les vertébrés terrestres "
 "vivant dans les régions montagneuses de l'île. "
 
-#: .\association\templates\association\index.html:272
+#: .\association\templates\association\index.html:269
 msgid "The ETP, as it was previously known, has now become the"
 msgstr "ETP est sorti du nid et s’est envolé de ses propres ailes."
 
-#: .\association\templates\association\index.html:272
+#: .\association\templates\association\index.html:269
 msgid "independent organization Association Vahatra"
 msgstr "L’Association Vahatra"
 
-#: .\association\templates\association\index.html:272
+#: .\association\templates\association\index.html:269
 msgid ""
 "Vahatra has been quickly  recognized by governmental and non-governmental "
 "organizations, as one of the primary groups to promote high quality "
@@ -1100,15 +1052,15 @@ msgstr ""
 "recherche scientifique de qualité dans le domaine de la biologie de "
 "l’évolutionde la biologie de conservation et de l’écologie."
 
-#: .\association\templates\association\index.html:292
+#: .\association\templates\association\index.html:289
 msgid "Our Team"
 msgstr "Notre Equipe"
 
-#: .\association\templates\association\index.html:293
+#: .\association\templates\association\index.html:290
 msgid "Members of the organization "
 msgstr "Membres de l'association"
 
-#: .\association\templates\association\index.html:295
+#: .\association\templates\association\index.html:292
 msgid ""
 "The objectives of Vahatra are notably ambitious and the various staff "
 "members follow the various projects to fruition. The presence within the "
@@ -1120,41 +1072,53 @@ msgstr ""
 "objectifs. La présence de personnes ayant des expériences et des spécialités "
 "différentes au sein de Vahatra est indispensable."
 
-#: .\association\templates\association\index.html:329
+#: .\association\templates\association\index.html:326
 msgid "Upcoming"
 msgstr "Prochain"
 
-#: .\association\templates\association\index.html:329
+#: .\association\templates\association\index.html:326
 msgid "Events"
 msgstr "Evénements"
 
-#: .\association\templates\association\index.html:331
+#: .\association\templates\association\index.html:328
 msgid "Let us introduce to you what's comming soon."
 msgstr "Les événements à venir."
 
-#: .\association\templates\association\members.html:17
+#: .\association\templates\association\members.html:14
 msgid "Members"
 msgstr "Membres"
 
+#: .\association\templates\association\members.html:29
 #: .\association\templates\association\members.html:32
-#: .\association\templates\association\members.html:35
-#: .\association\templates\association\members.html:37
+#: .\association\templates\association\members.html:34
 #: .\publications\templates\publications\index.html:104
 #: .\publications\templates\publications\index.html:106
 #: .\publications\templates\publications\index.html:139
 #: .\publications\templates\publications\search.html:5
-#: .\publications\templates\publications\search.html:17
-#: .\publications\templates\publications\search.html:21
+#: .\publications\templates\publications\search.html:14
+#: .\publications\templates\publications\search.html:18
 msgid "Search"
 msgstr "Recherche"
 
-#: .\association\templates\association\members.html:46
+#: .\association\templates\association\members.html:43
 msgid "Our Members"
 msgstr "Les membres"
 
-#: .\association\templates\association\members.html:80
+#: .\association\templates\association\members.html:77
 msgid "Username"
 msgstr "Prénom(s)"
+
+#: .\association\views.py:140
+msgid "Fields with an asterisk are required."
+msgstr "Les champs avec un asterisque sont obligatoires."
+
+#: .\association\views.py:155
+msgid "Your phone number is invalidate, please verify it."
+msgstr "Votre numéro de téléphone est invalide."
+
+#: .\association\views.py:158
+msgid "Your email address is invalidate, please verify it."
+msgstr "Votre adresse email est invalide"
 
 #: .\publications\templates\publications\index.html:9
 msgid ""
@@ -1395,33 +1359,61 @@ msgstr "Recherche multicritère"
 msgid "Author"
 msgstr "Auteur"
 
-#: .\publications\templates\publications\search.html:7
-msgid "Results of publication research"
-msgstr "Resultats des recherches de publication"
-
-#: .\publications\templates\publications\search.html:33
+#: .\publications\templates\publications\search.html:30
 msgid "Publication Searching"
 msgstr "Recherche de Publication"
 
-#: .\publications\templates\publications\search.html:34
+#: .\publications\templates\publications\search.html:31
 msgid "Results"
 msgstr "Resultats"
 
-#: .\publications\templates\publications\search.html:46
+#: .\publications\templates\publications\search.html:43
 msgid "Category"
 msgstr "Catégorie"
 
-#: .\publications\templates\publications\search.html:52
+#: .\publications\templates\publications\search.html:49
 msgid "Authors"
 msgstr "Auteurs"
 
-#: .\vahatraDjango\settings.py:181
+#: .\vahatraDjango\settings.py:167
 msgid "English"
 msgstr "Anglais"
 
-#: .\vahatraDjango\settings.py:182
+#: .\vahatraDjango\settings.py:168
 msgid "French"
 msgstr "Français"
+
+#~ msgid ""
+#~ "Vahatra is actively involved in biological inventories of unknown or "
+#~ "poorly known forested areas and the reinforcement of capacity of "
+#~ "university graduate students. The association is also responsible for the "
+#~ "publication of a scientific journal of international standards known as "
+#~ "Malagasy Nature and a series of general books on the natural history of "
+#~ "Madagascar. A project `Sciences for the people` was initiated to give "
+#~ "back to the local population information related to data accumulated "
+#~ "during the biological inventories done by ETP and Vahatra team. "
+#~ msgstr ""
+#~ "Vahatra est impliqué dans les inventaires biologiques des zones "
+#~ "forestières inconnues ou pauvrement connues et dans le renforcement de "
+#~ "capacité des étudiants diplômés de l’université. Elle a aussi promu la "
+#~ "publication d’une revue scientifique de normes internationales ainsi "
+#~ "qu’une série de livres sur l’histoire naturelle de Madagascar. "
+#~ "L'Association a initié un projet intitulé « Sciences pour le peuple » qui "
+#~ "vise surtout à rendre à la population les données acquis au cours des "
+#~ "dizaines d'années de recherche sur le terrain."
+
+#~ msgid "Vahatra is located at"
+#~ msgstr "Vahatra est située au"
+
+#~ msgid ""
+#~ "Vahatra` s challenge, objectives and mission are mainly based on its "
+#~ "history; and the members are doing their best to achieve these objectives."
+#~ msgstr ""
+#~ "Les défi, objectifs et mission de Vahatra sont basé sur son histoire et "
+#~ "les membres font en sorte de les réaliser."
+
+#~ msgid "Results of publication research"
+#~ msgstr "Resultats des recherches de publication"
 
 #~ msgid "Team"
 #~ msgstr "Equipe"

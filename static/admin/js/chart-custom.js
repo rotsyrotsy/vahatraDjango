@@ -166,6 +166,111 @@ var barChartOptions = {
   }
 
 };
+var barChartActivity = null;
+var barChartPublication = null;
+$(function() {
+  /* ChartJS
+   * -------
+   * Data and config for chartjs
+   */
+  'use strict';
+  var doughnutPieOptions = {
+    responsive: true,
+    animation: {
+      animateScale: true,
+      animateRotate: true
+    }
+  };
+  
+  
+  if ($("#pieChartActivity").length) {
+      var context = $("#pieChartActivity").data("context");
+      const labels = context.map(({ idtypeactivity__type_en }) => idtypeactivity__type_en);
+      const numbers = context.map(({ number }) => number);
+      
+    var pieChartCanvas = $("#pieChartActivity").get(0).getContext("2d");
+    var pieChart = new Chart(pieChartCanvas, {
+      type: 'pie',
+      data: doughnutPieData(numbers, labels),
+      options: doughnutPieOptions
+    });
+  }
+  if ($("#pieChartPublication").length) {
+      
+      var context = $("#pieChartPublication").data("context");
+      const labels = context.map(({ idtype__type_en }) => idtype__type_en);
+      const numbers = context.map(({ number }) => number);
+
+      var pieChartCanvas = $("#pieChartPublication").get(0).getContext("2d");
+      var pieChart = new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: doughnutPieData(numbers, labels),
+        options: doughnutPieOptions
+      });
+    }
+
+  if ($("#activityPerYear").length) {
+      var context = $("#activityPerYear").data("context");
+      var labels = context[0].map(({ date__year }) => date__year);
+      
+      var revenueChartCanvas = $("#activityPerYear").get(0).getContext("2d");
+      var revenueChart = new Chart(revenueChartCanvas, {
+      type: 'line',
+      data: areaData(context,labels,'idtypeactivity__type_en'),
+      options: areaOptions($("#activityPerYear").data("step"),$("#activityPerYear").data("max"))
+      });
+  }
+  if ($("#publicationPerYear").length) {
+      var context = $("#publicationPerYear").data("context");
+      var labels = context[0].map(({ date__year }) => date__year);
+      
+      var revenueChartCanvas = $("#publicationPerYear").get(0).getContext("2d");
+      var revenueChart = new Chart(revenueChartCanvas, {
+      type: 'line',
+      data: areaData(context,labels,'idtype__type_en'),
+      options: areaOptions($("#publicationPerYear").data("step"),$("#publicationPerYear").data("max"))
+      });
+  }
+
+  
+  if ($("#barChartActivity").length) {
+    var barChartCanvas = $("#barChartActivity").get(0).getContext("2d");
+    var context = $("#barChartActivity").data("context");
+    var labels = [];
+      if (context.length==0){
+        for (let m=1; m<13; m++){
+          labels.push(m);
+        }
+      }else{
+        labels = context[0].map(({ date__month }) => date__month);
+      }
+      // This will get the first returned node in the jQuery collection.
+    barChartActivity = new Chart(barChartCanvas, {
+      type: 'bar',
+      data: barChartData(context,labels,'idtypeactivity__type_en',2022),
+      options: barChartOptions
+    });
+  }
+  if ($("#barChartPublication").length) {
+    var barChartCanvas = $("#barChartPublication").get(0).getContext("2d");
+    var context = $("#barChartPublication").data("context");
+    var labels = [];
+      if (context.length==0){
+        for (let m=1; m<13; m++){
+          labels.push(m);
+        }
+      }else{
+        labels = context[0].map(({ date__month }) => date__month);
+      }
+    // This will get the first returned node in the jQuery collection.
+    barChartPublication = new Chart(barChartCanvas, {
+      type: 'bar',
+      data: barChartData(context,labels,'idtype__type_en',2022),
+      options: barChartOptions
+    });
+  }
+})
+
 function changeActivityYear(year,url,csrf_token){
   $.ajax({
       url : url,
@@ -189,12 +294,9 @@ function changeActivityYear(year,url,csrf_token){
           labels = context[0].map(({ date__month }) => date__month);
         }
         // This will get the first returned node in the jQuery collection.
-        var barChart = new Chart(barChartCanvas, {
-          type: 'bar',
-          data: barChartData(context,labels,'idtypeactivity__type_en',data['year']),
-          options: barChartOptions
-        });
-        
+        barChartActivity.data = barChartData(context,labels,'idtypeactivity__type_en',data['year']);
+        barChartActivity.update();
+
       },
       error:function(data){
         //   console.log('error')
@@ -225,12 +327,9 @@ function changePublicationYear(year,url,csrf_token){
         }else{
           labels = context[0].map(({ date__month }) => date__month);
         }
-        // This will get the first returned node in the jQuery collection.
-        var barChart = new Chart(barChartCanvas, {
-          type: 'bar',
-          data: barChartData(context,labels,'idtype__type_en',data['year']),
-          options: barChartOptions
-        });
+        barChartPublication.data = barChartData(context,labels,'idtype__type_en',data['year']),
+        barChartPublication.update();
+
         
       },
       error:function(data){
@@ -239,108 +338,3 @@ function changePublicationYear(year,url,csrf_token){
       }
     });    
 }
-
-$(function() {
-    /* ChartJS
-     * -------
-     * Data and config for chartjs
-     */
-    'use strict';
-    var doughnutPieOptions = {
-      responsive: true,
-      animation: {
-        animateScale: true,
-        animateRotate: true
-      }
-    };
-    
-    
-    if ($("#pieChartActivity").length) {
-        var context = $("#pieChartActivity").data("context");
-        const labels = context.map(({ idtypeactivity__type_en }) => idtypeactivity__type_en);
-        const numbers = context.map(({ number }) => number);
-        
-      var pieChartCanvas = $("#pieChartActivity").get(0).getContext("2d");
-      var pieChart = new Chart(pieChartCanvas, {
-        type: 'pie',
-        data: doughnutPieData(numbers, labels),
-        options: doughnutPieOptions
-      });
-    }
-    if ($("#pieChartPublication").length) {
-        
-        var context = $("#pieChartPublication").data("context");
-        const labels = context.map(({ idtype__type_en }) => idtype__type_en);
-        const numbers = context.map(({ number }) => number);
-
-        var pieChartCanvas = $("#pieChartPublication").get(0).getContext("2d");
-        var pieChart = new Chart(pieChartCanvas, {
-          type: 'pie',
-          data: doughnutPieData(numbers, labels),
-          options: doughnutPieOptions
-        });
-      }
-
-    if ($("#activityPerYear").length) {
-        var context = $("#activityPerYear").data("context");
-        var labels = context[0].map(({ date__year }) => date__year);
-        
-        var revenueChartCanvas = $("#activityPerYear").get(0).getContext("2d");
-        var revenueChart = new Chart(revenueChartCanvas, {
-        type: 'line',
-        data: areaData(context,labels,'idtypeactivity__type_en'),
-        options: areaOptions($("#activityPerYear").data("step"),$("#activityPerYear").data("max"))
-        });
-    }
-    if ($("#publicationPerYear").length) {
-        var context = $("#publicationPerYear").data("context");
-        var labels = context[0].map(({ date__year }) => date__year);
-        
-        var revenueChartCanvas = $("#publicationPerYear").get(0).getContext("2d");
-        var revenueChart = new Chart(revenueChartCanvas, {
-        type: 'line',
-        data: areaData(context,labels,'idtype__type_en'),
-        options: areaOptions($("#publicationPerYear").data("step"),$("#publicationPerYear").data("max"))
-        });
-    }
-
-    
-    if ($("#barChartActivity").length) {
-      var barChartCanvas = $("#barChartActivity").get(0).getContext("2d");
-      var context = $("#barChartActivity").data("context");
-      console.log(context);
-      var labels = [];
-        if (context.length==0){
-          for (let m=1; m<13; m++){
-            labels.push(m);
-          }
-        }else{
-          labels = context[0].map(({ date__month }) => date__month);
-        }
-        // This will get the first returned node in the jQuery collection.
-      var barChart = new Chart(barChartCanvas, {
-        type: 'bar',
-        data: barChartData(context,labels,'idtypeactivity__type_en',2022),
-        options: barChartOptions
-      });
-    }
-    if ($("#barChartPublication").length) {
-      var barChartCanvas = $("#barChartPublication").get(0).getContext("2d");
-      var context = $("#barChartPublication").data("context");
-      console.log(context);
-      var labels = [];
-        if (context.length==0){
-          for (let m=1; m<13; m++){
-            labels.push(m);
-          }
-        }else{
-          labels = context[0].map(({ date__month }) => date__month);
-        }
-      // This will get the first returned node in the jQuery collection.
-      var barChart = new Chart(barChartCanvas, {
-        type: 'bar',
-        data: barChartData(context,labels,'idtype__type_en',2022),
-        options: barChartOptions
-      });
-    }
-})

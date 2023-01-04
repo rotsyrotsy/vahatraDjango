@@ -31,7 +31,7 @@
                         <h4>{% trans "Filter activities by year" %}</h4>
                             <select onchange="location = this.value;">
                                 {% if theyear %}
-                                    <option value="{% url 'association:reports' theyear %}">
+                                    <option value="{% url 'association:reports' theyear 1 %}">
                                         {{theyear}}
                                     </option>
                                     <option value="{% url 'association:reports' %}">
@@ -39,7 +39,7 @@
                                     </option>
                                     {% for i in years %}
                                     {% if i != theyear %}
-                                        <option value="{% url 'association:reports' i %}">
+                                        <option value="{% url 'association:reports' i 1 %}">
                                                 {{i}}
                                         </option>
                                     {% endif %}
@@ -49,7 +49,7 @@
                                         {% trans "All" %}
                                     </option>
                                     {% for i in years %}
-                                    <option value="{% url 'association:reports' i %}">
+                                    <option value="{% url 'association:reports' i 1 %}">
                                             {{i}}
                                     </option>
                                     {% endfor %}
@@ -82,12 +82,13 @@
               
                 </tbody>
               </table>
-                
+            
+              {% if page_number|length > 1 %}
               <div class="pagination-wrap text-center m-0">
                 <ul class="pagination" >
                     {% for number in page_number %}
-                    {% if year %}
-                    <li ><a href="{% url 'association:reports' year number %}" title="">{{number}}</a></li>
+                    {% if theyear %}
+                    <li ><a href="{% url 'association:reports' theyear number %}" title="">{{number}}</a></li>
                     {% else %}
                     <li ><a href="{% url 'association:reports' number %}" title="">{{number}}</a></li>
                     {% endif%}
@@ -95,21 +96,9 @@
                     {% endfor %}
                 </ul>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>
 
 {% endblock content %}
-
-{% block js %}
-<script>
-
-    $(document).ready(function () {
-        
-        $('html, body').animate({
-            scrollTop:  $("#reporttable").offset().top -100
-        }, 0);
-    });
-
-</script>
-{% endblock %}

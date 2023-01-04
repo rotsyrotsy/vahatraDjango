@@ -12,7 +12,6 @@ from vahatraDjango.functions import pagination, toSlug
 from association.views import getContext
 from django.views.decorators.cache import cache_page
 
-@cache_page(60*60)
 def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
     
     context = getContext()
@@ -30,7 +29,7 @@ def index(request,typepublication_id=1,typepublication_name='malagasy-nature'):
     
     min = Publication.objects.all().aggregate(Min('date'))
     max = Publication.objects.all().aggregate(Max('date'))
-    context["years"]=range(min['date__min'].year,max['date__max'].year+1)
+    context["years"]=reversed(range(min['date__min'].year,max['date__max'].year+1))
     return render(request, "publications/index.html", context)
 
 @cache_page(60*60)

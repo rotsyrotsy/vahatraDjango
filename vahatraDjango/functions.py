@@ -84,7 +84,8 @@ def delete_file(path, location):
     if path is not None:
         path = 'static/'+location+'/'+path
         if os.path.isfile(path):
-            os.remove(path)
+            # os.remove(path)
+            print("remove file : "+path)
 
 
 def pagination(actualpage, list, item_number, orderby):

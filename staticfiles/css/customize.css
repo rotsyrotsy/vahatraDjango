@@ -395,3 +395,17 @@
     transform: rotateY(360deg);
    }
 }
+
+#div-iframe{
+  width    : 100%;
+  height   : 500px;
+  position : relative;
+  overflow : hidden;
+}
+#iframe-id{
+  position : absolute;
+  top      : -10px;
+  left     : -2px;
+  width    : 100%;
+  height   : 100%;
+}

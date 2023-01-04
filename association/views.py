@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 import datetime
 import flag
 from django.utils.translation import get_language
+from django.utils.translation import gettext as _
 
 
 TYPES_ACTIVITY="Typeactivity.all"
@@ -51,7 +52,7 @@ def getContext():
     }
     return context
 
-@cache_page(60*60)
+# @cache_page(60*60)
 def index(request):
 
     context = getContext()
@@ -73,7 +74,6 @@ def index(request):
     
     return render(request, "association/index.html", context)
 
-@cache_page(60*60)
 def member(request,type_member_name=None, type_member_id=None,keyword=None, page=1):
     context = getContext()
     type = get_object_or_404(Typemember, pk = type_member_id)
@@ -134,9 +134,14 @@ def contact(request):
         message_subject = request.POST['message_subject']
         message_content = request.POST['message_content']
         context['data']=request.POST
-        print(request.POST)
+
+        if message_name=="" or message_email=="" or message_subject=="" or message_content=="":
+            context["error"]= _('Fields with an asterisk are required.')
+            return render(request, "association/contact.html",context)
+
         
         merge_data = {
+            'message_name': message_name,
             'message_content': message_content,
             'message_email': message_email,
             'message_subject': message_subject,
@@ -146,17 +151,17 @@ def contact(request):
         if request.POST['message_phone']!="":
             merge_data['message_phone']=message_phone
             if not is_validate_phone_number(message_phone):
-                context["number_error"]= 'Your phone number is invalidate, please verify it.'
+                context["number_error"]= _('Your phone number is invalidate, please verify it.')
                 return render(request, "association/contact.html",context)
         if not check_email(message_email):
-            context["email_error"]= 'Your email address is invalidate, please verify it.'
+            context["email_error"]= _('Your email address is invalidate, please verify it.')
             return render(request, "association/contact.html",context)
 
         from_email = settings.DEFAULT_FROM_EMAIL
         to = [settings.DEFAULT_FROM_EMAIL]
         text_content = message_content
         html_body = render_to_string("association/message_body.html", merge_data)
-        msg = EmailMultiAlternatives(message_subject, text_content, from_email, to)
+        msg = EmailMultiAlternatives(message_subject+" - "+message_email, text_content, from_email, to)
         msg.attach_alternative(html_body, "text/html")
         msg.send()
         context['success']=1
@@ -191,7 +196,6 @@ def gallery(request,limit=9):
 
     return render(request, "association/gallery.html",context)
 
-@cache_page(60*60)
 def reports(request, year=None, page=1):
     context = getContext()
     list = Report.objects.all()

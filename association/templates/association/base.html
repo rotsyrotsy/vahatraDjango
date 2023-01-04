@@ -51,10 +51,6 @@
             <ul class="rspn-scil">
                 <li><a href="mailto:associatvahatra@moov.mg" title="Email" target="_blank"><i class="flaticon-email"></i></a>></li>                  
             </ul>
-            <div class="rspn-srch">
-                <input id="keywordToFind" type="text" placeholder="Enter Your Keyword" />
-                <button onclick="FF(this)" id="keywordToFindBtn" type="submit"><i class="fa fa-search"></i></button>
-            </div>
         </div>
         <div class="lg-mn">
             <div class="logo"><a href="{% url 'association:index' %}" title="Logo"><img loading="lazy"  width="60" height="60" src="{% static 'images/Vahatra_Logo_couleur.png' %}" alt="logo2.png"></a></div>
@@ -139,25 +135,6 @@
 <script src="{% static 'js/custom-scripts.js' %}"></script>
 <script src="{% static 'js/customize.js' %}"></script>
 
-
-<script>
-    function FF($this){
-        var val = $this.previousElementSibling.value;
-        if(val == ''){
-            console.log('no input');
-        }else{
-            find(val);
-        }
-    }
-
-    var input = document.getElementById("keywordToFind");
-    input.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            document.getElementById("keywordToFindBtn").click();
-        }
-    }); 
-</script>
 {% block js %}
 {% endblock %}
 </body>

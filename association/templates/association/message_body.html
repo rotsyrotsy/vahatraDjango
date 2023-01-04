@@ -349,12 +349,15 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>Vous avez reçu un message de <a href="mailto:{{message_email}}">{{message_email}}</a></p>
-                        {% if message_phone %}<p><small>Phone : {{message_phone}}</small></p>{% endif %}
-                        <p><small>Le {{datetime}}</small></p>
+                        <p>Bonjour,</p>
+                        <p>Vous avez reçu un nouveau message de {{message_name}}.</p>
+                        <hr>
+                        <p><small>Email : {{message_email}}</small></p>
+                        {% if message_phone %}<p><small>Tel : {{message_phone}}</small></p>{% endif %}
+                        <p><small>Date : {{datetime}}</small></p>
                         <hr>
                         <p>Objet : {{message_subject}}</p>
-                        <p>{{message_content}} </p>
+                        <p>Message : <br>{{message_content}} </p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>

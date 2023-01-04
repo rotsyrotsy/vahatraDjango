@@ -39,7 +39,6 @@ def updateAttributeByRequestParams(request,params,model):
     values = [request.POST.get(p) for p in params]
     i = 0
     for value in values:
-        # if getattr(model, params[i]) is None or value != str(getattr(model, params[i])):
         if value == "":
             value = None
         else:
@@ -62,7 +61,6 @@ def getContext():
     return context
 
 def checkIfAdmin(request):
-    print(request.user)
     if not request.user.is_authenticated: raise PermissionDenied()
     if 'count_login' in request.session:
         if request.session['count_login'] > 3:
@@ -293,11 +291,12 @@ def listActivities(request, activity_id=1, subactivity_id=None, yearstr='year',y
     else:
         context['activities']=list
 
-    min = Activity.objects.filter(
-        idtypeactivity=activity_id).aggregate(Min('date'))
-    max = Activity.objects.filter(
-        idtypeactivity=activity_id).aggregate(Max('date'))
-    context["years"] = reversed(range(min['date__min'].year, max['date__max'].year+1))
+    if list.count()>0:
+        min = Activity.objects.filter(
+            idtypeactivity=activity_id).aggregate(Min('date'))
+        max = Activity.objects.filter(
+            idtypeactivity=activity_id).aggregate(Max('date'))
+        context["years"] = reversed(range(min['date__min'].year, max['date__max'].year+1))
     
 
     return render(request, "admin/listActivities.html", context)
@@ -1551,11 +1550,12 @@ def listReports(request,page=1, year=None):
         context["year"] = year
     reports = reports.order_by('year')
 
-    min = reports.aggregate(Min('year'))
-    max = reports.aggregate(Max('year'))
-    context["years"] = reversed(range(min['year__min'], max['year__max']+1))
+
     page_number=0
     if (reports.count() > 0):
+        min = reports.aggregate(Min('year'))
+        max = reports.aggregate(Max('year'))
+        context["years"] = reversed(range(min['year__min'], max['year__max']+1))
         dictpagination = pagination(page, reports, 6, '-year')
         page_number = dictpagination['page_number']
         reports = dictpagination['list']
@@ -1624,110 +1624,3 @@ def updateReport(request,id_report=1):
             context["error"] = "There is nothing to change."
 
     return render(request, "admin/updateReport.html", context)
-
-def allStat(activityPerY, type_name):
-    context={}
-    minYear = activityPerY.aggregate(Min('date'))['date__min'].year
-    maxYear = activityPerY.aggregate(Max('date'))['date__max'].year
-    context['max']=activityPerY.aggregate(Max('number'))['number__max']
-    context['step']=math.ceil(context['max']/6)
-
-    activityPerY = sorted(activityPerY, key=operator.itemgetter(type_name))
-    outputList=[]
-    for i,g in itertools.groupby(activityPerY, key=operator.itemgetter(type_name)):
-        outputList.append(list(g))
-    
-
-    temp1 = [*range(minYear,maxYear+1)]
-    for index, item in enumerate(outputList):
-        temp2 = [d['date__year'] for d in item]
-        for missing in list(set(temp1) - set(temp2)):
-            act={
-                type_name:item[0][type_name],
-                "date__year":missing,
-                "number":0
-            }
-            item.append(act)
-        outputList[index] = sorted(item, key=lambda i: i['date__year'])
-
-    context['result']=outputList
-    return context
-
-def joinWithAllMonths(activityPerM,type_name):
-    import calendar
-    activityPerM = sorted(activityPerM, key=operator.itemgetter(type_name))
-    outputList=[]
-    for i,g in itertools.groupby(activityPerM, key=operator.itemgetter(type_name)):
-        outputList.append(list(g))
-
-    temp1 = [*range(1,13)]
-    for index, item in enumerate(outputList):
-        temp2 = [d['date__month'] for d in item]
-        for missing in list(set(temp1) - set(temp2)):
-            act={
-                type_name:item[0][type_name],
-                "date__month":missing,
-                "number":0
-            }
-            item.append(act)
-        outputList[index] = sorted(item, key=lambda i: i['date__month'])
-
-        for d in outputList[index] :
-            d['date__month'] = calendar.month_abbr[d['date__month']]            
-
-    return outputList
-
-def statistics (request):
-    checkIfAdmin(request)
-    context = getContext()
-    overallAct = Activity.objects.values('idtypeactivity__type_en').annotate(number=Count('idtypeactivity')).order_by('-number')
-    overallPub = Publication.objects.values('idtype__type_en').annotate(number=Count('idtype')).order_by('-number')
-    activityPerY = Activity.objects.filter(date__year__gte =(date.today().year-10)).values('idtypeactivity__type_en', 'date__year').annotate(number=Count('idtypeactivity')).order_by('idtypeactivity', 'date__year')
-    contextActivity = allStat(activityPerY, 'idtypeactivity__type_en')
-    publicationPerY = Publication.objects.filter(date__year__gte =(date.today().year-10)).values('idtype__type_en', 'date__year').annotate(number=Count('idtype')).order_by('idtype', 'date__year')
-    contextPublication = allStat(publicationPerY, 'idtype__type_en')
-    context['maxPub']=contextPublication['max']
-    context['stepPub']=contextPublication['step']
-    context['publications']=contextPublication['result']
-    context['max']=contextActivity['max']
-    context['step']=contextActivity['step']
-    context['activities']=contextActivity['result']
-    context['overallAct']=list(overallAct)
-    context['overallPub']=list(overallPub)
-    context['rangeActivityYear']=reversed(range(Activity.objects.all().aggregate(Min('date'))['date__min'].year, timezone.now().year+1))
-    context['rangePublicationYear']=reversed(range(Publication.objects.all().aggregate(Min('date'))['date__min'].year, timezone.now().year+1))
-
-    
-    defaultYear=2022
-    activityPerM = Activity.objects.filter(date__year=defaultYear).values('idtypeactivity__type_en','date__month').annotate(number=Count('date__month')).order_by('idtypeactivity__type_en','-date__month')
-    activityPerMPerType = joinWithAllMonths(list(activityPerM),'idtypeactivity__type_en')
-    context['activitiesPerM']=activityPerMPerType
-    publicationPerM = Publication.objects.filter(date__year=defaultYear).values('idtype__type_en','date__month').annotate(number=Count('date__month')).order_by('idtype__type_en','-date__month')
-    publicationPerMPerType = joinWithAllMonths(list(publicationPerM),'idtype__type_en')
-    context['publicationsPerM']=publicationPerMPerType
-    return render(request, "admin/statistics.html", context)
-
-
-def changeActivityYear(request):
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    if is_ajax:
-        if request.method == 'POST':
-            year = request.POST.get('year','')
-            activityPerM = Activity.objects.filter(date__year=year).values('idtypeactivity__type_en','date__month').annotate(number=Count('date__month')).order_by('idtypeactivity__type_en','-date__month')
-            activityPerMPerType = joinWithAllMonths(list(activityPerM),'idtypeactivity__type_en')
-            return  JsonResponse({'activitiesPerM': activityPerMPerType, 'year':year})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')
-
-def changePublicationYear(request):
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    if is_ajax:
-        if request.method == 'POST':
-            year = request.POST.get('year','')
-            publicationPerM = Publication.objects.filter(date__year=year).values('idtype__type_en','date__month').annotate(number=Count('date__month')).order_by('idtype__type_en','-date__month')
-            publicationPerMPerType = joinWithAllMonths(list(publicationPerM),'idtype__type_en')
-            return  JsonResponse({'publicationsPerM': publicationPerMPerType, 'year':year})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    else:
-        return HttpResponseBadRequest('Invalid request')

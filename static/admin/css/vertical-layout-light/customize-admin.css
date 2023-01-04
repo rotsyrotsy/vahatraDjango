@@ -39,3 +39,6 @@
 .step.finish {
   background-color: #04AA6D;
 }
+.ck-editor__editable {
+  max-height: 400px;
+}

@@ -15,6 +15,7 @@
         <div class="collapse" id="activity">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listTypeActivity'%}">TYPES</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'admin:addLocation' %}">Add location</a></li>
             {% for item in type_activity %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'admin:listActivities' item.id %}">{{item.type|capfirst}}</a></li>
             {% endfor %}
@@ -82,12 +83,6 @@
         <a class="nav-link" href="{% url 'admin:listReports' %}">
           <i class="icon-paper menu-icon"></i>
           <span class="menu-title">Annual reports</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-priority="1" href="{% url 'admin:statistics' %}">
-          <i class="icon-bar-graph menu-icon"></i>
-          <span class="menu-title">Statistics</span>
         </a>
       </li>
     </ul>
