@@ -13,7 +13,7 @@
             <div class="custom-featured-area mycaroussel-index">
                 <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.webp' %});background-position:50% 90%;">
                     <div class="custom-featured-cap">
-                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <h3>{% trans "In close collaboration with universities and academies, especially MZBA" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
                     </div>
                 </div>
@@ -27,13 +27,13 @@
                 
                 <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/banniere3.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
-                        <h3>{% trans "Working on reptiles, amphibians, birds and small mammals : endemic to Madagascar" %}</h3>
+                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
                     </div>
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/site/conference/DSC_2357_2019.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
-                        <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
+                        <h3>{% trans "In close collaboration with universities and academies, especially MZBA" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
 
                     </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="custom-featured-item" style="background-image: url({% static 'images/primate/a1.webp' %}); background-position:50% 15%;">
                     <div class="custom-featured-cap">
-                        <h3>{% trans "Working on reptiles, amphibians, birds and small mammals : endemic to Madagascar" %}</h3>
+                        <h3>{% trans "In close collaboration with universities and academies, especially MZBA" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
                     </div>
                 </div>
@@ -223,9 +223,11 @@
         </div>
     </div>
   </section>
+  
   <section>
     <div class="gap top-spac170 bottom-spac170 black-layer2 opc5" >
         <img  class="top-shp shp-img" src="{% static 'images/shp4.png' %} " alt="shp4.png">
+        <img class="botm-shp shp-img" src="{% static 'images/shp3.png' %}" alt="shp5.png">
         <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0553.webp' %});"></div>
         <div class="container">
             <div class="suprt-wrap">
@@ -281,17 +283,18 @@
     </div>
   </section>
   <div >
-    <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
-        <div class="gap top-spac60 white-layer opc9">
+    <section >
+        <div class="gap top-spac60">
+        <div class="fixed-bg bg-mode-clr" style="background-image: url({% static 'images/parallax2.png' %});"></div>
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>{% trans "Our Team" %} </span>
-                    <h3 style="color: #ffe8a0">{% trans "Members of the organization " %} </h3>
+                    <h3>{% trans "Members of the organization " %} </h3>
                 </div>
-                <p  style="color: #000;" >{% trans "The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable." %} </p>
+                <p>{% trans "The objectives of Vahatra are notably ambitious and the various staff members follow the various projects to fruition. The presence within the Vahatra staff of individuals with different experiences and specialties is indispensable." %} </p>
             </div>
-            <div class="team-wrap text-center remove-ext5">
+            <div class="team-wrap text-center remove-ext5 ">
                 <div class="row mycaroussel-simple mrg">
 
                     {% for item in type_member_list %}
@@ -315,7 +318,7 @@
         </div>
     </div>
   </section>
-  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
+  <section class="ex" style="background-image:url('{% static 'images/DSC_0140.JPG' %}');">
     <div class="gap top-spac120 gray-layer opc9 pb-5" style="background: rgba(255,255,255,.7)" >
         <div class="container">
             <div class="evnt-pry-wrap">
@@ -464,13 +467,13 @@
         </div>
     </div>
   </section>
-  <section class="ex" style="background-image:url('{% static 'images/zdenek-machacek-83gB_koMuvA-unsplash.webp' %}');">
+  <section class="ex" style="background-image:url('{% static 'images/DSC_0140.JPG' %}');">
     <div class="gap top-spac60 white-layer opc9">
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
                     <span>{% trans "A message from" %}</span>
-                    <h3 style="color: #ffe8a0">{% trans "The President of Vahatra" %}</h3>
+                    <h3>{% trans "The President of Vahatra" %}</h3>
                 </div>
             </div>
             <div class="testi-wrap text-center">

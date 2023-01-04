@@ -1,7 +1,7 @@
 {% extends "association/base.html" %}
 {% load static %}
 {% load i18n %}
-{% block title %}{% trans "Collection room" %}{% endblock %}
+{% block title %}{% trans "MZBA collection room" %}{% endblock %}
 
 {% block content %}
 <section>
@@ -11,23 +11,22 @@
         <div class="container">
             <div class="page-title-wrap">
                 <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
-                <h2>{% trans "Collection room" %}</h2>
+                <h2>{% trans "MZBA collection room support" %}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
-                    <li>{% trans "Collection room" %}</li>
+                    <li>{% trans "MZBA collection room support" %}</li>
                 </ul>
             </div><!-- Page Title Wrap -->
         </div>
     </div>
 </section>
 
-<section>
+<section style="background-color: #f4f6f7;">
     <div class="gap">
-        <div class="fixed-bg" style="background-image: url({% static 'images/parallax2.jpg' %});"></div>
         <div class="container">
             <div class="sec-title text-center">
                 <div class="sec-title-inner">
-                    <h3>{% trans "Collection room" %}</h3>
+                    <h3>{% trans "MZBA collection room support" %}</h3>
                 </div>
             </div>
             <div class="serv-wrap text-justify">
@@ -35,9 +34,9 @@
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="remove-ext9 color-li">
                             {% blocktrans %}
-                            <p>The collection room of the Department of Animal Biology, University of Antananarivo, holds a collection of 60,000 specimens of animals.  This material has been collected in different parts of Madagascar since 1990, by Malagasy students and researchers, as well as partners of the Department associated with overseas institutions. Most of these specimens have been cataloged according to international standards, using the acronym UADBA (“Université d’Antananarivo, Département de Biologie Animale”).  The museum collection includes mostly different taxonomic groups of Malagasy vertebrates including fish, amphibians, reptiles, birds and mammals.  Besides the fluid preserved specimens (formaldehyde and ethanol), there are also skin and skeleton specimens.  Holotypes and paratypes of recently described new species are also housed in this collection room. There are also some invertebrate specimens.</p>
+                            <p>The collection room of the Mention Zoologie et Biodiversité Animale, University of Antananarivo, holds a collection of 60,000 specimens of animals.  This material has been collected in different parts of Madagascar since 1990, by Malagasy students and researchers, as well as partners of the Department associated with overseas institutions. Most of these specimens have been cataloged according to international standards, using the acronym MZBA (“Université d’Antananarivo, Mention Zoologie et Biodiversité Animale”).  The museum collection includes mostly different taxonomic groups of Malagasy vertebrates including fish, amphibians, reptiles, birds and mammals.  Besides the fluid preserved specimens (formaldehyde and ethanol), there are also skin and skeleton specimens.  Holotypes and paratypes of recently described new species are also housed in this collection room. There are also some invertebrate specimens.</p>
                             <p>
-                                The Association Vahatra works closely with the Department of Animal Biology to improve the management of the collection room by providing technical, logistical and material support in order to:
+                                The Association Vahatra works closely with the Mention Zoologie et Biodiversité Animale to improve the management of the collection room by providing technical, logistical and material support in order to:
                             </p>
                             <ul >
                                 <li >enriching the museum collections</li>
@@ -54,30 +53,16 @@
         </div>
     </div>
 </section>
-<section>
-    <div class="gap black-layer2 opc8 style-4-donate">
-        <div class="container">
-            
-            <div class="suprt-prgrs style2 text-center">
-                <div class="suprt-prg" id="suprt-prg-invertebrates" data-lang="{% trans 'Invertebrates' %}"></div>
-                <div class="suprt-prg" id="suprt-prg-vertebrates" data-lang="{% trans 'Vertebrates' %}"></div>
-                <div class="suprt-prg" id="suprt-prg-newspecies" data-lang="{% trans 'New Species' %}"></div>
-            </div>
-            
-        </div>
-    </div>
-</section>
-<section>
-    <div class="gap">
-        <div class="fixed-bg" style="background-image: url({% static 'images/parallax2.jpg' %});"></div>
+<section style="background-color: #f4f6f7;">
+    <div class="gap no-gap">
         
         <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="sec-title text-center">
                             <div class="sec-title-inner">
-                                <span>{% trans "Visit Our" %}</span>
-                                <h3>{% trans "Collection Room" %}</h3>
+                                <span>{% trans "Visit the collection room in a " %}</span>
+                                <h3>{% trans "Virtual Tour" %}</h3>
                             </div>
                         </div>
                         <center>
@@ -89,7 +74,7 @@
         </div>
     </div>
 </section>
-<section>
+<section style="background-color: #f4f6f7;">
     <div class="row" style="margin: -7.5px;">
         {% for i in '012345678'|make_list %}
         <div class="col-md-6 col-sm-12 col-lg-4" style="padding: 7.5px;">

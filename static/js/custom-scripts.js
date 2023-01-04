@@ -78,10 +78,6 @@
   // }
 
   //===== Circliful =====//
-
-  var lang_inver = $("#suprt-prg-invertebrates").attr('data-lang');
-  var lang_ver = $("#suprt-prg-vertebrates").attr('data-lang');
-  var lang_new = $("#suprt-prg-newspecies").attr('data-lang');
   if ($.isFunction($.fn.circliful)) {
     $("#suprt-prg1").circliful({
       animationStep: 5,
@@ -112,52 +108,6 @@
       textBelow: true,
       textStyle: 'font-size: 18px'
     });
-
-    $("#suprt-prg-vertebrates").circliful({
-      animationStep: 5,
-      foregroundBorderWidth: 10,
-      backgroundBorderWidth: 10,
-      backgroundColor: '#2a486c',
-      foregroundColor: '#d1ad3c',
-      animateInView: true,
-      textColor: '#d1ad3c',
-      fontColor: '#fff',
-      percent: 63,
-      text: lang_ver,
-      textBelow: true,
-      textStyle: 'font-size: 18px'
-    });
-
-    $("#suprt-prg-invertebrates").circliful({
-      animationStep: 5,
-      foregroundBorderWidth: 10,
-      backgroundBorderWidth: 10,
-      backgroundColor: '#2a486c',
-      foregroundColor: '#d1ad3c',
-      animateInView: true,
-      textColor: '#d1ad3c',
-      fontColor: '#fff',
-      percent: 32,
-      text: lang_inver,
-      textBelow: true,
-      textStyle: 'font-size: 18px'
-    });
-
-    $("#suprt-prg-newspecies").circliful({
-      animationStep: 5,
-      foregroundBorderWidth: 10,
-      backgroundBorderWidth: 10,
-      backgroundColor: '#2a486c',
-      foregroundColor: '#d1ad3c',
-      animateInView: true,
-      textColor: '#d1ad3c',
-      fontColor: '#fff',
-      percent: 5,
-      text: lang_new,
-      textBelow: true,
-      textStyle: 'font-size: 18px'
-    });
-
     $("#suprt-prg3").circliful({
       animationStep: 5,
       foregroundBorderWidth: 10,

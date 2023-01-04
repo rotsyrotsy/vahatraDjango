@@ -7,7 +7,6 @@ from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Min, Max,Q, Count
 from django.db import IntegrityError
-from sequences import get_next_value
 from association.models import Report, Department, Image, Imagetype, Institution, Member, Memberpostinst, Partner, Person, Post, Typemember, Typememberimage, Messageofyear
 from publications.models import Publication, Publicationauthor, Publicationdetail, Typepublication
 from datetime import date,timedelta
