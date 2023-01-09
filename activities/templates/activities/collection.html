@@ -61,14 +61,15 @@
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="sec-title text-center">
                             <div class="sec-title-inner">
-                                <span>{% trans "Visit the collection room in a " %}</span>
-                                <h3>{% trans "Virtual Tour" %}</h3>
+                                <span>{% trans "Video tour of the" %}</span>
+                                <h3>{% trans "Collection room" %}</h3>
                             </div>
                         </div>
                         <center>
-                            <div id="div-iframe">
-                                <iframe id="iframe-id" src="https://collection-room-vr.cloudaccess.host/index.php/2-uncategorised/2-collection-room"  allowfullscreen=""  scrolling="no" ></iframe>                      
-                            </div>
+                            <video width="100%" height="100%" controls>
+                                <source src="{% static 'video/collection_room.mp4' %}" type="video/mp4">
+                              Your browser does not support the video tag.
+                              </video> 
                         </center>
                 </div>
         </div>

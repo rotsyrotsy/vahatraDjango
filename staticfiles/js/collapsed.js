@@ -70,7 +70,6 @@ function openNav(typevisit, lieu, visits) {
 
       }
      
-      
       try {
         activity = JSON.parse(visits[i]['activity'])[0];
         visit = JSON.parse(visits[i]['visit'])[0];
@@ -80,7 +79,7 @@ function openNav(typevisit, lieu, visits) {
 
         if (description!==null){
           var par = document.createElement("p");
-          par.innerText= description;
+          par.innerHTML= description;
           eventinfo.appendChild(par);
         }
         fs = visits[i]['fs'];
@@ -97,10 +96,11 @@ function openNav(typevisit, lieu, visits) {
   
         if (date!==null){
           let d1 = new Date(date);
-          date =  d1.toLocaleString('default', { month: 'long' })+", "+d1.getFullYear();
+      
+          date =  d1.getDate()+" "+d1.toLocaleString('default', { month: 'long' })+" "+d1.getFullYear();
           if (datefin !==null){
             let d2 = new Date(datefin);
-            datefin =  d2.toLocaleString('default', { month: 'long' })+", "+d2.getFullYear();
+            datefin =  d2.getDate()+" "+d2.toLocaleString('default', { month: 'long' })+", "+d2.getFullYear();
             ul.innerHTML += "<li><i class=\"flaticon-clock\"></i>"+date+" - "+datefin+"</li>";
           }else{
             ul.innerHTML += "<li><i class=\"flaticon-clock\"></i>"+date+"</li>";

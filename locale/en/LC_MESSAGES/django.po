@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-04 16:22+0300\n"
+"POT-Creation-Date: 2023-01-09 15:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 
 #: .\activities\templates\activities\activityDetail.html:121
-#: .\association\templates\association\index.html:417
+#: .\association\templates\association\index.html:420
 msgid "Recent"
 msgstr ""
 
@@ -44,7 +44,7 @@ msgstr ""
 #: .\activities\templates\activities\otherActivities.html:17
 #: .\activities\templates\activities\support.html:16
 #: .\association\templates\association\annualreports.html:18
-#: .\association\templates\association\base.html:92
+#: .\association\templates\association\base.html:88
 #: .\association\templates\association\contact.html:15
 #: .\association\templates\association\financing.html:18
 #: .\association\templates\association\gallery.html:16
@@ -101,33 +101,39 @@ msgid ""
 msgstr ""
 
 #: .\activities\templates\activities\collection.html:4
-#: .\activities\templates\activities\collection.html:14
-#: .\activities\templates\activities\collection.html:17
-#: .\activities\templates\activities\collection.html:30
-#: .\association\templates\association\includes\nav.html:23
-msgid "Collection room"
+#: .\association\templates\association\base.html:91
+msgid "MZBA collection room"
 msgstr ""
 
-#: .\activities\templates\activities\collection.html:37
+#: .\activities\templates\activities\collection.html:14
+#: .\activities\templates\activities\collection.html:17
+#: .\activities\templates\activities\collection.html:29
+#: .\association\templates\association\includes\nav.html:23
+msgid "MZBA collection room support"
+msgstr ""
+
+#: .\activities\templates\activities\collection.html:36
 msgid ""
 "\n"
-"                            <p>The collection room of the Department of "
-"Animal Biology, University of Antananarivo, holds a collection of 60,000 "
-"specimens of animals.  This material has been collected in different parts "
-"of Madagascar since 1990, by Malagasy students and researchers, as well as "
-"partners of the Department associated with overseas institutions. Most of "
-"these specimens have been cataloged according to international standards, "
-"using the acronym UADBA (“Université d’Antananarivo, Département de Biologie "
-"Animale”).  The museum collection includes mostly different taxonomic groups "
-"of Malagasy vertebrates including fish, amphibians, reptiles, birds and "
-"mammals.  Besides the fluid preserved specimens (formaldehyde and ethanol), "
-"there are also skin and skeleton specimens.  Holotypes and paratypes of "
-"recently described new species are also housed in this collection room. "
-"There are also some invertebrate specimens.</p>\n"
+"                            <p>The collection room of the Mention Zoologie "
+"et Biodiversité Animale, University of Antananarivo, holds a collection of "
+"60,000 specimens of animals.  This material has been collected in different "
+"parts of Madagascar since 1990, by Malagasy students and researchers, as "
+"well as partners of the Department associated with overseas institutions. "
+"Most of these specimens have been cataloged according to international "
+"standards, using the acronym MZBA (“Université d’Antananarivo, Mention "
+"Zoologie et Biodiversité Animale”).  The museum collection includes mostly "
+"different taxonomic groups of Malagasy vertebrates including fish, "
+"amphibians, reptiles, birds and mammals.  Besides the fluid preserved "
+"specimens (formaldehyde and ethanol), there are also skin and skeleton "
+"specimens.  Holotypes and paratypes of recently described new species are "
+"also housed in this collection room. There are also some invertebrate "
+"specimens.</p>\n"
 "                            <p>\n"
 "                                The Association Vahatra works closely with "
-"the Department of Animal Biology to improve the management of the collection "
-"room by providing technical, logistical and material support in order to:\n"
+"the Mention Zoologie et Biodiversité Animale to improve the management of "
+"the collection room by providing technical, logistical and material support "
+"in order to:\n"
 "                            </p>\n"
 "                            <ul >\n"
 "                                <li >enriching the museum collections</li>\n"
@@ -145,24 +151,12 @@ msgid ""
 "                            "
 msgstr ""
 
-#: .\activities\templates\activities\collection.html:62
-msgid "Invertebrates"
-msgstr ""
-
-#: .\activities\templates\activities\collection.html:63
-msgid "Vertebrates"
-msgstr ""
-
 #: .\activities\templates\activities\collection.html:64
-msgid "New Species"
+msgid "Video tour of the"
 msgstr ""
 
-#: .\activities\templates\activities\collection.html:79
-msgid "Visit Our"
-msgstr ""
-
-#: .\activities\templates\activities\collection.html:80
-msgid "Collection Room"
+#: .\activities\templates\activities\collection.html:65
+msgid "Collection room"
 msgstr ""
 
 #: .\activities\templates\activities\index.html:8
@@ -322,19 +316,19 @@ msgid "Send"
 msgstr ""
 
 #: .\admin\templates\admin\index.html:22
-#: .\association\templates\association\index.html:472
+#: .\association\templates\association\index.html:475
 msgid "A message from"
 msgstr ""
 
 #: .\admin\templates\admin\index.html:22
-#: .\association\templates\association\index.html:473
+#: .\association\templates\association\index.html:476
 msgid "The President of Vahatra"
 msgstr ""
 
 #: .\association\templates\association\annualreports.html:4
 #: .\association\templates\association\annualreports.html:16
 #: .\association\templates\association\annualreports.html:19
-#: .\association\templates\association\base.html:93
+#: .\association\templates\association\base.html:89
 #: .\association\templates\association\includes\nav.html:46
 msgid "Annual reports"
 msgstr ""
@@ -363,18 +357,18 @@ msgstr ""
 msgid "Contact Us"
 msgstr ""
 
-#: .\association\templates\association\base.html:83
+#: .\association\templates\association\base.html:79
 msgid ""
 "Vahatra's challenge, objectives and mission are mainly based on its history; "
 "and the members are doing their best to achieve these objectives."
 msgstr ""
 
-#: .\association\templates\association\base.html:90
+#: .\association\templates\association\base.html:86
 msgid "Quick Links"
 msgstr ""
 
-#: .\association\templates\association\base.html:94
-msgid "donate"
+#: .\association\templates\association\base.html:90
+msgid "Donate"
 msgstr ""
 
 #: .\association\templates\association\contact.html:27
@@ -503,7 +497,7 @@ msgid ""
 msgstr ""
 
 #: .\association\templates\association\includes\nav.html:6
-#: .\association\templates\association\index.html:417
+#: .\association\templates\association\index.html:420
 msgid "Activities"
 msgstr ""
 
@@ -534,8 +528,8 @@ msgstr ""
 
 #: .\association\templates\association\index.html:16
 #: .\association\templates\association\index.html:36
-#: .\association\templates\association\index.html:50
-msgid "Develop an educational and research program focused on the biodiversity"
+#: .\association\templates\association\index.html:56
+msgid "In close collaboration with universities and academies, especially MZBA"
 msgstr ""
 
 #: .\association\templates\association\index.html:17
@@ -549,12 +543,15 @@ msgid "'Let's keep our biodiversity'"
 msgstr ""
 
 #: .\association\templates\association\index.html:22
-#: .\association\templates\association\index.html:30
 #: .\association\templates\association\index.html:43
-#: .\association\templates\association\index.html:56
 msgid ""
 "Working on reptiles, amphibians, birds and small mammals : endemic to "
 "Madagascar"
+msgstr ""
+
+#: .\association\templates\association\index.html:30
+#: .\association\templates\association\index.html:50
+msgid "Develop an educational and research program focused on the biodiversity"
 msgstr ""
 
 #: .\association\templates\association\index.html:122
@@ -666,35 +663,35 @@ msgid ""
 "protected areas associated with the conservation of Madagascar’s biodiversity"
 msgstr ""
 
-#: .\association\templates\association\index.html:238
+#: .\association\templates\association\index.html:240
 msgid "A Few Words About Us,"
 msgstr ""
 
-#: .\association\templates\association\index.html:239
+#: .\association\templates\association\index.html:241
 msgid "Historical Perspective."
 msgstr ""
 
-#: .\association\templates\association\index.html:243
+#: .\association\templates\association\index.html:245
 msgid ""
 "Vahatra is a legally registered International Association of the island "
 "nation of Madagascar. The word “vahatra” means “grass-roots” in Malagasy, "
 "the national language of the island. The mission of Vahatra is two fold:"
 msgstr ""
 
-#: .\association\templates\association\index.html:245
+#: .\association\templates\association\index.html:247
 msgid ""
 "To contribute to the amelioration of information on the biodiversity of "
 "Madagascar, particularly the terrestrial fauna, with the intention of "
 "progressing aspects of conservation"
 msgstr ""
 
-#: .\association\templates\association\index.html:246
+#: .\association\templates\association\index.html:248
 msgid ""
 "To advance a practical program in ecology and conservation biology for young "
 "Malagasy naturalists and graduate students in biology."
 msgstr ""
 
-#: .\association\templates\association\index.html:253
+#: .\association\templates\association\index.html:255
 msgid ""
 "This association evolved in a natural manner from a WWF-Madagascar project "
 "known as “The Ecology Training Program” (ETP), for which the principal "
@@ -712,7 +709,7 @@ msgid ""
 "regard. "
 msgstr ""
 
-#: .\association\templates\association\index.html:257
+#: .\association\templates\association\index.html:259
 msgid ""
 "In 2007, at the moment that Vahatra became independent of WWF, the ETP had "
 "helped advance over 75 Malagasy graduate students earning higher degrees "
@@ -726,7 +723,7 @@ msgid ""
 "strategies associated with the island’s protected area system."
 msgstr ""
 
-#: .\association\templates\association\index.html:261
+#: .\association\templates\association\index.html:263
 msgid ""
 "Given on one hand that the objectives of conservation and management of "
 "biodiversity and, on the other hand, few Malagasy nationals with in-depth "
@@ -739,7 +736,7 @@ msgid ""
 "including research and teaching."
 msgstr ""
 
-#: .\association\templates\association\index.html:265
+#: .\association\templates\association\index.html:267
 msgid ""
 "To ensure the continuity of this success, we believed that the next logical "
 "step in the evolution of the ETP was for it to become an independent "
@@ -754,15 +751,15 @@ msgid ""
 "vertebrates living in montane portions of the island."
 msgstr ""
 
-#: .\association\templates\association\index.html:269
+#: .\association\templates\association\index.html:271
 msgid "The ETP, as it was previously known, has now become the"
 msgstr ""
 
-#: .\association\templates\association\index.html:269
+#: .\association\templates\association\index.html:271
 msgid "independent organization Association Vahatra"
 msgstr ""
 
-#: .\association\templates\association\index.html:269
+#: .\association\templates\association\index.html:271
 msgid ""
 "Vahatra has been quickly  recognized by governmental and non-governmental "
 "organizations, as one of the primary groups to promote high quality "
@@ -770,15 +767,15 @@ msgid ""
 "and ecology."
 msgstr ""
 
-#: .\association\templates\association\index.html:289
+#: .\association\templates\association\index.html:292
 msgid "Our Team"
 msgstr ""
 
-#: .\association\templates\association\index.html:290
+#: .\association\templates\association\index.html:293
 msgid "Members of the organization "
 msgstr ""
 
-#: .\association\templates\association\index.html:292
+#: .\association\templates\association\index.html:295
 msgid ""
 "The objectives of Vahatra are notably ambitious and the various staff "
 "members follow the various projects to fruition. The presence within the "
@@ -786,15 +783,15 @@ msgid ""
 "indispensable."
 msgstr ""
 
-#: .\association\templates\association\index.html:326
+#: .\association\templates\association\index.html:329
 msgid "Upcoming"
 msgstr ""
 
-#: .\association\templates\association\index.html:326
+#: .\association\templates\association\index.html:329
 msgid "Events"
 msgstr ""
 
-#: .\association\templates\association\index.html:328
+#: .\association\templates\association\index.html:331
 msgid "Let us introduce to you what's comming soon."
 msgstr ""
 
@@ -822,15 +819,15 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: .\association\views.py:140
+#: .\association\views.py:139
 msgid "Fields with an asterisk are required."
 msgstr ""
 
-#: .\association\views.py:155
+#: .\association\views.py:154
 msgid "Your phone number is invalidate, please verify it."
 msgstr ""
 
-#: .\association\views.py:158
+#: .\association\views.py:157
 msgid "Your email address is invalidate, please verify it."
 msgstr ""
 
@@ -991,10 +988,10 @@ msgstr ""
 msgid "Authors"
 msgstr ""
 
-#: .\vahatraDjango\settings.py:167
+#: .\vahatraDjango\settings.py:135
 msgid "English"
 msgstr ""
 
-#: .\vahatraDjango\settings.py:168
+#: .\vahatraDjango\settings.py:136
 msgid "French"
 msgstr ""

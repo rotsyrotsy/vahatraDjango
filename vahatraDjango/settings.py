@@ -86,17 +86,6 @@ WSGI_APPLICATION = 'vahatraDjango.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": "vahatra",
-#         "USER": "postgres",
-#         "PASSWORD": "root",
-#         "HOST": "127.0.0.1",
-#         "PORT": "5432",
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -108,23 +97,6 @@ DATABASES = {
         'OPTIONS': {'init_command': 'SET default_storage_engine=INNODB,character_set_connection=utf8,collation_connection=utf8_unicode_ci'},
     }
 }
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "sql9580428",
-#         "USER": "sql9580428",
-#         "PASSWORD": "h6d121SwDn",
-#         "HOST": "sql9.freemysqlhosting.net",
-#         "PORT": "3306",
-#     }
-# }
-
-
-# DATABASES = {
-#     'default': dj_database_url.config()
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -190,7 +162,6 @@ STATICFILES_DIRS = [
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

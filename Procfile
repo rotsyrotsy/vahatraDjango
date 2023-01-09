@@ -1,1 +1,0 @@
-web gunicorn vahatraDjango.wsgi:application --log-file -
