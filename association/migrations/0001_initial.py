@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(blank=True, max_length=100, null=True)),
-                ('pdf', models.CharField(blank=True, max_length=255, null=True)),
+                ('pdf', models.CharField(blank=True, max_length=255, null=True, unique=True)),
                 ('year', models.IntegerField(blank=True, null=True)),
             ],
             options={

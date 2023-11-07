@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-from decouple import config 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,8 +26,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-)&!0d#b7yu*_wx
 DEBUG = str(os.environ.get('DEBUG')) == "1" #True
 
 ALLOWED_HOSTS = ['http://127.0.0.1:8000','127.0.0.1']
-if not DEBUG:
-    ALLOWED_HOSTS += os.environ.get('DJANGO_ALLOWED_HOST')
+# if not DEBUG:
+#     ALLOWED_HOSTS += os.environ.get('DJANGO_ALLOWED_HOST')
 
 
 # Application definition

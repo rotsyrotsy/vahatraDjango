@@ -59,7 +59,7 @@
 </section>
 <section>
     <div class="gap no-gap">
-        <div id="map" class="map" style="width: 100%; height: 400px;" ></div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d497.74473814985885!2d47.550855652721204!3d-18.916722753528475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21f07de16c24ade3%3A0xd56c8ba7dd34b561!2sAssociation%20Vahatra!5e1!3m2!1sfr!2smg!4v1699386119023!5m2!1sfr!2smg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </section>
 <section>
@@ -169,70 +169,3 @@
     </div>
 </section>
 {% endblock content %}
-
-{% block js %}
-<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
-
-<script>
-    var img = "{% static 'images/map-icon.png' %}";
-    var map = new ol.Map({
-        target: 'map',
-        layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        })
-        ],
-        view: new ol.View({
-        center: ol.proj.fromLonLat([ 47.5511327993, -18.9167]),
-        zoom: 19
-        })
-    });
-
-    var layer = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            features: [
-                new ol.Feature({
-                    geometry: new ol.geom.Point(ol.proj.fromLonLat([47.5511327993, -18.9167]))})
-            ]
-        }),
-        style: new ol.style.Style({
-            image: new ol.style.Icon({
-            anchor: [0.5, 1],
-            src: img,
-            scale: 0.5
-            }),
-            text : new ol.style.Text({
-                text: 'Association Vahatra',
-                scale: 1.5,
-                fill: new ol.style.Fill({
-                    color: 'red',
-                })
-            })
-        })
-    });
-    map.addLayer(layer);
-    var domaineLayer = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            features: [
-                new ol.Feature({
-                    geometry: new ol.geom.Point(ol.proj.fromLonLat([47.5511327993, -18.9169]))})
-            ]
-        }),
-        style: new ol.style.Style({
-            image: new ol.style.Icon({
-            anchor: [0.5, 1],
-            src: img,
-            scale: 0.3
-            }),
-            text : new ol.style.Text({
-                text: 'Domaine d\'Ankatso',
-                scale: 1.5,
-                fill: new ol.style.Fill({
-                    color: 'black',
-                })
-            })
-        })
-    });
-    map.addLayer(domaineLayer);
-</script>
-{% endblock %}

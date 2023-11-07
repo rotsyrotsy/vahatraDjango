@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 ('note', models.CharField(blank=True, max_length=255, null=True)),
                 ('note_en', models.CharField(blank=True, max_length=255, null=True)),
                 ('note_fr', models.CharField(blank=True, max_length=255, null=True)),
-                ('slug', models.SlugField(allow_unicode=True)),
+                ('slug', models.SlugField(allow_unicode=True,blank=True, max_length=255, null=True)),
             ],
             options={
                 'db_table': 'activity',
@@ -149,5 +149,10 @@ class Migration(migrations.Migration):
             model_name='activity',
             name='idtypesubactivity',
             field=models.ForeignKey(db_column='idtypesubactivity', null=True, on_delete=django.db.models.deletion.CASCADE, to='activities.typesubactivity'),
+        ),
+        migrations.AddField(
+            model_name='visit',
+            name='idtypesubactivity',
+            field=models.ForeignKey(db_column='idtypesubactivity', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='activities.typesubactivity'),
         ),
     ]
