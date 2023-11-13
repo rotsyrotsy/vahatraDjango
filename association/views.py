@@ -57,8 +57,8 @@ def index(request):
 
     context = getContext()
     
-    new_pubs = Publication.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month),
-    Q(date__year__gte = (date.today()-timedelta(days=100)).year), 
+    new_pubs = Publication.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=300)).month),
+    Q(date__year__gte = (date.today()-timedelta(days=300)).year), 
     Q(date__lte = date.today())).order_by('-date')
 
     new_events = Activity.objects.filter( Q(date__month__gte = (date.today()-timedelta(days=100)).month), 
