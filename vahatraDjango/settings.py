@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,11 +28,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-)&!0d#b7yu*_wxd$7y@1xffuv5&wi9)+3e=0jft&_4w+6_s94a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get('DEBUG')) == "1" #True
+DEBUG = int(os.environ.get('DEBUG', default=0))
 
 ALLOWED_HOSTS = ['http://127.0.0.1:8000','127.0.0.1']
-# if not DEBUG:
-#     ALLOWED_HOSTS += os.environ.get('DJANGO_ALLOWED_HOST')
+if not DEBUG:
+    ALLOWED_HOSTS += os.environ.get('DJANGO_ALLOWED_HOST')
 
 
 # Application definition
@@ -88,11 +93,11 @@ WSGI_APPLICATION = 'vahatraDjango.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "vahatra",
-        "USER": "root",
-        "PASSWORD": "",
-        "HOST": "127.0.0.1",
-        "PORT": "3306",
+        "NAME": os.environ.get('DATABASE_NAME'),
+        "USER": os.environ.get('DATABASE_USER'),
+        "PASSWORD": os.environ.get('DATABASE_PASSWORD'),
+        "HOST": os.environ.get('DATABASE_HOST'),
+        "PORT": os.environ.get('DATABASE_PORT'),
         'OPTIONS': {'init_command': 'SET default_storage_engine=INNODB,character_set_connection=utf8,collation_connection=utf8_unicode_ci'},
     }
 }
@@ -174,35 +179,6 @@ EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = os.environ.get('GMAIL_HOST')
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
-
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#         'mail_admins': {
-#             'level': 'ERROR',
-#             'class': 'django.utils.log.AdminEmailHandler'
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-#         },
-#         'Django.request': {
-#             'handlers': ['mail_admins'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         },
-#     },
-# }
-
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-
 
 def get_cache():
   import os
