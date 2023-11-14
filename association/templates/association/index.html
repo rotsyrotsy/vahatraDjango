@@ -11,13 +11,13 @@
         <img  class="botm-shp shp-img" src="{% static 'images/shp1.png' %}" alt="shp1.png">
         <div class="custom-featured-area-wrap text-center">
             <div class="custom-featured-area mycaroussel-index">
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/DSC_0702.webp' %});background-position:50% 90%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/DSC_0702.webp' %});background-position:50% 90%;">
                     <div class="custom-featured-cap">
                         <h3>{% trans "In close collaboration with universities and academies, especially MZBA" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
                     </div>
                 </div>
-                <div class="custom-featured-item" style="background-image: url({% static 'images/avifauna/Amena_295.webp' %});">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/Amena_295.webp' %});">
                     <div class="custom-featured-cap">
                         <h3>{% trans "Working on reptiles, amphibians, birds and small mammals : endemic to Madagascar" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
@@ -25,33 +25,33 @@
                     </div>
                 </div>
                 
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/banniere3.webp' %});background-position:50% 70%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/banniere3.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
                         <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
                     </div>
                 </div>
-                <div class="custom-featured-item" style="background-image: url({% static 'images/site/conference/DSC_2357_2019.webp' %});background-position:50% 70%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/DSC_2357_2019.webp' %});background-position:50% 70%;">
                     <div class="custom-featured-cap">
                         <h3>{% trans "In close collaboration with universities and academies, especially MZBA" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
 
                     </div>
                 </div>
-                <div class="custom-featured-item" style="background-image: url({% static 'images/avifauna/Sahafina_176.webp' %});">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/Sahafina_176.webp' %});">
                     <div class="custom-featured-cap">
                         <h3>{% trans "Working on reptiles, amphibians, birds and small mammals : endemic to Madagascar" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
 
                     </div>
                 </div>
-                <div class="custom-featured-item" style="background-image: url({% static 'images/landscape/IMG_1444.webp' %});">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/IMG_1444.webp' %});">
                     <div class="custom-featured-cap">
                         <h3>{% trans "Develop an educational and research program focused on the biodiversity" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
                     </div>
                 </div>
-                <div class="custom-featured-item" style="background-image: url({% static 'images/primate/a1.webp' %}); background-position:50% 15%;">
+                <div class="custom-featured-item" style="background-image: url({% static 'images/a1.webp' %}); background-position:50% 15%;">
                     <div class="custom-featured-cap">
                         <h3>{% trans "In close collaboration with universities and academies, especially MZBA" %}</h3>
                         <span>{% trans "'Let's keep our biodiversity'" %}</span>
@@ -110,7 +110,7 @@
     <div class="gap top-spac120 white-grad-layer">
         <img  class="top-shp shp-img" src="{% static 'images/shp2.png' %} " alt="shp2.png" title="shp2.png">
         <img  class="botm-shp shp-img" src="{% static 'images/shp3.png' %} " alt="shp3.png" title="shp3.png">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/Appui_scient/DSC_1.webp' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/DSC_1.webp' %});"></div>
         <div class="container">
             <div class="abot-wrap">
                 <div class="row">
@@ -228,7 +228,7 @@
     <div class="gap top-spac170 bottom-spac170 black-layer2 opc5" >
         <img  class="top-shp shp-img" src="{% static 'images/shp4.png' %} " alt="shp4.png">
         <img class="botm-shp shp-img" src="{% static 'images/shp3.png' %}" alt="shp5.png">
-        <div class="fixed-bg" style="background-image: url({% static 'images/landscape/DSC_0553.webp' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/DSC_0553.webp' %});"></div>
         <div class="container">
             <div class="suprt-wrap">
                 <div class="row">
@@ -467,6 +467,7 @@
         </div>
     </div>
   </section>
+  
   <section class="ex" style="background-image:url('{% static 'images/DSC_0140.JPG' %}');">
     <div class="gap top-spac60 white-layer opc9">
         <div class="container">
@@ -476,15 +477,17 @@
                     <h3>{% trans "The President of Vahatra" %}</h3>
                 </div>
             </div>
+            {% if message_of_year %}
             <div class="testi-wrap text-center">
       
                 <div class="testi-car-two">
                   
                     <div class="testi-itm" id="messageyearfocus">
+                        
                         <i><img  src="{% static 'images/members/' %}{{message_of_year.idmember.image}} " width="106" height="106" alt="message of the year" title="message of the year"></i>
                         <div class="testi-info">
-                            <h4>Achille P. RASELIMANANA</h4>
-
+                            <h4>{{message_of_year.idmember.idperson.username}} {{message_of_year.idmember.idperson.name}}</h4>
+                            
                             {% autoescape off %}
                             <p >
                               {{message_of_year.description|linebreakcustom|first}}
@@ -504,6 +507,7 @@
                    
                 </div>
             </div>
+            {%endif%}
         </div>
     </div>
   </section>

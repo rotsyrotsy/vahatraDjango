@@ -27,8 +27,10 @@
     
     <li class="menu-item-has-children"><a href="#" title="">{% trans "Projects and grants" %}</a>
         <ul>
+            {% if types_activity.count > 0 %}
             <li><a href="{% url 'activities:index' 3 'project' 6 'grant' %}" title="">{% trans "Grant" %}</a></li>
             <li><a href="{% url 'activities:index' 3 'project' 7 'scientific research'|toSlug %}" title="">{% trans "Scientific research" %}</a></li>
+            {% endif %}
         </ul>
     </li>
 
@@ -37,6 +39,8 @@
             {% for publication_type in types_pub %}
                 <li><a href="{% url 'publications:index' publication_type.id publication_type.type|toSlug  %}" title="">{{ publication_type.type|title }}</a></li>
             {% endfor %}
+
+            
         </ul>
     </li>
 

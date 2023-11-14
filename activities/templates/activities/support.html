@@ -6,11 +6,11 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.webp' %});">
+        <div class="fixed-bg" style="background-image: url({% static 'images/fond1.webp' %});">
         </div>
         <div class="container">
             <div class="page-title-wrap">
-                <h1><img src="{% static 'images/site/lettre.png' %}" alt="lettre.png"></h1>
+                <h1><img src="{% static 'images/lettre.png' %}" alt="lettre.png"></h1>
                 <h2>{% trans "Supports" %}</h2>
                 <ul class="breadcrumbs">
                     <li><a href="{% url 'association:index' %}" title="">{% trans "Home" %}</a></li>
@@ -37,8 +37,8 @@
                                 <div class="row m-3">
                                     {% for i in '67'|make_list %}
                                     <div class="col-md-6 col-sm-6 col-lg-6">
-                                        <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
-                                        <img loading="lazy" src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:360px;object-fit: cover;">
+                                        <a href="{% static 'images/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
+                                        <img loading="lazy" src="{% static 'images/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:360px;object-fit: cover;">
                                         </a>
                                     </div>
                                     {% endfor %}
@@ -65,8 +65,8 @@
         <div class="row">
             {% for i in '012345'|make_list %}
             <div class="col-md-6 col-sm-6 col-lg-4">
-                <a href="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
-                    <img loading="lazy" src="{% static 'images/site/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:350px;object-fit: cover;">
+                <a href="{% static 'images/Appui_scient/' %}DSC_{{i}}.webp" data-fancybox="gallery" title="">
+                    <img loading="lazy" src="{% static 'images/Appui_scient/' %}DSC_{{i}}.webp" style="width: 500px; height:350px;object-fit: cover;">
                 </a>
             </div>
             {% endfor %}
@@ -108,7 +108,7 @@
 
 <section>
     <div class="gap blue-layer opc5">
-        <div class="fixed-bg" style="background-image: url({% static 'images/team/BEA_113.webp' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/BEA_113.webp' %});"></div>
         <div class="container">
             <div class="newsletter-wrap2 text-center">
                 <div class="newsletter-inner">

@@ -66,7 +66,7 @@ def index(request):
     Q(date__year__gte = (date.today()-timedelta(days=100)).year)).order_by('-date')
 
     context["type_member_list"]= Typemember.objects.all
-    context["message_of_year"]= Messageofyear.objects.order_by('year')[0]
+    context["message_of_year"]= Messageofyear.objects.order_by('year')[0] if Messageofyear.objects.count() > 0 else ''
     context["upcoming_events"]= Activity.objects.filter(date__gt=date.today())
     context["upcoming_publications"]= Publication.objects.filter(date__gt=date.today())
     context["new_pubs"] = new_pubs
@@ -109,7 +109,6 @@ def member(request,type_member_name=None, type_member_id=None,keyword=None, page
         page_number = dictpagination['page_number']
         members = dictpagination['list']
         context["members"] = members
-        print(page_number)
     context["type"]= type
     context["page_number"]= range(1,page_number+1)
     
@@ -199,21 +198,24 @@ def gallery(request,limit=9):
 def reports(request, year=None, page=1):
     context = getContext()
     list = Report.objects.all()
-    min =list.aggregate(Min('year'))
-    max = list.aggregate(Max('year'))
-    context["years"] = range(min['year__min'], max['year__max']+1)
-    if year:
-        list = list.filter(year=year)
-        context['theyear']=year
-    
-    rangenumber=5
     if (list.count() > 0):
+        min =list.aggregate(Min('year'))
+        max = list.aggregate(Max('year'))
+        context["years"] = range(min['year__min'], max['year__max']+1)
+        if year:
+            list = list.filter(year=year)
+            context['theyear']=year
+        
+        rangenumber=5
+
         dictpagination = pagination(page, list, rangenumber, '-year')
         page_number = dictpagination['page_number']
         reports = dictpagination['list']
         context["reports"] = reports
 
+        context["page_number"]= range(1,page_number+1)
+
     context["type"]= type
-    context["page_number"]= range(1,page_number+1)
+        
 
     return render(request, "association/annualreports.html",context)

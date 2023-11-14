@@ -12,11 +12,11 @@
 {% block content %}
 <section>
     <div class="gap remove-bottom black-layer2 opc1">
-        <div class="fixed-bg" style="background-image: url({% static 'images/site/fond1.webp' %});"></div>
+        <div class="fixed-bg" style="background-image: url({% static 'images/fond1.webp' %});"></div>
         <div class="container">
             <div class="page-title-wrap">
                 <div style="margin-bottom: 10px;text-align: center;">
-                    <img src="{% static 'images/site/lettre.png' %}" alt="lettre.png" style="opacity: 0.9;">
+                    <img src="{% static 'images/lettre.png' %}" alt="lettre.png" style="opacity: 0.9;">
                 </div>
                 <h2>
                     {%if activity.idtypesubactivity.id == 7 %}<span class="font-italic" >{{activity.title | capfirst|truncatewords:3}}</span>{% else %}{{activity.title | title|truncatewords:3}}{% endif %}
